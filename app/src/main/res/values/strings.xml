@@ -5,4 +5,7 @@
     <string name="label_find">탐색</string>
     <string name="label_chat">채팅</string>
     <string name="label_mypage">마이페이지</string>
+
+    <string name="login_signup_btn">카카오톡으로 로그인</string>
+    <string name="login_greeting_text">환영합니다.\n환승견애 멤버가 되어주세요!</string>
 </resources>
