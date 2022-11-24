@@ -8,9 +8,6 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 android {
     namespace 'com.starters.hsge'
     compileSdk 33
@@ -23,9 +20,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        // Kakao API Key
-        buildConfigField("String", "NATIVE_APP_KEY", properties['NATIVE_APP_KEY'])
     }
 
     buildTypes {
@@ -104,5 +98,5 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
 
     // kakao
-    implementation "com.kakao.sdk:v2-user:2.11.2"
+    implementation 'com.kakao.sdk:v2-user:2.10.0'
 }
