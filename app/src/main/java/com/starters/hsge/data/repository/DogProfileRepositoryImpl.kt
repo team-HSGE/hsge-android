@@ -7,7 +7,7 @@ import com.starters.hsge.domain.repository.DogProfileRepository
 import java.io.File
 import javax.inject.Inject
 
-class DogProfileRepositoryImp @Inject constructor(
+class DogProfileRepositoryImpl @Inject constructor(
     @RetrofitBase private val api: ImageService
 ): DogProfileRepository {
     override suspend fun getDogProfilePhoto(image: File) {
