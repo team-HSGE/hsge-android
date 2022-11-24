@@ -7,5 +7,5 @@ import retrofit2.http.POST
 interface AccessTokenInterface {
 
     @POST("api/users")
-    fun postLogin(@Body params: String) : Call<ATResponse>
+    fun postLogin(@Body accessToken: String) : Call<ATResponse>
 }
