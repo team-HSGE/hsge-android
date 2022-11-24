@@ -3,7 +3,10 @@ package com.starters.hsge.presentation.register
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +53,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
                     intent.setType("image/*")
                     startActivityForResult(intent, OPEN_GALLERY)
 
+                    // 이미지 등록
                     imageResult.launch(intent)
 
                 } else {
@@ -75,4 +79,24 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
         }
     }
+
+    // Api 호출 시 파라미터로 이미지 포함 다만, 이때에는 이미지의 경로를 찾아 File 형태로 추가
+//    private fun getRealPathFromUri(uri: Uri): String {
+//
+//        val buildName = Build.MANUFACTURER
+//        if (buildName.equals("sample")) {
+//                return uri.path!!
+//            }
+//        var columnIndex = 0
+//        val proj = arrayOf(MediaStore.Images.Media.DATA)
+//        val cursor = contentResolver.query(uri, proj, null, null, null)
+//        if (cursor!!.moveToFirst()) {
+//            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//        }
+//        val result = cursor.getString(columnIndex)
+//        cursor.close()
+//        return result
+//
+//
+//    }
 }
