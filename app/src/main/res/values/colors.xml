@@ -17,4 +17,5 @@
     <color name="dark_blue">#2572D1</color>
     <color name="blue">#439AFF</color>
     <color name="light_blue">#AAD1FF</color>
+    <color name="top_app_bar">#FFFFFF</color>
 </resources>
