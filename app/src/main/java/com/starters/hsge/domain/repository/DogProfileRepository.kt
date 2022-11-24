@@ -1,8 +1,10 @@
 package com.starters.hsge.domain.repository
 
+import java.io.File
+
 interface DogProfileRepository {
 
-    suspend fun getDogProfilePhoto()
+    suspend fun getDogProfilePhoto(image: File)
 
     suspend fun getDogName()
 
