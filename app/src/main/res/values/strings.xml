@@ -12,4 +12,11 @@
     <string name="register_dog_photo">반려견 사진을 등록해주세요.</string>
     <string name="btn_next">다음</string>
     <string name="image_content_desc_text">원형 이미지입니다.</string>
+    <string name="set_location_app_bar">동네설정</string>
+    <string name="set_location_title">내 위치</string>
+    <string name="set_location_et_hint">ex) 서울특별시 중구 무교동</string>
+    <string name="set_location_btn">현재 위치 검색하기</string>
+    <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
+    <string name="set_radius_title">보여줄 강아지 동네 변경</string>
+    <string name="set_radius">200km</string>
 </resources>

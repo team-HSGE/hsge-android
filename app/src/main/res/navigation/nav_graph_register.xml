@@ -18,5 +18,13 @@
         android:id="@+id/userLocationFragment"
         android:name="com.starters.hsge.presentation.register.UserLocationFragment"
         android:label="UserLocationFragment"
-        tools:layout="@layout/fragment_user_location"/>
+        tools:layout="@layout/fragment_user_location">
+        <action
+            android:id="@+id/action_userLocationFragment_to_radiusFragment"
+            app:destination="@id/radiusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/radiusFragment"
+        android:name="com.starters.hsge.presentation.register.RadiusFragment"
+        android:label="RadiusFragment" />
 </navigation>
