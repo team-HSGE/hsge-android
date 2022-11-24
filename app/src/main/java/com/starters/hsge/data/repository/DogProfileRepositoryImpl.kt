@@ -1,10 +1,18 @@
 package com.starters.hsge.data.repository
 
+import com.starters.hsge.data.api.ImageService
+import com.starters.hsge.di.RetrofitBase
+import com.starters.hsge.domain.FormDataUtil
 import com.starters.hsge.domain.repository.DogProfileRepository
+import java.io.File
+import javax.inject.Inject
 
-class DogProfileRepositoryImpl(): DogProfileRepository {
-    override suspend fun getDogProfilePhoto() {
-        TODO("Not yet implemented")
+class DogProfileRepositoryImp @Inject constructor(
+    @RetrofitBase private val api: ImageService
+): DogProfileRepository {
+    override suspend fun getDogProfilePhoto(image: File) {
+        val formFile = FormDataUtil.getImageBody("imgFile", image)
+        api.uploadImage(formFile)
     }
 
     override suspend fun getDogName() {
