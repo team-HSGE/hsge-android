@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_register"
+    app:startDestination="@id/dogPhotoFragment">
+
+    <fragment
+        android:id="@+id/dogPhotoFragment"
+        android:name="com.starters.hsge.presentation.register.DogPhotoFragment"
+        android:label="DogPhotoFragment"
+        tools:layout="@layout/fragment_dog_photo">
+        <action
+            android:id="@+id/action_dogPhotoFragment_to_userLocationFragment"
+            app:destination="@id/userLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userLocationFragment"
+        android:name="com.starters.hsge.presentation.register.UserLocationFragment"
+        android:label="UserLocationFragment"
+        tools:layout="@layout/fragment_user_location"/>
+</navigation>
