@@ -21,7 +21,7 @@ class RadiusFragment : BaseFragment<FragmentRadiusBinding>(R.layout.fragment_rad
         binding.tvNextButton.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
-            activity?.finish()
+            //activity?.finish()    //RegisterActivity 종료
         }
     }
 
