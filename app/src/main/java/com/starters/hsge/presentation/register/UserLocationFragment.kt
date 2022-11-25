@@ -39,10 +39,13 @@ class UserLocationFragment :
 
     private fun initListener() {
         // 시스템 권한 대화상자 요청
-        binding.btnLocationPermission.setOnClickListener {
-            locationPermissionRequest.launch(arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION))
+        binding.btnSearch.setOnClickListener {
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
         }
     }
 }
