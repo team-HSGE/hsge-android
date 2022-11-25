@@ -10,5 +10,18 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initListener()
+    }
+
+    private fun initListener() {
+        // chip click listener
+        binding.chipMan.setOnCheckedChangeListener { chip, isChecked ->
+            if (!isChecked) {
+                chip.text
+            } else {
+
+            }
+        }
     }
 }
