@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +11,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.register.DogSexFragment">
+
+        <TextView
+            android:id="@+id/tv_dog_sex_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="@string/dog_sex"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/section"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dog_sex_label">
+
+            <Button
+                android:id="@+id/btn_male"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="@string/male"
+                android:backgroundTint="@color/light_gray"
+                app:icon="@drawable/ic_male"
+                app:iconGravity="textStart"
+                app:iconSize="24dp" />
+
+            <Button
+                android:id="@+id/btn_female"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="@string/female"
+                android:backgroundTint="@color/light_gray"
+                app:icon="@drawable/ic_female"
+                app:iconGravity="textStart"
+                app:iconSize="24dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/tv_neuter_check_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/neuter_check"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/section" />
 
         <TextView
             android:id="@+id/tv_next_button"
@@ -25,6 +87,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_neuter_check_label"
+            app:layout_constraintStart_toEndOf="@+id/tv_neuter_check_label"
+            app:layout_constraintTop_toTopOf="@+id/tv_neuter_check_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

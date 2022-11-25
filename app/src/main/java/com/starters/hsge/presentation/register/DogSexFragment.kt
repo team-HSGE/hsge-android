@@ -10,5 +10,20 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initListener()
+    }
+
+    private fun initListener() {
+
+        binding.btnMale.setOnClickListener {
+            if (binding.btnMale.isSelected) {
+                !binding.btnMale.isSelected
+            }
+        }
+
+        binding.btnFemale.setOnClickListener {
+
+        }
     }
 }
