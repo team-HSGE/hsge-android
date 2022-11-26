@@ -28,4 +28,9 @@
     <string name="male">남자</string>
     <string name="female">여자</string>
     <string name="neuter_check">중성화 여부</string>
+    <string name="breed_choice">품종 선택</string>
+    <string name="age_choice">나이 선택</string>
+    <string name="age">나이</string>
+    <string name="breed">품종</string>
+    <string name="choose_your_profile_image">프로필 이미지를 선택해주세요</string>
 </resources>
