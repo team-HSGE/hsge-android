@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.register.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogAgeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -35,6 +36,11 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
         binding.tvDogAge.setOnClickListener {
             ageBottomSheet = BottomSheetDialog(registerViewModel.getDogAge().map{it.age})
             ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+        }
+
+        binding.btnNext.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_dogAgeFragment_to_dogBreedFragment)
         }
     }
 }

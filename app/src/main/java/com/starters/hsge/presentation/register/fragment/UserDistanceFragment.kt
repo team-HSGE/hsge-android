@@ -18,7 +18,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     }
 
     private fun initListener() {
-        binding.tvNextButton.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             //activity?.finish()    //RegisterActivity 종료

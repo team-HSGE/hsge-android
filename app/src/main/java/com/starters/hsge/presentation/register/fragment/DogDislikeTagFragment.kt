@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogDislikeTagBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -22,6 +23,11 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
             } else {
 
             }
+        }
+
+        binding.btnNext.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_dogDislikeTagFragment_to_userLocationFragment)
         }
     }
 }

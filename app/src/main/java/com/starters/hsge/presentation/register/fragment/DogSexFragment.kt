@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogSexBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -24,6 +25,11 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
 
         binding.btnFemale.setOnClickListener {
 
+        }
+
+        binding.btnNext.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_dogSexFragment_to_dogAgeFragment)
         }
     }
 }
