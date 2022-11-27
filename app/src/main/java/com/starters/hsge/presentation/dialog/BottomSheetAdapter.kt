@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.databinding.ItemBottomSheetBinding
 
-class BottomSheetAdapter(
-    private var contentsList: List<String>
-) : RecyclerView.Adapter<BottomSheetAdapter.BottomSheetViewHolder>(
+class BottomSheetAdapter(private var contentsList: List<String>) :
+    RecyclerView.Adapter<BottomSheetAdapter.BottomSheetViewHolder>(
 ) {
 
     inner class BottomSheetViewHolder(private val binding: ItemBottomSheetBinding) :
