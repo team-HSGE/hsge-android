@@ -1,5 +1,6 @@
 package com.starters.hsge.domain.repository
 
+import com.starters.hsge.common.constants.DogBreed
 import java.io.File
 
 interface DogProfileRepository {
@@ -14,7 +15,7 @@ interface DogProfileRepository {
 
     suspend fun getDogAge()
 
-    suspend fun getDogBreed()
+    fun getDogBreed(): List<DogBreed>
 
     suspend fun getDogLikeTag()
 
