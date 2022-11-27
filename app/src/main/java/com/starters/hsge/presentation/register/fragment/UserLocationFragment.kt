@@ -1,10 +1,11 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -39,10 +40,18 @@ class UserLocationFragment :
 
     private fun initListener() {
         // 시스템 권한 대화상자 요청
-        binding.btnLocationPermission.setOnClickListener {
-            locationPermissionRequest.launch(arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION))
+        binding.btnSearch.setOnClickListener {
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+
+        binding.btnNext.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
         }
     }
 }

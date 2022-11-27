@@ -11,42 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="24dp"
-        tools:context=".presentation.register.fragment.DogPhotoFragment">
+        tools:context=".presentation.register.fragment.UserNickNameFragment">
 
-        <ImageView
-            android:id="@+id/iv_dog_photo"
+        <TextView
+            android:id="@+id/tv_nick_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/image_content_desc_text"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_profile_photo_bg"
-            app:layout_constraintBottom_toTopOf="@id/btn_next"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/nick_name"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:layout_constraintVertical_bias="0.2" />
 
-        <TextView
-            android:id="@+id/tv_dog_photo_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/dog_profile"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_dog_photo" />
-
-        <TextView
-            android:id="@+id/tv_dog_photo_explain"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_user_nick_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/register_dog_photo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_dog_photo_label" />
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/tv_nick_name_label">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_user_nick_name"
+                android:layout_width="match_parent"
+                android:hint="@string/nick_name_hint"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"

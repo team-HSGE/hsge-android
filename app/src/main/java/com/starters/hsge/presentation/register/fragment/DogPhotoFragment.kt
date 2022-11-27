@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity.RESULT_OK
@@ -15,6 +15,7 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogPhotoBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -85,9 +86,9 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
         }
 
-        binding.tvNextButton.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_dogPhotoFragment_to_userLocationFragment)
+                .navigate(R.id.action_dogPhotoFragment_to_dogNameFragment)
 
         }
     }

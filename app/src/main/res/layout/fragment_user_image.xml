@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="24dp"
-        tools:context=".presentation.register.fragment.DogPhotoFragment">
+        tools:context=".presentation.register.fragment.UserImageFragment">
 
         <ImageView
-            android:id="@+id/iv_dog_photo"
+            android:id="@+id/iv_user_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/image_content_desc_text"
@@ -27,26 +27,16 @@
             app:layout_constraintVertical_bias="0.4" />
 
         <TextView
-            android:id="@+id/tv_dog_photo_label"
+            android:id="@+id/tv_user_image_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/dog_profile"
+            android:text="@string/profile"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_dog_photo" />
-
-        <TextView
-            android:id="@+id/tv_dog_photo_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/register_dog_photo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_dog_photo_label" />
+            app:layout_constraintTop_toBottomOf="@id/iv_user_image" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
