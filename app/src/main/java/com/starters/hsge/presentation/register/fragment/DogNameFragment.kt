@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View

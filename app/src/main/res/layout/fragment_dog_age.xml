@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="24dp"
-        tools:context=".presentation.register.DogAgeFragment">
+        tools:context=".presentation.register.fragment.DogAgeFragment">
 
         <TextView
             android:id="@+id/tv_dog_age_label"

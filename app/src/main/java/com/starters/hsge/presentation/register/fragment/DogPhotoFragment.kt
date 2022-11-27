@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity.RESULT_OK
@@ -9,12 +9,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogPhotoBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -85,11 +85,11 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
         }
 
-        binding.tvNextButton.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_dogPhotoFragment_to_userLocationFragment)
-
-        }
+//        binding.tvNextButton.setOnClickListener {
+//            Navigation.findNavController(binding.root)
+//                .navigate(R.id.action_dogPhotoFragment_to_userLocationFragment)
+//
+//        }
     }
 
     // Api 호출 시 파라미터로 이미지 포함 다만, 이때에는 이미지의 경로를 찾아 File 형태로 추가

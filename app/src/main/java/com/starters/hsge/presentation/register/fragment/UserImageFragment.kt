@@ -1,12 +1,12 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentUserNickNameBinding
+import com.starters.hsge.databinding.FragmentUserImageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 
-class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.fragment_user_nick_name) {
+class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragment_user_image) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
