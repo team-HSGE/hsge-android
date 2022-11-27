@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,13 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.DogDislikeTagFragment">
 
         <TextView
             android:id="@+id/tv_dislike_tag_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="최대 3개까지 선택 가능합니다"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -29,7 +29,6 @@
             android:id="@+id/chip_group_dislike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -172,15 +171,15 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <TextView
-            android:id="@+id/tv_next_button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            android:gravity="center"
-            android:padding="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_next_button"
             android:text="@string/btn_next"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

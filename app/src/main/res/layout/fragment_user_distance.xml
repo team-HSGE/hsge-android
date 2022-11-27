@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.UserDistanceFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -59,7 +60,6 @@
             android:id="@+id/tv_location_radius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
             android:gravity="end"
             android:text="@string/set_radius"
             android:textColor="@color/yellow"
@@ -73,7 +73,6 @@
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="36dp"
             android:max="100"
             android:progressDrawable="@drawable/bg_seekbar"
@@ -82,15 +81,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_location_radius_title" />
 
-        <TextView
-            android:id="@+id/tv_next_button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            android:gravity="center"
-            android:padding="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_next_button"
             android:text="@string/btn_next"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

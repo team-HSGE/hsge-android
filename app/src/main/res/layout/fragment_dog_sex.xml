@@ -10,13 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.DogSexFragment">
 
         <TextView
             android:id="@+id/tv_dog_sex_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="@string/dog_sex"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -29,7 +29,6 @@
             android:id="@+id/section"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,8 +41,8 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:text="@string/male"
                 android:backgroundTint="@color/light_gray"
+                android:text="@string/male"
                 app:icon="@drawable/ic_male"
                 app:iconGravity="textStart"
                 app:iconSize="24dp" />
@@ -54,8 +53,8 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="@string/female"
                 android:backgroundTint="@color/light_gray"
+                android:text="@string/female"
                 app:icon="@drawable/ic_female"
                 app:iconGravity="textStart"
                 app:iconSize="24dp" />
@@ -66,7 +65,6 @@
             android:id="@+id/tv_neuter_check_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="30dp"
             android:text="@string/neuter_check"
             android:textSize="17sp"
@@ -74,26 +72,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/section" />
 
-        <TextView
-            android:id="@+id/tv_next_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            android:gravity="center"
-            android:padding="20dp"
-            android:text="@string/btn_next"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/tv_neuter_check_label"
             app:layout_constraintStart_toEndOf="@+id/tv_neuter_check_label"
             app:layout_constraintTop_toTopOf="@+id/tv_neuter_check_label" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_next_button"
+            android:text="@string/btn_next"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

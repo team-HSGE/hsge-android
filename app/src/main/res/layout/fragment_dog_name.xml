@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,13 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.DogNameFragment">
 
         <TextView
             android:id="@+id/tv_dog_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="@string/dog_name"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -30,29 +30,27 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp"
             app:hintEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/tv_dog_name_label">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_dog_name"
                 android:layout_width="match_parent"
-                android:hint="@string/dog_name_hint"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="@string/dog_name_hint" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tv_next_button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            android:gravity="center"
-            android:padding="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_next_button"
             android:text="@string/btn_next"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

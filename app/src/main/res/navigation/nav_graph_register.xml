@@ -3,20 +3,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_register"
-    app:startDestination="@id/dogPhotoFragment">
+    app:startDestination="@id/dogAgeFragment">
 
     <fragment
         android:id="@+id/dogPhotoFragment"
-        android:name="com.starters.hsge.presentation.register.DogPhotoFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogPhotoFragment"
         android:label="DogPhotoFragment"
         tools:layout="@layout/fragment_dog_photo">
         <action
-            android:id="@+id/action_dogPhotoFragment_to_userLocationFragment"
-            app:destination="@id/userLocationFragment" />
+            android:id="@+id/action_dogPhotoFragment_to_dogNameFragment"
+            app:destination="@id/dogNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/userLocationFragment"
-        android:name="com.starters.hsge.presentation.register.UserLocationFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment"
         android:label="UserLocationFragment"
-        tools:layout="@layout/fragment_user_location"/>
+        tools:layout="@layout/fragment_user_location">
+        <action
+            android:id="@+id/action_userLocationFragment_to_userDistanceFragment"
+            app:destination="@id/userDistanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userImageFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserImageFragment"
+        android:label="UserImageFragment" >
+        <action
+            android:id="@+id/action_userImageFragment_to_dogPhotoFragment"
+            app:destination="@id/dogPhotoFragment" />
+        <action
+            android:id="@+id/action_userImageFragment_to_userProfileIconFragment"
+            app:destination="@id/userProfileIconFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userNickNameFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserNickNameFragment"
+        android:label="UserNickNameFragment" >
+        <action
+            android:id="@+id/action_userNickNameFragment_to_userImageFragment"
+            app:destination="@id/userImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileIconFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
+        android:label="UserProfileIconFragment" />
+    <fragment
+        android:id="@+id/dogNameFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogNameFragment"
+        android:label="DogNameFragment" >
+        <action
+            android:id="@+id/action_dogNameFragment_to_dogSexFragment"
+            app:destination="@id/dogSexFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogSexFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogSexFragment"
+        android:label="DogSexFragment" >
+        <action
+            android:id="@+id/action_dogSexFragment_to_dogAgeFragment"
+            app:destination="@id/dogAgeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogAgeFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogAgeFragment"
+        android:label="DogAgeFragment" >
+        <action
+            android:id="@+id/action_dogAgeFragment_to_dogBreedFragment"
+            app:destination="@id/dogBreedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogBreedFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogBreedFragment"
+        android:label="DogBreedFragment" >
+        <action
+            android:id="@+id/action_dogBreedFragment_to_dogLikeTagFragment"
+            app:destination="@id/dogLikeTagFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogLikeTagFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogLikeTagFragment"
+        android:label="DogLikeTagFragment" >
+        <action
+            android:id="@+id/action_dogLikeTagFragment_to_dogDislikeTagFragment"
+            app:destination="@id/dogDislikeTagFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogDislikeTagFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.DogDislikeTagFragment"
+        android:label="DogDislikeTagFragment" >
+        <action
+            android:id="@+id/action_dogDislikeTagFragment_to_userLocationFragment"
+            app:destination="@id/userLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDistanceFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserDistanceFragment"
+        android:label="UserDistanceFragment" />
 </navigation>
