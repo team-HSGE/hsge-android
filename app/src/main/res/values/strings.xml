@@ -33,4 +33,8 @@
     <string name="age">나이</string>
     <string name="breed">품종</string>
     <string name="choose_your_profile_image">프로필 이미지를 선택해주세요</string>
+    <string name="dog_neuter">중성화</string>
+    <string name="dog_photo">강아지 이미지</string>
+    <string name="dog_dislike">관심 없어요</string>
+    <string name="dog_like">관심 있어요</string>
 </resources>
