@@ -27,10 +27,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="내 정보 수정"
+                android:text="@string/user_profile_edit_title"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="normal" />
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -52,6 +52,7 @@
                     android:layout_height="120dp"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/bg_gray_circle"
+                    android:contentDescription="@string/user_profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -61,6 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_user_profile_edit_btn"
+                    android:contentDescription="@string/user_profile_edit_button"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_user_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.42"
@@ -74,10 +76,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="40dp"
-                    android:text="이메일"
+                    android:text="@string/user_profile_edit_email"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:contentDescription="@string/user_profile_edit_email"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_user_profile" />
 
@@ -95,6 +98,7 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:contentDescription="@string/user_profile_edit_email_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email_title" />
@@ -105,10 +109,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="32dp"
-                    android:text="닉네임"
+                    android:text="@string/user_profile_edit_nickname"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:contentDescription="@string/user_profile_edit_nickname"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
@@ -119,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="10dp"
+                    android:contentDescription="@string/user_profile_edit_nickname_view"
                     app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +137,7 @@
                         android:textStyle="normal"
                         android:textSize="14sp"
                         android:textColor="@color/black"
-                        android:hint="최대 8글자로 입력해주세요." />
+                        android:hint="@string/user_profile_nickname_hint" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +153,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_next_button"
-            android:text="수정하기"
+            android:text="@string/edit_button"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

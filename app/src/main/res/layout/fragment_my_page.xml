@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
                 android:src="@drawable/ic_settings"
+                android:contentDescription="@string/my_page_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +51,7 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginStart="24dp"
                 android:background="@drawable/bg_gray_circle"
+                android:contentDescription="@string/my_page_user_profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +73,7 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:contentDescription="@string/my_page_user_nickname"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,6 +85,7 @@
                     android:text="무교동"
                     android:textSize="16sp"
                     android:textStyle="normal"
+                    android:contentDescription="@string/my_page_user_location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname" />
 
@@ -93,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_my_page_item_select"
+                android:contentDescription="@string/my_page_select"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -139,6 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_dog_profile_manage"
+                    android:contentDescription="@string/my_page_dog_manage_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -162,6 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/my_page_dog_manage_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -185,6 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_location_setting"
+                    android:contentDescription="@string/my_page_location_setting_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -208,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/my_page_location_setting_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -233,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="기타"
+                android:text="@string/my_page_etc_title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -257,6 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_inquire"
+                    android:contentDescription="@string/my_page_inquire_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -280,6 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/my_page_inquire_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -303,6 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_faq"
+                    android:contentDescription="@string/my_page_faq_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -326,6 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/my_page_faq_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
