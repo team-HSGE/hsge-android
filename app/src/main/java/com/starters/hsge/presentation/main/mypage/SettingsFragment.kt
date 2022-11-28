@@ -14,6 +14,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         super.onViewCreated(view, savedInstanceState)
 
         setNavigation()
+
+        binding.settingWithdrawalSection.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_withdrawalFragment)
+        }
     }
 
     private fun setNavigation() {

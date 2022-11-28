@@ -47,4 +47,13 @@
     <string name="settings_push_alarm_switch">푸쉬 알림 스위치</string>
     <string name="settings_logout">로그아웃</string>
     <string name="settings_withdrawal">회원 탈퇴</string>
+    <string name="withdrawal_title">회원 탈퇴</string>
+    <string name="withdrawal_guide_first_line">환승견애를</string>
+    <string name="withdrawal_guide_text">회원탈퇴 안내 문구</string>
+    <string name="withdrawal_guide_second_line_red">탈퇴</string>
+    <string name="withdrawal_guide_second_line">하시나요?</string>
+    <string name="withdrawal_notice_first_line">계정을 삭제하면 회원님의 모든 활동 내역이 삭제됩니다.</string>
+    <string name="withdrawal_notice_text">회원탈퇴 경고 문구</string>
+    <string name="withdrawal_notice_second_line">삭제된 정보는 다시 복구할 수 없으니 신중하게 결정해주세요.</string>
+    <string name="withdrawal_button">탈퇴하기</string>
 </resources>
