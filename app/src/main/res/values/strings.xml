@@ -13,7 +13,7 @@
     <string name="btn_next">다음</string>
     <string name="image_content_desc_text">원형 이미지입니다.</string>
     <string name="set_location_app_bar">동네설정</string>
-    <string name="set_location_title">내 위치</string>
+    <string name="set_location_title">위치를 등록해주세요</string>
     <string name="set_location_et_hint">ex) 서울특별시 중구 무교동</string>
     <string name="set_location_btn">현재 위치 검색하기</string>
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
@@ -21,4 +21,5 @@
     <string name="set_radius">200km</string>
     <string name="dog_dislike">관심없어요</string>
     <string name="dog_like">관심 있어요</string>
+    <string name="dog_location">근처의 강아지를 보여드려요</string>
 </resources>
