@@ -11,11 +11,14 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityLoginBinding
-import com.starters.hsge.network.ATResponse
+import com.starters.hsge.network.AccessRequest
+import com.starters.hsge.network.AccessResponse
 import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.register.RegisterActivity
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -84,15 +87,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 }
             } else if (token != null) {
                 Log.d("로그인", "로그인에 성공하였습니다!")
+
+                Log.d("access 토큰", "access : 카카오톡으로 로그인 성공 ${token.accessToken}")
+                Log.d("refresh 토큰", "refresh : 카카오톡으로 로그인 성공 ${token.refreshToken}")
+
                 access_token = token.accessToken
-                Log.d("확인", "${access_token}")
 
-                Log.d("access 토큰", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                Log.d("refresh 토큰", "카카오톡으로 로그인 성공 ${token.refreshToken}")
-
-                val intent = Intent(this, RegisterActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+                val json = AccessRequest(access_token)
+                Log.d("json", "${json}")
+                tryPostAccessToken(json)
             }
         }
     }
@@ -113,33 +116,36 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                        tryPostAccessToken(access_token)
                     } else if (token != null) {
-                        Log.d("access 토큰", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        Log.d("refresh 토큰", "카카오톡으로 로그인 성공 ${token.refreshToken}")
+                        //Log.d("access 토큰", "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        //Log.d("refresh 토큰", "카카오톡으로 로그인 성공 ${token.refreshToken}")
                     }
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                tryPostAccessToken(access_token)
             }
         }
     }
 
-    private fun tryPostAccessToken(access_token : String){
+    private fun tryPostAccessToken(accessToken : AccessRequest){
         val accessTokenInterface = RetrofitClient.sRetrofit.create(AccessTokenInterface::class.java)
-        accessTokenInterface.postLogin(access_token).enqueue(object :
-            Callback<ATResponse> {
+        accessTokenInterface.postLogin(accessToken).enqueue(object :
+            Callback<com.starters.hsge.network.AccessResponse> {
             override fun onResponse(
-                call: Call<ATResponse>,
-                response: Response<ATResponse>
+                call: Call<AccessResponse>,
+                accessResponse: Response<com.starters.hsge.network.AccessResponse>
             ) {
-                if(response.isSuccessful){
-                    Log.d("성공", "${access_token}")
+                if(accessResponse.isSuccessful){
+                    val result = accessResponse.body() as AccessResponse
+                    Log.d("성공", result.message)
+
+                    val intent = Intent(applicationContext, RegisterActivity::class.java)
+                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                    finish()
                 }
             }
 
-            override fun onFailure(call: Call<ATResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
             }
 
