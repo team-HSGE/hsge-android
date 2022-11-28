@@ -2,11 +2,12 @@ package com.starters.hsge.domain.repository
 
 import com.starters.hsge.common.constants.DogAge
 import com.starters.hsge.common.constants.DogBreed
+import okhttp3.RequestBody
 import java.io.File
 
 interface DogProfileRepository {
 
-    suspend fun getDogProfilePhoto(image: File)
+    suspend fun getDogProfilePhoto(image: File, str: HashMap<String, RequestBody>)
 
     suspend fun getDogName()
 

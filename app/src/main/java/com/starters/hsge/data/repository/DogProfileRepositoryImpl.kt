@@ -6,15 +6,16 @@ import com.starters.hsge.data.api.ImageService
 import com.starters.hsge.di.RetrofitBase
 import com.starters.hsge.domain.FormDataUtil
 import com.starters.hsge.domain.repository.DogProfileRepository
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
 class DogProfileRepositoryImpl @Inject constructor(
     @RetrofitBase private val api: ImageService
 ) : DogProfileRepository {
-    override suspend fun getDogProfilePhoto(image: File) {
+    override suspend fun getDogProfilePhoto(image: File, str: HashMap<String, RequestBody>) {
         val formFile = FormDataUtil.getImageBody("imgFile", image)
-        api.uploadImage(formFile)
+        api.uploadImage(formFile, str)
     }
 
     override suspend fun getDogName() {

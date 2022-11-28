@@ -5,6 +5,7 @@ import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -15,8 +16,8 @@ class RegisterViewModel @Inject constructor(
     private val getDogAgeUseCase: GetDogAgeUseCase
 ) : BaseViewModel() {
 
-    suspend fun loadImage(image: File) {
-        dogProfileRepository.getDogProfilePhoto(image)
+    suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
+        dogProfileRepository.getDogProfilePhoto(image, str)
     }
 
     fun getDogBreed() = getDogBreedUseCase()
