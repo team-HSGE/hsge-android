@@ -91,6 +91,10 @@ class UserLocationFragment :
             fusedLocationClient.lastLocation.addOnSuccessListener {
                 if (it != null) {
                     val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+
+                    val latitude = it.latitude
+                    val longitude = it.longitude
+
                     val korAddress = address?.get(0)
                     val location =
                         korAddress?.adminArea + " " + korAddress?.subLocality + " " + korAddress?.thoroughfare
