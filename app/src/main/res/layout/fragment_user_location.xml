@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.register.UserLocationFragment">
+        android:layout_marginHorizontal="24dp"
+        tools:context=".presentation.register.fragment.UserLocationFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/view_app_bar"
@@ -44,7 +45,6 @@
             android:id="@+id/tv_my_location_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
             android:layout_marginTop="100dp"
             android:text="@string/set_location_title"
             android:textColor="@color/black"
@@ -58,7 +58,6 @@
             android:id="@+id/tv_my_location"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginHorizontal="30dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/bg_yellow_round_stroke"
             android:gravity="center_vertical"
@@ -72,51 +71,23 @@
 
         <View
             android:id="@+id/btn_search"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginHorizontal="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_light_gray_round_solid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_my_location" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/btn_search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_search">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_search_location"
-                android:contentDescription="@string/set_location_btn_img" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="@string/set_location_btn"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_next_button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            android:gravity="center"
-            android:padding="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_next_button"
             android:text="@string/btn_next"
             android:textColor="@color/white"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
