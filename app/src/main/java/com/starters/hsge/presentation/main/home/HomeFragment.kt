@@ -2,16 +2,14 @@ package com.starters.hsge.presentation.main.home
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import com.starters.hsge.R
 import com.starters.hsge.data.model.DogCard
 import com.starters.hsge.data.model.Tag
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager
-import com.yuyakaido.android.cardstackview.CardStackListener
-import com.yuyakaido.android.cardstackview.CardStackView
-import com.yuyakaido.android.cardstackview.Direction
+import com.yuyakaido.android.cardstackview.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -96,7 +94,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
 
         cardStackAdapter = CardStackAdapter(requireContext(), dogCardList)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
+
+        fabClick(cardStackView)
+    }
+
+    private fun fabClick(cardStackView: CardStackView) {
+        clickDislike(cardStackView)
+        clickLike(cardStackView)
+    }
+
+    private fun clickLike(cardStackView: CardStackView) {
+        binding.fabLike.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+    }
+
+    private fun clickDislike(cardStackView: CardStackView) {
+        binding.fabDislike.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
     }
 }
