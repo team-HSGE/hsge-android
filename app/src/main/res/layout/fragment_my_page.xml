@@ -14,9 +14,9 @@
         tools:context=".presentation.main.mypage.MyPageFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/user_profile_edit_section"
+            android:id="@+id/my_page_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,61 +26,76 @@
                 android:id="@+id/iv_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="14dp"
                 android:src="@drawable/ic_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_profile_edit_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_page_toolbar">
+
             <ImageView
                 android:id="@+id/iv_user_profile"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginStart="24dp"
                 android:background="@drawable/bg_gray_circle"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_settings" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/user_info_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_user_profile"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_user_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사용자닉네임"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_user_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="무교동"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/iv_user_profile_edit"
+                android:id="@+id/iv_user_profile_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintHorizontal_bias="0.42"
-                app:layout_constraintVertical_bias="0.7"
-                android:src="@drawable/ic_user_profile_edit_btn"
-                app:layout_constraintBottom_toTopOf="@+id/tv_user_nickname"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/iv_user_profile"
-                app:layout_constraintTop_toTopOf="@+id/iv_user_profile" />
-
-
-            <TextView
-                android:id="@+id/tv_user_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="사용자닉네임"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_user_profile" />
-
-            <TextView
-                android:id="@+id/tv_user_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:text="무교동"
-                android:textSize="16sp"
-                android:textStyle="normal"
+                android:layout_marginEnd="30dp"
+                android:src="@drawable/ic_my_page_item_select"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
