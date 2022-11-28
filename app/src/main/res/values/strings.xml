@@ -23,7 +23,7 @@
     <string name="nick_name">닉네임</string>
     <string name="nick_name_hint">최대 13자 이내로 입력하세요.</string>
     <string name="dog_name">반려견 이름</string>
-    <string name="dog_name_hint">최대 8글자로 입력해주세요.</string>
+    <string name="register_dog_name_hint">최대 8글자로 입력해주세요.</string>
     <string name="dog_sex">반려견 성별</string>
     <string name="male">남자</string>
     <string name="female">여자</string>
@@ -33,4 +33,15 @@
     <string name="age">나이</string>
     <string name="breed">품종</string>
     <string name="choose_your_profile_image">프로필 이미지를 선택해주세요</string>
+
+    <!-- register string-->
+    <string name="register_dog_name_example">ex) 복만이, 하롱이, 사랑이</string>
+    <string name="register_dog_name">반려견 이름을 알려주세요</string>
+    <string name="register_dog_age">반려견 나이를 알려주세요</string>
+    <string name="register_dog_sex">반려견 성별을 알려주세요</string>
+    <string name="register_dog_sex_explain">중성화를 했다면 중성화 여부를 체크해주세요</string>
+    <string name="register_tag_explain">최대 3개까지 선택 가능합니다</string>
+    <string name="register_dog_age_explain">설정 가능한 최대 나이는 20살입니다</string>
+    <string name="register_dog_breed">반려견 품종을 알려주세요</string>
+    <string name="register_dog_breed_explain">해당하는 품종이 없으면 기타를 선택해주세요</string>
 </resources>
