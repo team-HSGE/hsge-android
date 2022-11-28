@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.main.mypage
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentMyPageBinding
@@ -18,13 +19,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             goneBtmNav()
         }
 
-        binding.ivUserProfileEdit.setOnClickListener {
+        binding.userProfileEditSection.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_userProfileEditFragment)
             goneBtmNav()
         }
-
     }
-
 
     fun goneBtmNav(){
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
