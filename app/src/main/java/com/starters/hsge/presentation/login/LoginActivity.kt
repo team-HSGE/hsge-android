@@ -137,7 +137,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             ) {
                 if(accessResponse.isSuccessful){
                     val result = accessResponse.body() as AccessResponse
-                    Log.d("성공", result.message)
+                    Log.d("성공", "${result.accessToken}, ${result.refreshToken}")
 
                     val intent = Intent(applicationContext, RegisterActivity::class.java)
                     startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))

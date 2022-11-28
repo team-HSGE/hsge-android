@@ -6,6 +6,6 @@ import retrofit2.http.POST
 
 interface AccessTokenInterface {
 
-    @POST("api/auth/login")
+    @POST("login")
     fun postLogin(@Body accessToken: AccessRequest) : Call<AccessResponse>
 }
