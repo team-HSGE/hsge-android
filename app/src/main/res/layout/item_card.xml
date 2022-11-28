@@ -1,190 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="16dp"
-    android:elevation="20dp"
-    app:cardCornerRadius="24dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <data>
+        <variable
+            name="dog"
+            type="com.starters.hsge.data.model.DogCard" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="20dp"
+        app:cardCornerRadius="24dp">
 
-        <ImageView
-            android:contentDescription="@string/dog_photo"
-            android:id="@+id/iv_dog_photo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <View
+            <ImageView
+                android:id="@+id/iv_dog_photo"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/bg_card_gradient"
-                />
+                android:layout_height="match_parent"
+                android:contentDescription="@string/dog_photo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_foreground" />
 
-            <TextView
-                android:id="@+id/tv_dog_name"
-                style="@style/H3.BOLD"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:maxLength="8"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="이름최대여덞글자" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <com.google.android.material.chip.Chip
-                app:chipMinTouchTargetSize="0dp"
-                android:paddingVertical="4dp"
-                android:textSize="12sp"
-                android:id="@+id/chip_dog_neuter"
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="2dp"
-                android:backgroundTint="@color/white_50"
-                android:text="@string/dog_neuter"
-                app:layout_constraintBottom_toBottomOf="@id/tv_dog_name"
-                app:layout_constraintStart_toEndOf="@id/tv_dog_name"
-                app:layout_constraintTop_toTopOf="@id/tv_dog_name" />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_dog_name">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_card_gradient"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_dog_breed"
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:maxLines="12"
-                    tools:text="웰시코기견종최대열두글자" />
-
-                <TextView
-                    android:id="@+id/tv_dog_age"
-                    style="@style/Body2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_dog_name"
+                    style="@style/H3.BOLD"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    tools:text=" I 12살 10개월 I " />
-
-                <ImageView
-                    android:contentDescription="@string/dog_sex"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/iv_dog_sex"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_gender_female" />
-
-            </LinearLayout>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/chip_group_dislike"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:maxLength="8"
+                    android:text="@{dog.dogName}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="이름최대여덞글자" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_dog_neuter"
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="최대여섯글자"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginBottom="2dp"
+                    android:backgroundTint="@color/white_50"
+                    android:paddingVertical="4dp"
+                    android:text="@string/dog_neuter"
                     android:textSize="12sp"
-                    app:chipBackgroundColor="@color/light_yellow"
-                    app:chipIcon="@drawable/chip_like"
-                    app:chipIconSize="13dp"
-                    app:iconStartPadding="8dp" />
+                    app:chipMinTouchTargetSize="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_dog_name"
+                    app:layout_constraintStart_toEndOf="@id/tv_dog_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_dog_name" />
 
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Action"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="간식"
-                    android:textSize="12sp"
-                    app:chipBackgroundColor="@color/light_yellow"
-                    app:chipIcon="@drawable/chip_like"
-                    app:chipIconSize="13dp"
-                    app:iconStartPadding="8dp"/>
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_dog_name">
 
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    <TextView
+                        android:text="@{dog.dogBreed}"
+                        android:id="@+id/tv_dog_breed"
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:maxLines="12"
+                        tools:text="웰시코기견종최대열두글자" />
+
+                    <TextView
+                        android:id="@+id/tv_dog_age"
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text=" I 12살 10개월 I " />
+
+                    <ImageView
+                        android:id="@+id/iv_dog_sex"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="4dp"
+                        android:contentDescription="@string/dog_sex"
+                        android:src="@drawable/ic_gender_female" />
+
+                </LinearLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="고구마"
-                    android:textSize="12sp"
-                    app:chipBackgroundColor="@color/light_yellow"
-                    app:chipIcon="@drawable/chip_like"
-                    app:chipIconSize="13dp" />
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/chip_group_dislike"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-            </com.google.android.material.chip.ChipGroup>
+                </com.google.android.material.chip.ChipGroup>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_dislike"
-                android:layout_marginBottom="40dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Action"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_dislike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="최대여섯글자"
-                    android:textSize="12sp"
-                    app:chipBackgroundColor="@color/G200"
-                    app:chipIcon="@drawable/chip_dislike"
-                    app:chipIconSize="13dp"
-                    app:iconStartPadding="8dp" />
+                    android:layout_marginBottom="40dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="간식"
-                    android:textSize="12sp"
-                    app:chipBackgroundColor="@color/G200"
-                    app:chipIcon="@drawable/chip_dislike"
-                    app:chipIconSize="13dp"
-                    app:iconStartPadding="8dp" />
+                </com.google.android.material.chip.ChipGroup>
 
-            </com.google.android.material.chip.ChipGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </FrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.starters.hsge.R
 import com.starters.hsge.data.model.DogCard
 
@@ -34,7 +36,45 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
             Glide.with(itemView)
                 .load(dog.imgUrl)
                 .into(itemView.findViewById(R.id.iv_dog_photo))
-
+            dog.tag.tagLike.size
+            dog.tag.tagDisLike.size
+            dog.tag.tagLike.forEach{
+                itemView.findViewById<ChipGroup>(R.id.chip_group_like).addLikeChip(context, it)
+            }
+            dog.tag.tagDisLike.forEach{
+                itemView.findViewById<ChipGroup>(R.id.chip_group_dislike).addDislikeChip(context, it)
+            }
         }
+        fun ChipGroup.addLikeChip(context: Context, label: String){
+
+            Chip(context).apply {
+                textSize = 12F
+                setChipIconResource(R.drawable.chip_like)
+                text = label
+                setChipBackgroundColorResource(R.color.light_yellow)
+
+                chipIconSize = 34F
+                iconStartPadding = 22F
+
+                addView(this)
+            }
+        }
+
+        fun ChipGroup.addDislikeChip(context: Context, label: String){
+
+            Chip(context).apply {
+                textSize = 12F
+                setChipIconResource(R.drawable.chip_dislike)
+                text = label
+                setChipBackgroundColorResource(R.color.G200)
+
+                chipIconSize = 34F
+                iconStartPadding = 22F
+
+                addView(this)
+            }
+        }
+
+
     }
 }

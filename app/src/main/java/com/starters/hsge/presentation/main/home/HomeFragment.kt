@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뚜뚜",
@@ -57,7 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뽀삐2",
@@ -65,7 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뚜뚜2",
@@ -73,7 +73,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뽀삐2",
@@ -81,7 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뚜뚜2",
@@ -89,9 +89,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
                 true,
-                Tag(listOf("고구마", "간식"), listOf("산책"))
+                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             )
         )
+
 
         cardStackAdapter = CardStackAdapter(requireContext(), dogCardList)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
