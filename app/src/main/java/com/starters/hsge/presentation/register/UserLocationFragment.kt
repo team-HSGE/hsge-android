@@ -58,7 +58,7 @@ class UserLocationFragment :
 //            )
         }
 
-        binding.tvNextButton.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_userLocationFragment_to_radiusFragment)
 

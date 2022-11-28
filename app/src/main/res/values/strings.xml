@@ -19,4 +19,6 @@
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
     <string name="set_radius_title">보여줄 강아지 동네 변경</string>
     <string name="set_radius">200km</string>
+    <string name="dog_dislike">관심없어요</string>
+    <string name="dog_like">관심 있어요</string>
 </resources>
