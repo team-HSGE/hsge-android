@@ -23,4 +23,7 @@
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>
 
+    <!-- Gender -->
+    <color name="light_red">#FFC7C7</color>
+
 </resources>
