@@ -21,7 +21,11 @@
     <color name="gray1">#F7F8F9</color>
     <color name="gray2">#8E8E8E</color>
     <color name="gray3">#AEAEAE</color>
-    <color name="light_gray">#DBDBDB</color>
 
     <color name="red">#FF2424</color>
+
+    <!-- Colors -->
+    <color name="light_gray">#DBDBDB</color>
+    <color name="hint_light_gray">#DBDBDB</color>
+
 </resources>
