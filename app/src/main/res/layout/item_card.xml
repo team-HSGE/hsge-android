@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="dog"
             type="com.starters.hsge.data.model.DogCard" />
@@ -82,7 +83,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_dog_name">
 
                     <TextView
-                        android:text="@{dog.dogBreed}"
                         android:id="@+id/tv_dog_breed"
                         style="@style/Body2"
                         android:layout_width="wrap_content"

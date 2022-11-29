@@ -14,7 +14,6 @@ import com.starters.hsge.databinding.ItemCardBinding
 
 class CardStackAdapter(val context: Context, private val items: List<DogCard>) : RecyclerView.Adapter<CardStackAdapter.CardViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        //val view: View = inflater.inflate(R.layout.item_card, parent, false)
 
         val binding = ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CardViewHolder(binding)
@@ -31,19 +30,19 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
     inner class CardViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(dog: DogCard){
             with(binding){
-                tvDogName.text = dog.dogName
-                tvDogAge.text = dog.dogAge
-                tvDogBreed.text = dog.dogBreed
+                tvDogName.text = dog.Dogname
+                tvDogAge.text = dog.age
+                tvDogBreed.text = dog.DogBreed
                 Glide.with(itemView).load(dog.imgUrl).into(ivDogPhoto)
                 dog.tag.tagLike.forEach{
                     chipGroupLike.addLikeChip(context ,it)
                 }
                 dog.tag.tagDisLike.forEach {
-                    chipGroupDislike.addDislikeChip(context, it)
+                    chipGroupDislike.addDisLikeChip(context, it)
                 }
             }
         }
-        fun ChipGroup.addLikeChip(context: Context, label: String){
+        private fun ChipGroup.addLikeChip(context: Context, label: String){
 
             Chip(context).apply {
                 textSize = 12F
@@ -58,7 +57,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
             }
         }
 
-        fun ChipGroup.addDislikeChip(context: Context, label: String){
+        private fun ChipGroup.addDisLikeChip(context: Context, label: String){
 
             Chip(context).apply {
                 textSize = 12F
@@ -72,7 +71,5 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                 addView(this)
             }
         }
-
-
     }
 }
