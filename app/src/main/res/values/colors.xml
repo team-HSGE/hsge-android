@@ -24,6 +24,8 @@
 
     <color name="red">#FF2424</color>
 
+    <color name="top_app_bar">#FFFFFF</color>
+
     <!-- Colors -->
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>

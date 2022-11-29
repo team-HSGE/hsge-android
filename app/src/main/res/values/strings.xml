@@ -56,7 +56,6 @@
     <string name="withdrawal_notice_text">회원탈퇴 경고 문구</string>
     <string name="withdrawal_notice_second_line">삭제된 정보는 다시 복구할 수 없으니 신중하게 결정해주세요.</string>
     <string name="withdrawal_button">탈퇴하기</string>
-
     <string name="set_location_app_bar">동네설정</string>
     <string name="set_location_title">내 위치</string>
     <string name="set_location_et_hint">ex) 서울특별시 중구 무교동</string>
