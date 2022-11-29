@@ -51,7 +51,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="24dp"
                     android:maxLength="8"
-                    android:text="@{dog.dogName}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="이름최대여덞글자" />

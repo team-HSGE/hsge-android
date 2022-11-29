@@ -16,10 +16,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager: CardStackLayoutManager
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val cardStackView = view.findViewById<CardStackView>(R.id.card_stack_view)
 
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -48,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204183502-2974fadc-dae6-4238-83ce-3b4acd12373d.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
@@ -56,6 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204195922-421c77ad-111c-4981-9dfa-a65d532ad132.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
@@ -64,6 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204196158-10c88c38-8e6e-4412-afd0-03bb376d6377.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
@@ -72,6 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204196865-d27a4994-fc3f-4380-a569-be4f58e7c354.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
@@ -80,6 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204196158-10c88c38-8e6e-4412-afd0-03bb376d6377.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             ),
@@ -88,6 +92,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 "https://user-images.githubusercontent.com/106398273/204183502-2974fadc-dae6-4238-83ce-3b4acd12373d.jpeg",
                 "스탠다드 푸들",
                 " I 12살 10개월 I ",
+                "Female",
                 true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             )
@@ -96,10 +101,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         cardStackAdapter = CardStackAdapter(requireContext(), dogCardList)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = cardStackAdapter
+        binding.cardStackView.layoutManager = manager
+        binding.cardStackView.adapter = cardStackAdapter
 
-        fabClick(cardStackView)
+        fabClick(binding.cardStackView)
     }
 
     private fun fabClick(cardStackView: CardStackView) {
