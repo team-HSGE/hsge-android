@@ -3,14 +3,11 @@ package com.starters.hsge.presentation.register
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.LocationRequest
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -26,13 +23,11 @@ class UserLocationFragment :
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        locationPermissionRequest = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
+        locationPermissionRequest =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
             when {
                 permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
@@ -51,7 +46,6 @@ class UserLocationFragment :
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun initListener() {
         binding.btnSearch.setOnClickListener {
             checkLocationPermission()
@@ -62,8 +56,6 @@ class UserLocationFragment :
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun checkLocationPermission() {
         val fineLocationGranted = ContextCompat.checkSelfPermission(
             requireContext(),
@@ -88,7 +80,6 @@ class UserLocationFragment :
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
             // LocationRequest 생성
-
             val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
                 interval = 1000
                 priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -99,7 +90,7 @@ class UserLocationFragment :
             val task = client.checkLocationSettings(builder.build())
 
             task.addOnSuccessListener {
-                //Toast.makeText(requireContext(), "location client setting success", Toast.LENGTH_SHORT).show()
+                // location client setting success
                 fusedLocationClient.lastLocation.addOnSuccessListener {
                     if (it != null) {
                         val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -129,6 +120,7 @@ class UserLocationFragment :
                 }
             }
             task.addOnFailureListener {
+                // location client setting failure
                 Toast.makeText(requireContext(), "location client setting failure", Toast.LENGTH_SHORT).show()
             }
         }
