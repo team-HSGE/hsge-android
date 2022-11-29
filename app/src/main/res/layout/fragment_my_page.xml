@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
+        android:background="@color/light_gray"
         tools:context=".presentation.main.mypage.MyPageFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
                 android:src="@drawable/ic_settings"
-                android:contentDescription="@string/my_page_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +50,6 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginStart="24dp"
                 android:background="@drawable/bg_gray_circle"
-                android:contentDescription="@string/my_page_user_profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +71,6 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:contentDescription="@string/my_page_user_nickname"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,7 +82,6 @@
                     android:text="무교동"
                     android:textSize="16sp"
                     android:textStyle="normal"
-                    android:contentDescription="@string/my_page_user_location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname" />
 
@@ -97,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_my_page_item_select"
-                android:contentDescription="@string/my_page_select"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -120,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/my_page_my_title"
+                android:text="MY"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -144,7 +139,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_dog_profile_manage"
-                    android:contentDescription="@string/my_page_dog_manage_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -154,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="@string/my_page_dog_manage"
+                    android:text="반려견 관리"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -168,7 +162,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
-                    android:contentDescription="@string/my_page_dog_manage_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -192,7 +185,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_location_setting"
-                    android:contentDescription="@string/my_page_location_setting_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -202,7 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="@string/my_page_location_setting"
+                    android:text="내 위치 설정"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -216,7 +208,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
-                    android:contentDescription="@string/my_page_location_setting_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -242,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/my_page_etc_title"
+                android:text="기타"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -266,7 +257,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_inquire"
-                    android:contentDescription="@string/my_page_inquire_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -276,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="@string/my_page_inquire"
+                    android:text="1:1 문의"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -290,7 +280,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
-                    android:contentDescription="@string/my_page_inquire_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -314,7 +303,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_faq"
-                    android:contentDescription="@string/my_page_faq_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -324,7 +312,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="@string/my_page_faq"
+                    android:text="FAQ"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -338,7 +326,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
-                    android:contentDescription="@string/my_page_faq_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

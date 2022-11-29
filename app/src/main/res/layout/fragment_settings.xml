@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1">
+        android:background="@color/light_gray">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
@@ -26,11 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/settings_title"
+                android:text="설정"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/settings_title"/>
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -50,11 +49,10 @@
                 android:id="@+id/tv_alarm_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_alarm_title"
+                android:text="알림 설정"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:contentDescription="@string/settings_alarm_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,11 +68,10 @@
                     android:id="@+id/tv_push_alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_push_alarm_title"
+                    android:text="푸쉬 알림"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
-                    android:contentDescription="@string/settings_push_alarm_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,11 +80,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/settings_push_alarm_subtitle"
-                    android:textColor="@color/gray2"
+                    android:text="알림을 해제하면 모든 알림을 받을 수 없어요."
+                    android:textColor="@color/light_gray"
                     android:textSize="12sp"
                     android:textStyle="normal"
-                    android:contentDescription="@string/settings_push_alarm_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_push_alarm" />
 
@@ -95,7 +91,6 @@
                     android:id="@+id/sw_push_alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/settings_push_alarm_switch"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -119,11 +114,10 @@
                 android:id="@+id/tv_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_logout"
+                android:text="로그아웃"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                android:contentDescription="@string/settings_logout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -144,11 +138,10 @@
                 android:id="@+id/tv_withdrawal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_withdrawal"
+                android:text="회원 탈퇴"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                android:contentDescription="@string/settings_withdrawal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
