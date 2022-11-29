@@ -31,44 +31,69 @@ class WithdrawalDialogFragment: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-//        initDialog()
+        initDialog()
 
         return binding.root
     }
 
-//    fun initDialog(){
-//        binding.tvDialogCancelBtn.setOnClickListener {
-//            buttonClickListener. onCancelBtnClicked()
-//            dismiss()
-//        }
-//
-//        binding.tvDialogWithdrawalBtn.setOnClickListener {
-//            buttonClickListener.onWithdrawalBtnClicked()
-//            dismiss()
-//        }
-//    }
-//
-//    override fun onStart() {
-//        super.onStart();
-//        val lp : WindowManager.LayoutParams  =  WindowManager.LayoutParams()
-//        lp.copyFrom(dialog!!.window!!.attributes)
-//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        val window: Window = dialog!!.window!!
-//        window.attributes =lp
-//    }
-//
-//    interface OnButtonClickListener {
-//        fun onCancelBtnClicked()
-//        fun onWithdrawalBtnClicked()
-//    }
-//
-//    // 클릭 이벤트 설정
-//    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
-//        this.buttonClickListener = buttonClickListener
-//    }
-//    // 클릭 이벤트 실행
-//    private lateinit var buttonClickListener: OnButtonClickListener
+    fun initDialog(){
+        binding.tvDialogCancelBtn.setOnClickListener {
+            buttonClickListener. onCancelBtnClicked()
+            dismiss()
+        }
+
+        binding.tvDialogWithdrawalBtn.setOnClickListener {
+            buttonClickListener.onWithdrawalBtnClicked()
+            dismiss()
+        }
+    }
+
+    interface OnButtonClickListener {
+        fun onCancelBtnClicked()
+        fun onWithdrawalBtnClicked()
+    }
+
+    // 클릭 이벤트 설정
+    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
+        this.buttonClickListener = buttonClickListener
+    }
+    // 클릭 이벤트 실행
+    private lateinit var buttonClickListener: OnButtonClickListener
 
 
+    override fun onResume() {
+        super.onResume()
+
+        fun dialogFragmentResize(context: Context, dialogFragment: DialogFragment, width: Float, height: Float) {
+
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+            if (Build.VERSION.SDK_INT < 30) {
+
+                val display = windowManager.defaultDisplay
+                val size = Point()
+
+                display.getSize(size)
+
+                val window = dialogFragment.dialog?.window
+
+                val x = (size.x * width).toInt()
+                val y = (size.y * height).toInt()
+                window?.setLayout(x, y)
+
+            } else {
+
+                val rect = windowManager.currentWindowMetrics.bounds
+
+                val window = dialogFragment.dialog?.window
+
+                val x = (rect.width() * width).toInt()
+                val y = (rect.height() * height).toInt()
+
+                window?.setLayout(x, y)
+            }
+        }
+
+        dialogFragmentResize(requireContext(), this@WithdrawalDialogFragment, 0.8f, 0.25f)
+    }
 }

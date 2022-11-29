@@ -1,11 +1,16 @@
 package com.starters.hsge.presentation.main.mypage
 
 import android.content.Context
+import android.content.Context.WINDOW_SERVICE
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
@@ -19,6 +24,21 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
         setNavigation()
 
+        binding.btnWithdrawal.setOnClickListener {
+            val dialog = WithdrawalDialogFragment()
+
+            dialog.setButtonClickListener(object: WithdrawalDialogFragment.OnButtonClickListener {
+                override fun onCancelBtnClicked() {
+                    // 취소 버튼 클릭했을 때 처리
+                }
+
+                override fun onWithdrawalBtnClicked() {
+                    // 탈퇴 버튼 클릭했을 때 처리
+                }
+            })
+
+            dialog.show(childFragmentManager, "CustomDialog")
+        }
     }
 
     private fun setNavigation() {
@@ -27,33 +47,5 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
         }
     }
 
-    fun dialogFragmentResize(context: Context, dialogFragment: DialogFragment, width: Float, height: Float) {
-
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-        if (Build.VERSION.SDK_INT < 30) {
-
-            val display = windowManager.defaultDisplay
-            val size = Point()
-
-            display.getSize(size)
-
-            val window = dialogFragment.dialog?.window
-
-            val x = (size.x * width).toInt()
-            val y = (size.y * height).toInt()
-            window?.setLayout(x, y)
-
-        } else {
-
-            val rect = windowManager.currentWindowMetrics.bounds
-            val window = dialogFragment.dialog?.window
-
-            val x = (rect.width() * width).toInt()
-            val y = (rect.height() * height).toInt()
-
-            window?.setLayout(x, y)
-        }
-    }
 
 }
