@@ -17,8 +17,6 @@ import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.register.RegisterActivity
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -137,11 +135,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             ) {
                 if(accessResponse.isSuccessful){
                     val result = accessResponse.body() as AccessResponse
-                    Log.d("성공", "${result.accessToken}, ${result.refreshToken}")
 
-                    val intent = Intent(applicationContext, RegisterActivity::class.java)
-                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    finish()
+                    if(result.message.isNotEmpty()){
+                        Log.d("성공", "${result.message}")
+                        val intent = Intent(applicationContext, RegisterActivity::class.java)
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        finish()
+                    } else {
+                        return
+                    }
                 }
             }
 
