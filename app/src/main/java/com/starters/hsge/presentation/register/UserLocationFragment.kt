@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.register
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -37,7 +38,7 @@ class UserLocationFragment :
                     // Only approximate location access granted.
                 }
                 else -> {
-                    // No location access granted.
+                    Toast.makeText(context, "권한이 없습니다. 설정으로 이동해 위치 권한을 허용해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -75,7 +76,7 @@ class UserLocationFragment :
                 )
             )
         } else {
-            // 권한이 있으면 현재 위치 도로명 주소로 변환
+            // 권한이 있으면 현재 위치 받고, 도로명 주소로 변환
             val geocoder = Geocoder(requireContext())
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -93,29 +94,9 @@ class UserLocationFragment :
                 // location client setting success
                 fusedLocationClient.lastLocation.addOnSuccessListener {
                     if (it != null) {
-                        val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-
-                        val latitude = it.latitude
-                        val longitude = it.longitude
-
-                        val addressLine = address?.get(0)?.getAddressLine(0)
-                        val addressList = addressLine?.split(" ") as ArrayList<String>
-                        addressList.removeAt(0)
-                        addressList.removeAt(addressList.size - 1)
-
-                        val locationAddress = StringBuilder()
-                        for (i in addressList) {
-                            locationAddress.append(i)
-                            locationAddress.append(" ")
-                        }
-
-                        Toast.makeText(requireContext(), "$locationAddress", Toast.LENGTH_SHORT)
-                            .show()
-                        binding.tvMyLocation.text = locationAddress
-
+                        convertToAddress(geocoder, it)
                     } else {
-                        Toast.makeText(requireContext(), "Location이 null임", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(requireContext(), "Location이 null임", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -124,5 +105,25 @@ class UserLocationFragment :
                 Toast.makeText(requireContext(), "location client setting failure", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun convertToAddress(geocoder: Geocoder, it: Location) {
+        val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+
+        // 위도 경도
+        val latitude = it.latitude
+        val longitude = it.longitude
+
+        val addressLine = address?.get(0)?.getAddressLine(0)
+        val addressList = addressLine?.split(" ") as ArrayList<String>
+        addressList.removeAt(0)
+        addressList.removeAt(addressList.size - 1)
+
+        val locationAddress = StringBuilder()
+        for (i in addressList) {
+            locationAddress.append(i)
+            locationAddress.append(" ")
+        }
+        binding.tvMyLocation.text = locationAddress
     }
 }
