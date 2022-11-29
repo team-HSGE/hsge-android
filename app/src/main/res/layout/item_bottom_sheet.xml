@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="contents"
             type="java.lang.String" />
@@ -17,10 +18,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:textSize="20sp"
+            android:background="@drawable/selector_bottom_sheet"
             android:gravity="center"
+            android:padding="14dp"
             android:text="@{contents}"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
