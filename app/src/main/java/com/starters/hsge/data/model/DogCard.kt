@@ -5,8 +5,9 @@ data class DogCard(
     val imgUrl: String,
     val dogBreed: String,
     val dogAge: String,
+    val dogSex: String,
     val isNeuter : Boolean,
-    val tag: Tag,
+    val tag: Tag
 )
 data class Tag(
     val tagLike: List<String>,
