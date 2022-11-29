@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -23,6 +24,7 @@ class UserLocationFragment :
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mLocation : String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +46,7 @@ class UserLocationFragment :
         }
 
         initListener()
-
+        rotationKeep(savedInstanceState)
     }
 
     private fun initListener() {
@@ -54,6 +56,13 @@ class UserLocationFragment :
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_userLocationFragment_to_radiusFragment)
+        }
+    }
+
+    private fun rotationKeep(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            mLocation = savedInstanceState.getString("location").toString()
+            binding.tvMyLocation.text = mLocation
         }
     }
 
@@ -125,5 +134,10 @@ class UserLocationFragment :
             locationAddress.append(" ")
         }
         binding.tvMyLocation.text = locationAddress
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("location", binding.tvMyLocation.text.toString())
     }
 }
