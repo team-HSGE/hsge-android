@@ -46,14 +46,13 @@ class UserLocationFragment :
                     showLoadingDialog(requireContext())
                 }
             } else if (!isNetworkAvailable(requireContext())) { // 네트워크 연결 안 됨
-                binding.tvMyLocation.hint = "ex) 서울특별시 중구 무교동"
                 binding.tvMyLocation.text = null
                 Toast.makeText(requireContext(), "네트워크를 확인해주세요.", Toast.LENGTH_SHORT).show()
             } else if (!isEnableLocationSystem(requireContext())) { // 위치 안 켜져 있음
-                binding.tvMyLocation.hint = "ex) 서울특별시 중구 무교동"
                 binding.tvMyLocation.text = null
                 Toast.makeText(requireContext(), "위치를 켜주세요.", Toast.LENGTH_SHORT).show()
             } else {
+                binding.tvMyLocation.text = null
                 Toast.makeText(requireContext(), "에러 발생", Toast.LENGTH_SHORT).show()
             }
         }
@@ -93,6 +92,7 @@ class UserLocationFragment :
     private fun checkPermissionForLocation(context: Context): Boolean {
         // Android 6.0 Marshmallow 이상에서는 위치 권한에 추가 런타임 권한이 필요
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.tvMyLocation.text = null // 권한 확인 할 때 힌트만 보이는 상태로
 
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) { // 위치 권한 허용되어있는 경우
                 true
