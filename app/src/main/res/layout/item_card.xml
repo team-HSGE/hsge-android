@@ -23,13 +23,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <ImageView
                 android:id="@+id/iv_dog_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/dog_photo"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -131,7 +136,35 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/left_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_launcher_foreground" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/right_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_launcher_background" />
+
+            </FrameLayout>
 
         </FrameLayout>
 
