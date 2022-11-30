@@ -20,6 +20,7 @@
             android:text="@string/nick_name"
             android:textSize="17sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,8 +38,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_user_nick_name"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/nick_name_hint"
-                android:layout_height="wrap_content" />
+                android:imeOptions="actionGo"
+                android:singleLine="true"
+                android:maxLength="13"
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

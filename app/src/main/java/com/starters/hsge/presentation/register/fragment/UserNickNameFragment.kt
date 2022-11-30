@@ -1,7 +1,13 @@
 package com.starters.hsge.presentation.register.fragment
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
@@ -13,6 +19,7 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setListenerToEditText()
     }
 
     private fun initListener() {
@@ -21,4 +28,24 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
                 .navigate(R.id.action_userNickNameFragment_to_userImageFragment)
         }
     }
+
+    // 엔터 시 포커스 제거 & 키보드 내리기
+    private fun setListenerToEditText() {
+        binding.edtUserNickName.setOnKeyListener { view, keyCode, event ->
+            // Enter Key Action
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                view.clearFocus()
+                // 키패드 내리기
+                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.edtUserNickName.windowToken, 0)
+
+
+                return@setOnKeyListener true
+            }
+
+            false
+        }
+    }
+
+
 }
