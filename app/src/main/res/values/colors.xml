@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+
     <!-- Primary Colors -->
     <color name="dark_yellow">#D99D28</color>
     <color name="yellow">#FFBF43</color>
@@ -22,5 +22,5 @@
     <!-- Colors -->
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>
-    
+
 </resources>
