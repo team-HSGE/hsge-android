@@ -10,11 +10,11 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentDialogWithdrawalBinding
+import com.starters.hsge.databinding.FragmentDialogLogoutBinding
 
-class WithdrawalDialogFragment: DialogFragment() {
+class LogoutDialogFragment: DialogFragment() {
 
-    private lateinit var binding: FragmentDialogWithdrawalBinding
+    private lateinit var binding: FragmentDialogLogoutBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,7 +23,7 @@ class WithdrawalDialogFragment: DialogFragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_dialog_withdrawal,
+            R.layout.fragment_dialog_logout,
             container,
             false
         )
@@ -94,6 +94,6 @@ class WithdrawalDialogFragment: DialogFragment() {
             }
         }
 
-        dialogFragmentResize(requireContext(), this@WithdrawalDialogFragment, 0.8f, 0.22f)
+        dialogFragmentResize(requireContext(), this@LogoutDialogFragment, 0.8f, 0.2f)
     }
 }
