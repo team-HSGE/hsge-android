@@ -44,11 +44,11 @@ class UserLocationFragment :
                 if (checkPermissionForLocation(requireContext())) {
                     startLocationUpdates()
                 }
-            } else if (!isNetworkAvailable(requireContext())) {
+            } else if (!isNetworkAvailable(requireContext())) { // 네트워크 연결 안 됨
                 binding.tvMyLocation.hint = "ex) 서울특별시 중구 무교동"
                 binding.tvMyLocation.text = null
                 Toast.makeText(requireContext(), "네트워크를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            } else if (!isEnableLocationSystem(requireContext())) {
+            } else if (!isEnableLocationSystem(requireContext())) { // 위치 안 켜져 있음
                 binding.tvMyLocation.hint = "ex) 서울특별시 중구 무교동"
                 binding.tvMyLocation.text = null
                 Toast.makeText(requireContext(), "위치를 켜주세요.", Toast.LENGTH_SHORT).show()
@@ -62,6 +62,7 @@ class UserLocationFragment :
         }
     }
 
+    // 위치 갱신
     private fun startLocationUpdates() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         if (ActivityCompat.checkSelfPermission(
@@ -74,7 +75,6 @@ class UserLocationFragment :
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
-
         }
 
         // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
@@ -98,13 +98,14 @@ class UserLocationFragment :
             }
     }
 
+    // 권한 체크
     private fun checkPermissionForLocation(context: Context): Boolean {
         // Android 6.0 Marshmallow 이상에서는 위치 권한에 추가 런타임 권한이 필요
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) { // 위치 권한 허용되어있는 경우
                 true
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){ // 위치 권한 거부되어있는 경우
                 // 권한이 없으므로 권한 요청 알림 보내기
                 ActivityCompat.requestPermissions(
                     requireActivity(),
@@ -113,8 +114,8 @@ class UserLocationFragment :
                 )
                 false
             }
-            else{
-                Toast.makeText(requireContext(), "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            else{ // 위치 권한 거부 및 다시 묻지 않음인 경우
+                Toast.makeText(requireContext(), "위치 권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
                 false
             }
         } else {
@@ -146,6 +147,7 @@ class UserLocationFragment :
         return networkStatus?.isConnectedOrConnecting == true
     }
 
+    // 화면 회전 시 데이터 할당
     private fun rotationKeep(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             mLocation = savedInstanceState.getString("location").toString()
@@ -153,7 +155,7 @@ class UserLocationFragment :
         }
     }
 
-    // 화면 회전 시 데이터 유지
+    // 텍스트 저장(화면 회전 시 유지 위함)
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("location", binding.tvMyLocation.text.toString())
