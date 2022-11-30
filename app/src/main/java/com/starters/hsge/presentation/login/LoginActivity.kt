@@ -16,6 +16,7 @@ import com.starters.hsge.network.AccessResponse
 import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -133,16 +134,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 call: Call<AccessResponse>,
                 accessResponse: Response<com.starters.hsge.network.AccessResponse>
             ) {
-                if(accessResponse.isSuccessful){
+                if (accessResponse.isSuccessful) {
                     val result = accessResponse.body() as AccessResponse
 
-                    if(result.message.isNotEmpty()){
-                        Log.d("성공", "${result.message}")
+                    if (result.message == "LOGIN") {
+                        Log.d("회원정보", "${result.message} / 로그인 성공")
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        finish()
+
+                    } else if (result.message == "NEED_SIGNUP") {
+                        Log.d("회원정보", "${result.message} / 회원가입 필요")
                         val intent = Intent(applicationContext, RegisterActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
-                    } else {
-                        return
                     }
                 }
             }
