@@ -17,16 +17,12 @@
     <color name="dark_blue">#2572D1</color>
     <color name="blue">#439AFF</color>
     <color name="light_blue">#AAD1FF</color>
-
     <color name="top_app_bar">#FFFFFF</color>
 
     <!-- Colors -->
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>
 
-    <!-- Login/Signup Colors -->
-    <color name="kakao_container">#FEE500</color>
-    <color name="kakao_symbol">#000000</color>
-    <color name="kakao_label">#D9000000</color>
+
 
 </resources>
