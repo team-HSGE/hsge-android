@@ -11,7 +11,6 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -102,9 +101,10 @@ class UserLocationFragment :
     private fun checkPermissionForLocation(context: Context): Boolean {
         // Android 6.0 Marshmallow 이상에서는 위치 권한에 추가 런타임 권한이 필요
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 true
-            } else {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
                 // 권한이 없으므로 권한 요청 알림 보내기
                 ActivityCompat.requestPermissions(
                     requireActivity(),
@@ -113,26 +113,12 @@ class UserLocationFragment :
                 )
                 false
             }
+            else{
+                Toast.makeText(requireContext(), "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                false
+            }
         } else {
             true
-        }
-    }
-
-    // 사용자에게 권한 요청 후 결과에 대한 처리 로직
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION_LOCATION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationUpdates()
-
-            } else {
-                Log.d("ttt", "onRequestPermissionsResult() _ 권한 허용 거부")
-                Toast.makeText(requireContext(), "권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
