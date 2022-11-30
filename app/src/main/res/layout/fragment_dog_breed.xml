@@ -37,12 +37,12 @@
 
         <TextView
             android:id="@+id/tv_dog_breed"
-            android:layout_width="150dp"
+            android:layout_width="220dp"
             android:layout_height="55dp"
             android:layout_marginTop="14dp"
             android:background="@drawable/bg_yellow_round_stroke"
             android:gravity="center"
-            android:paddingStart="20dp"
+            android:paddingStart="30dp"
             android:paddingEnd="20dp"
             android:text="@string/breed_choice"
             app:drawableRightCompat="@drawable/ic_arrow_drop_down"
@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
+            android:enabled="false"
             android:text="@string/btn_next"
             android:textColor="@color/white"
             android:textSize="16sp"

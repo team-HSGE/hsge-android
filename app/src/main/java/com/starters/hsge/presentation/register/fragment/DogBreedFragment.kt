@@ -27,11 +27,28 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
         binding.tvDogBreed.setOnClickListener {
             ageBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().map { it.kind })
             ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+            ageBottomSheet.setBottomSheetClickListener(object : BottomSheetDialog.BottomSheetClickListener {
+                override fun onContentClick(content: String) {
+                    registerViewModel.dogBreed = content
+                    showDogBreed()
+                    setButtonEnable()
+                }
+            })
         }
 
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogBreedFragment_to_dogLikeTagFragment)
         }
+    }
+
+    private fun showDogBreed() {
+        binding.tvDogBreed.text.let {
+            binding.tvDogBreed.text = registerViewModel.dogBreed
+        }
+    }
+
+    private fun setButtonEnable() {
+        binding.btnNext.isEnabled = !registerViewModel.dogBreed.isNullOrEmpty()
     }
 }

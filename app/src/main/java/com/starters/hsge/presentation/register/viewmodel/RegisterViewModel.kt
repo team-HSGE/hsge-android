@@ -16,8 +16,23 @@ class RegisterViewModel @Inject constructor(
     private val getDogAgeUseCase: GetDogAgeUseCase
 ) : BaseViewModel() {
 
+    var dogName = ""
+    var dogSex = ""
+    var dogNeuter = false
+    var dogAge = ""
+    var dogBreed = ""
+    var dogLikTag = ""
+    var dogDisLikeTag = ""
+
     suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
+
+        // usecase에서 데이터 변환
+        // usecase에 집어넣기
         dogProfileRepository.getDogProfilePhoto(image, str)
+    }
+
+    suspend fun postFirstProfile() {
+
     }
 
     fun getDogBreed() = getDogBreedUseCase()
