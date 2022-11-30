@@ -54,6 +54,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 " I 12살 10개월 I ",
                 "Female",
                 true,
+                Tag(listOf("고구마랄라", "간식감자나", "수영좋아김"), listOf("산책", "카메라"))
+            ),
+            DogCard(
+                "뽀삐",
+                "https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d",
+                "스탠다드 푸들",
+                " I 12살 10개월 I ",
+                "Female",
+                true,
                 Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
             )
         )

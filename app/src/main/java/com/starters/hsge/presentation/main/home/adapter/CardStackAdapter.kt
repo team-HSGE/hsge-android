@@ -36,9 +36,9 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                 tvDogBreed.text = dog.breed
 
                 if(dog.sex == "남"){
-                    ivDogSex.setImageResource(R.drawable.ic_gender_male_black)
+                    ivDogSex.setImageResource(R.drawable.ic_gender_male_white)
                 } else {
-                    ivDogSex.setImageResource(R.drawable.ic_gender_female_black)
+                    ivDogSex.setImageResource(R.drawable.ic_gender_female_white)
                 }
 
                 if(!dog.isNeuter) chipDogNeuter.visibility = View.GONE
@@ -54,7 +54,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
         }
         private fun ChipGroup.addLikeChip(context: Context, label: String){
             Chip(context).apply {
-                textSize = 12F
+                textSize = 14F
                 setChipIconResource(R.drawable.chip_like)
                 text = label
                 setChipBackgroundColorResource(R.color.light_yellow)
@@ -66,7 +66,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
 
         private fun ChipGroup.addDisLikeChip(context: Context, label: String){
             Chip(context).apply {
-                textSize = 12F
+                textSize = 14F
                 setChipIconResource(R.drawable.chip_dislike)
                 text = label
                 setChipBackgroundColorResource(R.color.G200)

@@ -37,7 +37,7 @@
     <!-- Colors -->
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>
-
+    <color name="black_205">#CD000000</color>
 
 
 </resources>

@@ -45,18 +45,20 @@
                     android:layout_height="0dp"
                     android:background="@drawable/bg_card_gradient"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.6"
+                    app:layout_constraintHeight_percent="0.7"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_dog_name"
-                    style="@style/H3.BOLD"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="38dp"
                     android:maxLength="8"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="이름최대여덞글자" />
@@ -66,12 +68,12 @@
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginBottom="2dp"
                     android:backgroundTint="@color/white_50"
                     android:paddingVertical="4dp"
                     android:text="@string/dog_neuter"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     app:chipMinTouchTargetSize="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_dog_name"
                     app:layout_constraintStart_toEndOf="@id/tv_dog_name"
@@ -79,37 +81,43 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
                     android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_dog_name">
 
                     <TextView
                         android:id="@+id/tv_dog_breed"
-                        style="@style/Body2"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:maxLines="12"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="웰시코기견종최대열두글자" />
 
                     <TextView
                         android:id="@+id/tv_dog_age"
-                        style="@style/Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         tools:text=" I 12살 10개월 I " />
 
                     <ImageView
                         android:id="@+id/iv_dog_sex"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="4dp"
                         android:contentDescription="@string/dog_sex"
-                        tools:src="@drawable/ic_gender_female_black" />
+                        tools:src="@drawable/ic_gender_female_white" />
 
                 </LinearLayout>
 
@@ -135,7 +143,6 @@
                     app:layout_constraintStart_toStartOf="parent">
 
                 </com.google.android.material.chip.ChipGroup>
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
