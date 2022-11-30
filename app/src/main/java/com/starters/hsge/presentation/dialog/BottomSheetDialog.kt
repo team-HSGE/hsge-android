@@ -14,6 +14,15 @@ class BottomSheetDialog(private val list: List<String>) : BottomSheetDialogFragm
 
     private lateinit var adapter: BottomSheetAdapter
     private lateinit var binding: FragmentBottomSheetDialogBinding
+    private lateinit var mContentClickListener: BottomSheetClickListener
+
+    interface BottomSheetClickListener {
+        fun onContentClick(content: String)
+    }
+
+    fun setBottomSheetClickListener(btnClickListener: BottomSheetClickListener) {
+        mContentClickListener = btnClickListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +45,16 @@ class BottomSheetDialog(private val list: List<String>) : BottomSheetDialogFragm
     }
 
     private fun initRecyclerView(list: List<String>) {
-        adapter = BottomSheetAdapter(list)
+        adapter = BottomSheetAdapter(list, onClick =  { chooseContent(it) })
         binding.rvBottomSheet.layoutManager = LinearLayoutManager(context)
         binding.rvBottomSheet.adapter = adapter
+
     }
 
+    private fun chooseContent(content: String) {
+        mContentClickListener.onContentClick(content)
+        dismiss()
+    }
 
     companion object {
         const val TAG = "BottomSheetDialog"
