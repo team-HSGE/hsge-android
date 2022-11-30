@@ -44,4 +44,6 @@
     <string name="register_dog_age_explain">설정 가능한 최대 나이는 20살입니다</string>
     <string name="register_dog_breed">반려견 품종을 알려주세요</string>
     <string name="register_dog_breed_explain">해당하는 품종이 없으면 기타를 선택해주세요</string>
+    <string name="bottom_sheet_indicator">bottom sheet indicator 입니다</string>
+    <string name="register_choose_age">나이 선택</string>
 </resources>

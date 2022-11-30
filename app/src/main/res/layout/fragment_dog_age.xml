@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vmRegister"
+            type="com.starters.hsge.presentation.register.viewmodel.RegisterViewModel" />
 
     </data>
 
@@ -44,7 +47,7 @@
             android:gravity="center"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="@string/age_choice"
+            android:text="@string/register_choose_age"
             app:drawableRightCompat="@drawable/ic_arrow_drop_down"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_dog_age_explain" />
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
+            android:enabled="false"
             android:text="@string/btn_next"
             android:textColor="@color/white"
             android:textSize="16sp"
