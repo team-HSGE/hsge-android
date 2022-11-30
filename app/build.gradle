@@ -96,4 +96,7 @@ dependencies {
 
     // timber
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // kakao
+    implementation 'com.kakao.sdk:v2-user:2.10.0'
 }
