@@ -32,6 +32,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_dog_sex_label">
 
@@ -43,7 +44,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/light_gray"
                 android:text="@string/male"
-                app:icon="@drawable/ic_male"
+                app:icon="@drawable/ic_gender_male_white"
                 app:iconGravity="textStart"
                 app:iconSize="24dp" />
 
@@ -55,7 +56,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/light_gray"
                 android:text="@string/female"
-                app:icon="@drawable/ic_female"
+                app:icon="@drawable/ic_gender_female_white"
                 app:iconGravity="textStart"
                 app:iconSize="24dp" />
 
