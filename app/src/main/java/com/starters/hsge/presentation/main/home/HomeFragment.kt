@@ -96,13 +96,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             override fun onResponse(call: retrofit2.Call<List<DogCard>>, response: Response<List<DogCard>>) {
                 if (response.isSuccessful) {
                     Log.d("TAG", response.toString())
+                    Log.d("TAG", "성공")
                     val dogCardResult = response.body()
                     cardStackAdapter = CardStackAdapter(requireContext(), dogCardResult!!)
                     manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
                     binding.cardStackView.layoutManager = manager
                     binding.cardStackView.adapter = cardStackAdapter
                 } else{
-                    Log.d("TAG", "성공")
+                    Log.d("TAG", "실패")
+                    Log.d("TAG", response.code().toString())
                 }
 
             }

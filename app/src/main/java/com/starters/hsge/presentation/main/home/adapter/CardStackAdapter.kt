@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.main.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,9 +31,18 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
     inner class CardViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(dog: DogCard){
             with(binding){
-                tvDogName.text = dog.Dogname
-                tvDogAge.text = dog.age
-                tvDogBreed.text = dog.DogBreed
+                tvDogName.text = dog.name
+                tvDogAge.text = " I ${dog.age} I "
+                tvDogBreed.text = dog.breed
+
+                if(dog.sex == "남"){
+                    ivDogSex.setImageResource(R.drawable.ic_gender_male_black)
+                } else {
+                    ivDogSex.setImageResource(R.drawable.ic_gender_female_black)
+                }
+
+                if(!dog.isNeuter) chipDogNeuter.visibility = View.GONE
+
                 Glide.with(itemView).load(dog.imgUrl).into(ivDogPhoto)
                 dog.tag.tagLike.forEach{
                     chipGroupLike.addLikeChip(context ,it)
@@ -43,31 +53,25 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
             }
         }
         private fun ChipGroup.addLikeChip(context: Context, label: String){
-
             Chip(context).apply {
                 textSize = 12F
                 setChipIconResource(R.drawable.chip_like)
                 text = label
                 setChipBackgroundColorResource(R.color.light_yellow)
-
                 chipIconSize = 34F
                 iconStartPadding = 22F
-
                 addView(this)
             }
         }
 
         private fun ChipGroup.addDisLikeChip(context: Context, label: String){
-
             Chip(context).apply {
                 textSize = 12F
                 setChipIconResource(R.drawable.chip_dislike)
                 text = label
                 setChipBackgroundColorResource(R.color.G200)
-
                 chipIconSize = 34F
                 iconStartPadding = 22F
-
                 addView(this)
             }
         }

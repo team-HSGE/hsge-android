@@ -1,14 +1,13 @@
 package com.starters.hsge.data.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class DogCard(
 
-    @SerialName("name") val Dogname: String,
+    val name: String,
     val imgUrl: String,
-    val DogBreed: String,
+    val breed: String,
     val age: String,
     val sex: String,
     val isNeuter : Boolean,
