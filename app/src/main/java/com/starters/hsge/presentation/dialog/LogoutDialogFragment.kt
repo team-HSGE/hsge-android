@@ -42,15 +42,15 @@ class LogoutDialogFragment: DialogFragment() {
             dismiss()
         }
 
-        binding.tvDialogWithdrawalBtn.setOnClickListener {
-            buttonClickListener.onWithdrawalBtnClicked()
+        binding.tvDialogLogoutBtn.setOnClickListener {
+            buttonClickListener.onLogoutBtnClicked()
             dismiss()
         }
     }
 
     interface OnButtonClickListener {
         fun onCancelBtnClicked()
-        fun onWithdrawalBtnClicked()
+        fun onLogoutBtnClicked()
     }
 
     // 클릭 이벤트 설정

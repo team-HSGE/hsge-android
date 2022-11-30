@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_gray"
+        android:background="@color/G100"
         tools:context=".presentation.main.mypage.MyPageFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
                 android:src="@drawable/ic_settings"
+                android:contentDescription="@string/mypage_settings_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +51,7 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginStart="24dp"
                 android:background="@drawable/bg_gray_circle"
+                android:contentDescription="@string/mypage_user_profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -67,10 +69,11 @@
                     android:id="@+id/tv_user_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사용자닉네임"
+                    android:text="@string/mypage_user_nickname"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:contentDescription="@string/mypage_user_nickname"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="무교동"
+                    android:text="@string/mypage_user_location"
                     android:textSize="16sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_my_page_item_select"
+                android:contentDescription="@string/mypage_user_profile_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -115,10 +119,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="MY"
+                android:text="@string/mypage_my_title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:contentDescription="@string/mypage_my_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -139,6 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_dog_profile_manage"
+                    android:contentDescription="@string/mypage_dog_manage_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -148,10 +154,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="반려견 관리"
+                    android:text="@string/mypage_dog_manage"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
+                    android:contentDescription="@string/mypage_dog_manage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_dog_profile_manage"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -162,6 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/mypage_dog_manage_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -185,6 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_location_setting"
+                    android:contentDescription="@string/mypage_my_location_setting_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -194,10 +203,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="내 위치 설정"
+                    android:text="@string/mypage_user_location_setting"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
+                    android:contentDescription="@string/mypage_user_location_setting"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_location_setting"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -208,6 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/mypage_user_location_setting_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -233,10 +244,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
-                android:text="기타"
+                android:text="@string/mypage_etc_title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:contentDescription="@string/mypage_etc_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -257,6 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_inquire"
+                    android:contentDescription="@string/mypage_inquire_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -266,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="1:1 문의"
+                    android:text="@string/mypage_inquire"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -280,6 +293,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/mypage_inquire_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -303,6 +317,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_faq"
+                    android:contentDescription="@string/mypage_faq_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -312,7 +327,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="FAQ"
+                    android:text="@string/mypage_faq"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -326,6 +341,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_my_page_item_select"
+                    android:contentDescription="@string/mypage_faq_select"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

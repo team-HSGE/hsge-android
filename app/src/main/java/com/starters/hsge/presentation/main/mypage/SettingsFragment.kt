@@ -29,7 +29,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                     // 취소 버튼 클릭했을 때 처리
                 }
 
-                override fun onWithdrawalBtnClicked() {
+                override fun onLogoutBtnClicked() {
                     // 확인 버튼 클릭했을 때 처리
                 }
             })
