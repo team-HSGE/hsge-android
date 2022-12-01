@@ -34,6 +34,9 @@ class UserLocationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (!prefs.getString("address", null).isNullOrEmpty()) {
+            binding.tvMyLocation.text = prefs.getString("address", "0")
+        }
         initListener()
         rotationKeep(savedInstanceState)
     }
@@ -167,6 +170,7 @@ class UserLocationFragment :
             locationAddress.append(" ")
         }
         binding.tvMyLocation.text = locationAddress
+        prefs.edit().putString("address", locationAddress.toString()).apply()
         dismissLoadingDialog()
     }
 
