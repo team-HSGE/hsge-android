@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment_dog_breed) {
 
-    private lateinit var ageBottomSheet: BottomSheetDialog
-    private val registerViewModel:RegisterViewModel by viewModels()
+    private lateinit var breedBottomSheet: BottomSheetDialog
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,9 +25,10 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
 
     private fun initListener() {
         binding.tvDogBreed.setOnClickListener {
-            ageBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().map { it.kind })
-            ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-            ageBottomSheet.setBottomSheetClickListener(object : BottomSheetDialog.BottomSheetClickListener {
+            breedBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().map { it.kind })
+            breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+            breedBottomSheet.setBottomSheetClickListener(object :
+                BottomSheetDialog.BottomSheetClickListener {
                 override fun onContentClick(content: String) {
                     registerViewModel.dogBreed = content
                     showDogBreed()
