@@ -97,6 +97,13 @@ dependencies {
     // timber
     implementation "com.jakewharton.timber:timber:$timber_version"
 
+    // kakao
+    implementation 'com.kakao.sdk:v2-user:2.10.0'
+
+    // google-location
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     // google-location
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'

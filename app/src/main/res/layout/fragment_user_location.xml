@@ -10,9 +10,7 @@
         tools:context=".presentation.register.fragment.UserLocationFragment">
 
 
-
         <TextView
-            app:layout_constraintVertical_bias="0.1"
             android:id="@+id/tv_user_location_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,20 +21,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:id="@+id/tv_user_location_explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dog_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_location_title"
-            app:layout_constraintStart_toStartOf="@id/tv_user_location_title"
             android:layout_marginTop="6dp"
-            />
+            android:text="@string/user_location_dog_location_explain"
+            app:layout_constraintStart_toStartOf="@id/tv_user_location_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_location_title" />
 
         <TextView
-            app:layout_goneMarginTop="14dp"
             android:id="@+id/tv_my_location"
             android:layout_width="0dp"
             android:layout_height="55dp"
@@ -50,7 +47,8 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_location_explain" />
+            app:layout_constraintTop_toBottomOf="@id/tv_user_location_explain"
+            app:layout_goneMarginTop="14dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_search"
