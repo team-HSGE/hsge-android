@@ -28,7 +28,8 @@ enum class DogBreed(val kind: String) {
     PAPILLON("파피용"),
     PUG("퍼그"),
     POMERANIAN("포메라니안"),
-    FRENCH_BULLDOG("프렌치 불독")
+    FRENCH_BULLDOG("프렌치 불독"),
+    ETC("기타")
 }
 
 

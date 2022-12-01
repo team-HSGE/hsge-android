@@ -39,7 +39,6 @@
     <color name="hint_light_gray">#DBDBDB</color>
     <color name="black_205">#CD000000</color>
 
-
     <!-- Gender -->
     <color name="light_red">#FFC7C7</color>
 
@@ -54,5 +53,11 @@
     <color name="kakao_container">#FEE500</color>
     <color name="kakao_symbol">#000000</color>
     <color name="kakao_label">#D9000000</color>
+
+    <!-- Chip colors -->
+    <color name="light_yellow_50">#80FFE5B2</color>
+    <color name="light_red_50">#80FFC7C7</color>
+    <color name="chip_text_red">#E86666</color>
+    <color name="ripple_100">#FFFFFFFF</color>
 
 </resources>

@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 " I 12살 10개월 I ",
                 "Female",
                 true,
-                Tag(listOf("고구마랄라", "간식감자나", "수영좋아김"), listOf("산책", "카메라"))
+                Tag(listOf("고구마랄라", "간식감자", "수영좋아"), listOf("산책", "카메라"))
             ),
             DogCard(
                 "뽀삐",
