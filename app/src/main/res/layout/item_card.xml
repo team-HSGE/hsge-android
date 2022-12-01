@@ -153,10 +153,10 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_launcher_foreground" />
+                    android:src="@drawable/ic_dislike" />
 
             </FrameLayout>
 
@@ -166,10 +166,10 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:src="@drawable/ic_like" />
 
             </FrameLayout>
 
