@@ -2,7 +2,6 @@ package com.starters.hsge.presentation.main.mypage
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentMyPageBinding
