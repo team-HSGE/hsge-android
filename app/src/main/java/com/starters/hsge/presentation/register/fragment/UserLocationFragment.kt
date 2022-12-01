@@ -29,7 +29,6 @@ import com.starters.hsge.presentation.main.MainActivity
 class UserLocationFragment :
     BaseFragment<FragmentUserLocationBinding>(R.layout.fragment_user_location) {
 
-    private lateinit var mLocation : String
     private var fusedLocationClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
     private val REQUEST_PERMISSION_LOCATION = 10
 
@@ -41,7 +40,6 @@ class UserLocationFragment :
         }
 
         initListener()
-        rotationKeep(savedInstanceState)
     }
 
     private fun initListener() {
@@ -189,14 +187,6 @@ class UserLocationFragment :
         prefs.edit().putString("address", locationAddress.toString()).apply()
 
         dismissLoadingDialog()
-    }
-
-
-    // 화면 회전 시 데이터 할당
-    private fun rotationKeep(savedInstanceState: Bundle?) {
-        if (!prefs.getString("address", null).isNullOrEmpty()) {
-            binding.tvMyLocation.text = prefs.getString("address", "0")
-        }
     }
 
 }
