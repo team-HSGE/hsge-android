@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.databinding.ItemBottomSheetBinding
 
-class BottomSheetAdapter(private var contentsList: List<String>) :
+class BottomSheetAdapter(private var contentsList: List<String>, private val onClick: (String) -> Unit) :
     RecyclerView.Adapter<BottomSheetAdapter.BottomSheetViewHolder>(
 ) {
 
@@ -14,6 +14,10 @@ class BottomSheetAdapter(private var contentsList: List<String>) :
         fun bind(content: String) {
             binding.contents = content
             binding.executePendingBindings()
+
+            itemView.setOnClickListener {
+                onClick.invoke(content)
+            }
         }
     }
 

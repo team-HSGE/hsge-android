@@ -19,9 +19,6 @@
         android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment"
         android:label="UserLocationFragment"
         tools:layout="@layout/fragment_user_location">
-        <action
-            android:id="@+id/action_userLocationFragment_to_userDistanceFragment"
-            app:destination="@id/userDistanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/userImageFragment"
@@ -48,7 +45,11 @@
         android:id="@+id/userProfileIconFragment"
         android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
         android:label="UserProfileIconFragment"
-        tools:layout="@layout/fragment_user_profile_icon"/>
+        tools:layout="@layout/fragment_user_profile_icon">
+        <action
+            android:id="@+id/action_userProfileIconFragment_to_userImageFragment"
+            app:destination="@id/userImageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dogNameFragment"
         android:name="com.starters.hsge.presentation.register.fragment.DogNameFragment"
@@ -103,9 +104,5 @@
             android:id="@+id/action_dogDislikeTagFragment_to_userLocationFragment"
             app:destination="@id/userLocationFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.register.fragment.UserDistanceFragment"
-        android:label="UserDistanceFragment"
-        tools:layout="@layout/fragment_user_distance"/>
+
 </navigation>

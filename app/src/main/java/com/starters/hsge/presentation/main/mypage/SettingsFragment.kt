@@ -7,7 +7,6 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentSettingsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.LogoutDialogFragment
-import com.starters.hsge.presentation.dialog.WithdrawalDialogFragment
 import com.starters.hsge.presentation.main.MainActivity
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {

@@ -1,17 +1,7 @@
 package com.starters.hsge.presentation.main.mypage
 
-import android.content.Context
-import android.content.Context.WINDOW_SERVICE
-import android.graphics.Point
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentWithdrawalBinding

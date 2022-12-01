@@ -5,6 +5,7 @@ import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -15,8 +16,23 @@ class RegisterViewModel @Inject constructor(
     private val getDogAgeUseCase: GetDogAgeUseCase
 ) : BaseViewModel() {
 
-    suspend fun loadImage(image: File) {
-        dogProfileRepository.getDogProfilePhoto(image)
+    var dogName = ""
+    var dogSex = ""
+    var dogNeuter = false
+    var dogAge = ""
+    var dogBreed = ""
+    var dogLikTag = ""
+    var dogDisLikeTag = ""
+
+    suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
+
+        // usecase에서 데이터 변환
+        // usecase에 집어넣기
+        dogProfileRepository.getDogProfilePhoto(image, str)
+    }
+
+    suspend fun postFirstProfile() {
+
     }
 
     fun getDogBreed() = getDogBreedUseCase()

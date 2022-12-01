@@ -95,7 +95,7 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="20dp"
-                    android:text="abcde@kakao.com"
+                    android:text="@string/user_profile_edit_email"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -139,7 +139,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:hint="@string/user_profile_edit_nickname_hint"
-                        android:contentDescription="@string/user_profile_edit_nickname_hint_text"/>
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
