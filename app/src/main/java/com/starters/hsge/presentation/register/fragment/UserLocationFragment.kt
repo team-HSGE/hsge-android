@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest
 import android.content.Context
@@ -37,11 +37,13 @@ class UserLocationFragment :
         if (!prefs.getString("address", null).isNullOrEmpty()) {
             binding.tvMyLocation.text = prefs.getString("address", "0")
         }
+
         initListener()
         rotationKeep(savedInstanceState)
     }
 
     private fun initListener() {
+        // 시스템 권한 대화상자 요청
         binding.btnSearch.setOnClickListener {
             if (isNetworkAvailable(requireContext()) && isEnableLocationSystem(requireContext())) {
                 if (checkPermissionForLocation(requireContext())) {
@@ -61,7 +63,7 @@ class UserLocationFragment :
         }
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_userLocationFragment_to_radiusFragment)
+                .navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
         }
     }
 

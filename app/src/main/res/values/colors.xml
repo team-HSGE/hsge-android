@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+
     <!-- Primary Colors -->
     <color name="dark_yellow">#D99D28</color>
     <color name="yellow">#FFBF43</color>
@@ -22,5 +22,31 @@
     <!-- Colors -->
     <color name="light_gray">#DBDBDB</color>
     <color name="hint_light_gray">#DBDBDB</color>
+
+    <!-- Gender -->
+    <color name="light_red">#FFC7C7</color>
+
+    <!-- Gray scale -->
+    <color name="G900">#222222</color>
+    <color name="G800">#4D4D4D</color>
+    <color name="G700">#656565</color>
+    <color name="G600">#707070</color>
+    <color name="G500">#8E8E8E</color>
+    <color name="G400">#BCBCBC</color>
+    <color name="G300">#E4E4E4</color>
+    <color name="G200">#EFEFEF</color>
+    <color name="G100">#F5F5F5</color>
+
+    <!-- System colors -->
+    <color name="Success">#09E36B</color>
+    <color name="Notice">#FFD83B</color>
+    <color name="Warning">#FF8B48</color>
+    <color name="Error">#FE4E44</color>
+    <color name="Info">#6570D6</color>
+
+    <!-- Login/Signup Colors -->
+    <color name="kakao_container">#FEE500</color>
+    <color name="kakao_symbol">#000000</color>
+    <color name="kakao_label">#D9000000</color>
 
 </resources>

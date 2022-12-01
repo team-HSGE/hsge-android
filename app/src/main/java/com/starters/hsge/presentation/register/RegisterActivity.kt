@@ -4,7 +4,9 @@ import android.os.Bundle
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityRegisterBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity_register) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

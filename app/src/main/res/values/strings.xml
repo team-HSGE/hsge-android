@@ -19,8 +19,88 @@
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
     <string name="set_radius_title">보여줄 강아지 동네 변경</string>
     <string name="set_radius">200km</string>
-    <string name="dog_dislike">관심없어요</string>
-    <string name="dog_like">관심 있어요</string>
-    <string name="dog_location">근처의 강아지를 보여드려요</string>
+    <string name="profile">프로필</string>
+    <string name="nick_name">닉네임</string>
+    <string name="nick_name_hint">최대 13자 이내로 입력하세요.</string>
+    <string name="dog_name">반려견 이름</string>
+    <string name="dog_name_hint">최대 8글자로 입력해주세요.</string>
+    <string name="dog_sex">반려견 성별</string>
+    <string name="male">남자</string>
+    <string name="female">여자</string>
+    <string name="neuter_check">중성화 여부</string>
+    <string name="breed_choice">품종 선택</string>
+    <string name="age_choice">나이 선택</string>
+    <string name="age">나이</string>
+    <string name="breed">품종</string>
+    <string name="choose_your_profile_image">프로필 이미지를 선택해주세요</string>
+
+    <string name="login_signup_btn">카카오톡으로 로그인</string>
+    <string name="login_greeting_text">환영합니다.\n환승견애 멤버가 되어주세요!</string>
+    <string name="dialog_logout_title">로그아웃 하시겠습니까?</string>
+    <string name="dialog_logout_cancel_btn">취소</string>
+    <string name="dialog_logout_ok_btn">확인</string>
+    <string name="dialog_splash_title">네트워크 상태가 좋지 않아요</string>
+    <string name="dialog_splash_subtitle">네트워크 확인 후 다시 시도해주세요</string>
+    <string name="dialog_splash_ok_btn">확인</string>
+    <string name="dialog_withdrawal_title">정말 탈퇴하시겠습니까?</string>
+    <string name="dialog_withdrawal_subtitle">다시 한 번 생각해주세요</string>
+    <string name="dialog_withdrawal_subtitle_emoji">우는 이모티콘</string>
+    <string name="dialog_withdrawal_cancel_btn">취소</string>
+    <string name="dialog_withdrawal_ok_btn">탈퇴</string>
+
+    <string name="mypage_settings_icon">설정 아이콘</string>
+    <string name="mypage_user_profile">사용자 프로필</string>
+    <string name="mypage_user_nickname">사용자닉네임</string>
+    <string name="mypage_user_location">사용자 위치</string>
+    <string name="mypage_user_profile_edit">사용자 프로필 수정 선택</string>
+    <string name="mypage_my_title">MY</string>
+    <string name="mypage_dog_manage_icon">반려견 관리 아이콘</string>
+    <string name="mypage_dog_manage">반려견 관리</string>
+    <string name="mypage_dog_manage_select">반려견 관리 선택</string>
+    <string name="mypage_my_location_setting_icon">내 위치 설정 아이콘</string>
+    <string name="mypage_user_location_setting">내 위치 설정</string>
+    <string name="mypage_user_location_setting_select">내 위치 설정 선택</string>
+    <string name="mypage_etc_title">기타</string>
+    <string name="mypage_inquire_icon">1:1 문의 아이콘</string>
+    <string name="mypage_inquire">1:1 문의</string>
+    <string name="mypage_inquire_select">1:1 문의 선택</string>
+    <string name="mypage_faq_icon">FAQ 아이콘</string>
+    <string name="mypage_faq">FAQ</string>
+    <string name="mypage_faq_select">FAQ 선택</string>
+
+    <string name="settings_title">설정</string>
+    <string name="settings_alarm_title">알림 설정</string>
+    <string name="settings_push_alarm_title">푸쉬 알림</string>
+    <string name="settings_push_alarm_detail">알림을 해제하면 모든 알림을 받을 수 없어요.</string>
+    <string name="settings_push_alarm_switch">푸쉬 알림 스위치</string>
+    <string name="settings_logout">로그아웃</string>
+    <string name="settings_withdrawal">회원 탈퇴</string>
+
+    <string name="withdrawal_title">회원 탈퇴</string>
+    <string name="withdrawal_subtitle_first">환승견애를</string>
+    <string name="withdrawal_guide_text">탈퇴 안내 문구</string>
+    <string name="withdrawal_subtitle_second_red">탈퇴</string>
+    <string name="withdrawal_subtitle_second">하시나요?</string>
+    <string name="withdrawal_notice_first">계정을 삭제하면 회원님의 모든 활동 내역이 삭제됩니다.</string>
+    <string name="withdrawal_notice_text">탈퇴 경고 문구</string>
+    <string name="withdrawal_notice_second">삭제된 정보는 다시 복구할 수 없으니 신중하게 결정해주세요.</string>
+    <string name="withdrawal_button">탈퇴하기</string>
+
+    <string name="user_profile_edit_title">내 정보 수정</string>
+    <string name="user_profile_edit_image">사용자 프로필</string>
+    <string name="user_profile_edit_select">사용자 프로필 이미지 선택</string>
+    <string name="user_profile_email_title">이메일</string>
+    <string name="user_profile_edit_email_text">사용자 이메일 입력란</string>
+    <string name="user_profile_edit_nickname_title">닉네임</string>
+    <string name="user_profile_edit_nickname_text">사용자 닉네임 입력란</string>
+    <string name="user_profile_edit_button">수정하기</string>
+    <string name="user_profile_edit_nickname_hint">최대 8글자로 입력해주세요.</string>
+    <string name="user_profile_edit_nickname_hint_text">사용자 닉네임 입력 힌트</string>
+
+
+    <string name="home_dog_dislike">관심없어요</string>
+    <string name="home_dog_like">관심 있어요</string>
+    <string name="user_location_dog_location_explain">근처의 강아지를 보여드려요</string>
+
     <string name="dialog_loading">로딩 중입니다.</string>
 </resources>

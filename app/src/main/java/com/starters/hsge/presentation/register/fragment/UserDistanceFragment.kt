@@ -1,15 +1,15 @@
-package com.starters.hsge.presentation.register
+package com.starters.hsge.presentation.register.fragment
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentRadiusBinding
+import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 
-class RadiusFragment : BaseFragment<FragmentRadiusBinding>(R.layout.fragment_radius) {
+class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,7 +19,7 @@ class RadiusFragment : BaseFragment<FragmentRadiusBinding>(R.layout.fragment_rad
     }
 
     private fun initListener() {
-        binding.tvNextButton.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 
@@ -32,7 +32,7 @@ class RadiusFragment : BaseFragment<FragmentRadiusBinding>(R.layout.fragment_rad
             prefs.edit().remove("longitude").apply()
             prefs.edit().remove("latitude").apply()
 
-            activity?.finish()  //RegisterActivity 종료
+            //activity?.finish()  //RegisterActivity 종료
         }
     }
 }
