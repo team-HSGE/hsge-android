@@ -24,8 +24,14 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
 
     private fun initListener() {
         binding.btnNext.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_userNickNameFragment_to_userImageFragment)
+
+            if(binding.edtUserNickName.text.isNullOrBlank()) {
+                binding.edtUserNickName.isEnabled = true
+            } else {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_userNickNameFragment_to_userImageFragment)
+            }
+
         }
     }
 
@@ -45,6 +51,4 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
             false
         }
     }
-
-
 }
