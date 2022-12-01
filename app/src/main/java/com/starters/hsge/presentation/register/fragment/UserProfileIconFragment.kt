@@ -42,18 +42,5 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
     private fun initRecyclerView(list: List<Int>) {
         adapter = UserProfileIconAdapter(list)
         binding.rvProfileIcon.adapter = adapter
-
-        adapter.setItemClickListener(object: UserProfileIconAdapter.OnItemClickLister {
-            override fun onClick(v: View, position: Int) {
-
-                prefs.edit().putInt("resId", userIconList[position]).apply()
-                prefs.edit().putInt("position", position).apply()
-
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_userProfileIconFragment_to_userImageFragment)
-            }
-        })
-
-
     }
 }
