@@ -179,21 +179,9 @@ class UserLocationFragment :
 
     // 화면 회전 시 데이터 할당
     private fun rotationKeep(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            mLocation = savedInstanceState.getString("location").toString()
-            binding.tvMyLocation.text = mLocation
+        if (!prefs.getString("address", null).isNullOrEmpty()) {
+            binding.tvMyLocation.text = prefs.getString("address", "0")
         }
     }
-
-
-    // 텍스트 저장(화면 회전 시 유지 위함)
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("location", binding.tvMyLocation.text.toString())
-    }
-
-
-
-
 
 }
