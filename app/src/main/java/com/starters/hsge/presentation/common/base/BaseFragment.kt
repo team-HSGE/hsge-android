@@ -1,8 +1,8 @@
 package com.starters.hsge.presentation.common.base
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +20,11 @@ abstract class BaseFragment<T: ViewDataBinding>(
     protected val binding get() = _binding!!
     lateinit var mLoadingDialog : LoadingDialog
 
+
     companion object {
         lateinit var prefs: SharedPreferences
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,7 +32,6 @@ abstract class BaseFragment<T: ViewDataBinding>(
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         prefs = requireContext().getSharedPreferences("HSGE", Application.MODE_PRIVATE)
-
         return binding.root
     }
 
