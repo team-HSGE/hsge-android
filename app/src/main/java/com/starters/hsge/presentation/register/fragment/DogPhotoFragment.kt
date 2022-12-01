@@ -18,6 +18,10 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment_dog_photo) {
@@ -28,7 +32,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //https://stackoverflow.com/questions/41928803/how-to-parse-json-in-kotlin
         val imageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -36,9 +40,36 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
                     val imageUri = result.data?.data
                     context?.let {
                         if (imageUri != null) {
+
+                            //==== 개별로 보내기 ====
+//                            val textHashMap = hashMapOf<String, RequestBody>()
+//                            val nickName = "이태만"
+//                            val latitude = "123"
+//                            val longitude = "456"
+//                            val breed = "Poodle"
+//                            val petName = "태미니"
+//                            val description = "설명설명설명"
+//                            val gender = "female"
+//                            val neutralization = false
+//                            val nickNameRequestBody: RequestBody = nickName.toPlainRequestBody()
+//                            val latitudeRequestBody: RequestBody = latitude.toPlainRequestBody()
+//                            val breedRequestBody: RequestBody = breed.toPlainRequestBody()
+//
+//                            textHashMap["nickname"] = nickNameRequestBody
+//                            textHashMap["latitude"] = latitudeRequestBody
+//                            textHashMap["breed"] = breedRequestBody
+                            //=================================================
+
+                            // val jsonBody = RequestBody.create(parse("application/json"),jsonObject)
+                            val name = "이태만"
+                            val neuter = false
+                            val textHashMap = hashMapOf<String, RequestBody>()
+                            val jsonObject = JSONObject("{\"nickname\":\"${name}}\",\"latitude\":\"77\",\"longitude\":\"33\",\"breed\":\"Poodle\",\"neutralization\":${neuter}}").toString()
+                            val jsonBody = RequestBody.create("application/json".toMediaTypeOrNull(),jsonObject)
+                            textHashMap["signUpDto"] = jsonBody
                             val imageToFile = UriUtil.toFile(it, imageUri)
                             lifecycleScope.launch {
-                                registerViewModel.loadImage(imageToFile)
+                                registerViewModel.loadImage(imageToFile, textHashMap)
                             }
                         }
                     }
@@ -92,6 +123,9 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
         }
     }
+
+    private fun String?.toPlainRequestBody() = requireNotNull(this).toRequestBody("text/plain".toMediaTypeOrNull())
+
 
     // Api 호출 시 파라미터로 이미지 포함 다만, 이때에는 이미지의 경로를 찾아 File 형태로 추가
 //    private fun getRealPathFromUri(uri: Uri): String {

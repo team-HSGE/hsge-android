@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="H3" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="H3.BOLD">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Body2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Body2.G900">
+        <item name="android:textColor">@color/G900</item>
+    </style>
+
+    <style name="Caption1" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/G900</item>
+    </style>
+
+    <style name="Caption1.G900">
+        <item name="android:textColor">@color/G900</item>
+    </style>
+
+</resources>
