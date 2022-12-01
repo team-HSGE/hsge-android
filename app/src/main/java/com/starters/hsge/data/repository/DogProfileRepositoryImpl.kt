@@ -94,7 +94,8 @@ class DogProfileRepositoryImpl @Inject constructor(
         DogBreed.PAPILLON,
         DogBreed.PUG,
         DogBreed.POMERANIAN,
-        DogBreed.FRENCH_BULLDOG
+        DogBreed.FRENCH_BULLDOG,
+        DogBreed.ETC
     )
 
     override suspend fun getDogLikeTag() {
