@@ -3,56 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.UserLocationFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/view_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/top_app_bar"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetStart="0dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="27dp"
-                    android:gravity="center"
-                    android:text="@string/set_location_app_bar"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
-            android:id="@+id/tv_my_location_title"
+            android:id="@+id/tv_user_location_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
             android:text="@string/set_location_title"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_app_bar" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
+
+        <TextView
+            android:id="@+id/tv_user_location_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/user_location_dog_location_explain"
+            app:layout_constraintStart_toStartOf="@id/tv_user_location_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_location_title" />
 
         <TextView
             android:id="@+id/tv_my_location"
@@ -61,50 +40,30 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/bg_yellow_round_stroke"
             android:gravity="center_vertical"
+            android:hint="@string/set_location_et_hint"
             android:paddingHorizontal="16dp"
-            android:text="@string/set_location_et_hint"
-            android:textColor="@color/hint_light_gray"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_light_gray"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_location_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_user_location_explain"
+            app:layout_goneMarginTop="14dp" />
 
-        <View
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_search"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_light_gray_round_solid"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/light_gray"
+            android:text="@string/set_location_btn"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_search_location"
+            app:iconGravity="textStart"
+            app:iconSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_my_location" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/btn_search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_search">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/set_location_btn_img"
-                android:src="@drawable/ic_search_location" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="@string/set_location_btn"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"

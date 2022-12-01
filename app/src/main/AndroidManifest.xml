@@ -20,6 +20,7 @@
         android:theme="@style/Theme.HSGE"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">
@@ -28,13 +29,23 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+
+
+        </activity>
+
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:exported="false">
+            android:exported="true">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".presentation.register.RegisterActivity"
             android:exported="true">

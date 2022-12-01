@@ -13,33 +13,6 @@
         android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.UserDistanceFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/view_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/top_app_bar"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetStart="0dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="27dp"
-                    android:gravity="center"
-                    android:text="@string/set_location_app_bar"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:id="@+id/tv_location_radius_title"
