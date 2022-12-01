@@ -144,9 +144,8 @@ class UserLocationFragment :
                     Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT).show()
                 else {
 
-                    // 위도, 경도
-                    val lat = location.latitude
-                    val lon = location.longitude
+                    prefs.edit().putString("latitude", location.latitude.toString()).apply()
+                    prefs.edit().putString("longitude", location.longitude.toString()).apply()
 
                     val geocoder = Geocoder(requireContext())
                     convertToAddress(geocoder, location)
@@ -171,6 +170,7 @@ class UserLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         prefs.edit().putString("address", locationAddress.toString()).apply()
+
         dismissLoadingDialog()
     }
 
