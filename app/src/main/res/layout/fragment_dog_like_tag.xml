@@ -10,14 +10,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.DogLikeTagFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_btn">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:id="@+id/tv_like_tag_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="반려견이 좋아하는 태그를 골라주세요"
+            android:layout_marginStart="24dp"
+            android:text="@string/register_like_tag_label"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -39,13 +59,12 @@
             android:id="@+id/chip_group"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_like_tag_explain">
-
-
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -53,6 +72,8 @@
             android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
             android:text="@string/btn_next"

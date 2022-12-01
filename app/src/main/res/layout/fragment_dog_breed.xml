@@ -10,13 +10,33 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.DogBreedFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_btn">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:id="@+id/tv_dog_breed_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:text="@string/register_dog_breed"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -39,12 +59,13 @@
             android:id="@+id/tv_dog_breed"
             android:layout_width="220dp"
             android:layout_height="55dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
             android:background="@drawable/bg_yellow_round_stroke"
             android:gravity="center"
+            android:hint="@string/breed_choice"
             android:paddingStart="30dp"
             android:paddingEnd="20dp"
-            android:hint="@string/breed_choice"
             app:drawableRightCompat="@drawable/ic_arrow_drop_down"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_dog_breed_explain" />
@@ -53,6 +74,8 @@
             android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
             android:enabled="false"
