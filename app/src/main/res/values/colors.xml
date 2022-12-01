@@ -44,4 +44,10 @@
     <color name="Error">#FE4E44</color>
     <color name="Info">#6570D6</color>
 
+    <!-- Chip colors -->
+    <color name="light_yellow_50">#80FFE5B2</color>
+    <color name="light_red_50">#80FFC7C7</color>
+    <color name="chip_text_red">#E86666</color>
+    <color name="ripple_100">#FFFFFFFF</color>
+
 </resources>

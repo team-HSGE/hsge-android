@@ -15,6 +15,9 @@
         <!-- Customize your theme here. -->
         <!-- Bottom sheet theme -->
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialogTheme</item>
+        <!-- Chip theme -->
+        <item name="CustomLikeChipChoiceStyle">@style/ChipCustomStyleLike</item>
+        <item name="CustomDislikeChipChoiceStyle">@style/ChipCustomStyleDislike</item>
     </style>
 
     <style name="CustomBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -23,6 +26,18 @@
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+
+    <style name="ChipCustomStyleLike" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_like_chip</item>
+        <item name="chipCornerRadius">16dp</item>
+    </style>
+
+    <style name="ChipCustomStyleDislike" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_dislike_chip</item>
+        <item name="android:textColor">@color/selector_dislike_text</item>
+        <item name="chipCornerRadius">16dp</item>
+        <item name="rippleColor">@color/light_red_50</item>
     </style>
 
 </resources>
