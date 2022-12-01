@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserProfileIconBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -35,6 +36,7 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
             R.drawable.ic_profile_icon_8
         )
 
+        setNavigation()
         initRecyclerView(userIconList)
 
     }
@@ -42,5 +44,11 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
     private fun initRecyclerView(list: List<Int>) {
         adapter = UserProfileIconAdapter(list)
         binding.rvProfileIcon.adapter = adapter
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

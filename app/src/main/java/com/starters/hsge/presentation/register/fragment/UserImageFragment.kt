@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserImageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -16,6 +17,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setNavigation()
         getSharedPreferences()
         if (prefs.contains("resId")){
             binding.ivUserImage.setImageResource(resId!!)
@@ -39,6 +41,12 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
     private fun getSharedPreferences() {
         resId = prefs.getInt("resId", 0)
         Log.d("sp", "${resId}")
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 }

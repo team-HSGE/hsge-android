@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -18,6 +19,7 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setNavigation()
         initListener()
         setListenerToEditText()
     }
@@ -49,6 +51,12 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
             }
 
             false
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }
