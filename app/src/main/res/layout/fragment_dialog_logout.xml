@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_dialog_gray_stroke_round"
                 android:gravity="center"
-                android:layout_marginRight="6dp"
+                android:layout_marginEnd="6dp"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="10dp"
                 android:text="@string/dialog_logout_cancel_btn"

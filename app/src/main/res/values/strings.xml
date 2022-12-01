@@ -103,4 +103,11 @@
     <string name="user_location_dog_location_explain">근처의 강아지를 보여드려요</string>
 
     <string name="dialog_loading">로딩 중입니다.</string>
+    <string name="dog_neuter">중성화</string>
+    <string name="dog_photo">강아지 이미지</string>
+    <string name="dog_dislike">관심 없어요</string>
+    <string name="dog_like">관심 있어요</string>
+    <string name="dog_location">근처의 강아지를 보여드려요</string>
+    <string name="no_card">카드가 없어요ㅠㅠ</string>
+    <string name="user_profile_edit_email">abcde@kakao.com</string>
 </resources>
