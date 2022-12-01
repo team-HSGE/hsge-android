@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -11,10 +12,10 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.navigation.Navigation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
 
 class UserLocationFragment :
     BaseFragment<FragmentUserLocationBinding>(R.layout.fragment_user_location) {
@@ -61,9 +63,22 @@ class UserLocationFragment :
                 Toast.makeText(requireContext(), "에러 발생", Toast.LENGTH_SHORT).show()
             }
         }
+
         binding.btnNext.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+
+            // 다음 누르면 이 test_latitude를 멀티파트에 담아서 통신으로 보내면 됨
+            val latitude = prefs.getString("latitude", "0").toString().toDouble()
+            val longitude = prefs.getString("longitude", "0").toString().toDouble()
+            Log.d("테스트_위도경도", "위도:${latitude}, 경도:${longitude} ")
+
+            prefs.edit().remove("address").apply()
+            prefs.edit().remove("longitude").apply()
+            prefs.edit().remove("latitude").apply()
+            activity?.finish() //RegisterActivity 종료
+
+            //Navigation.findNavController(binding.root).navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
         }
     }
 
