@@ -48,7 +48,11 @@
         android:id="@+id/userProfileIconFragment"
         android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
         android:label="UserProfileIconFragment"
-        tools:layout="@layout/fragment_user_profile_icon"/>
+        tools:layout="@layout/fragment_user_profile_icon">
+        <action
+            android:id="@+id/action_userProfileIconFragment_to_userImageFragment"
+            app:destination="@id/userImageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dogNameFragment"
         android:name="com.starters.hsge.presentation.register.fragment.DogNameFragment"

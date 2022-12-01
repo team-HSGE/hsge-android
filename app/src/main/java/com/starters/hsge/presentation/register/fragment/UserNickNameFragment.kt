@@ -39,7 +39,6 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
                 val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.edtUserNickName.windowToken, 0)
 
-
                 return@setOnKeyListener true
             }
 
