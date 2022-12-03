@@ -3,6 +3,8 @@ package com.starters.hsge.presentation.register.fragment
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
@@ -19,21 +21,31 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTextWatcher()
         setNavigation()
         initListener()
-        setListenerToEditText()
+        //setListenerToEditText()
+    }
+
+    private fun setTextWatcher() {
+        binding.edtUserNickName.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.btnNext.isEnabled = !binding.edtUserNickName.text.isNullOrBlank()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+        })
     }
 
     private fun initListener() {
         binding.btnNext.setOnClickListener {
-
-            if(binding.edtUserNickName.text.isNullOrBlank()) {
-                binding.edtUserNickName.isEnabled = true
-            } else {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_userNickNameFragment_to_userImageFragment)
-            }
-
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_userNickNameFragment_to_userImageFragment)
         }
     }
 
