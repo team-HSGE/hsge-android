@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogAgeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -21,6 +22,7 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setNavigation()
 
     }
 
@@ -51,6 +53,12 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
 
     private fun setButtonEnable() {
         binding.btnNext.isEnabled = !registerViewModel.dogAge.isNullOrEmpty()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 }

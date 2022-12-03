@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.register.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogDislikeTagBinding
@@ -22,6 +23,7 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
 
         initListener()
         initChipButton(list)
+        setNavigation()
     }
 
     private fun initChipButton(chipList: List<String>) {
@@ -36,6 +38,12 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogDislikeTagFragment_to_userLocationFragment)
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }

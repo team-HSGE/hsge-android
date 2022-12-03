@@ -4,12 +4,14 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogPhotoBinding
@@ -38,6 +40,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
                 if (result.resultCode == RESULT_OK) {
                     //이미지 받으면 ImageView에 적용
                     val imageUri = result.data?.data
+                    registerViewModel.dogPhoto = imageUri.toString()
                     context?.let {
                         if (imageUri != null) {
 
@@ -71,6 +74,9 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
                             lifecycleScope.launch {
                                 registerViewModel.loadImage(imageToFile, textHashMap)
                             }
+                            setButtonEnable()
+
+
                         }
                     }
                     imageUri?.let {
@@ -84,6 +90,8 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
                             .circleCrop()
                             .into(binding.ivDogPhoto)
                     }
+
+
                 }
             }
 
@@ -107,6 +115,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             }
 
         initListener()
+        setNavigation()
 
     }
 
@@ -121,6 +130,16 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogPhotoFragment_to_dogNameFragment)
 
+        }
+    }
+
+    private fun setButtonEnable() {
+        binding.btnNext.isEnabled = !registerViewModel.dogPhoto.isNullOrEmpty()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
