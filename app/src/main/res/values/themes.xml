@@ -20,6 +20,11 @@
         <item name="CustomDislikeChipChoiceStyle">@style/ChipCustomStyleDislike</item>
     </style>
 
+    <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">#FFBF43</item>
+        <item name="android:statusBarColor">#FFBF43</item>
+    </style>
+
     <style name="CustomBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
