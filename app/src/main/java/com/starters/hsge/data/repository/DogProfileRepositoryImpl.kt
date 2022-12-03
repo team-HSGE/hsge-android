@@ -11,23 +11,11 @@ import java.io.File
 import javax.inject.Inject
 
 class DogProfileRepositoryImpl @Inject constructor(
-    @RetrofitBase private val api: ImageService
+    @RetrofitBase private val api: ImageService,
 ) : DogProfileRepository {
     override suspend fun getDogProfilePhoto(image: File, str: HashMap<String, RequestBody>) {
         val formFile = FormDataUtil.getImageBody("imgFile", image)
         api.uploadImage(formFile, str)
-    }
-
-    override suspend fun getDogName() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDogSex() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDogNeuter() {
-        TODO("Not yet implemented")
     }
 
     override fun getDogAge(): List<DogAge> = listOf(
@@ -66,7 +54,7 @@ class DogProfileRepositoryImpl @Inject constructor(
         DogAge.TWENTY_YEARS_MORE
     )
 
-    override fun getDogBreed(): List<DogBreedLocal> = listOf(
+    override fun getDogBreed2(): List<DogBreedLocal> = listOf(
         DogBreedLocal.MIX,
         DogBreedLocal.RETRIEVER,
         DogBreedLocal.DACHSHUND,
@@ -97,44 +85,4 @@ class DogProfileRepositoryImpl @Inject constructor(
         DogBreedLocal.FRENCH_BULLDOG,
         DogBreedLocal.ETC
     )
-
-    override suspend fun getDogLikeTag() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDogDislikeTag() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogProfilePhoto() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogName() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogSex() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogNeuter() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogAge() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogBreed() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogLikeTag() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun postDogDislikeTag() {
-        TODO("Not yet implemented")
-    }
 }
