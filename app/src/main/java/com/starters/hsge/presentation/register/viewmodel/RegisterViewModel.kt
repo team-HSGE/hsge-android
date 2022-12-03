@@ -1,10 +1,16 @@
 package com.starters.hsge.presentation.register.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.starters.hsge.data.model.remote.Data
 import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
+import com.starters.hsge.domain.usecase.GetDogBreedUseCase2
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
@@ -12,8 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val dogProfileRepository: DogProfileRepository,
+    private val getDogBreedUseCase2: GetDogBreedUseCase2,
+    private val getDogAgeUseCase: GetDogAgeUseCase,
     private val getDogBreedUseCase: GetDogBreedUseCase,
-    private val getDogAgeUseCase: GetDogAgeUseCase
 ) : BaseViewModel() {
 
     var dogName = ""
@@ -24,6 +31,9 @@ class RegisterViewModel @Inject constructor(
     var dogBreed = ""
     var dogLikTag = ""
     var dogDisLikeTag = ""
+
+    private val _breedList = MutableLiveData<List<Data>>()
+    val breedList: LiveData<List<Data>> = _breedList
 
     suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
 
@@ -36,7 +46,14 @@ class RegisterViewModel @Inject constructor(
 
     }
 
-    fun getDogBreed() = getDogBreedUseCase()
+    fun getDogBreed2() = getDogBreedUseCase2()
+
+    suspend fun getDogBreed(): LiveData<List<Data>> {
+        viewModelScope.launch {
+            _breedList.value = getDogBreedUseCase().data
+        }
+        return breedList
+    }
 
     fun getDogAge() = getDogAgeUseCase()
 }
