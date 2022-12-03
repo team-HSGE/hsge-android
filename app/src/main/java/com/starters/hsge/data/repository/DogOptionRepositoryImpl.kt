@@ -1,7 +1,7 @@
 package com.starters.hsge.data.repository
 
 import com.starters.hsge.data.api.DogOptionApi
-import com.starters.hsge.data.model.remote.DogBreedResponse
+import com.starters.hsge.data.model.remote.response.DogBreedResponse
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.repository.DogOptionRepository
 import javax.inject.Inject

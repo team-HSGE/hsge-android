@@ -3,7 +3,7 @@ package com.starters.hsge.presentation.register.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.starters.hsge.data.model.remote.Data
+import com.starters.hsge.data.model.remote.response.Data
 import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
