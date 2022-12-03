@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
@@ -34,13 +35,21 @@ class UserLocationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        changeDoneButton()
 
         if (!prefs.getString("address", null).isNullOrEmpty()) {
             binding.tvMyLocation.text = prefs.getString("address", "0")
+            changeDoneButton()
         }
 
         initListener()
+        setNavigation()
     }
+
+    private fun changeDoneButton(){
+        binding.btnNext.isEnabled = !binding.tvMyLocation.text.isNullOrEmpty()
+    }
+
 
     private fun initListener() {
         // 시스템 권한 대화상자 요청
@@ -49,15 +58,20 @@ class UserLocationFragment :
                 if (checkPermissionForLocation(requireContext())) {
                     startLocationUpdates()
                     showLoadingDialog(requireContext())
+
                 }
             } else if (!isNetworkAvailable(requireContext())) { // 네트워크 연결 안 됨
                 binding.tvMyLocation.text = null
+                changeDoneButton()
+
                 Toast.makeText(requireContext(), "네트워크를 확인해주세요.", Toast.LENGTH_SHORT).show()
             } else if (!isEnableLocationSystem(requireContext())) { // 위치 안 켜져 있음
                 binding.tvMyLocation.text = null
+                changeDoneButton()
                 Toast.makeText(requireContext(), "위치를 켜주세요.", Toast.LENGTH_SHORT).show()
             } else {
                 binding.tvMyLocation.text = null
+                changeDoneButton()
                 Toast.makeText(requireContext(), "에러 발생", Toast.LENGTH_SHORT).show()
             }
         }
@@ -113,18 +127,22 @@ class UserLocationFragment :
             binding.tvMyLocation.text = null // 권한 확인 할 때 힌트만 보이는 상태로
 
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) { // 위치 권한 허용되어있는 경우
+                changeDoneButton()
                 true
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){ // 위치 권한 거부되어있는 경우
                 // 권한이 없으므로 권한 요청 알림 보내기
+                changeDoneButton()
                 ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     REQUEST_PERMISSION_LOCATION
                 )
+
                 false
             }
             else{ // 위치 권한 거부 및 다시 묻지 않음인 경우
                 Toast.makeText(requireContext(), "위치 권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                changeDoneButton()
                 false
             }
         } else {
@@ -187,6 +205,12 @@ class UserLocationFragment :
         prefs.edit().putString("address", locationAddress.toString()).apply()
 
         dismissLoadingDialog()
+        changeDoneButton()
     }
 
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
 }
