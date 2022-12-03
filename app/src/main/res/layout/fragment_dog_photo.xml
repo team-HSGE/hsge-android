@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_btn"/>
+            app:navigationIcon="@drawable/ic_back_btn" />
 
         <ImageView
             android:id="@+id/iv_dog_photo"
@@ -66,6 +66,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
+            android:enabled="false"
             android:text="@string/btn_next"
             android:textColor="@color/white"
             android:textSize="16sp"
