@@ -1,6 +1,6 @@
 package com.starters.hsge.common.constants
 
-enum class DogBreed(val kind: String) {
+enum class DogBreedLocal(val kind: String) {
     MIX("믹스"),
     RETRIEVER("리트리버"),
     DACHSHUND("닥스훈트"),

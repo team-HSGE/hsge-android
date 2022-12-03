@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogLikeTagBinding
@@ -33,6 +34,7 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         initChipButton(list)
         //setChipCheckable()
         //setButtonEnable()
+        setNavigation()
 
     }
 
@@ -96,6 +98,12 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
 
     private fun setButtonEnable() {
         binding.btnNext.isEnabled = !registerViewModel.dogLikTag.isNullOrEmpty()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }
 

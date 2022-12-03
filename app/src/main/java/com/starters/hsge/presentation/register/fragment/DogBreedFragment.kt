@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogBreedBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -21,6 +22,7 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setNavigation()
     }
 
     private fun initListener() {
@@ -51,5 +53,11 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
 
     private fun setButtonEnable() {
         binding.btnNext.isEnabled = !registerViewModel.dogBreed.isNullOrEmpty()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

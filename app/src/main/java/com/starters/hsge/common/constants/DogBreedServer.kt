@@ -1,5 +1,6 @@
 package com.starters.hsge.common.constants
 
+import com.starters.hsge.data.model.Data
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 

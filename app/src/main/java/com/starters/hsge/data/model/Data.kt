@@ -1,4 +1,4 @@
-package com.starters.hsge.common.constants
+package com.starters.hsge.data.model
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName

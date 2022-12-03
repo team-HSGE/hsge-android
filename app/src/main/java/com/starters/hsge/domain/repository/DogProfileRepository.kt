@@ -1,7 +1,7 @@
 package com.starters.hsge.domain.repository
 
 import com.starters.hsge.common.constants.DogAge
-import com.starters.hsge.common.constants.DogBreed
+import com.starters.hsge.common.constants.DogBreedLocal
 import okhttp3.RequestBody
 import java.io.File
 
@@ -17,7 +17,7 @@ interface DogProfileRepository {
 
     fun getDogAge(): List<DogAge>
 
-    fun getDogBreed(): List<DogBreed>
+    fun getDogBreed(): List<DogBreedLocal>
 
     suspend fun getDogLikeTag()
 

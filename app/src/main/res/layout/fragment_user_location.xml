@@ -6,23 +6,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.UserLocationFragment">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_btn" />
 
         <TextView
             android:id="@+id/tv_user_location_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="80dp"
             android:text="@string/set_location_title"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_user_location_explain"
@@ -37,6 +45,7 @@
             android:id="@+id/tv_my_location"
             android:layout_width="0dp"
             android:layout_height="55dp"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/bg_yellow_round_stroke"
             android:gravity="center_vertical"
@@ -54,6 +63,7 @@
             android:id="@+id/btn_search"
             android:layout_width="match_parent"
             android:layout_height="65dp"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="12dp"
             android:backgroundTint="@color/light_gray"
             android:text="@string/set_location_btn"
@@ -69,9 +79,11 @@
             android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
-            android:text="@string/btn_next"
+            android:enabled="false"
+            android:text="@string/register_btn_finish"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

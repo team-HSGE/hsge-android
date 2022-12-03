@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogNameBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -22,6 +23,7 @@ class DogNameFragment : BaseFragment<FragmentDogNameBinding>(R.layout.fragment_d
 
         setTextWatcher()
         initListener()
+        setNavigation()
 
     }
 
@@ -46,6 +48,12 @@ class DogNameFragment : BaseFragment<FragmentDogNameBinding>(R.layout.fragment_d
                 .navigate(R.id.action_dogNameFragment_to_dogSexFragment)
 
             registerViewModel.dogName = binding.edtDogName.text.toString()
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }

@@ -20,17 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_btn">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </androidx.appcompat.widget.Toolbar>
+            app:navigationIcon="@drawable/ic_back_btn" />
 
         <ImageView
             android:id="@+id/iv_dog_photo"
@@ -51,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/dog_profile"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +66,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
+            android:enabled="false"
             android:text="@string/btn_next"
             android:textColor="@color/white"
             android:textSize="16sp"
