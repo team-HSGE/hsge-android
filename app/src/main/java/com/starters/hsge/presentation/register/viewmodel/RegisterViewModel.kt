@@ -17,6 +17,7 @@ class RegisterViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     var dogName = ""
+    var dogPhoto = ""
     var dogSex = ""
     var dogNeuter = false
     var dogAge = ""
