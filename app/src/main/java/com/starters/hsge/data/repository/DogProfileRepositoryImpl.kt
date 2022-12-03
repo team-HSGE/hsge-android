@@ -1,7 +1,7 @@
 package com.starters.hsge.data.repository
 
 import com.starters.hsge.common.constants.DogAge
-import com.starters.hsge.common.constants.DogBreed
+import com.starters.hsge.common.constants.DogBreedLocal
 import com.starters.hsge.data.api.ImageService
 import com.starters.hsge.di.RetrofitBase
 import com.starters.hsge.domain.FormDataUtil
@@ -66,36 +66,36 @@ class DogProfileRepositoryImpl @Inject constructor(
         DogAge.TWENTY_YEARS_MORE
     )
 
-    override fun getDogBreed(): List<DogBreed> = listOf(
-        DogBreed.MIX,
-        DogBreed.RETRIEVER,
-        DogBreed.DACHSHUND,
-        DogBreed.MALTESE,
-        DogBreed.SCHNAUZER,
-        DogBreed.STANDARD_POODLE,
-        DogBreed.TOY_POODLE,
-        DogBreed.MINIATURE_PINSCHER,
-        DogBreed.BERLINGTON_TERRIER,
-        DogBreed.BORDER_COLLIE,
-        DogBreed.BOSTON_TERRIER,
-        DogBreed.BEAGLE,
-        DogBreed.BICHON_FRISE,
-        DogBreed.SAMOYED,
-        DogBreed.SHIBA_INU,
-        DogBreed.SIBERIAN_HUSKY,
-        DogBreed.SHIH_TZU,
-        DogBreed.COCKER_SPANIEL,
-        DogBreed.YORKSHIRE_TERRIER,
-        DogBreed.WELSH_CORGI,
-        DogBreed.ITALIAN_GREYHOUND,
-        DogBreed.SPITZ,
-        DogBreed.JINDO,
-        DogBreed.CHIHUAHUA,
-        DogBreed.PAPILLON,
-        DogBreed.PUG,
-        DogBreed.POMERANIAN,
-        DogBreed.FRENCH_BULLDOG,
-        DogBreed.ETC
+    override fun getDogBreed(): List<DogBreedLocal> = listOf(
+        DogBreedLocal.MIX,
+        DogBreedLocal.RETRIEVER,
+        DogBreedLocal.DACHSHUND,
+        DogBreedLocal.MALTESE,
+        DogBreedLocal.SCHNAUZER,
+        DogBreedLocal.STANDARD_POODLE,
+        DogBreedLocal.TOY_POODLE,
+        DogBreedLocal.MINIATURE_PINSCHER,
+        DogBreedLocal.BERLINGTON_TERRIER,
+        DogBreedLocal.BORDER_COLLIE,
+        DogBreedLocal.BOSTON_TERRIER,
+        DogBreedLocal.BEAGLE,
+        DogBreedLocal.BICHON_FRISE,
+        DogBreedLocal.SAMOYED,
+        DogBreedLocal.SHIBA_INU,
+        DogBreedLocal.SIBERIAN_HUSKY,
+        DogBreedLocal.SHIH_TZU,
+        DogBreedLocal.COCKER_SPANIEL,
+        DogBreedLocal.YORKSHIRE_TERRIER,
+        DogBreedLocal.WELSH_CORGI,
+        DogBreedLocal.ITALIAN_GREYHOUND,
+        DogBreedLocal.SPITZ,
+        DogBreedLocal.JINDO,
+        DogBreedLocal.CHIHUAHUA,
+        DogBreedLocal.PAPILLON,
+        DogBreedLocal.PUG,
+        DogBreedLocal.POMERANIAN,
+        DogBreedLocal.FRENCH_BULLDOG,
+        DogBreedLocal.ETC
     )
 
     override suspend fun getDogLikeTag() {
