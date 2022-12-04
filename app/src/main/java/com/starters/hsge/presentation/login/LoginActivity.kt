@@ -92,6 +92,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("access 토큰", "${token.accessToken}, ${token.accessTokenExpiresAt}")
                 Log.d("refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
 
+                loadUserInfo()
+
+
                 access_token = token.accessToken
 
                 val json = AccessRequest(access_token)
@@ -101,6 +104,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 //                val intent = Intent(this, RegisterActivity::class.java)
 //                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 //                finish()
+            }
+        }
+    }
+
+    fun loadUserInfo(){
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.d("에러", "사용자 정보요청 실패")
+            }
+            else if (user != null) {
+
+                val str= "\n회원번호: ${user.id}" +
+                        "\n이메일: ${user.kakaoAccount?.email}" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
+
+                Log.d("회원정보", "${str}")
             }
         }
     }
