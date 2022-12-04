@@ -2,12 +2,15 @@ package com.starters.hsge.domain
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-/*
- 파일 or 데이터를 MultipartBody로 변경하는 부분
- api에 들어가는 데이터 타입이 MultipartBody.Part이기 때문
+/**
+ *Multipart 전송을 위한 데이터 변환하는 부분
+ *img 파일 -> MultipartBody.Part
+ *json 문자열 -> RequestBody
  */
 object FormDataUtil {
     fun getBody(key: String, value: Any): MultipartBody.Part {
@@ -28,5 +31,9 @@ object FormDataUtil {
             filename = file.name,
             body = file.asRequestBody("video/*".toMediaType())
         )
+    }
+    
+    fun getJsonBody(key: String, json: String): RequestBody {
+        return json.toRequestBody("application/json".toMediaType())
     }
 }
