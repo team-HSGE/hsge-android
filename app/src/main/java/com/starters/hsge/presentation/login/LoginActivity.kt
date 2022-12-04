@@ -41,19 +41,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         //로그인 정보 확인
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+                Log.d("토큰 정보 보기", "실패")
             } else if (tokenInfo != null) {
-                //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
+                Log.d("토큰 정보 보기", "성공")
 
-                //val intent = Intent(this, RegisterActivity::class.java)
-                //startActivity(intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP)))
-                //finish()
+                // 회원가입 후에 다시 재접속 했을 경우 토큰 정보를 확인 -> 토큰이 있으면 다음 화면으로 바로 넘어감
+//                val intent = Intent(this, RegisterActivity::class.java)
+//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                finish()
             }
         }
     }
 
     fun callback() {
         callback = { token, error ->
+            //에러처리
             if (error != null) {
                 when {
                     error.toString() == AuthErrorCause.AccessDenied.toString() -> {
@@ -85,16 +87,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     }
                 }
             } else if (token != null) {
+                //로그인 성공
                 Log.d("로그인", "로그인에 성공하였습니다!")
-
-                Log.d("access 토큰", "access : 카카오톡으로 로그인 성공 ${token.accessToken}")
-                Log.d("refresh 토큰", "refresh : 카카오톡으로 로그인 성공 ${token.refreshToken}")
+                Log.d("access 토큰", "${token.accessToken}, ${token.accessTokenExpiresAt}")
+                Log.d("refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
 
                 access_token = token.accessToken
 
                 val json = AccessRequest(access_token)
                 Log.d("json", "${json}")
                 tryPostAccessToken(json)
+
+//                val intent = Intent(this, RegisterActivity::class.java)
+//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                finish()
             }
         }
     }
@@ -102,25 +108,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     fun loginBtnClick() {
         binding.tvLoginSignupBtn.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-                //카카오톡이 있으면 카카오톡으로 로그인
-                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                    if (error != null) {
-                        Log.e(TAG, "카카오톡으로 로그인 실패", error)
-
-                        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                        // 의도적인 로그인 취소로 보고 카카오 계정으로 로그인 시도 없이 로그인 최소로 처리(예 : 뒤로 가기)
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                            return@loginWithKakaoTalk
-                        }
-
-                        // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                        UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                    } else if (token != null) {
-                        //Log.d("access 토큰", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        //Log.d("refresh 토큰", "카카오톡으로 로그인 성공 ${token.refreshToken}")
-                    }
-                }
+                //카카오톡 앱 깔려있을 때
+                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
             } else {
+                //카카오톡 앱 안깔려있을 때
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
