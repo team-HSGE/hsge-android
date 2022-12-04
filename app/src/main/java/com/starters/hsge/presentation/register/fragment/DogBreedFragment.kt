@@ -3,7 +3,6 @@ package com.starters.hsge.presentation.register.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
@@ -12,7 +11,6 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment_dog_breed) {
@@ -39,6 +37,13 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
                     setButtonEnable()
                 }
             })
+
+            registerViewModel.getDogBreed().observe(viewLifecycleOwner) { breed ->
+                breedBottomSheet = BottomSheetDialog(breed.map { it.value })
+
+                //여기서 show()?
+
+            }
 
 //            lifecycleScope.launch {
 //                breedBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().value!!.map { it.value })
