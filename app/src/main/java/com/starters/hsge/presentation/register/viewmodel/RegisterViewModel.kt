@@ -1,13 +1,16 @@
 package com.starters.hsge.presentation.register.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.starters.hsge.data.model.remote.response.Data
+import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase2
+import com.starters.hsge.domain.usecase.PostRegisterUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,6 +24,7 @@ class RegisterViewModel @Inject constructor(
     private val getDogBreedUseCase2: GetDogBreedUseCase2,
     private val getDogAgeUseCase: GetDogAgeUseCase,
     private val getDogBreedUseCase: GetDogBreedUseCase,
+    private val postRegisterUseCase: PostRegisterUseCase
 ) : BaseViewModel() {
 
     var dogName = ""
@@ -42,13 +46,15 @@ class RegisterViewModel @Inject constructor(
         dogProfileRepository.getDogProfilePhoto(image, str)
     }
 
-    suspend fun postFirstProfile() {
+    suspend fun postRegisterInfo(img: Uri, data: RegisterInfo) =
+        postRegisterUseCase(img, data)
 
-    }
 
     fun getDogBreed2() = getDogBreedUseCase2()
 
-    suspend fun getDogBreed(): LiveData<List<Data>> {
+
+    //초기화해서 접근? 아니면 함수 반환?
+    fun getDogBreed(): LiveData<List<Data>> {
         viewModelScope.launch {
             _breedList.value = getDogBreedUseCase().data
         }

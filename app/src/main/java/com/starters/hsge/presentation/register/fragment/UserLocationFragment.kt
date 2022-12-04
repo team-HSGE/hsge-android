@@ -16,6 +16,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -24,14 +26,18 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
+import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import kotlinx.coroutines.launch
 
 class UserLocationFragment :
     BaseFragment<FragmentUserLocationBinding>(R.layout.fragment_user_location) {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
     private val REQUEST_PERMISSION_LOCATION = 10
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +50,26 @@ class UserLocationFragment :
 
         initListener()
         setNavigation()
+
+        val registerInfo = RegisterInfo(
+            email = "slee513@naver.com",
+            userNickName = "서유니",
+            userIcon = 221029,
+            dogAge = "1개월",
+            dogName = "야미",
+            dogBreed = "코숏",
+            dogSex = "여자",
+            dogNeuter = true,
+            dogLikeTag = "#강아지#고양이#사람",
+            dogDislikeTag = "#호랑이#오소리#너구리",
+            latitude = 321.3,
+            longitude = 222.1
+        )
+
+        lifecycleScope.launch {
+            // registerViewModel.postRegisterInfo(imageUri, registerInfo)
+        }
+
     }
 
     private fun changeDoneButton(){
