@@ -36,7 +36,7 @@
             android:id="@+id/tv_user_distance_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="34dp"
             android:text="@string/set_distance_title"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -62,11 +62,12 @@
             app:layout_constraintTop_toTopOf="@id/tv_user_distance_title" />
 
         <SeekBar
+            android:max="15"
+            android:id="@+id/user_distance_seekbar"
             android:layout_marginHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:max="100"
             android:progressDrawable="@drawable/bg_seekbar"
             android:thumb="@drawable/bg_seekbar_thumb"
             app:layout_constraintEnd_toEndOf="parent"

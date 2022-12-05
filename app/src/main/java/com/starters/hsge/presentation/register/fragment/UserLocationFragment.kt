@@ -80,10 +80,13 @@ class UserLocationFragment :
 
             if (prefs.getInt("getLocationFrom", 0) == 1) {
                 Log.d("from?", "mypage")
-                // 위도 경도만 보내는 api 통신
+                // 위도, 경도, 장소 보내는 post api 통신
+                val latitude = prefs.getString("latitude", "0").toString().toDouble()
+                val longitude = prefs.getString("longitude", "0").toString().toDouble()
+                val location = prefs.getString("location", "0").toString()
             } else {
                 Log.d("from?", "register")
-                // 다음 누르면 test_latitude를 멀티파트에 담아서 통신으로 보내면 됨
+                // 다음 누를 때 위도, 경도, 장소를 멀티파트에 담아서 통신으로 보내면 됨
                 val latitude = prefs.getString("latitude", "0").toString().toDouble()
                 val longitude = prefs.getString("longitude", "0").toString().toDouble()
                 val location = prefs.getString("location", "0").toString()

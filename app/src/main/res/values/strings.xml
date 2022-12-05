@@ -18,7 +18,7 @@
     <string name="set_location_btn">현재 위치 찾기</string>
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
     <string name="set_distance_title">동네 반경 설정</string>
-    <string name="set_distance">200km</string>
+    <string name="set_distance">3km</string>
     <string name="profile">프로필</string>
     <string name="nick_name">닉네임</string>
     <string name="nick_name_hint">최대 13자 이내로 입력하세요.</string>
