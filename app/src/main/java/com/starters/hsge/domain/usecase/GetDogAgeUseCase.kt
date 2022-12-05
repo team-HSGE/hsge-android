@@ -1,10 +1,10 @@
 package com.starters.hsge.domain.usecase
 
-import com.starters.hsge.domain.repository.DogProfileRepository
+import com.starters.hsge.domain.repository.DogOptionRepository
 import javax.inject.Inject
 
 class GetDogAgeUseCase @Inject constructor(
-    private val dogProfileRepository: DogProfileRepository
+    private val dogOptionRepository: DogOptionRepository
 ) {
-    operator fun invoke() = dogProfileRepository.getDogAge()
+    suspend operator fun invoke() = dogOptionRepository.getDogAge()
 }
