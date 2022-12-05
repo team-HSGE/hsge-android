@@ -17,7 +17,7 @@
     <string name="set_location_et_hint">ex) 서울특별시 중구 무교동</string>
     <string name="set_location_btn">현재 위치 찾기</string>
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
-    <string name="set_distance_title">보여줄 강아지 동네 변경</string>
+    <string name="set_distance_title">동네 반경 설정</string>
     <string name="set_distance">200km</string>
     <string name="profile">프로필</string>
     <string name="nick_name">닉네임</string>
@@ -115,7 +115,7 @@
 
     <string name="home_dog_dislike">관심없어요</string>
     <string name="home_dog_like">관심 있어요</string>
-    <string name="user_location_dog_location_explain">근처의 강아지를 보여드려요</string>
+    <string name="user_location_dog_location_explain">강아지를 보여줄 동네 반경을 설정하세요</string>
 
     <string name="dialog_loading">로딩 중입니다.</string>
     <string name="dog_neuter">중성화</string>
