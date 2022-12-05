@@ -13,7 +13,6 @@
         android:layout_marginHorizontal="24dp"
         tools:context=".presentation.register.fragment.UserDistanceFragment">
 
-
         <TextView
             android:id="@+id/tv_location_radius_title"
             android:layout_width="match_parent"

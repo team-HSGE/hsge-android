@@ -154,10 +154,10 @@
 
                 <ImageView
                     android:contentDescription="@string/item_card_dislike_overlay"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_dislike_overlay" />
+                    android:src="@drawable/ic_dislike" />
 
             </FrameLayout>
 
@@ -168,10 +168,10 @@
 
                 <ImageView
                     android:contentDescription="@string/item_card_like_overlay"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_like_overlay" />
+                    android:src="@drawable/ic_like" />
 
             </FrameLayout>
 
