@@ -33,7 +33,7 @@ object FormDataUtil {
         )
     }
     
-    fun getJsonBody(key: String, json: String): RequestBody {
+    fun getJsonBody(json: String): RequestBody {
         return json.toRequestBody("application/json".toMediaType())
     }
 }
