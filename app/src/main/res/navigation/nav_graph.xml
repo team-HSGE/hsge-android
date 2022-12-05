@@ -31,6 +31,12 @@
         <action
             android:id="@+id/action_myPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_userDistanceFragment"
+            app:destination="@id/userDistanceFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_userLocationFragment2"
+            app:destination="@id/userLocationFragment2" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -48,4 +54,16 @@
         android:id="@+id/withdrawalFragment"
         android:name="com.starters.hsge.presentation.main.mypage.WithdrawalFragment"
         android:label="fragment_withdrawal" />
+    <fragment
+        android:id="@+id/userDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:label="UserDistanceFragment" >
+        <action
+            android:id="@+id/action_userDistanceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userLocationFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment"
+        android:label="UserLocationFragment" />
 </navigation>

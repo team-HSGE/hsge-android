@@ -22,6 +22,16 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             findNavController().navigate(R.id.action_myPageFragment_to_userProfileEditFragment)
             goneBtmNav()
         }
+
+        binding.locationSettingSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_userLocationFragment2)
+            goneBtmNav()
+        }
+
+        binding.radiusSettingSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_userDistanceFragment)
+            goneBtmNav()
+        }
     }
 
     fun goneBtmNav(){
