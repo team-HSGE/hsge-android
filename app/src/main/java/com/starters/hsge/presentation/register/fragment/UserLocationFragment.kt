@@ -12,6 +12,7 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -45,7 +46,7 @@ class UserLocationFragment :
         setNavigation()
     }
 
-    private fun changeDoneButton(){
+    private fun changeDoneButton() {
         binding.btnNext.isEnabled = !binding.tvMyLocation.text.isNullOrEmpty()
     }
 
@@ -76,20 +77,28 @@ class UserLocationFragment :
         }
 
         binding.btnNext.setOnClickListener {
+
+            if (prefs.getInt("getLocationFrom", 0) == 1) {
+                Log.d("from?", "mypage")
+                // 위도 경도만 보내는 api 통신
+            } else {
+                Log.d("from?", "register")
+                // 다음 누르면 test_latitude를 멀티파트에 담아서 통신으로 보내면 됨
+                val latitude = prefs.getString("latitude", "0").toString().toDouble()
+                val longitude = prefs.getString("longitude", "0").toString().toDouble()
+                val location = prefs.getString("location", "0").toString()
+            }
+
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
-
-            // 다음 누르면 이 test_latitude를 멀티파트에 담아서 통신으로 보내면 됨
-            val latitude = prefs.getString("latitude", "0").toString().toDouble()
-            val longitude = prefs.getString("longitude", "0").toString().toDouble()
-            //Log.d("테스트_위도경도", "위도:${latitude}, 경도:${longitude} ")
 
             prefs.edit().remove("address").apply()
             prefs.edit().remove("longitude").apply()
             prefs.edit().remove("latitude").apply()
-            activity?.finish() //RegisterActivity 종료
+            prefs.edit().remove("location").apply()
+            prefs.edit().remove("getLocationFrom").apply()
 
-            //Navigation.findNavController(binding.root).navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
+            activity?.finish() //RegisterActivity 종료
         }
     }
 
@@ -128,7 +137,7 @@ class UserLocationFragment :
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) { // 위치 권한 허용되어있는 경우
                 changeDoneButton()
                 true
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){ // 위치 권한 거부되어있는 경우
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) { // 위치 권한 거부되어있는 경우
                 // 권한이 없으므로 권한 요청 알림 보내기
                 changeDoneButton()
                 ActivityCompat.requestPermissions(
@@ -138,9 +147,9 @@ class UserLocationFragment :
                 )
 
                 false
-            }
-            else{ // 위치 권한 거부 및 다시 묻지 않음인 경우
-                Toast.makeText(requireContext(), "위치 권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            } else { // 위치 권한 거부 및 다시 묻지 않음인 경우
+                Toast.makeText(requireContext(), "위치 권한이 없어 해당 기능을 실행할 수 없습니다.", Toast.LENGTH_SHORT)
+                    .show()
                 changeDoneButton()
                 false
             }
@@ -166,14 +175,18 @@ class UserLocationFragment :
         }
 
         // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
-        fusedLocationClient!!.getCurrentLocation(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+        fusedLocationClient!!.getCurrentLocation(
+            com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY,
+            object : CancellationToken() {
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                    CancellationTokenSource().token
 
-            override fun isCancellationRequested() = false
-        })
+                override fun isCancellationRequested() = false
+            })
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
-                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
+                        .show()
                 else {
 
                     prefs.edit().putString("latitude", location.latitude.toString()).apply()
@@ -195,6 +208,7 @@ class UserLocationFragment :
         addressList.removeAt(0)
         addressList.removeAt(addressList.size - 1)
 
+        // tvMyLocation에 넣을 주소
         val locationAddress = StringBuilder()
         for (i in addressList) {
             locationAddress.append(i)
@@ -202,6 +216,15 @@ class UserLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         prefs.edit().putString("address", locationAddress.toString()).apply()
+
+        // 서버에 저장할 주소 - '중구 다동'만 저장
+        addressList.removeAt(0)
+        val addressForMyPage = StringBuilder()
+        for (i in addressList) {
+            addressForMyPage.append(i)
+            addressForMyPage.append(" ")
+        }
+        prefs.edit().putString("location", addressForMyPage.toString()).apply()
 
         dismissLoadingDialog()
         changeDoneButton()
