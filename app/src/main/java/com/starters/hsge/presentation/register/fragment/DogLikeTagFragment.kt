@@ -29,6 +29,7 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         setUpChipGroupDynamically(list)
         initListener()
         setNavigation()
+        //setButtonEnable()
 
     }
 
@@ -58,11 +59,23 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         return chip
     }
 
-    private fun initListener() {
+    private fun getChipsText(): String {
+        var dislikeTags = ""
+        for (index in 0 until binding.chipGroup.childCount) {
+            val chip = binding.chipGroup.getChildAt(index) as Chip
+            if (binding.chipGroup.checkedChipIds.contains(chip.id)) {
+                dislikeTags += chip.text
+            }
+        }
+        return dislikeTags
+    }
 
+    private fun initListener() {
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogLikeTagFragment_to_dogDislikeTagFragment)
+
+            registerViewModel.dogLikTag = getChipsText()
         }
     }
 
