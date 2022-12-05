@@ -129,4 +129,6 @@
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
     <string name="register_btn_finish">완료</string>
+    <string name="item_card_like_overlay">관심 있어요 오버레이 리소스</string>
+    <string name="item_card_dislike_overlay">관심 없어요 오버레이 리소스</string>
 </resources>

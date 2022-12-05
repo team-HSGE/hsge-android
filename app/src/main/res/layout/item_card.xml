@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="16dp"
-        android:elevation="20dp"
+        app:elevation="20dp"
         app:cardCornerRadius="24dp">
 
         <FrameLayout
@@ -153,10 +153,11 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:contentDescription="@string/item_card_dislike_overlay"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_dislike" />
+                    android:src="@drawable/ic_dislike_overlay" />
 
             </FrameLayout>
 
@@ -166,10 +167,11 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:contentDescription="@string/item_card_like_overlay"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_like" />
+                    android:src="@drawable/ic_like_overlay" />
 
             </FrameLayout>
 
