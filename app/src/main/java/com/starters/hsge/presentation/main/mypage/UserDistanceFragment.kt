@@ -13,9 +13,21 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initListener()
+        setNavigation()
+
+    }
+
+    private fun initListener(){
         binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_userDistanceFragment_to_homeFragment)
             (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }
