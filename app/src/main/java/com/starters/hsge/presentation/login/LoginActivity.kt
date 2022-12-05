@@ -16,6 +16,7 @@ import com.starters.hsge.network.AccessResponse
 import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
@@ -26,8 +27,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
-    val TAG = "tagerror"
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,11 +88,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             } else if (token != null) {
                 //로그인 성공
                 Log.d("로그인", "로그인에 성공하였습니다!")
-                Log.d("access 토큰", "${token.accessToken}, ${token.accessTokenExpiresAt}")
-                Log.d("refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
+                Log.d("카카오 access 토큰", "${token.accessToken}, ${token.accessTokenExpiresAt}")
+                Log.d("카카오 refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
 
                 loadUserInfo()
-
 
                 access_token = token.accessToken
 
@@ -114,12 +112,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("에러", "사용자 정보요청 실패")
             }
             else if (user != null) {
-
                 val str= "\n회원번호: ${user.id}" +
                         "\n이메일: ${user.kakaoAccount?.email}" +
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
-
                 Log.d("회원정보", "${str}")
+
+                // 카카오톡 계정 이메일 sp에 저장
+                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
+
             }
         }
     }
@@ -149,9 +149,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                     if (result.message == "LOGIN") {
                         Log.d("회원정보", "${result.message} / 로그인 성공")
+
+                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장
+                        prefs.edit().putString("accessToken", result.accessToken).apply()
+                        prefs.edit().putString("refreshToken", result.refreshToken).apply()
+                        Log.d("리스폰스", "메시지: ${result.message}\naccess: ${result.accessToken}\nrefresh: ${result.refreshToken}")
+
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
+
+                        Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
                     } else if (result.message == "NEED_SIGNUP") {
                         Log.d("회원정보", "${result.message} / 회원가입 필요")
@@ -165,9 +173,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
             }
-
         })
     }
-
-
 }

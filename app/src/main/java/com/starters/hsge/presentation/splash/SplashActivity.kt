@@ -1,6 +1,5 @@
 package com.starters.hsge.presentation.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
