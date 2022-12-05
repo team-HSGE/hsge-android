@@ -1,10 +1,9 @@
 package com.starters.hsge.presentation.register.viewmodel
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.starters.hsge.data.model.remote.response.Data
+import com.starters.hsge.data.model.remote.response.Breed
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
@@ -36,8 +35,12 @@ class RegisterViewModel @Inject constructor(
     var dogLikTag = ""
     var dogDisLikeTag = ""
 
-    private val _breedList = MutableLiveData<List<Data>>()
-    val breedList: LiveData<List<Data>> = _breedList
+    private val _breedList = MutableLiveData<List<Breed>>()
+    val breedList: LiveData<List<Breed>> = _breedList
+
+    init {
+        getDogBreed()
+    }
 
     suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
 
@@ -46,19 +49,18 @@ class RegisterViewModel @Inject constructor(
         dogProfileRepository.getDogProfilePhoto(image, str)
     }
 
-    suspend fun postRegisterInfo(img: Uri, data: RegisterInfo) =
+    suspend fun postRegisterInfo(img: File, data: RegisterInfo) =
         postRegisterUseCase(img, data)
 
 
     fun getDogBreed2() = getDogBreedUseCase2()
 
 
-    //초기화해서 접근? 아니면 함수 반환?
-    fun getDogBreed(): LiveData<List<Data>> {
+    //초기화해서 접근? 아니면 함수 반환? -> 초기화블록에서 실행해야 바텀시트 연속 띄우기 해결됨
+    private fun getDogBreed() {
         viewModelScope.launch {
             _breedList.value = getDogBreedUseCase().data
         }
-        return breedList
     }
 
     fun getDogAge() = getDogAgeUseCase()
