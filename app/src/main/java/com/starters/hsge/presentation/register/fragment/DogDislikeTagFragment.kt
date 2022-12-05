@@ -40,8 +40,11 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
     private fun createChip(label: String): Chip {
         val chip = Chip(context, null, R.attr.CustomDislikeChipChoiceStyle)
         chip.text = label
+
         chip.setOnClickListener {
             val ids: List<Int> = binding.chipGroupDislike.checkedChipIds
+            binding.btnNext.isEnabled = ids.isNotEmpty()
+
             if (ids.size == 3) {
                 for (index in 0 until binding.chipGroupDislike.childCount) {
                     val chip = binding.chipGroupDislike.getChildAt(index) as Chip
@@ -58,14 +61,14 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
     }
 
     private fun getChipsText(): String {
-        var dislikeTags = ""
+        var likeTags = ""
         for (index in 0 until binding.chipGroupDislike.childCount) {
             val chip = binding.chipGroupDislike.getChildAt(index) as Chip
             if (binding.chipGroupDislike.checkedChipIds.contains(chip.id)) {
-                dislikeTags += chip.text
+                likeTags += chip.text
             }
         }
-        return dislikeTags
+        return likeTags
     }
 
 

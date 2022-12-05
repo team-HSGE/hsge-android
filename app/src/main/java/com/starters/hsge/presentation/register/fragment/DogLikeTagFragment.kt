@@ -29,7 +29,6 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         setUpChipGroupDynamically(list)
         initListener()
         setNavigation()
-        //setButtonEnable()
 
     }
 
@@ -42,8 +41,11 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
     private fun createChip(label: String): Chip {
         val chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
         chip.text = label
+
         chip.setOnClickListener {
             val ids: List<Int> = binding.chipGroup.checkedChipIds
+            binding.btnNext.isEnabled = ids.isNotEmpty()
+
             if (ids.size == 3) {
                 for (index in 0 until binding.chipGroup.childCount) {
                     val chip = binding.chipGroup.getChildAt(index) as Chip
@@ -77,10 +79,6 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
 
             registerViewModel.dogLikTag = getChipsText()
         }
-    }
-
-    private fun setButtonEnable() {
-        binding.btnNext.isEnabled = !registerViewModel.dogLikTag.isNullOrEmpty()
     }
 
     private fun setNavigation() {
