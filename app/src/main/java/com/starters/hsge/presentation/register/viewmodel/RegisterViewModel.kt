@@ -3,13 +3,11 @@ package com.starters.hsge.presentation.register.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.starters.hsge.data.model.remote.response.Age
 import com.starters.hsge.data.model.remote.response.Breed
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.DogProfileRepository
-import com.starters.hsge.domain.usecase.GetDogAgeUseCase
-import com.starters.hsge.domain.usecase.GetDogBreedUseCase
-import com.starters.hsge.domain.usecase.GetDogBreedUseCase2
-import com.starters.hsge.domain.usecase.PostRegisterUseCase
+import com.starters.hsge.domain.usecase.*
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,9 +19,10 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(
     private val dogProfileRepository: DogProfileRepository,
     private val getDogBreedUseCase2: GetDogBreedUseCase2,
-    private val getDogAgeUseCase: GetDogAgeUseCase,
+    private val getDogAgeUseCase2: GetDogAgeUseCase2,
     private val getDogBreedUseCase: GetDogBreedUseCase,
-    private val postRegisterUseCase: PostRegisterUseCase
+    private val postRegisterUseCase: PostRegisterUseCase,
+    private val getDogAgeUseCase: GetDogAgeUseCase,
 ) : BaseViewModel() {
 
     var dogName = ""
@@ -38,8 +37,12 @@ class RegisterViewModel @Inject constructor(
     private val _breedList = MutableLiveData<List<Breed>>()
     val breedList: LiveData<List<Breed>> = _breedList
 
+    private val _ageList = MutableLiveData<List<Age>>()
+    val ageList: LiveData<List<Age>> = _ageList
+
     init {
         getDogBreed()
+        getDogAge()
     }
 
     suspend fun loadImage(image: File, str: HashMap<String, RequestBody>) {
@@ -63,5 +66,11 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun getDogAge() = getDogAgeUseCase()
+    private fun getDogAge() {
+        viewModelScope.launch {
+            _ageList.value = getDogAgeUseCase().data
+        }
+    }
+
+    fun getDogAge2() = getDogAgeUseCase2()
 }

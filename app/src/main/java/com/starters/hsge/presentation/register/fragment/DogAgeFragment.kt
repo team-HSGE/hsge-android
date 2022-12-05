@@ -28,15 +28,29 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
 
     private fun initListener() {
         binding.tvDogAge.setOnClickListener {
-            ageBottomSheet = BottomSheetDialog(registerViewModel.getDogAge().map{it.age})
-            ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-            ageBottomSheet.setBottomSheetClickListener(object : BottomSheetDialog.BottomSheetClickListener {
-                override fun onContentClick(content: String) {
-                    registerViewModel.dogAge = content
-                    showDogAge()
-                    setButtonEnable()
-                }
-            })
+
+            registerViewModel.ageList.observe(viewLifecycleOwner) { age ->
+                ageBottomSheet = BottomSheetDialog(age.map { it.value })
+                ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+                ageBottomSheet.setBottomSheetClickListener(object : BottomSheetDialog.BottomSheetClickListener {
+                    override fun onContentClick(content: String) {
+                        registerViewModel.dogAge = content
+                        showDogAge()
+                        setButtonEnable()
+                    }
+                })
+            }
+
+
+//            ageBottomSheet = BottomSheetDialog(registerViewModel.getDogAge2().map{it.age})
+//            ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+//            ageBottomSheet.setBottomSheetClickListener(object : BottomSheetDialog.BottomSheetClickListener {
+//                override fun onContentClick(content: String) {
+//                    registerViewModel.dogAge = content
+//                    showDogAge()
+//                    setButtonEnable()
+//                }
+//            })
         }
 
         binding.btnNext.setOnClickListener {
