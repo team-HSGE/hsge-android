@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -30,8 +31,8 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initListener()
         initChipButton(list)
+        initListener()
         //setChipCheckable()
         //setButtonEnable()
         setNavigation()
@@ -44,8 +45,18 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
             chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
             chip.text = i
             binding.chipGroup.addView(chip)
-            //setChipCheckable()
-            chipChecked()
+
+            chip.setOnClickListener {
+                val ids: List<Int> = binding.chipGroup.checkedChipIds
+                Toast.makeText(context, "${ids.size}, ${chip.id}", Toast.LENGTH_SHORT).show()
+
+                if (ids.size == 3) {
+                    chip.isCheckable = chip.isChecked
+
+                } else if (ids.size < 3) {
+                    chip.isCheckable = true
+                }
+            }
         }
     }
 
@@ -61,6 +72,9 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
                 // 식별
 
             }
+
+            // 선택한 칩의 String을 sp에 저장
+            // saveChipsText()
         }
     }
 
