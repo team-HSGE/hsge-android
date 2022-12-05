@@ -27,22 +27,8 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
 
     private fun initListener() {
         binding.tvDogBreed.setOnClickListener {
-
-//            lifecycleScope.launch {
-//                breedBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().value!!.map { it.value })
-//                breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-//                breedBottomSheet.setBottomSheetClickListener(object :
-//                    BottomSheetDialog.BottomSheetClickListener {
-//                    override fun onContentClick(content: String) {
-//                        registerViewModel.dogBreed = content
-//                        showDogBreed()
-//                        setButtonEnable()
-//                    }
-//                })
-//            }
             registerViewModel.breedList.observe(viewLifecycleOwner) { breed ->
                 breedBottomSheet = BottomSheetDialog(breed.map { it.value })
-                //여기서 show()?
                 breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
                 breedBottomSheet.setBottomSheetClickListener(object :
                     BottomSheetDialog.BottomSheetClickListener {
@@ -53,15 +39,6 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
                     }
                 })
             }
-           //breedBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed2().map { it.kind })
-
-
-
-
-//            lifecycleScope.launch {
-//                breedBottomSheet = BottomSheetDialog(registerViewModel.getDogBreed().value!!.map { it.value })
-//            }
-
         }
 
         binding.btnNext.setOnClickListener {
