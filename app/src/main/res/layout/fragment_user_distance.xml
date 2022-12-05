@@ -10,15 +10,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
-        tools:context=".presentation.register.fragment.UserDistanceFragment">
+        tools:context=".presentation.main.mypage.UserDistanceFragment">
 
-        <TextView
-            android:id="@+id/tv_location_radius_title"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:text="@string/set_radius_title"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_btn"/>
+
+        <TextView
+            android:layout_marginHorizontal="32dp"
+            android:id="@+id/tv_location_distance_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/set_distance_title"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -29,20 +38,22 @@
             app:layout_constraintVertical_bias="0.4" />
 
         <TextView
-            android:id="@+id/tv_location_radius"
-            android:layout_width="match_parent"
+
+            android:id="@+id/tv_location_distance"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/set_radius"
+            android:text="@string/set_distance"
             android:textColor="@color/yellow"
+            android:layout_marginEnd="16dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_location_radius_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_location_radius_title" />
+            app:layout_constraintEnd_toEndOf="@id/tv_location_distance_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_location_distance_title"
+            app:layout_constraintTop_toTopOf="@id/tv_location_distance_title" />
 
         <SeekBar
+            android:layout_marginHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -51,7 +62,7 @@
             android:thumb="@drawable/bg_seekbar_thumb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_location_radius_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_location_distance_title" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
@@ -59,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
-            android:text="@string/btn_next"
+            android:text="@string/distance_finish"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

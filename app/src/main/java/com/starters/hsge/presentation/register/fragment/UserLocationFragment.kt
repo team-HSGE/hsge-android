@@ -12,7 +12,6 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -83,7 +82,7 @@ class UserLocationFragment :
             // 다음 누르면 이 test_latitude를 멀티파트에 담아서 통신으로 보내면 됨
             val latitude = prefs.getString("latitude", "0").toString().toDouble()
             val longitude = prefs.getString("longitude", "0").toString().toDouble()
-            Log.d("테스트_위도경도", "위도:${latitude}, 경도:${longitude} ")
+            //Log.d("테스트_위도경도", "위도:${latitude}, 경도:${longitude} ")
 
             prefs.edit().remove("address").apply()
             prefs.edit().remove("longitude").apply()
