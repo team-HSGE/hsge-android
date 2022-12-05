@@ -1,20 +1,20 @@
 package com.starters.hsge.data.model.remote.response
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import com.google.gson.annotations.SerializedName
 
 @Serializable
 data class DogAgeResponse(
-    @SerializedName("data")
+    @SerialName("data")
     val data: List<Age>,
-    @SerializedName("message")
+    @SerialName("message")
     val message: String
 )
 
 @Serializable
 data class Age(
-    @SerializedName("key")
+    @SerialName("key")
     val key: String,
-    @SerializedName("value")
+    @SerialName("value")
     val value: String
 )
