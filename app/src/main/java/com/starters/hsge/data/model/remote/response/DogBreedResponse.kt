@@ -6,13 +6,13 @@ import kotlinx.serialization.SerialName
 @Serializable
 data class DogBreedResponse(
     @SerialName("data")
-    val data: List<Data>,
+    val data: List<Breed>,
     @SerialName("message")
     val message: String
 )
 
 @Serializable
-data class Data(
+data class Breed(
     @SerialName("key")
     val key: String,
     @SerialName("value")
