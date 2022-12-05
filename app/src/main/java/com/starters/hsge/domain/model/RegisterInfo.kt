@@ -11,7 +11,7 @@ data class RegisterInfo(
     @SerialName("petName") val dogName: String,
     @SerialName("age") val dogAge: String,
     @SerialName("gender") val dogSex: String,
-    @SerialName("neutralization") val dogNeuter: Boolean = false,
+    @SerialName("neutralization") val isNeuter: Boolean = false,
     @SerialName("description") val description: String = "",
     @SerialName("picture") val picture: String = "",
     @SerialName("breed") val dogBreed: String,
