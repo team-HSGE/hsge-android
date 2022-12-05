@@ -28,12 +28,16 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
     private fun initListener() {
         binding.tvDogBreed.setOnClickListener {
             registerViewModel.breedList.observe(viewLifecycleOwner) { breed ->
+
+                val dogBreeHashMap = hashMapOf<String, String>()
+                dogBreeHashMap[breed.map { it.value }.toString()] = breed.map { it.key }.toString()
+
                 breedBottomSheet = BottomSheetDialog(breed.map { it.value })
                 breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
                 breedBottomSheet.setBottomSheetClickListener(object :
                     BottomSheetDialog.BottomSheetClickListener {
                     override fun onContentClick(content: String) {
-                        registerViewModel.dogBreed = content
+                        registerViewModel.dogBreed = dogBreeHashMap[content].toString()
                         showDogBreed()
                         setButtonEnable()
                     }

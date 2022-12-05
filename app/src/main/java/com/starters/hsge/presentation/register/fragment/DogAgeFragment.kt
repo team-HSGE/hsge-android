@@ -29,12 +29,18 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
     private fun initListener() {
         binding.tvDogAge.setOnClickListener {
             registerViewModel.ageList.observe(viewLifecycleOwner) { age ->
+
+                // value - key HashMap 생성
+                val dogAgeHashMap = hashMapOf<String, String>()
+                dogAgeHashMap[age.map { it.value }.toString()] = age.map { it.key }.toString()
+
                 ageBottomSheet = BottomSheetDialog(age.map { it.value })
                 ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
                 ageBottomSheet.setBottomSheetClickListener(object :
                     BottomSheetDialog.BottomSheetClickListener {
                     override fun onContentClick(content: String) {
-                        registerViewModel.dogAge = content
+                        // HashMap에서 해당하는 key값 찾아서 넣어주기
+                        registerViewModel.dogAge = dogAgeHashMap[content].toString()
                         showDogAge()
                         setButtonEnable()
                     }
