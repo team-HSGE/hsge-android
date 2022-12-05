@@ -8,10 +8,10 @@ import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogDislikeTagBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layout.fragment_dog_dislike_tag) {
-
-    lateinit var chip: Chip
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,17 +21,36 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
             "#소형견", "#옷입기", "#사진찍기", "#수영", "#뽀뽀", "#발만지기", "#꼬리만지기",
             "#스킨십", "#큰소리", "#향수")
 
+        setUpChipGroupDynamically(list)
         initListener()
-        initChipButton(list)
         setNavigation()
+
     }
 
-    private fun initChipButton(chipList: List<String>) {
+    private fun setUpChipGroupDynamically(chipList: List<String>) {
         for (i in chipList) {
-            chip = Chip(context, null, R.attr.CustomDislikeChipChoiceStyle)
-            chip.text = i
-            binding.chipGroupDislike.addView(chip)
+            binding.chipGroupDislike.addView(createChip(i))
         }
+    }
+
+    private fun createChip(label: String): Chip {
+        val chip = Chip(context, null, R.attr.CustomDislikeChipChoiceStyle)
+        chip.text = label
+        chip.setOnClickListener {
+            val ids: List<Int> = binding.chipGroupDislike.checkedChipIds
+            if (ids.size == 3) {
+                for (index in 0 until binding.chipGroupDislike.childCount) {
+                    val chip = binding.chipGroupDislike.getChildAt(index) as Chip
+                    chip.isCheckable = chip.isChecked
+                }
+            } else if (ids.size < 3) {
+                for (index in 0 until binding.chipGroupDislike.childCount) {
+                    val chip = binding.chipGroupDislike.getChildAt(index) as Chip
+                    chip.isCheckable = true
+                }
+            }
+        }
+        return chip
     }
 
     private fun initListener() {
