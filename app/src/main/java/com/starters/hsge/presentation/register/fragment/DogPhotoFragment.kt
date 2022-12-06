@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment_dog_photo) {
 
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var storagePermissionRequest: ActivityResultLauncher<String>
     private lateinit var imageResult: ActivityResultLauncher<Intent>
     private val registerViewModel: RegisterViewModel by viewModels()
 
@@ -44,7 +44,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     }
 
     private fun initPermissionLauncher() {
-        requestPermissionLauncher =
+        storagePermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
                 if (isGranted) {
                     navigateGallery()
@@ -78,7 +78,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     }
 
     private fun checkPermission() {
-        val isFirstCheck = prefs.getBoolean("isFistPermissionCheck", true)
+        val isFirstCheck = prefs.getBoolean("isFistImgPermissionCheck", true)
         when {
 
             ContextCompat.checkSelfPermission(
@@ -94,8 +94,8 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
             else -> {
                 if (isFirstCheck) {
-                    prefs.edit().putBoolean("isFistPermissionCheck", false).apply()
-                    requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+                    prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
+                    storagePermissionRequest.launch(READ_EXTERNAL_STORAGE)
                 } else {
                     showSecondPermissionDialog()
                 }
@@ -113,7 +113,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
         AlertDialog.Builder(requireContext())
             .setMessage("앱 실행을 위해서는 권한을 설정해야 합니다")
             .setPositiveButton("확인") { _, _ ->
-                requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+                storagePermissionRequest.launch(READ_EXTERNAL_STORAGE)
             }
             .show()
     }
