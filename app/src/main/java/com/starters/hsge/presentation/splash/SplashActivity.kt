@@ -21,8 +21,8 @@ import kotlinx.coroutines.*
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     var isReady = false
-    var accessToken : String = ""
-    var refreshToken : String = ""
+    var accessToken: String = ""
+    var refreshToken: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -59,11 +59,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             checkNetwork()
         } else {
             // 31 버전이 아닌 경우, 별도 처리.
+            setContentView(R.layout.activity_splash)
             checkNetwork()
         }
     }
 
-    // 데이터 처리
     private fun initData() {
         // 별도의 데이터 처리가 없기 때문에 3초의 딜레이를 줌.
         // 선행되어야 하는 작업이 있는 경우, 이곳에서 처리 후 isReady를 변경.
@@ -82,12 +82,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     // Token 값 확인
     private fun checkToken() {
-        if (!prefs.contains("accessToken")){
-            isReady = true
-            startLoginActivity()
-        } else {
-            isReady = true
+        if (prefs.contains("accessToken")){
             startMainActivity()
+        } else {
+            startLoginActivity()
         }
     }
 
@@ -110,7 +108,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             val nInfo = cm.activeNetworkInfo
             connected = nInfo != null && nInfo.isAvailable && nInfo.isConnected
             return connected
-
         } catch (e: Exception) {
             Log.e("Connectivity Exception", e.message!!)
         }
@@ -121,10 +118,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun checkNetwork() {
         if (isConnected()) {
             Log.d("네트워크", "성공!")
-                checkToken()
+            checkToken()
         } else {
             Log.d("네트워크", "실패!")
-                setNetworkDialog()
+            setNetworkDialog()
         }
     }
 
@@ -151,4 +148,5 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
 }
+
 

@@ -6,6 +6,7 @@
         <item name="android:windowSplashScreenAnimationDuration">3000</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_sep_icon</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splash_sep_title</item>
+        <item name="android:statusBarColor">#FFBF43</item>
     </style>
 
 </resources>
