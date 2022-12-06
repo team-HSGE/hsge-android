@@ -1,6 +1,7 @@
 package com.starters.hsge.presentation.dialog
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -32,6 +33,8 @@ class SplashDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
+        dialog?.setCanceledOnTouchOutside(false)
+
         initDialog()
 
         return binding.root
@@ -39,13 +42,13 @@ class SplashDialogFragment : DialogFragment() {
 
     fun initDialog(){
         binding.tvDialogOkBtn.setOnClickListener {
-            buttonClickListener. onCancelBtnClicked()
+            buttonClickListener.onOkBtnClicked()
             dismiss()
         }
     }
 
     interface OnButtonClickListener {
-        fun onCancelBtnClicked()
+        fun onOkBtnClicked()
     }
 
     // 클릭 이벤트 설정
@@ -54,6 +57,11 @@ class SplashDialogFragment : DialogFragment() {
     }
     // 클릭 이벤트 실행
     private lateinit var buttonClickListener: OnButtonClickListener
+
+//    override fun onCancel(dialog: DialogInterface) {
+//        super.onCancel(dialog)
+//
+//    }
 
 
     override fun onResume() {
