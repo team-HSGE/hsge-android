@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         })
 
-        val dogCardList = listOf<DogCard>(
+        val dogCardList = listOf(
             DogCard(
                 "뽀삐",
                 "https://user-images.githubusercontent.com/106398273/204183502-2974fadc-dae6-4238-83ce-3b4acd12373d.jpeg",
