@@ -15,7 +15,7 @@ object RetrofitApi {
         ).build()
     }
 
-    private val retrofit: Retrofit by lazy {
+     val retrofit: Retrofit by lazy {
         Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .baseUrl(BASE_URL)
@@ -37,5 +37,7 @@ object RetrofitApi {
     val dogService: DogService by lazy {
         retrofit.create(DogService::class.java)
     }
+
+
 
 }

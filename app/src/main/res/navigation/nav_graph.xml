@@ -56,7 +56,7 @@
         android:label="fragment_withdrawal" />
     <fragment
         android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.userDistance.UserDistanceFragment"
         android:label="UserDistanceFragment" >
         <action
             android:id="@+id/action_userDistanceFragment_to_homeFragment"

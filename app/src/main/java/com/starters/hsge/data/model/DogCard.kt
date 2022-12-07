@@ -19,3 +19,4 @@ data class Tag(
     val tagLike: List<String>,
     val tagDisLike: List<String>
 )
+

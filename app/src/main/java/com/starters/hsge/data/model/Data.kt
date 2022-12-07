@@ -10,3 +10,12 @@ data class Data(
     @SerialName("value")
     val value: String
 )
+
+data class Location(
+    val latitude: Double,
+    val longitude: Double
+)
+
+data class Distance(
+    val distance: Double
+)
