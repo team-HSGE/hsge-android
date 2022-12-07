@@ -1,6 +1,7 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -23,25 +24,26 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
 
         initListener()
         setNavigation()
+
     }
 
     private fun initListener() {
         binding.tvDogBreed.setOnClickListener {
-            registerViewModel.breedList.observe(viewLifecycleOwner) { breed ->
-
-                val dogBreeHashMap = hashMapOf<String, String>()
-                dogBreeHashMap[breed.map { it.value }.toString()] = breed.map { it.key }.toString()
-
-                breedBottomSheet = BottomSheetDialog(breed.map { it.value })
-                breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-                breedBottomSheet.setBottomSheetClickListener(object :
+            registerViewModel.breedMap.observe(viewLifecycleOwner) { breed ->
+                if (breed != null) {
+                    breedBottomSheet = BottomSheetDialog(breed.keys.toList())
+                    breedBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+                    breedBottomSheet.setBottomSheetClickListener(object :
                     BottomSheetDialog.BottomSheetClickListener {
-                    override fun onContentClick(content: String) {
-                        registerViewModel.dogBreed = dogBreeHashMap[content].toString()
-                        showDogBreed()
-                        setButtonEnable()
-                    }
-                })
+                        override fun onContentClick(content: String) {
+                            registerViewModel.dogBreed = content
+                            Log.d("보내는 값", "${breed[content]}")
+                            showDogBreedText()
+                            setButtonEnable()
+                        }
+
+                    })
+                }
             }
         }
 
@@ -51,14 +53,12 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
         }
     }
 
-    private fun showDogBreed() {
-        binding.tvDogBreed.text.let {
-            binding.tvDogBreed.text = registerViewModel.dogBreed
-        }
+    private fun showDogBreedText() {
+        binding.tvDogBreed.text = registerViewModel.dogAge
     }
 
     private fun setButtonEnable() {
-        binding.btnNext.isEnabled = !registerViewModel.dogBreed.isNullOrEmpty()
+        binding.btnNext.isEnabled =!registerViewModel.dogBreed.isNullOrEmpty()
     }
 
     private fun setNavigation() {

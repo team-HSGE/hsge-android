@@ -1,6 +1,7 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -28,23 +29,22 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
 
     private fun initListener() {
         binding.tvDogAge.setOnClickListener {
-            registerViewModel.ageList.observe(viewLifecycleOwner) { age ->
+            registerViewModel.ageMap.observe(viewLifecycleOwner) { age ->
+                if (age != null) {
+                    ageBottomSheet = BottomSheetDialog(age.keys.toList())
+                    ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
+                    ageBottomSheet.setBottomSheetClickListener(object :
+                        BottomSheetDialog.BottomSheetClickListener {
+                        override fun onContentClick(content: String) {
+                            registerViewModel.dogAge = content
+                            Log.d("보내는 값", "${age[content]}")
+                            showDogAgeText()
+                            setButtonEnable()
+                        }
 
-                // value - key HashMap 생성
-                val dogAgeHashMap = hashMapOf<String, String>()
-                dogAgeHashMap[age.map { it.value }.toString()] = age.map { it.key }.toString()
+                    })
+                }
 
-                ageBottomSheet = BottomSheetDialog(age.map { it.value })
-                ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-                ageBottomSheet.setBottomSheetClickListener(object :
-                    BottomSheetDialog.BottomSheetClickListener {
-                    override fun onContentClick(content: String) {
-                        // HashMap에서 해당하는 key값 찾아서 넣어주기
-                        registerViewModel.dogAge = dogAgeHashMap[content].toString()
-                        showDogAge()
-                        setButtonEnable()
-                    }
-                })
             }
         }
 
@@ -54,10 +54,8 @@ class DogAgeFragment : BaseFragment<FragmentDogAgeBinding>(R.layout.fragment_dog
         }
     }
 
-    private fun showDogAge() {
-        binding.tvDogAge.text.let {
-            binding.tvDogAge.text = registerViewModel.dogAge
-        }
+    private fun showDogAgeText() {
+        binding.tvDogAge.text = registerViewModel.dogAge
     }
 
     private fun setButtonEnable() {
