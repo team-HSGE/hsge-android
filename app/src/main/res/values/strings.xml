@@ -133,4 +133,7 @@
     <string name="item_card_dislike_overlay">관심 없어요 오버레이 리소스</string>
     <string name="mypage_user_distance_setting">반경 설정</string>
     <string name="distance_finish">완료</string>
+    <string name="chat_tap_title">채팅</string>
+    <string name="chat_liked_people_title">꾸꾸를 좋아한 사람들</string>
+    <string name="chat_chat_list">채팅 목록</string>
 </resources>
