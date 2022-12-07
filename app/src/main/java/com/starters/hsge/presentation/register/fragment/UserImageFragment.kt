@@ -20,6 +20,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
         setNavigation()
         getSharedPreferences()
         if (prefs.contains("resId")){
+            binding.btnNext.isEnabled = true
             binding.ivUserImage.setImageResource(resId!!)
         } else {
             return

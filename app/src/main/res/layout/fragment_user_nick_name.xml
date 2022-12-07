@@ -53,6 +53,9 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="10dp"
             app:hintEnabled="false"
+            app:errorEnabled="true"
+            app:counterEnabled="true"
+            app:counterMaxLength="13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_user_nickname_example">
