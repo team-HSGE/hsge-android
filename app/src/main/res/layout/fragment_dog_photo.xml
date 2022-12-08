@@ -24,14 +24,12 @@
 
         <ImageView
             android:id="@+id/iv_dog_photo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/image_content_desc_text"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_photo_bg"
             app:layout_constraintBottom_toTopOf="@id/btn_next"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

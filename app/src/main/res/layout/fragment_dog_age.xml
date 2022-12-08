@@ -58,7 +58,7 @@
             android:gravity="center"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:hint="@string/register_choose_age"
+            android:text="@string/register_choose_age"
             app:drawableRightCompat="@drawable/ic_arrow_drop_down"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_dog_age_explain" />
