@@ -17,5 +17,5 @@ data class Location(
 )
 
 data class Distance(
-    val distance: Double
+    val radius: Double
 )

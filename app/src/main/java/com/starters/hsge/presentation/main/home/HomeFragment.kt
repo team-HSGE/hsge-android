@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import com.starters.hsge.R
 import com.starters.hsge.data.model.DogCard
+import com.starters.hsge.data.model.Tag
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter

@@ -74,8 +74,9 @@ class UserDistanceFragment :
 
     private fun retrofitWork(distance: Double){
         val distanceRetrofit = RetrofitApi.retrofit.create(DistanceService::class.java)
+        val radius = distance / 100
 
-        distanceRetrofit.postDistanceData(request = Distance(distance)).enqueue(object : Callback<Void>{
+        distanceRetrofit.postDistanceData(request = Distance(radius)).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){
                     Log.d("distance", response.toString())
