@@ -40,9 +40,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         //로그인 정보 확인
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Log.d("토큰 정보 보기", "실패")
+                Log.d("카카오톡 토큰 정보 보기", "실패")
             } else if (tokenInfo != null) {
-                Log.d("토큰 정보 보기", "성공")
+                Log.d("카카오톡 토큰 정보 보기", "성공")
 
                 // 회원가입 후에 다시 재접속 했을 경우 토큰 정보를 확인 -> 토큰이 있으면 다음 화면으로 바로 넘어감
 //                val intent = Intent(this, RegisterActivity::class.java)
@@ -98,10 +98,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 val json = AccessRequest(access_token)
                 Log.d("json", "${json}")
                 tryPostAccessToken(json)
-
-//                val intent = Intent(this, RegisterActivity::class.java)
-//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-//                finish()
             }
         }
     }
@@ -167,11 +163,19 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
                     }
+                } else  {
+                    when(accessResponse.code()) {
+                        400 -> {
+                            // 유효기간 끝났을 때
+                            Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
 
             override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
+
             }
         })
     }
