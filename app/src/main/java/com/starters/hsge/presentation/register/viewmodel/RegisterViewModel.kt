@@ -2,13 +2,14 @@ package com.starters.hsge.presentation.register.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.starters.hsge.domain.model.RegisterInfo
+import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.repository.RegisterPreferencesRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.domain.usecase.PostRegisterUseCase
-import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -19,12 +20,11 @@ class RegisterViewModel @Inject constructor(
     private val postRegisterUseCase: PostRegisterUseCase,
     private val getDogBreedUseCase: GetDogBreedUseCase,
     private val getDogAgeUseCase: GetDogAgeUseCase,
-    private val registerPreferencesRepository: RegisterPreferencesRepository
-) : BaseViewModel() {
+    private val registerPreferencesRepository: RegisterPreferencesRepository,
+    private val dogProfileRepository: DogProfileRepository
+) : ViewModel() {
 
-    lateinit var dogPhoto: File
-    var dogAge = ""
-    var dogBreed = ""
+    var img = ""
 
     private val _breedMap = MutableLiveData<Map<String, String>?>()
     val breedMap: LiveData<Map<String, String>?> = _breedMap
@@ -37,7 +37,11 @@ class RegisterViewModel @Inject constructor(
         getDogAge()
     }
 
-    suspend fun postRegisterInfo(img: File, data: RegisterInfo) = postRegisterUseCase(img, data)
+    fun postRegisterInfo(img: File, data: RegisterInfo){
+        viewModelScope.launch {
+            postRegisterUseCase(img, data)
+        }
+    }
 
     private fun getDogBreed() {
         viewModelScope.launch {
@@ -55,8 +59,46 @@ class RegisterViewModel @Inject constructor(
         registerPreferencesRepository.deleteAllData()
     }
 
-    suspend fun saveDogName(name: String) {
-        registerPreferencesRepository.setDogName(name)
+    //테스트를 위한 Age 로컬데이터
+    fun testDogAgeToLocal() = dogProfileRepository.getDogAge()
+
+    // datastore에서 값 가져오기
+    fun fetchDogName() = registerPreferencesRepository.dogName
+
+    fun fetchDogPhoto() = registerPreferencesRepository.dogPhoto
+
+    fun fetchDogSex() = registerPreferencesRepository.dogSex
+
+    fun fetchDogNeuter() = registerPreferencesRepository.dogNeuter
+
+    fun fetchDogAgeForView() = registerPreferencesRepository.dogAgeForView
+
+    fun fetchDogAge() = registerPreferencesRepository.dogAge
+
+    fun fetchDogBreedForView() = registerPreferencesRepository.dogBreedForView
+
+    fun fetchDogBreed() = registerPreferencesRepository.dogBreed
+
+    fun fetchDogLikeTag() = registerPreferencesRepository.dogLikeTag
+
+    fun fetchDogDislikeTag() = registerPreferencesRepository.dogDislikeTag
+
+    fun fetchUserLatitude() = registerPreferencesRepository.userLatitude
+
+    fun fetchUserLongitude() = registerPreferencesRepository.userLongitude
+
+
+    // datastore에 값 저장하기
+    fun saveDogName(name: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setDogName(name)
+        }
+    }
+
+    fun saveDogPhoto(uriStr: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setDogPhoto(uriStr)
+        }
     }
 
     suspend fun saveDogSex(sex: String) {
@@ -67,8 +109,16 @@ class RegisterViewModel @Inject constructor(
         registerPreferencesRepository.setIsNeuter(neuter)
     }
 
+    suspend fun saveDogAgeForView(age: String) {
+        registerPreferencesRepository.setDogAgeForView(age)
+    }
+
     suspend fun saveDogAge(age: String) {
         registerPreferencesRepository.setDogAge(age)
+    }
+
+    suspend fun saveDogBreedForView(breed: String) {
+        registerPreferencesRepository.setDogBreedForView(breed)
     }
 
     suspend fun saveDogBreed(breed: String) {
@@ -89,41 +139,5 @@ class RegisterViewModel @Inject constructor(
 
     suspend fun saveUserLongitude(longitude: Double) {
         registerPreferencesRepository.setUserLongitude(longitude)
-    }
-
-    suspend fun fetchDogName(): String {
-        return registerPreferencesRepository.getDogName()
-    }
-
-    suspend fun fetchDogSex(): String {
-        return registerPreferencesRepository.getDogSex()
-    }
-
-    suspend fun fetchDogNeuter(): Boolean {
-        return registerPreferencesRepository.getIsNeuter()
-    }
-
-    suspend fun fetchDogAge(): String {
-        return registerPreferencesRepository.getDogAge()
-    }
-
-    suspend fun fetchDogBreed(): String {
-        return registerPreferencesRepository.getDogBreed()
-    }
-
-    suspend fun fetchDogLikeTag(): String {
-        return registerPreferencesRepository.getDogLikeTag()
-    }
-
-    suspend fun fetchDogDisLikeTag(): String {
-        return registerPreferencesRepository.getDogDislikeTag()
-    }
-
-    suspend fun fetchUserLatitude(): Double {
-        return registerPreferencesRepository.getUserLatitude()
-    }
-
-    suspend fun fetchUserLongitude(): Double {
-        return registerPreferencesRepository.getUserLongitude()
     }
 }
