@@ -59,5 +59,6 @@
     <color name="light_red_50">#80FFC7C7</color>
     <color name="chip_text_red">#E86666</color>
     <color name="ripple_100">#FFFFFFFF</color>
+    <color name="chatting_divider_light_gray">#F5F5F5</color>
 
 </resources>

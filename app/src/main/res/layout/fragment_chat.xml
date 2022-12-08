@@ -63,11 +63,12 @@
                     android:id="@+id/chat_rv_liked_people"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
                     android:clipToPadding="false"
+                    android:paddingHorizontal="14dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/chat_liked_people_title"
-                    app:spanCount="6"
+                    app:spanCount="5"
                     tools:listitem="@layout/item_liked_people" />
 
                 <TextView
@@ -89,7 +90,8 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chat_chat_list" />
+                    app:layout_constraintTop_toBottomOf="@id/chat_chat_list"
+                    tools:listitem="@layout/item_chat_list" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/chatting_divider_light_gray"
+            />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/chatting_iv_person_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="24dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user_icon_test"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Circle" />
+
+        <TextView
+            android:id="@+id/chat_tv_person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김꾸꾸"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="14dp"
+            app:layout_constraintTop_toTopOf="@id/chatting_iv_person_icon"
+            app:layout_constraintStart_toEndOf="@id/chatting_iv_person_icon"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/chat_tv_person_name"
+            app:layout_constraintBottom_toBottomOf="@id/chat_tv_person_name"
+            app:layout_constraintStart_toEndOf="@id/chat_tv_person_name"
+            android:text="4일 전"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/chat_tv_person_name"
+            app:layout_constraintBottom_toBottomOf="@id/chatting_iv_person_icon"
+            android:text="안녕하세요~강아지 귀여워요."
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
