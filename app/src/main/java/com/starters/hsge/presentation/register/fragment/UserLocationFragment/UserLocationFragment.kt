@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register.fragment
+package com.starters.hsge.presentation.register.fragment.UserLocationFragment
 
 import android.Manifest
 import android.content.Context
@@ -23,9 +23,16 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
+import com.starters.hsge.data.model.Distance
+import com.starters.hsge.data.model.userLocation
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.home.network.RetrofitApi
+import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserLocationFragment :
     BaseFragment<FragmentUserLocationBinding>(R.layout.fragment_user_location) {
@@ -84,6 +91,9 @@ class UserLocationFragment :
                 val latitude = prefs.getString("latitude", "0").toString().toDouble()
                 val longitude = prefs.getString("longitude", "0").toString().toDouble()
                 val location = prefs.getString("location", "0").toString()
+                putLocationRetrofitWork(latitude, longitude)
+
+
             } else {
                 Log.d("from?", "register")
                 // 다음 누를 때 위도, 경도, 장소를 멀티파트에 담아서 통신으로 보내면 됨
@@ -233,9 +243,35 @@ class UserLocationFragment :
         changeDoneButton()
     }
 
+
+    // retrofit 통신
+    private fun putLocationRetrofitWork(lat: Double, lng: Double){
+        val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
+
+        locationRetrofit.putLocationData(request = userLocation(lat, lng)).enqueue(object :
+            Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if(response.isSuccessful){
+                    Log.d("set_location_again", response.toString())
+                    Log.d("set_location_again", "성공")
+                } else{
+                    Log.d("set_location_again", "실패")
+                    Log.d("set_location_again", response.code().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("set_location_again", "실패")
+                Log.d("set_location_again", t.toString())
+            }
+        })
+    }
+
+
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
+
 }

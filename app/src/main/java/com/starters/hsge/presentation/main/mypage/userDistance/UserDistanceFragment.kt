@@ -11,6 +11,7 @@ import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
+import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,7 +77,7 @@ class UserDistanceFragment :
         val distanceRetrofit = RetrofitApi.retrofit.create(DistanceService::class.java)
         val radius = distance / 100
 
-        distanceRetrofit.postDistanceData(request = Distance(radius)).enqueue(object : Callback<Void>{
+        distanceRetrofit.putDistanceData(request = Distance(radius)).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){
                     Log.d("distance", response.toString())

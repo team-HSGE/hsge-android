@@ -11,9 +11,9 @@ data class Data(
     val value: String
 )
 
-data class Location(
+data class userLocation(
     val latitude: Double,
-    val longitude: Double
+    val longtitude: Double
 )
 
 data class Distance(
