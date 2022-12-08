@@ -35,11 +35,13 @@
     <fragment
         android:id="@+id/userProfileEditFragment"
         android:name="com.starters.hsge.presentation.main.mypage.UserProfileEditFragment"
-        android:label="fragment_user_profile_edit" />
+        android:label="fragment_user_profile_edit"
+        tools:layout="@layout/fragment_user_profile_edit" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.starters.hsge.presentation.main.mypage.SettingsFragment"
-        android:label="fragment_settings" >
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_withdrawalFragment"
             app:destination="@id/withdrawalFragment" />
@@ -47,5 +49,6 @@
     <fragment
         android:id="@+id/withdrawalFragment"
         android:name="com.starters.hsge.presentation.main.mypage.WithdrawalFragment"
-        android:label="fragment_withdrawal" />
+        android:label="fragment_withdrawal"
+        tools:layout="@layout/fragment_withdrawal" />
 </navigation>
