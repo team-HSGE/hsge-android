@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
+import com.starters.hsge.data.model.ChatList
 import com.starters.hsge.data.model.LikedPeople
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
 import com.starters.hsge.presentation.main.chat.adapter.LikedPeopleAdapter
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
 
-    private lateinit var adapter: LikedPeopleAdapter
+    private lateinit var likedPeopleAdapter: LikedPeopleAdapter
+    private lateinit var chatListAdapter: ChatListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,15 +54,77 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
             )
         )
 
-        initRecyclerView(likedPeopleList)
+        val chatList = listOf(
+            ChatList(
+                R.drawable.ic_profile_icon_2,
+                "응콩",
+                4,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),
+            ChatList(
+                R.drawable.ic_profile_icon_3,
+                "예빈",
+                1,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),
+            ChatList(
+                R.drawable.ic_profile_icon_6,
+                "서윤",
+                2,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),ChatList(
+                R.drawable.ic_profile_icon_1,
+                "석주",
+                4,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),
+            ChatList(
+                R.drawable.ic_profile_icon_5,
+                "정은",
+                7,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),ChatList(
+                R.drawable.ic_profile_icon_2,
+                "김인",
+                1,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),
+            ChatList(
+                R.drawable.ic_profile_icon_8,
+                "태민",
+                5,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),ChatList(
+                R.drawable.ic_profile_icon_3,
+                "화진",
+                2,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            ),
+            ChatList(
+                R.drawable.ic_profile_icon_1,
+                "영선",
+                3,
+                "안녕하세요, 나이가 어떻게 되세요?"
+            )
+
+        )
+
+        likePeopleRecyclerView(likedPeopleList)
+        chatListRecyclerView(chatList)
 
 
     }
 
-    private fun initRecyclerView(list: List<LikedPeople>) {
+    private fun likePeopleRecyclerView(list: List<LikedPeople>) {
         binding.chatRvLikedPeople.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        adapter = LikedPeopleAdapter(list)
-        binding.chatRvLikedPeople.adapter = adapter
+        likedPeopleAdapter = LikedPeopleAdapter(list)
+        binding.chatRvLikedPeople.adapter = likedPeopleAdapter
+    }
+
+    private fun chatListRecyclerView(list: List<ChatList>){
+        binding.chatRvChatList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        chatListAdapter = ChatListAdapter(list)
+        binding.chatRvChatList.adapter = chatListAdapter
     }
 }

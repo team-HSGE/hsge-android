@@ -7,6 +7,7 @@ import android.view.animation.AccelerateInterpolator
 import com.starters.hsge.R
 import com.starters.hsge.data.model.DogCard
 import com.starters.hsge.data.model.IsLikeRequest
+import com.starters.hsge.data.model.Tag
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
@@ -32,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         retrofitWork()
 
-
+//
 //        dogCardList = listOf<DogCard>(
 //            DogCard(
 //                "뽀삐",
@@ -115,7 +116,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 //                Tag(listOf("고구마", "간식", "수영"), listOf("산책", "카메라"))
 //            )
 //        )
-
+//
 //        manager = CardStackLayoutManager(context, object : CardStackListener {
 //            override fun onCardDragging(direction: Direction?, ratio: Float) {
 //            }
@@ -143,8 +144,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 //            }
 //
 //        })
-
-
+//
+//
 //        // 로컬 데이터
 //        cardStackAdapter = CardStackAdapter(requireContext(), dogCardList)
 //        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
