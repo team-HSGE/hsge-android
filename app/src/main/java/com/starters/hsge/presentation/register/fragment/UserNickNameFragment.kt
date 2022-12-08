@@ -1,16 +1,18 @@
 package com.starters.hsge.presentation.register.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,7 +71,9 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            finishAffinity(requireActivity())
+            startActivity(intent)
         }
     }
 
