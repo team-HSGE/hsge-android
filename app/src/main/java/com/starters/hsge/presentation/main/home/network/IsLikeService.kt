@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface IsLikeService {
-    @POST
+    @POST("/api/")
     fun postIsLikeData(@Body request: IsLikeRequest) : Call<Void>
 }

@@ -6,15 +6,14 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import com.starters.hsge.R
 import com.starters.hsge.data.model.DogCard
-import com.starters.hsge.data.model.Tag
+import com.starters.hsge.data.model.IsLikeRequest
 import com.starters.hsge.databinding.FragmentHomeBinding
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
+import com.starters.hsge.presentation.main.home.network.IsLikeService
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import com.yuyakaido.android.cardstackview.*
-import retrofit2.Response
-import retrofit2.Retrofit
+import retrofit2.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -117,36 +116,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 //            )
 //        )
 
-        manager = CardStackLayoutManager(context, object : CardStackListener {
-            override fun onCardDragging(direction: Direction?, ratio: Float) {
-            }
+//        manager = CardStackLayoutManager(context, object : CardStackListener {
+//            override fun onCardDragging(direction: Direction?, ratio: Float) {
+//            }
+//
+//            override fun onCardSwiped(direction: Direction?) {
+//                when (direction) {
+//                    Direction.Right -> swipeIsLike(dogCardList, isLike = true)
+//                    Direction.Left -> swipeIsLike(dogCardList, isLike = false)
+//                    else -> {
+//
+//                    }
+//                }
+//            }
+//
+//            override fun onCardRewound() {
+//            }
+//
+//            override fun onCardCanceled() {
+//            }
+//
+//            override fun onCardAppeared(view: View?, position: Int) {
+//            }
+//
+//            override fun onCardDisappeared(view: View?, position: Int) {
+//            }
+//
+//        })
 
-            override fun onCardSwiped(direction: Direction?) {
-                when (direction) {
-                    Direction.Right -> like(dogCardList)
-                    Direction.Left -> dislike(dogCardList)
-                    else -> {
 
-                    }
-                }
-            }
-
-            override fun onCardRewound() {
-            }
-
-            override fun onCardCanceled() {
-            }
-
-            override fun onCardAppeared(view: View?, position: Int) {
-            }
-
-            override fun onCardDisappeared(view: View?, position: Int) {
-            }
-
-        })
-
-
-        // 로컬 데이터
+//        // 로컬 데이터
 //        cardStackAdapter = CardStackAdapter(requireContext(), dogCardList)
 //        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 //        binding.cardStackView.layoutManager = manager
@@ -196,9 +195,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     Log.d("TAG", "성공")
                     val dogCardResult = response.body()
                     cardStackAdapter = CardStackAdapter(requireContext(), dogCardResult!!)
+
+                    manager = CardStackLayoutManager(context, object : CardStackListener {
+                        override fun onCardDragging(direction: Direction?, ratio: Float) {
+                        }
+
+                        override fun onCardSwiped(direction: Direction?) {
+                            when (direction) {
+                                Direction.Right -> swipeIsLike(dogCardResult, isLike = true)
+                                Direction.Left -> swipeIsLike(dogCardResult, isLike = false)
+                                else -> {
+
+                                }
+                            }
+                        }
+
+                        override fun onCardRewound() {
+                        }
+
+                        override fun onCardCanceled() {
+                        }
+
+                        override fun onCardAppeared(view: View?, position: Int) {
+                        }
+
+                        override fun onCardDisappeared(view: View?, position: Int) {
+                        }
+
+                    })
+
                     manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
                     binding.cardStackView.layoutManager = manager
                     binding.cardStackView.adapter = cardStackAdapter
+
                 } else {
                     Log.d("TAG", "실패")
                     Log.d("TAG", response.code().toString())
@@ -213,25 +242,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    private fun like(dogCardList: List<DogCard>) {
+    private fun swipeIsLike(dogCardList: List<DogCard>, isLike: Boolean) {
         val card = dogCardList[manager.topPosition - 1] // 카트스택의 최 상위를 찾은다음에 뺴줘야함
-        isLike = true
-        //Toast.makeText(requireContext(), "좋아요 : ${card.dogId}", Toast.LENGTH_SHORT).show()
+        Log.d("isLike?", isLike.toString())
+        //postIsLikeRetrofitWork(card.dogId, isLike)
+
         // post 통신 진행
 
-        //likeDog.add(card.dogId)
-        //Log.d("좋아요강아지", "좋아요 : ${likeDog.toString()}")
     }
 
-    private fun dislike(dogCardList: List<DogCard>) {
-        val card = dogCardList[manager.topPosition - 1]
-        isLike = false
-        //Toast.makeText(requireContext(), "싫어요 : ${card.dogId}", Toast.LENGTH_SHORT).show()
-        // post 통신 진행
+    private fun postIsLikeRetrofitWork(dogId: Int, isLike: Boolean){
+        val isLikeRetrofit = RetrofitApi.retrofit.create(IsLikeService::class.java)
 
-        //dislikeDog.add(card.dogId)
-        //Log.d("싫어요강아지", "싫어요 : ${dislikeDog.toString()}")
+        isLikeRetrofit.postIsLikeData(request = IsLikeRequest(dogId, isLike)).enqueue(object: Callback<Void>{
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if(response.isSuccessful){
+                    Log.d("isLike", response.toString())
+                    Log.d("isLike", "성공")
+                }else{
+                    Log.d("isLike", response.code().toString())
+                    Log.d("isLike", "실패")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("isLike", t.toString())
+                Log.d("isLike", "실패")
+            }
+        })
     }
-
-
 }
