@@ -3,17 +3,81 @@ package com.starters.hsge.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.starters.hsge.domain.repository.RegisterPreferencesRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
-import java.io.IOException
 import javax.inject.Inject
 
 class RegisterPreferencesRepositoryImpl @Inject constructor(
     private val registerDataStore: DataStore<Preferences>,
 ) : RegisterPreferencesRepository {
+
+    override val userNickName: Flow<String>
+        get() = registerDataStore.data.map {
+            it[NICK_NAME] ?: ""
+        }
+    override val userIcon: Flow<Int>
+        get() = registerDataStore.data.map {
+            it[ICON] ?: 0
+        }
+
+    override val dogName: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_NAME] ?: ""
+        }
+    override val dogPhoto: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_PHOTO] ?: ""
+        }
+
+    override val dogSex: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_SEX] ?: ""
+        }
+
+    override val dogNeuter: Flow<Boolean>
+        get() = registerDataStore.data.map {
+            it[NEUTRALIZATION] ?: false
+        }
+
+    override val dogAgeForView: Flow<String>
+        = registerDataStore.data.map {
+            it[PET_AGE_FOR_VIEW] ?: ""
+    }
+
+    override val dogAge: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_AGE] ?: ""
+        }
+
+    override val dogBreedForView: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_BREED_FOR_VIEW] ?: ""
+        }
+
+    override val dogBreed: Flow<String>
+        get() = registerDataStore.data.map {
+            it[PET_BREED] ?: ""
+        }
+
+    override val dogLikeTag: Flow<String>
+        get() = registerDataStore.data.map {
+            it[LIKE_TAG] ?: ""
+        }
+
+    override val dogDislikeTag: Flow<String>
+        get() = registerDataStore.data.map {
+            it[DISLIKE_TAG] ?: ""
+        }
+
+    override val userLatitude: Flow<Double>
+        get() = registerDataStore.data.map {
+            it[LATITUDE] ?: 0.0
+        }
+
+    override val userLongitude: Flow<Double>
+        get() = registerDataStore.data.map {
+            it[LONGITUDE] ?: 0.0
+        }
 
     override suspend fun deleteAllData() {
         registerDataStore.edit {
@@ -45,9 +109,27 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setDogPhoto(uriStr: String) {
+        registerDataStore.edit {
+            it[PET_PHOTO] = uriStr
+        }
+    }
+
+    override suspend fun setDogAgeForView(age: String) {
+        registerDataStore.edit {
+            it[PET_AGE_FOR_VIEW] = age
+        }
+    }
+
     override suspend fun setDogAge(age: String) {
         registerDataStore.edit {
             it[PET_AGE] = age
+        }
+    }
+
+    override suspend fun setDogBreedForView(breed: String) {
+        registerDataStore.edit {
+            it[PET_BREED_FOR_VIEW] = breed
         }
     }
 
@@ -93,204 +175,31 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserEmail(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[EMAIL] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getUserNickName(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[NICK_NAME] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getUserIcon(): Int {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[ICON]!!
-                }.first()
-        }
-    }
-
-    override suspend fun getDogName(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[PET_NAME] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getDogAge(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[PET_AGE] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getDogBreed(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[PET_BREED] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getDogSex(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[PET_SEX] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getIsNeuter(): Boolean {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[NEUTRALIZATION] ?: false
-                }.first()
-        }
-    }
-
-    override suspend fun getDogLikeTag(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[LIKE_TAG] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getDogDislikeTag(): String {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[DISLIKE_TAG] ?: ""
-                }.first()
-        }
-    }
-
-    override suspend fun getUserLatitude(): Double {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[LATITUDE]!!
-                }.first()
-        }
-    }
-
-    override suspend fun getUserLongitude(): Double {
-        return runBlocking(Dispatchers.IO) {
-            registerDataStore.data
-                .catch { exception ->
-                    if (exception is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw exception
-                    }
-                }
-                .map {
-                    it[LONGITUDE]!!
-                }.first()
-        }
-    }
+//    override suspend fun getUserEmail(): String {
+//        return runBlocking(Dispatchers.IO) {
+//            registerDataStore.data
+//                .catch { exception ->
+//                    if (exception is IOException) {
+//                        emit(emptyPreferences())
+//                    } else {
+//                        throw exception
+//                    }
+//                }
+//                .map {
+//                    it[EMAIL] ?: ""
+//                }.first()
+//        }
+//    }
 
     private companion object {
         val EMAIL = stringPreferencesKey("userEmail")
         val NICK_NAME = stringPreferencesKey("userNickName")
         val ICON = intPreferencesKey("userIcon")
         val PET_NAME = stringPreferencesKey("dogName")
+        val PET_PHOTO = stringPreferencesKey("dogPhoto")
+        val PET_AGE_FOR_VIEW = stringPreferencesKey("dogAgeForView")
         val PET_AGE = stringPreferencesKey("dogAge")
+        val PET_BREED_FOR_VIEW = stringPreferencesKey("dogBreedForView")
         val PET_BREED = stringPreferencesKey("dogBreed")
         val PET_SEX = stringPreferencesKey("dogSex")
         val NEUTRALIZATION = booleanPreferencesKey("isNeuter")

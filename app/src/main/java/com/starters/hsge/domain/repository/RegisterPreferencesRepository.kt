@@ -1,8 +1,36 @@
 package com.starters.hsge.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+
 interface RegisterPreferencesRepository {
 
-    suspend fun deleteAllData()
+    val userNickName: Flow<String>
+
+    val userIcon: Flow<Int>
+
+    val dogName: Flow<String>
+
+    val dogPhoto: Flow<String>
+
+    val dogSex: Flow<String>
+
+    val dogNeuter: Flow<Boolean>
+
+    val dogAgeForView: Flow<String>
+
+    val dogAge: Flow<String>
+
+    val dogBreedForView: Flow<String>
+
+    val dogBreed: Flow<String>
+
+    val dogLikeTag: Flow<String>
+
+    val dogDislikeTag: Flow<String>
+
+    val userLatitude: Flow<Double>
+
+    val userLongitude: Flow<Double>
 
     suspend fun setUserEmail(email: String)
 
@@ -12,7 +40,13 @@ interface RegisterPreferencesRepository {
 
     suspend fun setDogName(name: String)
 
+    suspend fun setDogPhoto(uriStr: String)
+
+    suspend fun setDogAgeForView(age: String)
+
     suspend fun setDogAge(age: String)
+
+    suspend fun setDogBreedForView(breed: String)
 
     suspend fun setDogBreed(breed: String)
 
@@ -28,27 +62,5 @@ interface RegisterPreferencesRepository {
 
     suspend fun setUserLongitude(longitude: Double)
 
-    suspend fun getUserEmail(): String
-
-    suspend fun getUserNickName(): String
-
-    suspend fun getUserIcon(): Int
-
-    suspend fun getDogName(): String
-
-    suspend fun getDogAge(): String
-
-    suspend fun getDogBreed(): String
-
-    suspend fun getDogSex(): String
-
-    suspend fun getIsNeuter(): Boolean
-
-    suspend fun getDogLikeTag(): String
-
-    suspend fun getDogDislikeTag(): String
-
-    suspend fun getUserLatitude(): Double
-
-    suspend fun getUserLongitude(): Double
+    suspend fun deleteAllData()
 }
