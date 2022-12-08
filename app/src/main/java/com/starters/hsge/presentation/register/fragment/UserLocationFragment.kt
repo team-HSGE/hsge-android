@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -29,11 +30,13 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
+import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -86,41 +89,30 @@ class UserLocationFragment :
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 
-            // 서버로 등록 정보 전송
-            val dogName = prefs.getString("dogName", "").toString()
-            val dogAge = prefs.getString("dogAge", "").toString()
-            val dogBreed = prefs.getString("dogBreed", "").toString()
-            val dogSex = prefs.getString("dogSex", "").toString()
-            val isNeuter = prefs.getBoolean("isNeuter", false)
-            val dogLikeTag = prefs.getString("LikeTag", "").toString()
-            val dogDislikeTag = prefs.getString("DislikeTag", "").toString()
-            val latitude = prefs.getString("latitude", "0").toString().toDouble()
-            val longitude = prefs.getString("longitude", "0").toString().toDouble()
-
-            val registerInfo = RegisterInfo(
-                email = "slee513@naver.com",
-                userNickName = "서유니",
-                userIcon = 221029,
-                dogName = dogName,
-                dogAge = dogAge,
-                dogBreed = dogBreed,
-                dogSex = dogSex,
-                isNeuter = isNeuter,
-                dogLikeTag = dogLikeTag,
-                dogDislikeTag = dogDislikeTag,
-                latitude = latitude,
-                longitude = longitude
-            )
-
             lifecycleScope.launch {
-                registerViewModel.postRegisterInfo(registerViewModel.dogPhoto, registerInfo)
+
+                // 저장된 이미지 타입 변환: String -> Uri -> File
+                val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
+                val imgFile = UriUtil.toFile(requireContext(), imgUri)
+
+                val registerInfo = RegisterInfo(
+                    email = "dkdk@naver.com",
+                    userNickName = "뉴비",
+                    userIcon = 221029,
+                    dogName = registerViewModel.fetchDogName().first(),
+                    dogAge = registerViewModel.fetchDogAge().first(),
+                    dogBreed = registerViewModel.fetchDogBreed().first(),
+                    dogSex = registerViewModel.fetchDogSex().first(),
+                    isNeuter = registerViewModel.fetchDogNeuter().first(),
+                    dogLikeTag = registerViewModel.fetchDogLikeTag().first(),
+                    dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
+                    latitude = registerViewModel.fetchUserLatitude().first(),
+                    longitude = registerViewModel.fetchUserLongitude().first()
+                )
+
+                registerViewModel.postRegisterInfo(imgFile, registerInfo)
+                registerViewModel.deleteAllInfo()
             }
-
-
-            // sp 정보 삭제
-            prefs.edit().remove("address").apply()
-            prefs.edit().remove("longitude").apply()
-            prefs.edit().remove("latitude").apply()
             activity?.finish() //RegisterActivity 종료
         }
     }
@@ -231,10 +223,10 @@ class UserLocationFragment :
                     Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
                         .show()
                 else {
-
-                    prefs.edit().putString("latitude", location.latitude.toString()).apply()
-                    prefs.edit().putString("longitude", location.longitude.toString()).apply()
-
+                    lifecycleScope.launch {
+                        registerViewModel.saveUserLatitude(location.latitude)
+                        registerViewModel.saveUserLongitude(location.longitude)
+                    }
                     val geocoder = Geocoder(requireContext())
                     convertToAddress(geocoder, location)
                 }

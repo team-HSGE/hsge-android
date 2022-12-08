@@ -12,16 +12,19 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogPhotoBinding
-import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment_dog_photo) {
@@ -30,12 +33,10 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     private lateinit var imageResult: ActivityResultLauncher<Intent>
     private val registerViewModel: RegisterViewModel by viewModels()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnNext.isEnabled = true
-
+        //updateDogPhotoToImgView()
         initPermissionLauncher()
         initImageLauncher()
         initListener()
@@ -62,15 +63,19 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
                     context?.let {
                         if (imageUri != null) {
-                            val imgFile = UriUtil.toFile(it, imageUri)
-                            //registerViewModel.dogPhoto = imgFile
+                            val imgUriToStr = imageUri.toString()
+                            registerViewModel.img = imgUriToStr
+                            lifecycleScope.launch {
+                                registerViewModel.saveDogPhoto(imgUriToStr)
+                            }
+
                             Glide.with(this)
                                 .load(imageUri)
                                 .fitCenter()
                                 .circleCrop()
                                 .into(binding.ivDogPhoto)
 
-                            //setButtonEnable()
+                            setButtonEnable()
                         }
                     }
                 }
@@ -132,9 +137,22 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
         builder.show()
     }
 
+    private fun updateDogPhotoToImgView() {
+        registerViewModel.fetchDogPhoto().asLiveData().observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                val imgStrToUri = it.toUri()
+                Glide.with(this)
+                    .load(imgStrToUri)
+                    .fitCenter()
+                    .circleCrop()
+                    .into(binding.ivDogPhoto)
+
+                binding.btnNext.isEnabled = true
+            }
+        }
+    }
 
     private fun initListener() {
-
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()
         }
@@ -146,7 +164,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     }
 
     private fun setButtonEnable() {
-        binding.btnNext.isEnabled = !registerViewModel.dogPhoto.exists()
+        binding.btnNext.isEnabled = !registerViewModel.img.isNullOrEmpty()
     }
 
     private fun setNavigation() {

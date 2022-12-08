@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.register.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -11,6 +12,8 @@ import com.starters.hsge.databinding.FragmentDogDislikeTagBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layout.fragment_dog_dislike_tag) {
@@ -26,6 +29,7 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
             "#스킨십", "#큰소리", "#향수")
 
         setUpChipGroupDynamically(list)
+        //updateCheckedChip()
         initListener()
         setNavigation()
 
@@ -61,23 +65,40 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
     }
 
     private fun getChipsText(): String {
-        var likeTags = ""
+        var dislikeTags = ""
         for (index in 0 until binding.chipGroupDislike.childCount) {
             val chip = binding.chipGroupDislike.getChildAt(index) as Chip
             if (binding.chipGroupDislike.checkedChipIds.contains(chip.id)) {
-                likeTags += chip.text
+                dislikeTags += chip.text.toString() + ","
             }
         }
-        return likeTags
+        return dislikeTags
     }
 
+    private fun updateCheckedChip() {
+        lifecycleScope.launch {
+            if (registerViewModel.fetchDogDislikeTag().first().isNotEmpty()) {
+                val tagList: List<String> = registerViewModel.fetchDogDislikeTag().first().split(",")
+
+                for (index in 0 until binding.chipGroupDislike.childCount) {
+                    val chip = binding.chipGroupDislike.getChildAt(index) as Chip
+                    if (tagList.contains(chip.text)) {
+                        chip.isChecked = true
+                    }
+                }
+                binding.btnNext.isEnabled = true
+            }
+        }
+    }
 
     private fun initListener() {
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogDislikeTagFragment_to_userLocationFragment)
 
-            registerViewModel.dogDisLikeTag = getChipsText()
+            lifecycleScope.launch {
+                registerViewModel.saveDogDislikeTag(getChipsText())
+            }
         }
     }
 
