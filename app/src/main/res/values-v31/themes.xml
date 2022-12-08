@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenBackground">#FFBF43</item>
+        <item name="android:windowSplashScreenAnimationDuration">3000</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_sep_icon</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splash_sep_title</item>
+        <item name="android:statusBarColor">#FFBF43</item>
+    </style>
+
+</resources>

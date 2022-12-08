@@ -7,7 +7,7 @@
 
         <variable
             name="dog"
-            type="com.starters.hsge.data.model.DogCard" />
+            type="com.starters.hsge.data.model.remote.response.DogCard" />
     </data>
 
     <androidx.cardview.widget.CardView

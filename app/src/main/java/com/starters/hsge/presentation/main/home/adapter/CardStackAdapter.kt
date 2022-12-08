@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.starters.hsge.R
-import com.starters.hsge.data.model.DogCard
+import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.databinding.ItemCardBinding
 
 

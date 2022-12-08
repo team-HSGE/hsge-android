@@ -26,19 +26,25 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
         super.onViewCreated(view, savedInstanceState)
 
         userIconList = listOf<Int>(
-            R.drawable.ic_profile_icon_1,
-            R.drawable.ic_profile_icon_2,
-            R.drawable.ic_profile_icon_3,
-            R.drawable.ic_profile_icon_4,
-            R.drawable.ic_profile_icon_5,
-            R.drawable.ic_profile_icon_6,
-            R.drawable.ic_profile_icon_7,
-            R.drawable.ic_profile_icon_8
+            R.drawable.ic_dog_profile_1,
+            R.drawable.ic_dog_profile_6,
+            R.drawable.ic_dog_profile_11,
+            R.drawable.ic_dog_profile_2,
+            R.drawable.ic_dog_profile_7,
+            R.drawable.ic_dog_profile_12,
+            R.drawable.ic_dog_profile_3,
+            R.drawable.ic_dog_profile_8,
+            R.drawable.ic_dog_profile_13,
+            R.drawable.ic_dog_profile_4,
+            R.drawable.ic_dog_profile_9,
+            R.drawable.ic_dog_profile_14,
+            R.drawable.ic_dog_profile_5,
+            R.drawable.ic_dog_profile_10,
+            R.drawable.ic_dog_profile_15
         )
 
         setNavigation()
         initRecyclerView(userIconList)
-
     }
 
     private fun initRecyclerView(list: List<Int>) {
