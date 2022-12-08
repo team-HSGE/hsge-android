@@ -1,8 +1,10 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -11,6 +13,8 @@ import com.starters.hsge.databinding.FragmentDogLikeTagBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.fragment_dog_like_tag) {
@@ -27,6 +31,7 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
 
         setUpChipGroupDynamically(list)
+        //updateCheckedChip()
         initListener()
         setNavigation()
 
@@ -43,33 +48,38 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         chip.text = label
 
         chip.setOnClickListener {
-            val ids: List<Int> = binding.chipGroup.checkedChipIds
-            binding.btnNext.isEnabled = ids.isNotEmpty()
 
-            if (ids.size == 3) {
-                for (index in 0 until binding.chipGroup.childCount) {
-                    val chip = binding.chipGroup.getChildAt(index) as Chip
-                    chip.isCheckable = chip.isChecked
-                }
-            } else if (ids.size < 3) {
-                for (index in 0 until binding.chipGroup.childCount) {
-                    val chip = binding.chipGroup.getChildAt(index) as Chip
-                    chip.isCheckable = true
+            lifecycleScope.launch {
+                val ids: List<Int> = binding.chipGroup.checkedChipIds
+                Log.d("선택된 칩을 보자", "${ids}")
+                binding.btnNext.isEnabled = ids.isNotEmpty()
+                var savedList: List<String> = registerViewModel.fetchDogLikeTag().first().split(",")
+                if (ids.size == 3 || savedList.size == 3) {
+                    for (index in 0 until binding.chipGroup.childCount) {
+                        val chip = binding.chipGroup.getChildAt(index) as Chip
+                        chip.isCheckable = chip.isChecked
+                    }
+                } else if (ids.size < 3 || savedList.size < 3) {
+                    for (index in 0 until binding.chipGroup.childCount) {
+                        val chip = binding.chipGroup.getChildAt(index) as Chip
+                        chip.isCheckable = true
+                    }
                 }
             }
+
         }
         return chip
     }
 
     private fun getChipsText(): String {
-        var dislikeTags = ""
+        var likeTas = ""
         for (index in 0 until binding.chipGroup.childCount) {
             val chip = binding.chipGroup.getChildAt(index) as Chip
             if (binding.chipGroup.checkedChipIds.contains(chip.id)) {
-                dislikeTags += chip.text
+                likeTas += chip.text.toString() + ","
             }
         }
-        return dislikeTags
+        return likeTas
     }
 
     private fun initListener() {
@@ -77,9 +87,29 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogLikeTagFragment_to_dogDislikeTagFragment)
 
-            registerViewModel.dogLikTag = getChipsText()
+           lifecycleScope.launch {
+               registerViewModel.saveDogLikeTag(getChipsText())
+               Log.d("태그 들어갓나", "${registerViewModel.fetchDogLikeTag().first()}")
+           }
         }
     }
+
+    private fun updateCheckedChip() {
+        lifecycleScope.launch {
+            if (registerViewModel.fetchDogLikeTag().first().isNotEmpty()) {
+                val tagList: List<String> = registerViewModel.fetchDogLikeTag().first().split(",")
+                Log.d("리스트0번", tagList[0])
+                for (index in 0 until binding.chipGroup.childCount) {
+                    val chip = binding.chipGroup.getChildAt(index) as Chip
+                    if (tagList.contains(chip.text)) {
+                        chip.isChecked = true
+                        Log.d("업데이트 칩아이디", "${chip.id}")
+                    }
+                }
+                binding.btnNext.isEnabled = true
+            }
+        }
+   }
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {

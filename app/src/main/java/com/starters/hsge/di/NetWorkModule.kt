@@ -1,7 +1,9 @@
 package com.starters.hsge.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.starters.hsge.data.api.DogOptionApi
 import com.starters.hsge.data.api.ImageService
+import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.presentation.common.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -65,12 +67,9 @@ object NetworkModule {
     fun providesConvertorFactory() =
         json.asConverterFactory("application/json".toMediaType())
 
-    /**
-     * Retrofit, api 예제
-     */
     @Provides
     @Singleton
-    @RetrofitBase
+    @RetrofitHSGE
     fun providesRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory,
@@ -83,12 +82,26 @@ object NetworkModule {
     // multipart API
     @Provides
     @Singleton
-    @RetrofitBase
-    fun providesApi(@RetrofitBase retrofit: Retrofit): ImageService =
+    @RetrofitHSGE
+    fun providesApi(@RetrofitHSGE retrofit: Retrofit): ImageService =
         retrofit.create(ImageService::class.java)
+
+    // DogOption API
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesDogOptionApi(@RetrofitHSGE retrofit: Retrofit): DogOptionApi =
+        retrofit.create(DogOptionApi::class.java)
+
+    // User Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesUserApi(@RetrofitHSGE retrofit: Retrofit): UserApi =
+        retrofit.create(UserApi::class.java)
 
 }
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class RetrofitBase
+annotation class RetrofitHSGE
