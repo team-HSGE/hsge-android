@@ -129,4 +129,11 @@
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
     <string name="register_btn_finish">완료</string>
+    <string name="dog_management_title">반려견 관리</string>
+    <string name="dog_edit_neuter">중성화</string>
+    <string name="dog_edit_like">Like</string>
+    <string name="dog_edit_dislike">Dislike</string>
+    <string name="dog_edit_comment_title">자기소개</string>
+    <string name="dog_edit_info_title">기본 정보</string>
+    <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
 </resources>

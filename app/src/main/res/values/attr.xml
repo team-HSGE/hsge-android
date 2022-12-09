@@ -2,4 +2,5 @@
 <resources>
     <attr name="CustomLikeChipChoiceStyle" format="reference"/>
     <attr name="CustomDislikeChipChoiceStyle" format="reference"/>
+    <attr name="CustomNeuterChipChoiceStyle" format="reference"/>
 </resources>
