@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/dogProfileEditFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_managementFragment"
+            app:destination="@id/managementFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -51,4 +54,16 @@
         android:name="com.starters.hsge.presentation.main.mypage.WithdrawalFragment"
         android:label="fragment_withdrawal"
         tools:layout="@layout/fragment_withdrawal" />
+    <fragment
+        android:id="@+id/managementFragment"
+        android:name="com.starters.hsge.presentation.main.management.ManagementFragment"
+        android:label="ManagementFragment" >
+        <action
+            android:id="@+id/action_managementFragment_to_dogProfileEditFragment"
+            app:destination="@id/dogProfileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogProfileEditFragment"
+        android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
+        android:label="DogProfileEditFragment" />
 </navigation>
