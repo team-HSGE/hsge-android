@@ -91,7 +91,7 @@ class UserLocationFragment :
                 val latitude = prefs.getString("latitude", "0").toString().toDouble()
                 val longitude = prefs.getString("longitude", "0").toString().toDouble()
                 val location = prefs.getString("location", "0").toString()
-                putLocationRetrofitWork(latitude, longitude)
+                putLocationRetrofitWork(latitude, longitude, location)
 
 
             } else {
@@ -245,10 +245,10 @@ class UserLocationFragment :
 
 
     // retrofit 통신
-    private fun putLocationRetrofitWork(lat: Double, lng: Double){
+    private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String){
         val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
 
-        locationRetrofit.putLocationData(request = userLocation(lat, lng)).enqueue(object :
+        locationRetrofit.putLocationData(request = userLocation(lat, lng, town)).enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){

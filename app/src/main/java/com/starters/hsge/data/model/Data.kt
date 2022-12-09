@@ -13,7 +13,8 @@ data class Data(
 
 data class userLocation(
     val latitude: Double,
-    val longtitude: Double
+    val longtitude: Double,
+    val town: String
 )
 
 data class Distance(
