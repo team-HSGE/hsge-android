@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"
-        android:background="@drawable/bg_dialog_white_round">
+        android:background="@drawable/bg_dialog_white_r16">
 
         <TextView
             android:id="@+id/tv_dialog_title"
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_dialog_gray_stroke_round"
+                android:background="@drawable/bg_dialog_gray_stroke_r8"
                 android:gravity="center"
                 android:layout_marginRight="6dp"
                 android:paddingHorizontal="14dp"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                android:background="@drawable/bg_dialog_red_round"
+                android:background="@drawable/bg_dialog_red_r8"
                 android:gravity="center"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="10dp"
