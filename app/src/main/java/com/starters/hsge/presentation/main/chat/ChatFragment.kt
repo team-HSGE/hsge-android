@@ -22,7 +22,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
         val likedPeopleList = listOf(
             LikedPeople(
                 R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
+                "덴마크당나귀안녕하세요"
             ),
             LikedPeople(
                 R.drawable.ic_user_icon_test,
