@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/bg_light_gray_round_12"
+            android:background="@drawable/bg_light_gray_r12"
             android:text="@string/withdrawal_button"
             android:textColor="@color/white"
             android:textSize="16sp"

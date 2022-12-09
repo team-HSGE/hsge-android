@@ -20,6 +20,8 @@
     <color name="top_app_bar">#FFFFFF</color>
 
     <!-- Grey scale -->
+    <color name="light_gray">#DBDBDB</color>
+
     <color name="G900">#222222</color>
     <color name="G800">#4D4D4D</color>
     <color name="G700">#656565</color>
@@ -28,15 +30,13 @@
     <color name="G400">#BCBCBC</color>
     <color name="G300">#E4E4E4</color>
     <color name="G200">#EFEFEF</color>
-    <color name="G100">#EFEFEF</color>
+    <color name="G100">#F5F5F5</color>
 
     <!-- Colors_ -->
     <color name="yellow_56">#8FFFBF43</color>
     <color name="white_50">#80FFFFFF</color>
 
-    <!-- Colors -->
-    <color name="light_gray">#DBDBDB</color>
-    <color name="hint_light_gray">#DBDBDB</color>
+    <!-- Card -->
     <color name="black_205">#CD000000</color>
 
     <!-- Gender -->
