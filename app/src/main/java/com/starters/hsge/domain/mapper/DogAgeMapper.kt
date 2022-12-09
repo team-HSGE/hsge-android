@@ -1,4 +1,4 @@
-package com.starters.hsge.domain.Mapper
+package com.starters.hsge.domain.mapper
 
 import com.starters.hsge.data.model.remote.response.DogAgeResponse
 

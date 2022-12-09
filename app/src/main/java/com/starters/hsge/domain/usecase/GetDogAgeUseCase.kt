@@ -1,6 +1,6 @@
 package com.starters.hsge.domain.usecase
 
-import com.starters.hsge.domain.Mapper.mapToAgeMap
+import com.starters.hsge.domain.mapper.mapToAgeMap
 import com.starters.hsge.domain.repository.DogOptionRepository
 import javax.inject.Inject
 
