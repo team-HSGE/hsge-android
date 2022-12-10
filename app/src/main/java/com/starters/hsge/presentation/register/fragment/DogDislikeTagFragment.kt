@@ -29,7 +29,7 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
             "#스킨십", "#큰소리", "#향수")
 
         setUpChipGroupDynamically(list)
-        //updateCheckedChip()
+        updateCheckedChip()
         initListener()
         setNavigation()
 
@@ -49,16 +49,8 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
             val ids: List<Int> = binding.chipGroupDislike.checkedChipIds
             binding.btnNext.isEnabled = ids.isNotEmpty()
 
-            if (ids.size == 3) {
-                for (index in 0 until binding.chipGroupDislike.childCount) {
-                    val chip = binding.chipGroupDislike.getChildAt(index) as Chip
-                    chip.isCheckable = chip.isChecked
-                }
-            } else if (ids.size < 3) {
-                for (index in 0 until binding.chipGroupDislike.childCount) {
-                    val chip = binding.chipGroupDislike.getChildAt(index) as Chip
-                    chip.isCheckable = true
-                }
+            if (ids.size > 3) {
+                chip.isChecked = false
             }
         }
         return chip
