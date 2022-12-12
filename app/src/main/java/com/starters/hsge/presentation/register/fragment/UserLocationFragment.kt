@@ -98,7 +98,7 @@ class UserLocationFragment :
                 val registerInfo = RegisterInfo(
                     email = "dkdk@naver.com",
                     userNickName = "뉴비",
-                    userIcon = 221029,
+                    userIcon = prefs.getInt("resId", 0),
                     dogName = registerViewModel.fetchDogName().first(),
                     dogAge = registerViewModel.fetchDogAge().first(),
                     dogBreed = registerViewModel.fetchDogBreed().first(),
