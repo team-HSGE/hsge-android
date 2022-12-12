@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -71,6 +72,7 @@ class UserLocationFragment :
         binding.btnNext.isEnabled = !binding.tvMyLocation.text.isNullOrEmpty()
     }
 
+
     private fun initListener() {
 
         // 사용자 위치 정보 받기
@@ -86,34 +88,55 @@ class UserLocationFragment :
         binding.btnNext.setOnClickListener {
 
             // 홈 화면으로 이동
+
+            if (prefs.getInt("getLocationFrom", 0) == 1) {
+                Log.d("from?", "mypage")
+                // 위도, 경도, 장소 보내는 post api 통신
+                val latitude = prefs.getString("latitude", "0").toString().toDouble()
+                val longitude = prefs.getString("longitude", "0").toString().toDouble()
+                val location = prefs.getString("location", "0").toString()
+            } else {
+                Log.d("from?", "register")
+
+                lifecycleScope.launch {
+
+                    // 저장된 이미지 타입 변환: String -> Uri -> File
+                    val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
+                    val imgFile = UriUtil.toFile(requireContext(), imgUri)
+
+                    val registerInfo = RegisterInfo(
+                        email = "dkdk5@naver.com",
+                        userNickName = "뉴비5",
+                        userIcon = 221029,
+                        dogName = registerViewModel.fetchDogName().first(),
+                        dogAge = registerViewModel.fetchDogAge().first(),
+                        dogBreed = registerViewModel.fetchDogBreed().first(),
+                        dogSex = registerViewModel.fetchDogSex().first(),
+                        isNeuter = registerViewModel.fetchDogNeuter().first(),
+                        dogLikeTag = registerViewModel.fetchDogLikeTag().first(),
+                        dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
+                        latitude = registerViewModel.fetchUserLatitude().first(),
+                        longitude = registerViewModel.fetchUserLongitude().first()
+                    )
+
+                    registerViewModel.postRegisterInfo(imgFile, registerInfo)
+                    registerViewModel.deleteAllInfo()
+                }
+            }
+
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 
-            lifecycleScope.launch {
 
-                // 저장된 이미지 타입 변환: String -> Uri -> File
-                val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
-                val imgFile = UriUtil.toFile(requireContext(), imgUri)
+            prefs.edit().remove("address").apply()
+            prefs.edit().remove("longitude").apply()
+            prefs.edit().remove("latitude").apply()
+            prefs.edit().remove("location").apply()
+            prefs.edit().remove("getLocationFrom").apply()
 
-                val registerInfo = RegisterInfo(
-                    email = "dkdk@naver.com",
-                    userNickName = "뉴비",
-                    userIcon = 221029,
-                    dogName = registerViewModel.fetchDogName().first(),
-                    dogAge = registerViewModel.fetchDogAge().first(),
-                    dogBreed = registerViewModel.fetchDogBreed().first(),
-                    dogSex = registerViewModel.fetchDogSex().first(),
-                    isNeuter = registerViewModel.fetchDogNeuter().first(),
-                    dogLikeTag = registerViewModel.fetchDogLikeTag().first(),
-                    dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
-                    latitude = registerViewModel.fetchUserLatitude().first(),
-                    longitude = registerViewModel.fetchUserLongitude().first()
-                )
-
-                registerViewModel.postRegisterInfo(imgFile, registerInfo)
-                registerViewModel.deleteAllInfo()
-            }
             activity?.finish() //RegisterActivity 종료
+
+            //Navigation.findNavController(binding.root).navigate(R.id.action_userLocationFragment_to_userDistanceFragment)
         }
     }
 
@@ -242,6 +265,7 @@ class UserLocationFragment :
         addressList.removeAt(0)
         addressList.removeAt(addressList.size - 1)
 
+        // tvMyLocation에 넣을 주소
         val locationAddress = StringBuilder()
         for (i in addressList) {
             locationAddress.append(i)
@@ -249,6 +273,15 @@ class UserLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         prefs.edit().putString("address", locationAddress.toString()).apply()
+
+        // 서버에 저장할 주소 - '중구 다동'만 저장
+        addressList.removeAt(0)
+        val addressForMyPage = StringBuilder()
+        for (i in addressList) {
+            addressForMyPage.append(i)
+            addressForMyPage.append(" ")
+        }
+        prefs.edit().putString("location", addressForMyPage.toString()).apply()
 
         dismissLoadingDialog()
         changeDoneButton()

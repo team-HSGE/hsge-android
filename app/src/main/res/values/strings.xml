@@ -17,8 +17,8 @@
     <string name="set_location_et_hint">ex) 서울특별시 중구 무교동</string>
     <string name="set_location_btn">현재 위치 찾기</string>
     <string name="set_location_btn_img">현재 위치 검색 버튼 이미지</string>
-    <string name="set_radius_title">보여줄 강아지 동네 변경</string>
-    <string name="set_radius">200km</string>
+    <string name="set_distance_title">동네 반경 설정</string>
+    <string name="set_distance">3km</string>
     <string name="profile">프로필</string>
     <string name="nick_name">닉네임</string>
     <string name="nick_name_hint">최대 13자 이내로 입력하세요.</string>
@@ -115,7 +115,7 @@
 
     <string name="home_dog_dislike">관심없어요</string>
     <string name="home_dog_like">관심 있어요</string>
-    <string name="user_location_dog_location_explain">근처의 강아지를 보여드려요</string>
+    <string name="user_location_dog_location_explain">강아지를 보여줄 동네 반경을 설정하세요</string>
 
     <string name="dialog_loading">로딩 중입니다.</string>
     <string name="dog_neuter">중성화</string>
@@ -129,6 +129,13 @@
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
     <string name="register_btn_finish">완료</string>
+    <string name="item_card_like_overlay">관심 있어요 오버레이 리소스</string>
+    <string name="item_card_dislike_overlay">관심 없어요 오버레이 리소스</string>
+    <string name="mypage_user_distance_setting">반경 설정</string>
+    <string name="distance_finish">완료</string>
+    <string name="chat_tap_title">채팅</string>
+    <string name="chat_liked_people_title">좋아요 보낸 사람들</string>
+    <string name="chat_chat_list">채팅 목록</string>
     <string name="dog_management_title">반려견 관리</string>
     <string name="dog_edit_neuter">중성화</string>
     <string name="dog_edit_like">Like</string>
@@ -136,4 +143,5 @@
     <string name="dog_edit_comment_title">자기소개</string>
     <string name="dog_edit_info_title">기본 정보</string>
     <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
+    <string name="dog_profile_edit_toolbar">반려견 프로필 수정</string>
 </resources>

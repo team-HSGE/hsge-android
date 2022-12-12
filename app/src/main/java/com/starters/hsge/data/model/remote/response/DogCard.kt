@@ -4,8 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DogCard(
+    val petId: Int,
     val name: String,
-    val imgUrl: String,
+    val picture: String,
     val breed: String,
     val age: String,
     val sex: String,

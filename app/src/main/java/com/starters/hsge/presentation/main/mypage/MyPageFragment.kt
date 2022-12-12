@@ -23,6 +23,17 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             goneBtmNav()
         }
 
+        binding.locationSettingSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_userLocationFragment2)
+            prefs.edit().putInt("getLocationFrom", 1).apply()
+            goneBtmNav()
+        }
+
+        binding.radiusSettingSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_userDistanceFragment)
+            goneBtmNav()
+        }
+
         binding.dogProfileManageSection.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_managementFragment)
             goneBtmNav()
