@@ -8,20 +8,30 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivitySplashBinding
+import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.register.RegisterActivity
 import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     var isReady = false
     var accessToken: String = ""
     var refreshToken: String = ""
+
+    companion object {
+        private const val DURATION : Long = 1000
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -142,8 +152,38 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    companion object {
-        private const val DURATION : Long = 1000
+    private fun tryPostCheckToken(accessToken: CheckTokenRequest, refreshToken: CheckTokenRequest){
+        val checkTokenInterface = RetrofitClient.sRetrofit.create(CheckTokenInterface::class.java)
+        checkTokenInterface.postToken(accessToken, refreshToken).enqueue(object :
+            Callback<CheckTokenResponse> {
+            override fun onResponse(
+                call: Call<CheckTokenResponse>,
+                response: Response<CheckTokenResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val result = response.body() as CheckTokenResponse
+                    Log.d("토큰갱신", "access토큰: ${result.accessToken} / refresh토큰: ${result.refreshToken}")
+
+                    //sp에 access랑 refresh 저장
+                    prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
+                    prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
+                    prefs.edit().putString("JustAccessToken", "${result.accessToken}").apply()
+                    prefs.edit().putString("JustRefreshToken", "${result.refreshToken}").apply()
+
+                } else  {
+                    when(response.code()) {
+                        401 -> {
+                            //Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CheckTokenResponse>, t: Throwable) {
+                Log.d("실패", t.message ?: "통신오류")
+
+            }
+        })
     }
 
 }

@@ -141,12 +141,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     val result = accessResponse.body() as AccessResponse
 
                     if (result.message == "LOGIN") {
-                        Log.d("회원정보", "${result.message} / 로그인 성공")
+                        Log.d("회원정보", "${result.message}")
 
                         // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장
-                        prefs.edit().putString("accessToken", result.accessToken).apply()
-                        prefs.edit().putString("refreshToken", result.refreshToken).apply()
-                        Log.d("리스폰스", "메시지: ${result.message}\naccess: ${result.accessToken}\nrefresh: ${result.refreshToken}")
+                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
+                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
+                        prefs.edit().putString("JustAccessToken", "${result.accessToken}").apply()
+                        prefs.edit().putString("JustRefreshToken", "${result.refreshToken}").apply()
+
+                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                        Log.d("Just토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
 
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -155,7 +159,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
                     } else if (result.message == "NEED_SIGNUP") {
-                        Log.d("회원정보", "${result.message} / 회원가입 필요")
+                        Log.d("회원정보", "${result.message}")
                         val intent = Intent(applicationContext, RegisterActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
