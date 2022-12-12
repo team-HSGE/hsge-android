@@ -10,49 +10,69 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
-        tools:context=".presentation.register.fragment.UserDistanceFragment">
+        tools:context=".presentation.main.mypage.UserDistanceFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_btn"/>
+
+        <TextView
+            android:id="@+id/tv_user_distance_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/user_location_dog_location_explain"
+            app:layout_constraintStart_toStartOf="@id/tv_user_distance_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_distance_title" />
 
 
         <TextView
-            android:id="@+id/tv_location_radius_title"
+            android:id="@+id/tv_user_distance_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:text="@string/set_radius_title"
+            android:layout_marginHorizontal="34dp"
+            android:text="@string/set_distance_title"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:layout_constraintVertical_bias="0.346" />
 
         <TextView
-            android:id="@+id/tv_location_radius"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_location_distance"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/set_radius"
+            android:text="@string/set_distance"
             android:textColor="@color/yellow"
-            android:textSize="16sp"
+            android:layout_marginEnd="16dp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_location_radius_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_location_radius_title" />
+            app:layout_constraintEnd_toEndOf="@id/tv_user_distance_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_user_distance_title"
+            app:layout_constraintTop_toTopOf="@id/tv_user_distance_title" />
 
         <SeekBar
+            android:max="15"
+            android:id="@+id/user_distance_seekbar"
+            android:layout_marginHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:max="100"
             android:progressDrawable="@drawable/bg_seekbar"
             android:thumb="@drawable/bg_seekbar_thumb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_location_radius_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_user_distance_explain" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
@@ -60,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/selector_next_button"
-            android:text="@string/btn_next"
+            android:text="@string/distance_finish"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

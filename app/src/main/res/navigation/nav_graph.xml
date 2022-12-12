@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dogProfileEditFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -31,6 +31,12 @@
         <action
             android:id="@+id/action_myPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_userDistanceFragment"
+            app:destination="@id/userDistanceFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_userLocationFragment2"
+            app:destination="@id/userLocationFragment2" />
         <action
             android:id="@+id/action_myPageFragment_to_managementFragment"
             app:destination="@id/managementFragment" />
@@ -66,4 +72,17 @@
         android:id="@+id/dogProfileEditFragment"
         android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
         android:label="DogProfileEditFragment" />
+
+    <fragment
+        android:id="@+id/userDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:label="UserDistanceFragment" >
+        <action
+            android:id="@+id/action_userDistanceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userLocationFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment"
+        android:label="UserLocationFragment" />
 </navigation>

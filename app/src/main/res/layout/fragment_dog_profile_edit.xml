@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/user_profile_edit_title"
-                android:text="반려견 프로필 수정"
+                android:text="@string/dog_profile_edit_toolbar"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

@@ -36,6 +36,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         super.onCreate(savedInstanceState)
 
         checkLoginInfo()
+
+        // 해시 키
+//        val keyHash = Utility.getKeyHash(this)
+//        Log.d("Hash", keyHash)
+
         callback()
         loginBtnClick()
     }
