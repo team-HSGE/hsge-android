@@ -8,7 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.DogCard
-import com.starters.hsge.data.model.IsLikeRequest
+import com.starters.hsge.data.model.remote.request.IsLikeRequest
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter

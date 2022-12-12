@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
-import com.starters.hsge.data.model.Distance
+import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
@@ -81,7 +81,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         val distanceRetrofit = RetrofitApi.retrofit.create(DistanceService::class.java)
         val radius = distance / 100
 
-        distanceRetrofit.putDistanceData(request = Distance(radius)).enqueue(object : Callback<Void>{
+        distanceRetrofit.putDistanceData(request = DistanceRequest(radius)).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){
                     Log.d("distance", radius.toString())

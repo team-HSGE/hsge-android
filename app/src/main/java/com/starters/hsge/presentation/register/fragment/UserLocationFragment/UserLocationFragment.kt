@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
-import com.starters.hsge.data.model.userLocation
+import com.starters.hsge.data.model.remote.request.userLocationRequest
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
@@ -300,7 +300,7 @@ class UserLocationFragment :
     private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String){
         val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
 
-        locationRetrofit.putLocationData(request = userLocation(lat, lng, town)).enqueue(object :
+        locationRetrofit.putLocationData(request = userLocationRequest(lat, lng, town)).enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){
