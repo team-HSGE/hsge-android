@@ -114,6 +114,7 @@ class UserLocationFragment :
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
                 Log.d("회원가입", "${registerInfo}")
                 registerViewModel.deleteAllInfo()
+                prefs.edit().remove("resId") // sp에 저장된 resId 제거
             }
             activity?.finish() //RegisterActivity 종료
         }

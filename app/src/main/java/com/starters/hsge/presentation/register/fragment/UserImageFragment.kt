@@ -44,7 +44,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
     }
 
     private fun getSharedPreferences() {
-        resId = prefs.getInt("resId", 2131165412)
+        resId = prefs.getInt("resId", R.drawable.ic_profile_photo_bg)
         Log.d("sp", "${resId}")
     }
 
