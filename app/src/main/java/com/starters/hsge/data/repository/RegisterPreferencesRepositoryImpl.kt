@@ -8,8 +8,13 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RegisterPreferencesRepositoryImpl @Inject constructor(
-    private val registerDataStore: DataStore<Preferences>,
+    private val registerDataStore: DataStore<Preferences>
 ) : RegisterPreferencesRepository {
+
+    override val userEmail: Flow<String>
+        get() = registerDataStore.data.map {
+            it[EMAIL] ?: ""
+        }
 
     override val userNickName: Flow<String>
         get() = registerDataStore.data.map {
