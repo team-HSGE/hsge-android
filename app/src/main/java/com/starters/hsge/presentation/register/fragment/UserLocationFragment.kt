@@ -96,7 +96,7 @@ class UserLocationFragment :
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
 
                 val registerInfo = RegisterInfo(
-                    email = "dkdk@naver.com",
+                    email = registerViewModel.fetchUserEmail().first(),
                     userNickName = registerViewModel.fetchUserNickname().first(),
                     userIcon = prefs.getInt("resId", 0),
                     dogName = registerViewModel.fetchDogName().first(),
