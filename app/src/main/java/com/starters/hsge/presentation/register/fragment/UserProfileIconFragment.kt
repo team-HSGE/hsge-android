@@ -8,6 +8,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
@@ -15,10 +20,15 @@ import com.starters.hsge.databinding.FragmentUserProfileIconBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.register.adapter.UserProfileIconAdapter
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.layout.fragment_user_profile_icon) {
 
     private lateinit var adapter: UserProfileIconAdapter
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     var userIconList = listOf<Int>()
 
@@ -50,11 +60,32 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
     private fun initRecyclerView(list: List<Int>) {
         adapter = UserProfileIconAdapter(list)
         binding.rvProfileIcon.adapter = adapter
+
+        lifecycleScope.launch {
+            registerViewModel.saveUserIcon(0)
+        }
+
+        adapter.setItemClickListener(object: UserProfileIconAdapter.OnItemClickListener{
+            override fun onClick(v: View, resId: Int) {
+                // 클릭 시 이벤트 작성
+                //prefs.edit().putInt("resId", resId).apply()
+
+                lifecycleScope.launch {
+                    registerViewModel.saveUserIcon(resId)
+                    Log.d("이미지ID2", "${resId}")
+                }
+
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_userProfileIconFragment_to_userImageFragment)
+            }
+
+        })
     }
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
+
         }
     }
 }

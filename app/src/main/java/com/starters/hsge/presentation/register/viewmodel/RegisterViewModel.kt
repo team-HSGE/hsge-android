@@ -63,6 +63,12 @@ class RegisterViewModel @Inject constructor(
     fun testDogAgeToLocal() = dogProfileRepository.getDogAge()
 
     // datastore에서 값 가져오기
+    fun fetchUserEmail() = registerPreferencesRepository.userEmail
+
+    fun fetchUserNickname() = registerPreferencesRepository.userNickName
+
+    fun fetchUserIcon() = registerPreferencesRepository.userIcon
+
     fun fetchDogName() = registerPreferencesRepository.dogName
 
     fun fetchDogPhoto() = registerPreferencesRepository.dogPhoto
@@ -89,6 +95,24 @@ class RegisterViewModel @Inject constructor(
 
 
     // datastore에 값 저장하기
+    fun saveUserEmail(email: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserEmail(email)
+        }
+    }
+
+    fun saveUserNickname(nickname: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserNickName(nickname)
+        }
+    }
+
+    fun saveUserIcon(icon: Int) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserIcon(icon)
+        }
+    }
+
     fun saveDogName(name: String) {
         viewModelScope.launch {
             registerPreferencesRepository.setDogName(name)

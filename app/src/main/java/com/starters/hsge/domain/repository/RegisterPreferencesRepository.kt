@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface RegisterPreferencesRepository {
 
+    val userEmail: Flow<String>
+
     val userNickName: Flow<String>
 
     val userIcon: Flow<Int>

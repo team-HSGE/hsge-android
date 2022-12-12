@@ -1,5 +1,6 @@
 package com.starters.hsge.presentation.register.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +14,17 @@ import com.starters.hsge.presentation.common.base.BaseFragment.Companion.prefs
 class UserProfileIconAdapter(private var userIconList: List<Int>)
     : RecyclerView.Adapter<UserProfileIconAdapter.UserProfileIconViewHolder>() {
 
+    private lateinit var itemClickListener : OnItemClickListener
+
     inner class UserProfileIconViewHolder(private val binding: ItemProfileIconBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(resId: Int) {
             binding.icon = resId
             binding.executePendingBindings()
+
             itemView.setOnClickListener {
-                prefs.edit().putInt("resId", resId).apply()
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_userProfileIconFragment_to_userImageFragment)
+                itemClickListener.onClick(it, resId)
+                Log.d("이미지ID", "${resId}")
             }
 
         }
@@ -41,6 +44,14 @@ class UserProfileIconAdapter(private var userIconList: List<Int>)
 
     override fun getItemCount(): Int {
         return userIconList.size
+    }
+
+    interface OnItemClickListener{
+        fun onClick(v: View, resId: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
 }
