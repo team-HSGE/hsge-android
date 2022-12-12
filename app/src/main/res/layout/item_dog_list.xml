@@ -45,10 +45,10 @@
 
         <ImageView
             android:id="@+id/iv_dog_sex"
+            bindDogSexIcon="@{myDogList.gender}"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginStart="8dp"
-            bindDogSexIcon="@{myDogList.gender}"
             app:layout_constraintBottom_toBottomOf="@id/tv_dog_name"
             app:layout_constraintStart_toEndOf="@id/tv_dog_name"
             app:layout_constraintTop_toTopOf="@id/tv_dog_name"
