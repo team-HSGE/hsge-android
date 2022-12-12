@@ -1,22 +1,25 @@
 package com.starters.hsge.presentation.register.fragment
 
-import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
+import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.login.LoginActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.fragment_user_nick_name) {
+
+    private var nickNameFlag = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +27,6 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         setTextWatcher()
         setNavigation()
         initListener()
-        //setListenerToEditText()
     }
 
     private fun setTextWatcher() {
@@ -33,11 +35,29 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.btnNext.isEnabled = !binding.edtUserNickName.text.isNullOrBlank()
+                Log.d("입력한 값", "${binding.edtUserNickName.text.toString()}")
+                val value = NicknameRequest(binding.edtUserNickName.text.toString())
+                tryPostNickname(value)
             }
 
             override fun afterTextChanged(p0: Editable?) {
-
+                if (p0 != null) {
+                    when {
+                        p0.isNullOrBlank() -> {
+                            binding.tilUserNickName.error = "닉네임을 입력해주세요."
+                            nickNameFlag = false
+                        }
+                        !verifyNickname(p0.toString()) -> {
+                            binding.tilUserNickName.error = "닉네임 양식이 맞지 않습니다."
+                            nickNameFlag = false
+                        }
+                        else -> {
+                            binding.tilUserNickName.error = null
+                            nickNameFlag = true
+                        }
+                    }
+                    flagCheck()
+                }
             }
         })
     }
@@ -49,26 +69,57 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         }
     }
 
-    // 엔터 시 포커스 제거 & 키보드 내리기
-    private fun setListenerToEditText() {
-        binding.edtUserNickName.setOnKeyListener { view, keyCode, event ->
-            // Enter Key Action
-            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                view.clearFocus()
-                // 키패드 내리기
-                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding.edtUserNickName.windowToken, 0)
-
-                return@setOnKeyListener true
-            }
-
-            false
-        }
-    }
-
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            finishAffinity(requireActivity())
+            startActivity(intent)
         }
     }
+
+    private fun tryPostNickname(value: NicknameRequest) {
+        val nicknameInterface = RetrofitClient.sRetrofit.create(NicknameInterface::class.java)
+        nicknameInterface.postNickname(nickname = value).enqueue(object :
+            Callback<NicknameResponse> {
+            override fun onResponse(
+                call: Call<NicknameResponse>,
+                response: Response<NicknameResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val result = response.body() as NicknameResponse
+
+                    // true면 사용가능, false면 중복
+                    val availability = result.data
+                    Log.d("닉네임 설정 가능", "$availability / $value")
+
+                    if (availability==true) {
+                        // sp에 저장하기
+                        prefs.edit().putString("nickname", value.nickname).apply()
+
+                    } else {
+                        // 다시 입력하기
+                        binding.tilUserNickName.error = "이미 사용중인 닉네임입니다."
+                        nickNameFlag = false
+                        flagCheck()
+                    }
+
+                } else {
+                    Log.d(
+                        "userNickname", "getNickname - onResponse : Error code ${response.code()}"
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<NicknameResponse>, t: Throwable) {
+                Log.d("userNickname", t.message ?: "통신오류")
+            }
+
+        })
+    }
+
+    private fun flagCheck() {
+        binding.btnNext.isEnabled = nickNameFlag
+    }
+
+    private fun  verifyNickname(nickname: String): Boolean = nickname.matches(Regex("^[가-힣a-zA-Z0-9]{2,13}$"))
 }

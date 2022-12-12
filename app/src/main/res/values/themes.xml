@@ -18,6 +18,12 @@
         <!-- Chip theme -->
         <item name="CustomLikeChipChoiceStyle">@style/ChipCustomStyleLike</item>
         <item name="CustomDislikeChipChoiceStyle">@style/ChipCustomStyleDislike</item>
+        <item name="CustomNeuterChipChoiceStyle">@style/ChipCustomStyleNeuter</item>
+    </style>
+
+    <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">#FFBF43</item>
+        <item name="android:statusBarColor">#FFBF43</item>
     </style>
 
     <style name="CustomBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -38,6 +44,12 @@
         <item name="android:textColor">@color/selector_dislike_text</item>
         <item name="chipCornerRadius">16dp</item>
         <item name="rippleColor">@color/light_red_50</item>
+    </style>
+
+    <style name="ChipCustomStyleNeuter" parent="@style/Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/selector_like_chip</item>
+        <item name="chipCornerRadius">16dp</item>
+        <item name="checkedIcon">@drawable/ic_check</item>
     </style>
 
 </resources>

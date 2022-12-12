@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation
+package com.starters.hsge.presentation.common.adapter
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

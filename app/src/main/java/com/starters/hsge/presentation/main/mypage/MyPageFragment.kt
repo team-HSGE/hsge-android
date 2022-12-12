@@ -33,6 +33,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             findNavController().navigate(R.id.action_myPageFragment_to_userDistanceFragment)
             goneBtmNav()
         }
+
+        binding.dogProfileManageSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_managementFragment)
+            goneBtmNav()
+        }
     }
 
     fun goneBtmNav(){

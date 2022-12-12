@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.starters.hsge.R
-import com.starters.hsge.data.model.DogCard
+import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.databinding.ItemCardBinding
 
 
@@ -67,7 +67,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
     private fun ChipGroup.addLikeChip(context: Context, label: String) {
         Chip(context).apply {
             textSize = 14F
-            setChipIconResource(R.drawable.chip_like)
+            setChipIconResource(R.drawable.ic_chip_like)
             text = label
             setChipBackgroundColorResource(R.color.light_yellow)
             chipIconSize = 34F
@@ -79,7 +79,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
     private fun ChipGroup.addDisLikeChip(context: Context, label: String) {
         Chip(context).apply {
             textSize = 14F
-            setChipIconResource(R.drawable.chip_dislike)
+            setChipIconResource(R.drawable.ic_chip_dislike)
             text = label
             setChipBackgroundColorResource(R.color.G200)
             chipIconSize = 34F
@@ -88,4 +88,3 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
         }
     }
 }
-

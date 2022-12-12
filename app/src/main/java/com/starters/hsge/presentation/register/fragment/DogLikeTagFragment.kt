@@ -1,8 +1,10 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
@@ -11,15 +13,13 @@ import com.starters.hsge.databinding.FragmentDogLikeTagBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.fragment_dog_like_tag) {
 
-    //칩버튼 동적추가 viewmodel
-    // https://chachas.tistory.com/71
     private val registerViewModel: RegisterViewModel by viewModels()
-    private lateinit var chip: Chip
-    private lateinit var Ids: List<Int>
 
     val list = listOf(
         "#남자사람", "#여자사람", "#아이", "#사람", "#암컷", "#수컷", "#공놀이", "#터그놀이",
@@ -30,75 +30,86 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpChipGroupDynamically(list)
+        //updateCheckedChip()
         initListener()
-        initChipButton(list)
-        //setChipCheckable()
-        //setButtonEnable()
         setNavigation()
 
     }
 
-    //https://choi3950.tistory.com/39
-    private fun initChipButton(chipList: List<String>) {
+    private fun setUpChipGroupDynamically(chipList: List<String>) {
         for (i in chipList) {
-            chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
-            chip.text = i
-            binding.chipGroup.addView(chip)
-            //setChipCheckable()
-            chipChecked()
+            binding.chipGroup.addView(createChip(i))
         }
+    }
+
+    private fun createChip(label: String): Chip {
+        val chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
+        chip.text = label
+
+        chip.setOnClickListener {
+
+            lifecycleScope.launch {
+                val ids: List<Int> = binding.chipGroup.checkedChipIds
+                Log.d("선택된 칩을 보자", "${ids}")
+                binding.btnNext.isEnabled = ids.isNotEmpty()
+                var savedList: List<String> = registerViewModel.fetchDogLikeTag().first().split(",")
+                if (ids.size == 3 || savedList.size == 3) {
+                    for (index in 0 until binding.chipGroup.childCount) {
+                        val chip = binding.chipGroup.getChildAt(index) as Chip
+                        chip.isCheckable = chip.isChecked
+                    }
+                } else if (ids.size < 3 || savedList.size < 3) {
+                    for (index in 0 until binding.chipGroup.childCount) {
+                        val chip = binding.chipGroup.getChildAt(index) as Chip
+                        chip.isCheckable = true
+                    }
+                }
+            }
+
+        }
+        return chip
+    }
+
+    private fun getChipsText(): String {
+        var likeTas = ""
+        for (index in 0 until binding.chipGroup.childCount) {
+            val chip = binding.chipGroup.getChildAt(index) as Chip
+            if (binding.chipGroup.checkedChipIds.contains(chip.id)) {
+                likeTas += chip.text.toString() + ","
+            }
+        }
+        return likeTas
     }
 
     private fun initListener() {
-
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogLikeTagFragment_to_dogDislikeTagFragment)
-            for (i in 0..binding.chipGroup.checkedChipIds.size) {
-                // chip id로 chip text 가져오기
-                // chip string 붙이기
-                // registerViewModel.dogLikTag += chip.text
-                // 식별
 
-            }
+           lifecycleScope.launch {
+               registerViewModel.saveDogLikeTag(getChipsText())
+               Log.d("태그 들어갓나", "${registerViewModel.fetchDogLikeTag().first()}")
+           }
         }
     }
 
-    private fun chipChecked() {
-        binding.chipGroup.checkedChipIds.forEach {
-            if (chip.id == it) {
-                chip.setOnClickListener {
-                    Ids = binding.chipGroup.checkedChipIds
-                    if (Ids.size > 3) {
-                        chip.isCheckable = false
-
+    private fun updateCheckedChip() {
+        lifecycleScope.launch {
+            if (registerViewModel.fetchDogLikeTag().first().isNotEmpty()) {
+                val tagList: List<String> = registerViewModel.fetchDogLikeTag().first().split(",")
+                Log.d("리스트0번", tagList[0])
+                for (index in 0 until binding.chipGroup.childCount) {
+                    val chip = binding.chipGroup.getChildAt(index) as Chip
+                    if (tagList.contains(chip.text)) {
+                        chip.isChecked = true
+                        Log.d("업데이트 칩아이디", "${chip.id}")
                     }
                 }
+                binding.btnNext.isEnabled = true
             }
         }
-
-    }
-
-    private fun setChipCheckable() {
-        chip.setOnCheckedChangeListener { _, boolean ->
-            if (boolean) {
-                val ids: List<Int> = binding.chipGroup.checkedChipIds
-                if (ids.size > 3) {
-                    binding.chipGroup.checkedChipIds.forEach {
-                        if (!ids.contains(it)) {
-                            chip.isCheckable = false
-                        }
-
-                    }
-
-                }
-            }
-        }
-    }
-
-    private fun setButtonEnable() {
-        binding.btnNext.isEnabled = !registerViewModel.dogLikTag.isNullOrEmpty()
-    }
+   }
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
@@ -106,18 +117,3 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         }
     }
 }
-
-
-//ChipGroup chipGroup = findViewById(R.id.category_chip_group);
-//..
-//chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//    @Override public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-//        if (checked) {
-//            //Get all checked chips in the group
-//            List<Integer> ids = chipGroup.getCheckedChipIds();
-//            if (ids.size() > 5) {
-//                chip.setChecked(false);  //force to unchecked the chip
-//            }
-//        }
-//    }
-//});

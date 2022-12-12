@@ -136,4 +136,12 @@
     <string name="chat_tap_title">채팅</string>
     <string name="chat_liked_people_title">좋아요 보낸 사람들</string>
     <string name="chat_chat_list">채팅 목록</string>
+    <string name="dog_management_title">반려견 관리</string>
+    <string name="dog_edit_neuter">중성화</string>
+    <string name="dog_edit_like">Like</string>
+    <string name="dog_edit_dislike">Dislike</string>
+    <string name="dog_edit_comment_title">자기소개</string>
+    <string name="dog_edit_info_title">기본 정보</string>
+    <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
+    <string name="dog_profile_edit_toolbar">반려견 프로필 수정</string>
 </resources>

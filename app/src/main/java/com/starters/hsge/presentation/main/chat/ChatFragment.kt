@@ -56,52 +56,52 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
 
         val chatList = listOf(
             ChatList(
-                R.drawable.ic_profile_icon_2,
+                R.drawable.ic_dog_profile_9,
                 "응콩",
                 4,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),
             ChatList(
-                R.drawable.ic_profile_icon_3,
+                R.drawable.ic_dog_profile_7,
                 "예빈",
                 1,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),
             ChatList(
-                R.drawable.ic_profile_icon_6,
+                R.drawable.ic_dog_profile_14,
                 "서윤",
                 2,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),ChatList(
-                R.drawable.ic_profile_icon_1,
+                R.drawable.ic_dog_profile_1,
                 "석주",
                 4,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),
             ChatList(
-                R.drawable.ic_profile_icon_5,
+                R.drawable.ic_dog_profile_13,
                 "정은",
                 7,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),ChatList(
-                R.drawable.ic_profile_icon_2,
+                R.drawable.ic_dog_profile_10,
                 "김인",
                 1,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),
             ChatList(
-                R.drawable.ic_profile_icon_8,
+                R.drawable.ic_dog_profile_3,
                 "태민",
                 5,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),ChatList(
-                R.drawable.ic_profile_icon_3,
+                R.drawable.ic_dog_profile_15,
                 "화진",
                 2,
                 "안녕하세요, 나이가 어떻게 되세요?"
             ),
             ChatList(
-                R.drawable.ic_profile_icon_1,
+                R.drawable.ic_dog_profile_4,
                 "영선",
                 3,
                 "안녕하세요, 나이가 어떻게 되세요?"
