@@ -1,8 +1,11 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
@@ -10,6 +13,8 @@ import com.starters.hsge.databinding.FragmentDogSexBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog_sex) {
@@ -19,6 +24,12 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch {
+            registerViewModel.saveDogSex("")
+        }
+
+        updateCheckedGender()
+        updateNeuterCheckBox()
         initListener()
         setNavigation()
 
@@ -29,18 +40,23 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId) {
                 R.id.rbtn_male -> {
-                    registerViewModel.dogSex = "남자"
-                    setButtonEnable()
+                    lifecycleScope.launch {
+                        registerViewModel.saveDogSex("남자")
+                        Log.d("남자냐", "${registerViewModel.fetchDogSex()}")
+                    }
                 }
                 R.id.rbtn_female -> {
-                    registerViewModel.dogSex = "여자"
-                    setButtonEnable() // 멘토님꼐 물어보기 ^__^
+                    lifecycleScope.launch {
+                        registerViewModel.saveDogSex("여자")
+                    }
                 }
             }
         }
 
         binding.checkboxNeuter.setOnCheckedChangeListener { _, isChecked ->
-            registerViewModel.dogNeuter = isChecked
+            lifecycleScope.launch {
+                registerViewModel.saveDogNeuter(isChecked)
+            }
         }
 
         binding.btnNext.setOnClickListener {
@@ -49,13 +65,27 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
         }
     }
 
+    private fun updateCheckedGender() {
+        registerViewModel.fetchDogSex().asLiveData().observe(viewLifecycleOwner) {
+            if (it != null) {
+                when (it) {
+                    "남자" -> binding.rbtnMale.isChecked = true
+                    "여자" -> binding.rbtnFemale.isChecked = true
+                }
+                binding.btnNext.isEnabled = true
+            }
+        }
+    }
+
+    private fun updateNeuterCheckBox() {
+        lifecycleScope.launch {
+            binding.checkboxNeuter.isChecked = registerViewModel.fetchDogNeuter().first()
+        }
+    }
+
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    private fun setButtonEnable() {
-        binding.btnNext.isEnabled = !registerViewModel.dogSex.isNullOrEmpty()
     }
 }

@@ -6,7 +6,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityMainBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

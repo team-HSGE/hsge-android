@@ -38,6 +38,4 @@ object RetrofitApi {
         retrofit.create(DogService::class.java)
     }
 
-
-
 }

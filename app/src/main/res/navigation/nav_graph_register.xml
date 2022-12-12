@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_register"
-    app:startDestination="@id/userLocationFragment">
+    app:startDestination="@id/userImageFragment">
 
     <fragment
         android:id="@+id/dogPhotoFragment"
@@ -48,7 +48,9 @@
         tools:layout="@layout/fragment_user_profile_icon">
         <action
             android:id="@+id/action_userProfileIconFragment_to_userImageFragment"
-            app:destination="@id/userImageFragment" />
+            app:destination="@id/userImageFragment"
+            app:popUpTo="@id/userImageFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/dogNameFragment"

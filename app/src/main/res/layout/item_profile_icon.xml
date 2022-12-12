@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="icon"
             type="java.lang.Integer" />
@@ -24,7 +25,7 @@
             app:layout_constraintDimensionRatio="1:1"
             android:padding="10dp"
             bindProfileIcon="@{icon}"
-            tools:src="@drawable/ic_profile_icon_1" />
+            tools:src="@drawable/ic_dog_profile_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

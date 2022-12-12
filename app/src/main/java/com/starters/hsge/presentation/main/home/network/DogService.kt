@@ -1,6 +1,6 @@
 package com.starters.hsge.presentation.main.home.network
 
-import com.starters.hsge.data.model.DogCard
+import com.starters.hsge.data.model.remote.response.DogCard
 import retrofit2.Call
 import retrofit2.http.GET
 
