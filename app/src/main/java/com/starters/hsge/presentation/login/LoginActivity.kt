@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -20,11 +19,13 @@ import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
@@ -117,7 +118,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("회원정보", "${str}")
 
                 // 카카오톡 계정 이메일 ds에 저장
-                //prefs.edit().putString("email", user.kakaoAccount?.email).apply()
+//                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
                 lifecycleScope.launch {
                     user.kakaoAccount?.email?.let { registerViewModel.saveUserEmail(it) }
                 }

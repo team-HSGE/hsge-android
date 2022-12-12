@@ -27,8 +27,6 @@
             android:theme="@style/SplashActivity"
             android:exported="true">
 
-
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -53,6 +51,12 @@
             android:name=".presentation.login.LoginActivity"
             android:exported="true">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -63,11 +67,7 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"
