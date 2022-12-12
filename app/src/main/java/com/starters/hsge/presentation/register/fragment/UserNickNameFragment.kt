@@ -7,19 +7,26 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.login.LoginActivity
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@AndroidEntryPoint
 class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.fragment_user_nick_name) {
 
     private var nickNameFlag = false
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,8 +100,10 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
                     Log.d("닉네임 설정 가능", "$availability / $value")
 
                     if (availability==true) {
-                        // sp에 저장하기
-                        prefs.edit().putString("nickname", value.nickname).apply()
+                        // ds에 저장하기
+                        lifecycleScope.launch {
+                            registerViewModel.saveUserNickname(value.nickname)
+                        }
 
                     } else {
                         // 다시 입력하기
