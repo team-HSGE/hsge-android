@@ -8,8 +8,10 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RegisterPreferencesRepositoryImpl @Inject constructor(
-    private val registerDataStore: DataStore<Preferences>,
+    private val registerDataStore: DataStore<Preferences>
 ) : RegisterPreferencesRepository {
+
+
 
     override val userNickName: Flow<String>
         get() = registerDataStore.data.map {
@@ -79,9 +81,25 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
             it[LONGITUDE] ?: 0.0
         }
 
+    override val userTown: Flow<String>
+        get() = registerDataStore.data.map {
+            it[TOWN] ?: ""
+        }
+
+    override val userLocation: Flow<String>
+        get() = registerDataStore.data.map {
+            it[LOCATION] ?: ""
+        }
+
     override suspend fun deleteAllData() {
         registerDataStore.edit {
             it.clear()
+        }
+    }
+
+    override suspend fun deleteUserLocation() {
+        registerDataStore.edit {
+            it.remove(LOCATION)
         }
     }
 
@@ -175,6 +193,18 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setUserTown(town: String) {
+        registerDataStore.edit {
+            it[TOWN] = town
+        }
+    }
+
+    override suspend fun setUserLocation(location: String) {
+        registerDataStore.edit {
+            it[LOCATION] = location
+        }
+    }
+
 //    override suspend fun getUserEmail(): String {
 //        return runBlocking(Dispatchers.IO) {
 //            registerDataStore.data
@@ -207,5 +237,7 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         val DISLIKE_TAG = stringPreferencesKey("dogDislikeTag")
         val LATITUDE = doublePreferencesKey("latitude")
         val LONGITUDE = doublePreferencesKey("longitude")
+        val TOWN = stringPreferencesKey("town")
+        val LOCATION = stringPreferencesKey("location")
     }
 }
