@@ -17,7 +17,6 @@ import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.register.RegisterActivity
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,29 +83,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     // sp 불러오기
     private fun getSharedPreference() {
-        accessToken = prefs.getString("accessToken", "")!!
-        refreshToken = prefs.getString("refreshToken", "")!!
+        accessToken = prefs.getString("NormalAccessToken", "")!!
+        refreshToken = prefs.getString("NormalRefreshToken", "")!!
         Log.d("sp", "access: ${accessToken}\nrefresh: ${refreshToken}")
-    }
-
-    // Token 값 확인
-    private fun checkToken() {
-        if (prefs.contains("accessToken")){
-            startMainActivity()
-        } else {
-            startLoginActivity()
-        }
-    }
-
-    // 네트워크 dialog
-    private fun setNetworkDialog() {
-        val dialog = SplashDialogFragment()
-        dialog.setButtonClickListener(object: SplashDialogFragment.OnButtonClickListener {
-            override fun onOkBtnClicked() {
-                checkNetwork()
-            }
-        })
-        dialog.show(supportFragmentManager, "CustomDialog")
     }
 
     // 네트워크 상태 체크 (T/F)
@@ -134,6 +113,28 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
+    // 네트워크 dialog
+    private fun setNetworkDialog() {
+        val dialog = SplashDialogFragment()
+        dialog.setButtonClickListener(object: SplashDialogFragment.OnButtonClickListener {
+            override fun onOkBtnClicked() {
+                checkNetwork()
+            }
+        })
+        dialog.show(supportFragmentManager, "CustomDialog")
+    }
+
+    // Token 값 확인
+    private fun checkToken() {
+        if (prefs.contains("NormalAccessToken")){
+            val check = CheckTokenRequest(accessToken = accessToken, refreshToken = refreshToken)
+            tryPostCheckToken(check)
+
+        } else {
+            startLoginActivity()
+        }
+    }
+
     // 로그인 화면 이동
     private fun startLoginActivity() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -152,34 +153,61 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    private fun tryPostCheckToken(accessToken: CheckTokenRequest, refreshToken: CheckTokenRequest){
+    private fun tryPostCheckToken(checkToken: CheckTokenRequest){
         val checkTokenInterface = RetrofitClient.sRetrofit.create(CheckTokenInterface::class.java)
-        checkTokenInterface.postToken(accessToken, refreshToken).enqueue(object :
-            Callback<CheckTokenResponse> {
+        checkTokenInterface.postToken(checkToken).enqueue(object :
+            Callback<CheckTokenResponse?> {
             override fun onResponse(
-                call: Call<CheckTokenResponse>,
-                response: Response<CheckTokenResponse>
+                call: Call<CheckTokenResponse?>,
+                response: Response<CheckTokenResponse?>
             ) {
-                if (response.isSuccessful) {
-                    val result = response.body() as CheckTokenResponse
-                    Log.d("토큰갱신", "access토큰: ${result.accessToken} / refresh토큰: ${result.refreshToken}")
+                val result = response.body() as CheckTokenResponse?
 
-                    //sp에 access랑 refresh 저장
-                    prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
-                    prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
-                    prefs.edit().putString("JustAccessToken", "${result.accessToken}").apply()
-                    prefs.edit().putString("JustRefreshToken", "${result.refreshToken}").apply()
+                if (response.isSuccessful) {
+                    // sp에 access랑 refresh 저장 (갱신)
+                    prefs.edit().putString("NormalAccessToken", "${result?.accessToken}").apply()
+                    prefs.edit().putString("NormalRefreshToken", "${result?.refreshToken}").apply()
+                    prefs.edit().putString("BearerAccessToken", "Bearer ${result?.accessToken}").apply()
+                    prefs.edit().putString("BearerRefreshToken", "Bearer ${result?.refreshToken}").apply()
+                    Log.d("토큰 갱신", "메시지: ${result?.message}\naccess토큰: ${result?.accessToken}\nrefresh토큰: ${result?.refreshToken}")
+
+                    startMainActivity()
 
                 } else  {
+                    val msg = result?.message
+
                     when(response.code()) {
                         401 -> {
-                            //Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                            when (msg) {
+                                "NO_ACCESS" -> {
+                                    Log.d("토큰 상태", "access, refresh 토큰이 없습니다.")
+                                }
+                                "TOKEN type Bearer" -> {
+                                    Log.d("토큰 상태", "접두사 Bearer가 없습니다.")
+                                }
+                                "NEED_NEW_LOGIN" -> {
+                                    Toast.makeText(applicationContext, "세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                                    Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다. / ${result.time}")
+                                }
+                            }
+                        }
+                        403 -> {
+                            when (msg) {
+                                "Malformed Token" -> {
+                                    Log.d("토큰 상태", "토큰이 조작되었습니다.")
+                                }
+                                "BadSignatured Token" -> {
+                                    Log.d("토큰 상태", "토큰이 형식에 맞지 않습니다.")
+                                }
+                            }
                         }
                     }
+
+                    startLoginActivity()
                 }
             }
 
-            override fun onFailure(call: Call<CheckTokenResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CheckTokenResponse?>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
 
             }

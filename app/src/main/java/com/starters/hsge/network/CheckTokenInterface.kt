@@ -7,8 +7,6 @@ import retrofit2.http.POST
 interface CheckTokenInterface {
 
     @POST("api/auth/refresh-token")
-    fun postToken(@Body
-                  accessToken: CheckTokenRequest,
-                  refreshToken: CheckTokenRequest
-    ) : Call<CheckTokenResponse>
+    fun postToken(@Body checkToken: CheckTokenRequest
+    ) : Call<CheckTokenResponse?>
 }

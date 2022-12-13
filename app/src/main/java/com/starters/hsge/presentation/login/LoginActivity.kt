@@ -32,6 +32,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         super.onCreate(savedInstanceState)
 
         checkLoginInfo()
+        getFcmToken()
         callback()
         loginBtnClick()
     }
@@ -92,11 +93,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("카카오 refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
 
                 loadUserInfo()
-                getFcmToken()
-                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
 
                 access_token = token.accessToken
 
+                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
                 tryPostAccessToken(json)
@@ -166,8 +166,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
                         prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
 
-                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken} / refresh 토큰: ${result.refreshToken}")
-                        Log.d("Normal토큰", "access 토큰: ${result.accessToken} / refresh 토큰: ${result.refreshToken}")
+                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                        Log.d("Normal토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
 
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
