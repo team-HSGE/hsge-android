@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.main.management
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.data.model.remote.response.MyDogResponse
 import com.starters.hsge.databinding.ItemDogListBinding
@@ -14,13 +15,13 @@ class DogListAdapter(private var dogList: List<MyDogResponse>) : RecyclerView.Ad
 
             binding.myDogList = data
             binding.executePendingBindings()
-//            with(binding) {
-//                ivDogPhoto.setImageResource(data.dogPhoto)
-//                tvDogName.text = data.dogName
-//                ivDogSex.setImageResource(data.dogSex)
-//                tvDogAge.text = data.dogAge
-//                tvDogBreed.text = data.dogBreed
-//            }
+
+            itemView.setOnClickListener { view ->
+                val action =
+                    ManagementFragmentDirections.actionManagementFragmentToDogProfileEditFragment(data)
+                view.findNavController().navigate(action)
+
+            }
         }
     }
 
