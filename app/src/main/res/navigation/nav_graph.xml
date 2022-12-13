@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dogProfileEditFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -65,5 +65,12 @@
     <fragment
         android:id="@+id/dogProfileEditFragment"
         android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
-        android:label="DogProfileEditFragment" />
+        android:label="DogProfileEditFragment" >
+        <action
+            android:id="@+id/action_dogProfileEditFragment_to_managementFragment"
+            app:destination="@id/managementFragment" />
+        <argument
+            android:name="dogDetailInfo"
+            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+    </fragment>
 </navigation>
