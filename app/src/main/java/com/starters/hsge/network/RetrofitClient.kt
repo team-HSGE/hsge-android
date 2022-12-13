@@ -32,10 +32,10 @@ object RetrofitClient {
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
 
-            val jwt: String? = prefs.getString("BearerAccessToken", "")
+            val bearerJwt: String? = prefs.getString("BearerAccessToken", "")
 
-            if (jwt != null) {
-                builder.addHeader("Authorization", jwt)
+            if (bearerJwt != null) {
+                builder.addHeader("Authorization", bearerJwt)
             }
             return chain.proceed(builder.build())
         }

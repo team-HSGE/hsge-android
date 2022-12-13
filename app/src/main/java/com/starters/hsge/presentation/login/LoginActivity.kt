@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -24,6 +26,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
+    private var fcmToken : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,10 +92,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("카카오 refresh 토큰", "${token.refreshToken}, ${token.refreshTokenExpiresAt}")
 
                 loadUserInfo()
+                getFcmToken()
+                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
 
                 access_token = token.accessToken
 
-                val json = AccessRequest(access_token)
+                val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
                 tryPostAccessToken(json)
             }
@@ -117,6 +122,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
+    fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            fcmToken = task.result
+        })
+    }
+
     fun loginBtnClick() {
         binding.tvLoginSignupBtn.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
@@ -135,22 +152,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             Callback<com.starters.hsge.network.AccessResponse> {
             override fun onResponse(
                 call: Call<AccessResponse>,
-                accessResponse: Response<com.starters.hsge.network.AccessResponse>
+                response: Response<com.starters.hsge.network.AccessResponse>
             ) {
-                if (accessResponse.isSuccessful) {
-                    val result = accessResponse.body() as AccessResponse
+                if (response.isSuccessful) {
+                    val result = response.body() as AccessResponse
 
                     if (result.message == "LOGIN") {
-                        Log.d("회원정보", "${result.message}")
+                        Log.d("소셜로그인", "${result.message}")
 
-                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장
+                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
                         prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
                         prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
-                        prefs.edit().putString("JustAccessToken", "${result.accessToken}").apply()
-                        prefs.edit().putString("JustRefreshToken", "${result.refreshToken}").apply()
+                        prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
+                        prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
 
-                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
-                        Log.d("Just토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken} / refresh 토큰: ${result.refreshToken}")
+                        Log.d("Normal토큰", "access 토큰: ${result.accessToken} / refresh 토큰: ${result.refreshToken}")
 
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -159,15 +176,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
                     } else if (result.message == "NEED_SIGNUP") {
-                        Log.d("회원정보", "${result.message}")
+                        Log.d("소셜로그인", "${result.message}")
+
                         val intent = Intent(applicationContext, RegisterActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
                     }
                 } else  {
-                    when(accessResponse.code()) {
+                    when(response.code()) {
                         400 -> {
-                            // 유효기간 끝났을 때
+                            // 카카오톡 accessToken 유효기간 끝났을 때
                             Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
