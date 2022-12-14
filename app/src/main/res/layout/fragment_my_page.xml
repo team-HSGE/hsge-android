@@ -26,7 +26,7 @@
                 android:id="@+id/iv_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
+                android:layout_marginEnd="18dp"
                 android:src="@drawable/ic_settings"
                 android:contentDescription="@string/mypage_settings_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -46,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/iv_user_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_marginVertical="20dp"
                 android:layout_marginStart="24dp"
                 android:background="@drawable/bg_gray_circle"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mypage_user_nickname"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:contentDescription="@string/mypage_user_nickname"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/mypage_user_location"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname" />
@@ -94,7 +94,7 @@
                 android:id="@+id/iv_user_profile_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="24dp"
                 android:src="@drawable/ic_my_page_item_select"
                 android:contentDescription="@string/mypage_user_profile_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -109,23 +109,36 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@color/white"
+            android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_profile_edit_section">
 
-            <TextView
-                android:id="@+id/my_page_title_my"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/my_page_title_my_section"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/mypage_my_title"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/mypage_my_title"
+                android:paddingVertical="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/my_page_title_my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/mypage_my_title"
+                    android:text="@string/mypage_my_title"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dog_profile_manage_section"
@@ -133,16 +146,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_page_title_my">
+                app:layout_constraintTop_toBottomOf="@+id/my_page_title_my_section">
 
                 <ImageView
                     android:id="@+id/iv_dog_profile_manage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/ic_dog_profile_manage"
                     android:contentDescription="@string/mypage_dog_manage_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -156,7 +169,7 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/mypage_dog_manage"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_dog_profile_manage"
@@ -166,7 +179,7 @@
                     android:id="@+id/iv_my_page_item_select_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_my_page_item_select"
                     android:contentDescription="@string/mypage_dog_manage_select"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -181,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dog_profile_manage_section">
@@ -190,7 +203,7 @@
                     android:id="@+id/iv_location_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/ic_location_setting"
                     android:contentDescription="@string/mypage_my_location_setting_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -204,7 +217,7 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/mypage_user_location_setting"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_location_setting"
@@ -214,7 +227,7 @@
                     android:id="@+id/iv_my_page_item_select_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_my_page_item_select"
                     android:contentDescription="@string/mypage_user_location_setting_select"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -230,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location_setting_section">
@@ -239,7 +252,7 @@
                     android:id="@+id/iv_radius_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/ic_distance"
                     android:contentDescription="@string/mypage_my_location_setting_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -253,7 +266,7 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/mypage_user_distance_setting"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_radius_setting"
@@ -263,7 +276,7 @@
                     android:id="@+id/iv_my_page_item_select_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_my_page_item_select"
                     android:contentDescription="@string/mypage_user_location_setting_select"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -281,23 +294,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@color/white"
+            android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_section">
 
-            <TextView
-                android:id="@+id/my_page_title_etc"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/my_page_title_etc_section"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/mypage_etc_title"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/mypage_etc_title"
+                android:paddingVertical="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/my_page_title_etc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/mypage_etc_title"
+                    android:text="@string/mypage_etc_title"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/personal_inquire_section"
@@ -305,16 +330,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_page_title_etc">
+                app:layout_constraintTop_toBottomOf="@+id/my_page_title_etc_section">
 
                 <ImageView
                     android:id="@+id/iv_personal_inquire"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/ic_inquire"
                     android:contentDescription="@string/mypage_inquire_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -328,7 +353,7 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/mypage_inquire"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_personal_inquire"
@@ -338,7 +363,7 @@
                     android:id="@+id/iv_my_page_item_select_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_my_page_item_select"
                     android:contentDescription="@string/mypage_inquire_select"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -353,7 +378,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingVertical="15dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/personal_inquire_section">
@@ -362,7 +387,7 @@
                     android:id="@+id/iv_faq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/ic_faq"
                     android:contentDescription="@string/mypage_faq_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -376,7 +401,7 @@
                     android:layout_marginStart="15dp"
                     android:text="@string/mypage_faq"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_faq"
@@ -386,7 +411,7 @@
                     android:id="@+id/iv_my_page_item_select_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_my_page_item_select"
                     android:contentDescription="@string/mypage_faq_select"
                     app:layout_constraintBottom_toBottomOf="parent"
