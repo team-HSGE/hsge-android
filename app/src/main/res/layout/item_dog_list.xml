@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="14dp"
+        android:layout_marginHorizontal="24dp">
+
+        <ImageView
+            android:id="@+id/iv_dog_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_gray_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/dog_management_list_dog_photo" />
+
+        <TextView
+            android:id="@+id/tv_dog_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_dog_photo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="몽이" />
+
+        <ImageView
+            android:id="@+id/iv_dog_sex"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_gender_male_black"
+            app:layout_constraintBottom_toBottomOf="@id/tv_dog_name"
+            app:layout_constraintStart_toEndOf="@id/tv_dog_name"
+            app:layout_constraintTop_toTopOf="@id/tv_dog_name" />
+
+        <TextView
+            android:id="@+id/tv_dog_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_g200_r12"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_dog_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_dog_name"
+            tools:text="1개월 미만" />
+
+        <TextView
+            android:id="@+id/tv_dog_breed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_g200_r12"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/tv_dog_age"
+            app:layout_constraintTop_toBottomOf="@id/tv_dog_name"
+            tools:text="이탈리안 그레이하운드" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

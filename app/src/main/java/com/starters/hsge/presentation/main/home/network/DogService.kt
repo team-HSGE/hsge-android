@@ -5,6 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface DogService {
-    @GET("/pets/area")
-    fun getDogData() : Call<List<DogCard>>
+    @GET("/api/pets/area")
+    fun getDogData(): Call<List<DogCard>>
 }

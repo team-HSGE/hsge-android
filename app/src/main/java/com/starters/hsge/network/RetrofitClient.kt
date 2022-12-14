@@ -14,7 +14,7 @@ object RetrofitClient {
     val sRetrofit = initRetrofit()
     private const val AccessToken_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com/"
 
-    private fun initRetrofit(): Retrofit =
+    private fun initRetrofit() : Retrofit =
         Retrofit.Builder()
             .baseUrl(AccessToken_URL)
             .client(provideOkHttpClient(AppInterceptor()))

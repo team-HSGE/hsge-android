@@ -50,7 +50,7 @@
             android:layout_height="55dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
-            android:background="@drawable/bg_yellow_round_stroke"
+            android:background="@drawable/bg_yellow_stroke_r8"
             android:gravity="center"
             android:hint="@string/breed_choice"
             android:paddingStart="30dp"

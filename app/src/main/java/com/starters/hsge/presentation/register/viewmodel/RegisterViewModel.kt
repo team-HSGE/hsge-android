@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.starters.hsge.ApiResult
+import com.starters.hsge.App.Companion.prefs
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.repository.RegisterPreferencesRepository
@@ -11,6 +13,7 @@ import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.domain.usecase.PostRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -39,7 +42,24 @@ class RegisterViewModel @Inject constructor(
 
     fun postRegisterInfo(img: File, data: RegisterInfo){
         viewModelScope.launch {
-            postRegisterUseCase(img, data)
+            postRegisterUseCase(img, data).collectLatest { result ->
+                when (result) {
+                    is ApiResult.Success -> {
+                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.value.accessToken}").apply()
+                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.value.refreshToken}").apply()
+                        prefs.edit().putString("NormalAccessToken", result.value.accessToken).apply()
+                        prefs.edit().putString("NormalRefreshToken", result.value.refreshToken).apply()
+                    }
+                    is ApiResult.Empty -> {
+
+                    }
+                    is ApiResult.Error -> {
+                        // 이동
+
+                    }
+
+                }
+            }
         }
     }
 
@@ -55,14 +75,26 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+    suspend fun deleteUserLocation(){
+        registerPreferencesRepository.deleteUserLocation()
+    }
+
     suspend fun deleteAllInfo() {
         registerPreferencesRepository.deleteAllData()
     }
+
+
 
     //테스트를 위한 Age 로컬데이터
     fun testDogAgeToLocal() = dogProfileRepository.getDogAge()
 
     // datastore에서 값 가져오기
+    fun fetchUserEmail() = registerPreferencesRepository.userEmail
+
+    fun fetchUserNickname() = registerPreferencesRepository.userNickName
+
+    fun fetchUserIcon() = registerPreferencesRepository.userIcon
+
     fun fetchDogName() = registerPreferencesRepository.dogName
 
     fun fetchDogPhoto() = registerPreferencesRepository.dogPhoto
@@ -87,8 +119,27 @@ class RegisterViewModel @Inject constructor(
 
     fun fetchUserLongitude() = registerPreferencesRepository.userLongitude
 
+    fun fetchUserLocation() = registerPreferencesRepository.userLocation
 
     // datastore에 값 저장하기
+    fun saveUserEmail(email: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserEmail(email)
+        }
+    }
+
+    fun saveUserNickname(nickname: String) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserNickName(nickname)
+        }
+    }
+
+    fun saveUserIcon(icon: Int) {
+        viewModelScope.launch {
+            registerPreferencesRepository.setUserIcon(icon)
+        }
+    }
+
     fun saveDogName(name: String) {
         viewModelScope.launch {
             registerPreferencesRepository.setDogName(name)
@@ -140,4 +191,9 @@ class RegisterViewModel @Inject constructor(
     suspend fun saveUserLongitude(longitude: Double) {
         registerPreferencesRepository.setUserLongitude(longitude)
     }
+
+    suspend fun saveUserLocation(location: String){
+        registerPreferencesRepository.setUserLocation(location)
+    }
+
 }

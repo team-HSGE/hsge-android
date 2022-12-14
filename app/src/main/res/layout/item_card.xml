@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="16dp"
-        android:elevation="20dp"
+        app:elevation="20dp"
         app:cardCornerRadius="24dp">
 
         <FrameLayout
@@ -68,7 +68,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="14dp"
                     android:layout_marginBottom="2dp"
                     android:backgroundTint="@color/white_50"
                     android:paddingVertical="4dp"
@@ -106,9 +106,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
-                        tools:text=" I 12살 10개월 I " />
+                        tools:text="  I  12살 10개월  I  " />
 
                     <ImageView
                         android:id="@+id/iv_dog_sex"
@@ -153,6 +153,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:contentDescription="@string/item_card_dislike_overlay"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"
@@ -166,6 +167,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:contentDescription="@string/item_card_like_overlay"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"

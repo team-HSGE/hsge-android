@@ -3,7 +3,6 @@ package com.starters.hsge
 import android.app.Application
 import android.content.SharedPreferences
 import com.kakao.sdk.common.KakaoSdk
-import com.starters.hsge.presentation.common.base.BaseActivity
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

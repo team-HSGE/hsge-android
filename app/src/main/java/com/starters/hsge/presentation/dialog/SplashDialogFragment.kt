@@ -1,7 +1,6 @@
 package com.starters.hsge.presentation.dialog
 
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
