@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -44,6 +45,7 @@ import kotlinx.coroutines.launch
 class UserLocationFragment :
     BaseFragment<FragmentUserLocationBinding>(R.layout.fragment_user_location) {
 
+    private lateinit var callback: OnBackPressedCallback
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private val registerViewModel: RegisterViewModel by viewModels()
@@ -61,6 +63,25 @@ class UserLocationFragment :
         initListener()
         setNavigation()
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+
+                if (prefs.getInt("getLocationFrom", 0) == 1) {
+                    visibleBtmNav()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     private fun initPermissionLauncher() {
@@ -141,157 +162,162 @@ class UserLocationFragment :
         }
     }
 
-        // GPS on/off 확인
-        private fun isEnableLocationSystem(context: Context): Boolean {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val locationManager =
-                    context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-                locationManager!!.isLocationEnabled
-            } else {
-                val mode = Settings.Secure.getInt(
-                    context.contentResolver,
-                    Settings.Secure.LOCATION_MODE,
-                    Settings.Secure.LOCATION_MODE_OFF
-                )
-                mode != Settings.Secure.LOCATION_MODE_OFF
-            }
+    // GPS on/off 확인
+    private fun isEnableLocationSystem(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val locationManager =
+                context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+            locationManager!!.isLocationEnabled
+        } else {
+            val mode = Settings.Secure.getInt(
+                context.contentResolver,
+                Settings.Secure.LOCATION_MODE,
+                Settings.Secure.LOCATION_MODE_OFF
+            )
+            mode != Settings.Secure.LOCATION_MODE_OFF
         }
+    }
 
-        // 권한 체크
-        private fun checkPermissionForLocation() {
-            val isFirstCheck = prefs.getBoolean("isFistLocationPermissionCheck", true)
-            when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    startLocationUpdates()
-                    showLoadingDialog(requireContext())
-                }
-
-                shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
-                    showFirstPermissionDialog()
-                }
-
-                else -> {
-                    if (isFirstCheck) {
-                        prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
-                        locationPermissionRequest.launch(
-                            arrayOf(
-                                ACCESS_COARSE_LOCATION,
-                                ACCESS_FINE_LOCATION
-                            )
-                        )
-                    } else {
-                        showSecondPermissionDialog()
-                    }
-                }
+    // 권한 체크
+    private fun checkPermissionForLocation() {
+        val isFirstCheck = prefs.getBoolean("isFistLocationPermissionCheck", true)
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                startLocationUpdates()
+                showLoadingDialog(requireContext())
             }
-        }
 
-        private fun showFirstPermissionDialog() {
-            AlertDialog.Builder(requireContext())
-                .setMessage("앱 실행을 위해서는 권한을 설정해야 합니다")
-                .setPositiveButton("확인") { _, _ ->
+            shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
+                showFirstPermissionDialog()
+            }
+
+            else -> {
+                if (isFirstCheck) {
+                    prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
                     locationPermissionRequest.launch(
                         arrayOf(
-                            ACCESS_FINE_LOCATION,
-                            ACCESS_COARSE_LOCATION
+                            ACCESS_COARSE_LOCATION,
+                            ACCESS_FINE_LOCATION
                         )
                     )
+                } else {
+                    showSecondPermissionDialog()
                 }
-                .show()
+            }
         }
+    }
 
-        private fun showSecondPermissionDialog() {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("설정에서 권한을 허용해주세요")
-            builder.setPositiveButton("설정으로 이동하기") { _, _ ->
-                val intent = Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts(
-                        "package", requireContext().packageName, null
+    private fun showFirstPermissionDialog() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("앱 실행을 위해서는 권한을 설정해야 합니다")
+            .setPositiveButton("확인") { _, _ ->
+                locationPermissionRequest.launch(
+                    arrayOf(
+                        ACCESS_FINE_LOCATION,
+                        ACCESS_COARSE_LOCATION
                     )
                 )
-                startActivity(intent)
             }
-            builder.show()
+            .show()
+    }
+
+    private fun showSecondPermissionDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("설정에서 권한을 허용해주세요")
+        builder.setPositiveButton("설정으로 이동하기") { _, _ ->
+            val intent = Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts(
+                    "package", requireContext().packageName, null
+                )
+            )
+            startActivity(intent)
+        }
+        builder.show()
+    }
+
+    // 사용자 위도, 경도 받아오기 -> LocationManager 정확도 이슈
+    private fun startLocationUpdates() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(
+                requireContext(),
+                ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
         }
 
-        // 사용자 위도, 경도 받아오기 -> LocationManager 정확도 이슈
-        private fun startLocationUpdates() {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
+        fusedLocationClient!!.getCurrentLocation(
+            LocationRequest.PRIORITY_HIGH_ACCURACY,
+            object : CancellationToken() {
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                    CancellationTokenSource().token
 
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
-
-            // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
-            fusedLocationClient!!.getCurrentLocation(
-                LocationRequest.PRIORITY_HIGH_ACCURACY,
-                object : CancellationToken() {
-                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-                        CancellationTokenSource().token
-
-                    override fun isCancellationRequested() = false
-                })
-                .addOnSuccessListener { location: Location? ->
-                    if (location == null)
-                        Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
-                            .show()
-                    else {
-                        lifecycleScope.launch {
-                            registerViewModel.saveUserLatitude(location.latitude)
-                            registerViewModel.saveUserLongitude(location.longitude)
-                        }
-                        val geocoder = Geocoder(requireContext())
-                        convertToAddress(geocoder, location)
+                override fun isCancellationRequested() = false
+            })
+            .addOnSuccessListener { location: Location? ->
+                if (location == null)
+                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
+                        .show()
+                else {
+                    lifecycleScope.launch {
+                        registerViewModel.saveUserLatitude(location.latitude)
+                        registerViewModel.saveUserLongitude(location.longitude)
                     }
+                    val geocoder = Geocoder(requireContext())
+                    convertToAddress(geocoder, location)
                 }
-        }
-
-        // 위도, 경도 -> geocoder
-        private fun convertToAddress(geocoder: Geocoder, it: Location) {
-            val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-
-            val addressLine = address?.get(0)?.getAddressLine(0)
-            val addressList = addressLine?.split(" ") as ArrayList<String>
-            addressList.removeAt(0)
-            addressList.removeAt(addressList.size - 1)
-
-            // tvMyLocation에 넣을 주소
-            val locationAddress = StringBuilder()
-            for (i in addressList) {
-                locationAddress.append(i)
-                locationAddress.append(" ")
             }
-            binding.tvMyLocation.text = locationAddress
-            prefs.edit().putString("address", locationAddress.toString()).apply()
+    }
 
-            // 서버에 저장할 주소 - '중구 다동'만 저장
-            addressList.removeAt(0)
-            val addressForMyPage = StringBuilder()
-            for (i in addressList) {
-                addressForMyPage.append(i)
-                addressForMyPage.append(" ")
-            }
-            prefs.edit().putString("location", addressForMyPage.toString()).apply()
+    // 위도, 경도 -> geocoder
+    private fun convertToAddress(geocoder: Geocoder, it: Location) {
+        val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
 
-            dismissLoadingDialog()
-            changeDoneButton()
+        val addressLine = address?.get(0)?.getAddressLine(0)
+        val addressList = addressLine?.split(" ") as ArrayList<String>
+        addressList.removeAt(0)
+        addressList.removeAt(addressList.size - 1)
+
+        // tvMyLocation에 넣을 주소
+        val locationAddress = StringBuilder()
+        for (i in addressList) {
+            locationAddress.append(i)
+            locationAddress.append(" ")
         }
+        binding.tvMyLocation.text = locationAddress
+        prefs.edit().putString("address", locationAddress.toString()).apply()
 
-        private fun setNavigation() {
-            binding.toolBar.setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
+        // 서버에 저장할 주소 - '중구 다동'만 저장
+        addressList.removeAt(0)
+        val addressForMyPage = StringBuilder()
+        for (i in addressList) {
+            addressForMyPage.append(i)
+            addressForMyPage.append(" ")
         }
+        prefs.edit().putString("location", addressForMyPage.toString()).apply()
+
+        dismissLoadingDialog()
+        changeDoneButton()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+            visibleBtmNav()
+        }
+    }
+
+    private fun visibleBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+    }
 
 }
