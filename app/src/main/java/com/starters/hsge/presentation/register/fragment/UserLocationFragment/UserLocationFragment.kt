@@ -59,24 +59,24 @@ class UserLocationFragment :
 
         // 데이터 유지
 
-        if(prefs.getInt("getLocationFrom", 0) == 1){ // 위치 새로고침 하다가 나간 경우
+        if (prefs.getInt("getLocationFrom", 0) == 1) { // 위치 새로고침 하다가 나간 경우
             Log.d("어디", "mypage")
-            lifecycleScope.launch{
+            lifecycleScope.launch {
                 // TODO : 마이페이지에서 받은 정보 띄우기, 번들로 넘어온 town, location, longitude 값 할당하기
                 // 받아와서 수정
-                registerViewModel.saveUserLocation("테스트 장소 : 마이페이지에서 원래 장소가 넘어왓다고 칩시다").apply {  }
-                registerViewModel.saveUserLatitude(37.0).apply {  }
-                registerViewModel.saveUserLongitude(126.0).apply {  }
+                registerViewModel.saveUserLocation("테스트 장소 : 마이페이지에서 원래 장소가 넘어왓다고 칩시다").apply { }
+                registerViewModel.saveUserLatitude(37.0).apply { }
+                registerViewModel.saveUserLongitude(126.0).apply { }
 
                 binding.tvMyLocation.text = registerViewModel.fetchUserLocation().first()
                 changeDoneButton()
             }
 
-        } else{ // 회원가입하다가 앱 종료인 경우
+        } else { // 회원가입하다가 앱 종료인 경우
             Log.d("어디", "register")
 
-            lifecycleScope.launch{
-                if(!registerViewModel.fetchUserLocation().first().isNullOrEmpty()){
+            lifecycleScope.launch {
+                if (!registerViewModel.fetchUserLocation().first().isNullOrEmpty()) {
                     binding.tvMyLocation.text = registerViewModel.fetchUserLocation().first()
                     changeDoneButton()
                 }
@@ -112,13 +112,14 @@ class UserLocationFragment :
         }
 
         binding.btnNext.setOnClickListener {
+
             // 홈 화면으로 이동
 
             if (prefs.getInt("getLocationFrom", 0) == 1) {
                 Log.d("from?", "mypage")
                 // 위도, 경도, 장소 보내는 post api 통신
 
-                lifecycleScope.launch{
+                lifecycleScope.launch {
                     val latitude = registerViewModel.fetchUserLatitude().first()
                     val longitude = registerViewModel.fetchUserLongitude().first()
                     val town = registerViewModel.fetchUserLocation().first()
@@ -126,7 +127,7 @@ class UserLocationFragment :
 
                     putLocationRetrofitWork(latitude, longitude, town)
 
-                     registerViewModel.deleteAllInfo()
+                    registerViewModel.deleteAllInfo()
                 }
             } else {
                 Log.d("from?", "register")
@@ -138,9 +139,9 @@ class UserLocationFragment :
                     val imgFile = UriUtil.toFile(requireContext(), imgUri)
 
                     val registerInfo = RegisterInfo(
-                        email = "dkdk13@naver.com",
-                        userNickName = "뉴비13",
-                        userIcon = 221029,
+                        email = registerViewModel.fetchUserEmail().first(),
+                        userNickName = registerViewModel.fetchUserNickname().first(),
+                        userIcon = prefs.getInt("resId", 0),
                         dogName = registerViewModel.fetchDogName().first(),
                         dogAge = registerViewModel.fetchDogAge().first(),
                         dogBreed = registerViewModel.fetchDogBreed().first(),
@@ -156,7 +157,9 @@ class UserLocationFragment :
                     registerViewModel.postRegisterInfo(imgFile, registerInfo)
                     Log.d("진짜??-b", registerViewModel.fetchUserLocation().first())
 
+                    Log.d("회원가입", "${registerInfo}")
                     registerViewModel.deleteAllInfo()
+                    prefs.edit().remove("resId") // sp에 저장된 resId 제거
                 }
             }
 
@@ -302,8 +305,8 @@ class UserLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
 
-        lifecycleScope.launch{
-            registerViewModel.saveUserLocation(locationAddress.toString()).apply {  }
+        lifecycleScope.launch {
+            registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
 
@@ -321,26 +324,27 @@ class UserLocationFragment :
 
 
     // retrofit 통신
-    private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String){
+    private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String) {
         val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
 
-        locationRetrofit.putLocationData(request = userLocationRequest(lat, lng, town)).enqueue(object :
-            Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if(response.isSuccessful){
-                    Log.d("set_location_again", response.toString())
-                    Log.d("set_location_again", "성공")
-                } else{
-                    Log.d("set_location_again", "실패")
-                    Log.d("set_location_again", response.code().toString())
+        locationRetrofit.putLocationData(request = userLocationRequest(lat, lng, town))
+            .enqueue(object :
+                Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Log.d("set_location_again", response.toString())
+                        Log.d("set_location_again", "성공")
+                    } else {
+                        Log.d("set_location_again", "실패")
+                        Log.d("set_location_again", response.code().toString())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("set_location_again", "실패")
-                Log.d("set_location_again", t.toString())
-            }
-        })
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("set_location_again", "실패")
+                    Log.d("set_location_again", t.toString())
+                }
+            })
     }
 
     private fun setNavigation() {

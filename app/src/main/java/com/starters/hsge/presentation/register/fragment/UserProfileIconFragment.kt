@@ -1,6 +1,5 @@
 package com.starters.hsge.presentation.register.fragment
 
-
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController

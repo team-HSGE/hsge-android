@@ -28,7 +28,7 @@ object RetrofitApi {
 
             builder.addHeader(
                 "Authorization",
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMxNTkxOTEsImlhdCI6MTY3MDU2NzE5MCwiZW1haWwiOiJqdW5ueWFubmU4MDZAbmF2ZXIuY29tIn0.7xKfTuV8LPjuB664Kkr0renESuerVlyTHyw-sJ-F0b0"
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzE2MDExMTQsImlhdCI6MTY3MDk5NjMxNCwiZW1haWwiOiJqdW5ueWFubmU4MDZAbmF2ZXIuY29tIn0.oIbCvNgnpfD4smupnQzdZKOLTmSvN6PEGdR242t_Aq8"
             )
             return chain.proceed(builder.build())
         }

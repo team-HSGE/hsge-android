@@ -13,6 +13,11 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
 
 
 
+    override val userEmail: Flow<String>
+        get() = registerDataStore.data.map {
+            it[EMAIL] ?: ""
+        }
+
     override val userNickName: Flow<String>
         get() = registerDataStore.data.map {
             it[NICK_NAME] ?: ""
