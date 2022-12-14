@@ -1,6 +1,6 @@
-package com.starters.hsge.data.model
+package com.starters.hsge.data.model.remote.response
 
-data class ChatList(
+data class ChatListResponse(
     val iconId: Int,
     val nickName: String,
     val date: Int,

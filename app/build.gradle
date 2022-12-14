@@ -55,6 +55,8 @@ dependencies {
     // firebase
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
 
     // lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -122,3 +124,4 @@ dependencies {
 
 
 }
+apply plugin: 'com.google.gms.google-services'
