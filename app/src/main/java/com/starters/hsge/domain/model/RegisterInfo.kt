@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RegisterInfo(
-    @SerialName("email") val email: String,
+    @SerialName("email") val email: String?,
     @SerialName("nickname") val userNickName: String,
     @SerialName("profilePath") val userIcon: Int,
     @SerialName("petName") val dogName: String,

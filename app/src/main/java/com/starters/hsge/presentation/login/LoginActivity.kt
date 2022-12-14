@@ -18,6 +18,7 @@ import com.starters.hsge.network.AccessResponse
 import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
@@ -103,9 +104,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                 access_token = token.accessToken
 
-                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
+                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 tryPostAccessToken(json)
             }
         }
@@ -122,11 +123,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
                 Log.d("회원정보", "${str}")
 
-                // 카카오톡 계정 이메일 ds에 저장
-//                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
-                lifecycleScope.launch {
-                    user.kakaoAccount?.email?.let { registerViewModel.saveUserEmail(it) }
-                }
+                // 카카오톡 계정 이메일 sp에 저장
+                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
             }
         }
     }
