@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitApi {
-    private const val BASE_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com/"
+    private const val BASE_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com"
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder().addInterceptor(
@@ -15,7 +15,7 @@ object RetrofitApi {
         ).build()
     }
 
-    val retrofit: Retrofit by lazy {
+     val retrofit: Retrofit by lazy {
         Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .baseUrl(BASE_URL)
@@ -28,7 +28,7 @@ object RetrofitApi {
 
             builder.addHeader(
                 "Authorization",
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMxNTkxOTEsImlhdCI6MTY3MDU2NzE5MCwiZW1haWwiOiJqdW5ueWFubmU4MDZAbmF2ZXIuY29tIn0.7xKfTuV8LPjuB664Kkr0renESuerVlyTHyw-sJ-F0b0"
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzE2MDExMTQsImlhdCI6MTY3MDk5NjMxNCwiZW1haWwiOiJqdW5ueWFubmU4MDZAbmF2ZXIuY29tIn0.oIbCvNgnpfD4smupnQzdZKOLTmSvN6PEGdR242t_Aq8"
             )
             return chain.proceed(builder.build())
         }

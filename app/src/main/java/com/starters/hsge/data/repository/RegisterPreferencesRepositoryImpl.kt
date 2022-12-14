@@ -11,6 +11,8 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
     private val registerDataStore: DataStore<Preferences>
 ) : RegisterPreferencesRepository {
 
+
+
     override val userEmail: Flow<String>
         get() = registerDataStore.data.map {
             it[EMAIL] ?: ""
@@ -84,9 +86,20 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
             it[LONGITUDE] ?: 0.0
         }
 
+    override val userLocation: Flow<String>
+        get() = registerDataStore.data.map {
+            it[LOCATION] ?: ""
+        }
+
     override suspend fun deleteAllData() {
         registerDataStore.edit {
             it.clear()
+        }
+    }
+
+    override suspend fun deleteUserLocation() {
+        registerDataStore.edit {
+            it.remove(LOCATION)
         }
     }
 
@@ -180,6 +193,12 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setUserLocation(location: String) {
+        registerDataStore.edit {
+            it[LOCATION] = location
+        }
+    }
+
 //    override suspend fun getUserEmail(): String {
 //        return runBlocking(Dispatchers.IO) {
 //            registerDataStore.data
@@ -212,5 +231,7 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         val DISLIKE_TAG = stringPreferencesKey("dogDislikeTag")
         val LATITUDE = doublePreferencesKey("latitude")
         val LONGITUDE = doublePreferencesKey("longitude")
+        val TOWN = stringPreferencesKey("town")
+        val LOCATION = stringPreferencesKey("location")
     }
 }

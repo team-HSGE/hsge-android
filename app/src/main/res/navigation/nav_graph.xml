@@ -75,7 +75,7 @@
 
     <fragment
         android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.userDistance.UserDistanceFragment"
         android:label="UserDistanceFragment" >
         <action
             android:id="@+id/action_userDistanceFragment_to_homeFragment"
@@ -83,6 +83,6 @@
     </fragment>
     <fragment
         android:id="@+id/userLocationFragment2"
-        android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.UserLocationFragment.UserLocationFragment"
         android:label="UserLocationFragment" />
 </navigation>

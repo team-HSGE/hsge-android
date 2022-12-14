@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.DogCard
-import com.starters.hsge.data.model.IsLikeRequest
+import com.starters.hsge.data.model.remote.request.IsLikeRequest
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
@@ -30,7 +32,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("firebase", token.toString())
+
+        })
+
         retrofitWork()
+
+
 
 //
 //        dogCardList = listOf<DogCard>(

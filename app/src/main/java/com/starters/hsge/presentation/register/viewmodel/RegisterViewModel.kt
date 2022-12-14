@@ -75,9 +75,15 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+    suspend fun deleteUserLocation(){
+        registerPreferencesRepository.deleteUserLocation()
+    }
+
     suspend fun deleteAllInfo() {
         registerPreferencesRepository.deleteAllData()
     }
+
+
 
     //테스트를 위한 Age 로컬데이터
     fun testDogAgeToLocal() = dogProfileRepository.getDogAge()
@@ -113,6 +119,7 @@ class RegisterViewModel @Inject constructor(
 
     fun fetchUserLongitude() = registerPreferencesRepository.userLongitude
 
+    fun fetchUserLocation() = registerPreferencesRepository.userLocation
 
     // datastore에 값 저장하기
     fun saveUserEmail(email: String) {
@@ -184,4 +191,9 @@ class RegisterViewModel @Inject constructor(
     suspend fun saveUserLongitude(longitude: Double) {
         registerPreferencesRepository.setUserLongitude(longitude)
     }
+
+    suspend fun saveUserLocation(location: String){
+        registerPreferencesRepository.setUserLocation(location)
+    }
+
 }
