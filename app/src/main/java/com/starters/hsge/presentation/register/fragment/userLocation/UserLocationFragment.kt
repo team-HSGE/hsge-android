@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register.fragment.UserLocationFragment
+package com.starters.hsge.presentation.register.fragment.userLocation
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -37,6 +38,7 @@ import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
+import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,6 +90,8 @@ class UserLocationFragment :
         setNavigation()
 
     }
+
+
 
     private fun initPermissionLauncher() {
         locationPermissionRequest =
@@ -352,4 +356,5 @@ class UserLocationFragment :
             findNavController().navigateUp()
         }
     }
+
 }

@@ -1,9 +1,11 @@
 package com.starters.hsge.presentation.main.mypage.userDistance
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.DistanceRequest
@@ -18,6 +20,7 @@ import retrofit2.Response
 
 class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance) {
 
+    private lateinit var callback: OnBackPressedCallback
     private var distance = 3
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,6 +32,22 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         seekbar(radius)
         setNavigation()
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+                visibleBtmNav()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 
@@ -72,7 +91,12 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
+            visibleBtmNav()
         }
+    }
+
+    private fun visibleBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 
 

@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register.fragment.UserLocationFragment
+package com.starters.hsge.presentation.register.fragment.userLocation
 
 import com.starters.hsge.data.model.remote.request.userLocationRequest
 import retrofit2.Call
