@@ -93,8 +93,6 @@ class RegisterViewModel @Inject constructor(
 
     fun fetchUserLongitude() = registerPreferencesRepository.userLongitude
 
-    fun fetchUserTown() = registerPreferencesRepository.userTown
-
     fun fetchUserLocation() = registerPreferencesRepository.userLocation
 
     // datastore에 값 저장하기
@@ -148,10 +146,6 @@ class RegisterViewModel @Inject constructor(
 
     suspend fun saveUserLongitude(longitude: Double) {
         registerPreferencesRepository.setUserLongitude(longitude)
-    }
-
-    suspend fun saveUserTown(town: String){
-        registerPreferencesRepository.setUserTown(town)
     }
 
     suspend fun saveUserLocation(location: String){

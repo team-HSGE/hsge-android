@@ -81,11 +81,6 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
             it[LONGITUDE] ?: 0.0
         }
 
-    override val userTown: Flow<String>
-        get() = registerDataStore.data.map {
-            it[TOWN] ?: ""
-        }
-
     override val userLocation: Flow<String>
         get() = registerDataStore.data.map {
             it[LOCATION] ?: ""
@@ -190,12 +185,6 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setUserLongitude(longitude: Double) {
         registerDataStore.edit {
             it[LONGITUDE] = longitude
-        }
-    }
-
-    override suspend fun setUserTown(town: String) {
-        registerDataStore.edit {
-            it[TOWN] = town
         }
     }
 
