@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.main.mypage
+package com.starters.hsge.presentation.main.mypage.settings
 
 import android.os.Bundle
 import android.view.View
@@ -24,6 +24,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
                 override fun onWithdrawalBtnClicked() {
                     // 탈퇴 버튼 클릭했을 때 처리
+
                 }
             })
 
