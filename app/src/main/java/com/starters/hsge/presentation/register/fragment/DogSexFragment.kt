@@ -1,7 +1,6 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -41,13 +40,12 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
             when(checkedId) {
                 R.id.rbtn_male -> {
                     lifecycleScope.launch {
-                        registerViewModel.saveDogSex("남자")
-                        Log.d("남자냐", "${registerViewModel.fetchDogSex()}")
+                        registerViewModel.saveDogSex("남")
                     }
                 }
                 R.id.rbtn_female -> {
                     lifecycleScope.launch {
-                        registerViewModel.saveDogSex("여자")
+                        registerViewModel.saveDogSex("여")
                     }
                 }
             }
@@ -69,8 +67,8 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
         registerViewModel.fetchDogSex().asLiveData().observe(viewLifecycleOwner) {
             if (it != null) {
                 when (it) {
-                    "남자" -> binding.rbtnMale.isChecked = true
-                    "여자" -> binding.rbtnFemale.isChecked = true
+                    "남" -> binding.rbtnMale.isChecked = true
+                    "여" -> binding.rbtnFemale.isChecked = true
                 }
                 binding.btnNext.isEnabled = true
             }
