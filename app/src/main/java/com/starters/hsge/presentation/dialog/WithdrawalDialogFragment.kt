@@ -94,6 +94,6 @@ class WithdrawalDialogFragment: DialogFragment() {
             }
         }
 
-        dialogFragmentResize(requireContext(), this@WithdrawalDialogFragment, 0.8f, 0.22f)
+        dialogFragmentResize(requireContext(), this@WithdrawalDialogFragment, 0.8f, 0.235f)
     }
 }
