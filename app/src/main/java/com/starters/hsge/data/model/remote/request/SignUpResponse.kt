@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SignUpResponse(
-    val accessToken: String,
-    val refreshToken: String
+    val message: String? = null,
+    val accessToken: String? = null,
+    val refreshToken: String? = null
 )
