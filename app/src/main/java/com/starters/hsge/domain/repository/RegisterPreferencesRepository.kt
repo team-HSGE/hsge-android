@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface RegisterPreferencesRepository {
 
+    val userEmail: Flow<String>
+
     val userNickName: Flow<String>
 
     val userIcon: Flow<Int>
@@ -31,6 +33,8 @@ interface RegisterPreferencesRepository {
     val userLatitude: Flow<Double>
 
     val userLongitude: Flow<Double>
+
+    val userLocation: Flow<String>
 
     suspend fun setUserEmail(email: String)
 
@@ -62,5 +66,10 @@ interface RegisterPreferencesRepository {
 
     suspend fun setUserLongitude(longitude: Double)
 
+    suspend fun setUserLocation(location: String)
+
+    suspend fun deleteUserLocation()
+
     suspend fun deleteAllData()
+
 }

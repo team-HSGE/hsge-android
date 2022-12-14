@@ -1,6 +1,8 @@
 package com.starters.hsge.network
 
+import kotlinx.serialization.SerialName
+
 @kotlinx.serialization.Serializable
 data class AccessRequest(
-    val accessToken : String
+    @SerialName("accessToken") val accessToken : String
 )

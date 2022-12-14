@@ -22,16 +22,25 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+
+        <service
+            android:name=".presentation.main.home.push.FirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel"
+                android:value="@string/default_notification_channel_id"/>
+
+        </service>
+
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:theme="@style/SplashActivity"
             android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
 
 
@@ -78,6 +87,12 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

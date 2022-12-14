@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.register.fragment.UserLocationFragment">
+        tools:context=".presentation.register.fragment.userLocation.UserLocationFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_user_location_explain"
+            android:id="@+id/tv_user_distance_explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -56,7 +56,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_location_explain"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_distance_explain"
             app:layout_goneMarginTop="14dp" />
 
         <com.google.android.material.button.MaterialButton

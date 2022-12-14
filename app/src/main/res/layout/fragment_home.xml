@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -44,7 +44,7 @@
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/dog_dislike"
-                android:elevation="10dp"
+                app:elevation="4dp"
                 android:src="@drawable/ic_dislike"
                 app:borderWidth="0dp"
                 app:fabCustomSize="48dp"
@@ -64,7 +64,8 @@
                 android:layout_toEndOf="@id/fab_dislike"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/dog_like"
-                android:elevation="15dp"
+                app:elevation="4dp"
+                android:scaleType="center"
                 android:src="@drawable/ic_like"
                 app:borderWidth="0dp"
                 app:fabCustomSize="48dp"
@@ -72,6 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fab_dislike"
                 app:layout_constraintTop_toTopOf="parent"
+                app:maxImageSize="32dp"
                 app:tint="@null" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,12 @@
             android:id="@+id/action_myPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
+            android:id="@+id/action_myPageFragment_to_userDistanceFragment"
+            app:destination="@id/userDistanceFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_userLocationFragment2"
+            app:destination="@id/userLocationFragment2" />
+        <action
             android:id="@+id/action_myPageFragment_to_managementFragment"
             app:destination="@id/managementFragment" />
     </fragment>
@@ -72,5 +78,19 @@
         <argument
             android:name="dogDetailInfo"
             app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.userDistance.UserDistanceFragment"
+        android:label="UserDistanceFragment" >
+        <action
+            android:id="@+id/action_userDistanceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userLocationFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragment"
+        android:label="UserLocationFragment"
+        tools:layout="@layout/fragment_user_location">
     </fragment>
 </navigation>
