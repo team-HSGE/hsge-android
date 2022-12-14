@@ -18,34 +18,25 @@ import retrofit2.Response
 
 class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance) {
 
+    private var distance = 3
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        seekbar()
-        initListener()
+        // TODO : 마이페이지에서 서버에 저장된 radius 넘어옴. 이 radius에 넣으면 됨
+        val radius = 14
+
+        seekbar(radius)
         setNavigation()
 
     }
 
-    // 완료 버튼
-    private fun initListener() {
-        binding.btnNext.setOnClickListener {
-            // post로 api 통신하면 됨
-            findNavController().navigate(R.id.action_userDistanceFragment_to_homeFragment)
-            (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
-
-            val distance = prefs.getInt("distance", 3)
-            retrofitWork(distance.toDouble())
-        }
-    }
-
 
     // seekBar - 반경 설정
-    private fun seekbar() {
+    private fun seekbar(radius: Int) {
         // 이전에 정했던 반경으로 디폴트 값
-        val distance = prefs.getInt("distance", 3)
-        binding.userDistanceSeekbar.setProgress(distance-3)
-        binding.tvLocationDistance.text = "${distance}km"
+        binding.userDistanceSeekbar.setProgress(radius-3)
+        binding.tvLocationDistance.text = "${radius}km"
 
         val max = 15
         val min = 3
@@ -54,9 +45,8 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         binding.userDistanceSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                val distance = progress + min
+                distance = progress + min
                 binding.tvLocationDistance.text = "${distance}km"
-                prefs.edit().putInt("distance", distance).apply()
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -65,6 +55,16 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
             override fun onStopTrackingTouch(p0: SeekBar?) {
             }
         })
+
+
+        // 완료 버튼
+        binding.btnNext.setOnClickListener {
+            // post로 api 통신하면 됨
+            findNavController().navigate(R.id.action_userDistanceFragment_to_homeFragment)
+            (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+
+            retrofitWork(distance.toDouble())
+        }
     }
 
 
