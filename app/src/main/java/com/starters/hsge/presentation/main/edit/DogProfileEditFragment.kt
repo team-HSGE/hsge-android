@@ -22,6 +22,8 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
+import com.starters.hsge.presentation.dialog.EditNameDialogFragment
+import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,6 +41,20 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
     private lateinit var storagePermissionRequest: ActivityResultLauncher<String>
     private lateinit var imageResult: ActivityResultLauncher<Intent>
 
+    private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
+
+    private val likeTagList = listOf(
+        "지방,", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
+        "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
+        "간식", "고구마", "닭가슴살", "야채", "과일", "단호박", "개껌", "인형"
+    )
+
+    private val dislikeTagList = listOf(
+        "", "단거,", "지방,", "사람", "암컷", "대형견", "중형견",
+        "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
+        "스킨십", "큰소리", "향수"
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,8 +69,6 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
         } else {
             binding.rbtnFemale.isChecked = true
         }
-
-        binding.chipNeuter.isChecked = args.dogDetailInfo.neutralization
 
         initListener()
         createLikeTagTextView()
@@ -162,6 +176,8 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
         // 반려견 이름
         binding.dogNameEditSection.setOnClickListener {
             //Custom EditText Dialog
+            val dialog = EditNameDialogFragment()
+            dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
 
         }
 
@@ -198,10 +214,16 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
         }
 
         // like tag
-        binding.dogLikeTagEditSection.setOnClickListener {  }
+        binding.dogLikeTagEditSection.setOnClickListener {
+            tagBottomSheetDialog = TagBottomSheetDialog(likeTagList, ViewType.LIKE, args.dogDetailInfo.tag.tagLike)
+            tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
+        }
 
         // dislike tag
-        binding.dogDislikeTagEditSection.setOnClickListener {  }
+        binding.dogDislikeTagEditSection.setOnClickListener {
+            tagBottomSheetDialog = TagBottomSheetDialog(dislikeTagList, ViewType.DISLIKE, args.dogDetailInfo.tag.tagDisLike)
+            tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
+        }
 
         // 수정하기
         binding.btnEdit.setOnClickListener {
