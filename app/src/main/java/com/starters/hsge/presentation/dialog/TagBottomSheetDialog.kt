@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
@@ -14,19 +15,11 @@ import com.starters.hsge.presentation.main.edit.ViewType
 class TagBottomSheetDialog(
     private val list: List<String>,
     private val type: ViewType,
-    private val checkedList: List<String>
+    private val checkedList: List<String>,
+    private val okBtnClickListener: (List<String>) -> Unit
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTagBottomSheetDialogBinding
-//    private lateinit var mContentClickListener: BottomSheetClickListener
-
-//    interface BottomSheetClickListener {
-//        fun onContentClick(content: String)
-//    }
-//
-//    fun setBottomSheetClickListener(btnClickListener: BottomSheetClickListener) {
-//        mContentClickListener = btnClickListener
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +51,6 @@ class TagBottomSheetDialog(
     private fun createChip(label: String, type: ViewType): Chip {
         when (type) {
             ViewType.LIKE -> {
-
                 val chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
                 chip.text = label
 
@@ -66,6 +58,11 @@ class TagBottomSheetDialog(
                     val ids: List<Int> = binding.chipGroup.checkedChipIds
                     if (ids.size > 3) {
                         chip.isChecked = false
+                    } else if (ids.isEmpty()) {
+                        binding.tvOkBtn.isEnabled = false
+                        Toast.makeText(requireContext(), "태그를 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+                    } else {
+                        binding.tvOkBtn.isEnabled = true
                     }
 
                 }
@@ -79,8 +76,12 @@ class TagBottomSheetDialog(
                     val ids: List<Int> = binding.chipGroup.checkedChipIds
                     if (ids.size > 3) {
                         chip.isChecked = false
+                    } else if (ids.isEmpty()) {
+                        binding.tvOkBtn.isEnabled = false
+                        Toast.makeText(requireContext(), "태그를 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+                    } else {
+                        binding.tvOkBtn.isEnabled = true
                     }
-
                 }
                 return chip
             }
@@ -89,6 +90,7 @@ class TagBottomSheetDialog(
 
     private fun initListener() {
         binding.tvOkBtn.setOnClickListener {
+            okBtnClickListener.invoke(getCheckedChipsText())
             dismiss()
         }
     }
@@ -100,6 +102,17 @@ class TagBottomSheetDialog(
                 chip.isChecked = true
             }
         }
+    }
+
+    private fun getCheckedChipsText(): MutableList<String> {
+        val tagList: MutableList<String> = mutableListOf()
+        for (index in 0 until binding.chipGroup.childCount) {
+            val chip = binding.chipGroup.getChildAt(index) as Chip
+            if (binding.chipGroup.checkedChipIds.contains(chip.id)) {
+                tagList.add(chip.text.toString())
+            }
+        }
+        return tagList
     }
 
     companion object {
