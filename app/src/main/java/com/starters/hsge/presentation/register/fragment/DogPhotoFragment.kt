@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.starters.hsge.BuildConfig
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogPhotoBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -33,12 +34,18 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     private lateinit var imageResult: ActivityResultLauncher<Intent>
     private val registerViewModel: RegisterViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initImageLauncher()
+        initPermissionLauncher()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         updateDogPhotoToImgView()
-        initPermissionLauncher()
-        initImageLauncher()
         initListener()
         setNavigation()
 
@@ -85,18 +92,15 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
     private fun checkPermission() {
         val isFirstCheck = prefs.getBoolean("isFistImgPermissionCheck", true)
         when {
-
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 navigateGallery()
             }
-
             shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
@@ -128,10 +132,8 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
         builder.setMessage("설정에서 권한을 허용해주세요")
         builder.setPositiveButton("설정으로 이동하기") { _, _ ->
             val intent = Intent(
-                ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts(
-                    "package", requireContext().packageName, null
-                )
-            )
+                ACTION_APPLICATION_DETAILS_SETTINGS
+            ).setData(Uri.parse("package:" + BuildConfig.APPLICATION_ID))
             startActivity(intent)
         }
         builder.show()

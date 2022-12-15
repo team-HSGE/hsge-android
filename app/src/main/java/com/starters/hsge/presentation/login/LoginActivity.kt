@@ -34,7 +34,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
     private var fcmToken : String = ""
-    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

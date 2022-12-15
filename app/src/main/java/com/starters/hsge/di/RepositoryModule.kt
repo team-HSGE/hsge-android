@@ -41,4 +41,10 @@ abstract class RepositoryModule {
         myDogRepositoryImpl: MyDogRepositoryImpl
     ): MyDogRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindsEditDogRepository(
+        editDogProfileRepositoryImpl: EditDogProfileRepositoryImpl
+    ): EditDogProfileRepository
+
 }

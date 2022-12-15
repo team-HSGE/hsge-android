@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentEditNameDialogBinding
 
-class EditNameDialogFragment : DialogFragment() {
+class EditNameDialogFragment(private val okBtnClickListener: (String) -> Unit) : DialogFragment() {
 
     private lateinit var binding: FragmentEditNameDialogBinding
 
@@ -42,6 +42,7 @@ class EditNameDialogFragment : DialogFragment() {
 
     private fun initListener() {
         binding.tvDialogOkBtn.setOnClickListener {
+            okBtnClickListener.invoke(binding.edtDogNameDialog.text.toString())
             dismiss()
         }
 
