@@ -306,6 +306,8 @@
                         android:text="@{dogDetailInfo.description}"
                         android:textColor="@color/black"
                         android:textSize="14sp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         app:layout_constraintStart_toStartOf="@id/tv_dog_comment_label"
                         app:layout_constraintTop_toBottomOf="@id/tv_dog_comment_label"
                         tools:text="안녕하녕 내이름은 강아지야 나는 축구 농구 야구 배구 어쩌구 저쩌구를 좋아하고 그냥 그렇다고 알겠니" />

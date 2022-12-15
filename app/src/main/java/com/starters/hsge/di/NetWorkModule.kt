@@ -2,10 +2,7 @@ package com.starters.hsge.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.starters.hsge.App
-import com.starters.hsge.data.api.DogOptionApi
-import com.starters.hsge.data.api.ImageService
-import com.starters.hsge.data.api.MyDogApi
-import com.starters.hsge.data.api.UserApi
+import com.starters.hsge.data.api.*
 import com.starters.hsge.presentation.common.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -112,6 +109,13 @@ object NetworkModule {
     @RetrofitHSGE
     fun providesMyDogApi(@RetrofitHSGE retrofit: Retrofit): MyDogApi =
         retrofit.create(MyDogApi::class.java)
+
+    // EditDog Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesEditDogApi(@RetrofitHSGE retrofit: Retrofit): EditDogApi =
+        retrofit.create(EditDogApi::class.java)
 
 }
 

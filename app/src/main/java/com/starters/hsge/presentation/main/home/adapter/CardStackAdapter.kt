@@ -43,7 +43,7 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                 }
 
                 if (!dog.isNeuter) chipDogNeuter.visibility = View.GONE
-//                 Glide.with(itemView).load(dog.picture).into(ivDogPhoto)
+                 //Glide.with(itemView).load(dog.picture).into(ivDogPhoto)
                 Glide.with(itemView).load(dog.petImg[0]).into(ivDogPhoto)
 
 
