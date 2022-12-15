@@ -71,8 +71,14 @@
     <fragment
         android:id="@+id/dogProfileEditFragment"
         android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
-        android:label="DogProfileEditFragment" />
-
+        android:label="DogProfileEditFragment" >
+        <action
+            android:id="@+id/action_dogProfileEditFragment_to_managementFragment"
+            app:destination="@id/managementFragment" />
+        <argument
+            android:name="dogDetailInfo"
+            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+    </fragment>
     <fragment
         android:id="@+id/userDistanceFragment"
         android:name="com.starters.hsge.presentation.main.mypage.userDistance.UserDistanceFragment"

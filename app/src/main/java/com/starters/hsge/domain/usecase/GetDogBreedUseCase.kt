@@ -1,6 +1,6 @@
 package com.starters.hsge.domain.usecase
 
-import com.starters.hsge.domain.Mapper.mapToBreedMap
+import com.starters.hsge.domain.mapper.mapToBreedMap
 import com.starters.hsge.domain.repository.DogOptionRepository
 import javax.inject.Inject
 

@@ -143,6 +143,8 @@
     <string name="dog_edit_comment_title">자기소개</string>
     <string name="dog_edit_info_title">기본 정보</string>
     <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
+    <string name="dialog_btn_ok">확인</string>
+    <string name="dialog_dog_name_edit_title">이름을 변경해주세요</string>
     <string name="dog_profile_edit_toolbar">반려견 프로필 수정</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>

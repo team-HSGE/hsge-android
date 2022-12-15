@@ -10,20 +10,20 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentDialogWithdrawalBinding
+import com.starters.hsge.databinding.FragmentEditNameDialogBinding
 
-class WithdrawalDialogFragment: DialogFragment() {
+class EditNameDialogFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentDialogWithdrawalBinding
+    private lateinit var binding: FragmentEditNameDialogBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_dialog_withdrawal,
+            R.layout.fragment_edit_name_dialog,
             container,
             false
         )
@@ -31,35 +31,24 @@ class WithdrawalDialogFragment: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-        initDialog()
-
         return binding.root
     }
 
-    fun initDialog(){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        initListener()
+
+    }
+
+    private fun initListener() {
+        binding.tvDialogOkBtn.setOnClickListener {
+            dismiss()
+        }
+
         binding.tvDialogCancelBtn.setOnClickListener {
-            buttonClickListener. onCancelBtnClicked()
-            dismiss()
-        }
-
-        binding.tvDialogWithdrawalBtn.setOnClickListener {
-            buttonClickListener.onWithdrawalBtnClicked()
             dismiss()
         }
     }
-
-    interface OnButtonClickListener {
-        fun onCancelBtnClicked()
-        fun onWithdrawalBtnClicked()
-    }
-
-    // 클릭 이벤트 설정
-    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
-        this.buttonClickListener = buttonClickListener
-    }
-    // 클릭 이벤트 실행
-    private lateinit var buttonClickListener: OnButtonClickListener
-
 
     override fun onResume() {
         super.onResume()
@@ -94,6 +83,10 @@ class WithdrawalDialogFragment: DialogFragment() {
             }
         }
 
-        dialogFragmentResize(requireContext(), this@WithdrawalDialogFragment, 0.8f, 0.235f)
+        dialogFragmentResize(requireContext(), this@EditNameDialogFragment, 0.9f, 0.30f)
+    }
+
+    companion object {
+        const val TAG = "EditNameDialog"
     }
 }
