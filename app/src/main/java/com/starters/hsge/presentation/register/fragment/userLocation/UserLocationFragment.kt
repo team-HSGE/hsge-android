@@ -128,6 +128,12 @@ class UserLocationFragment :
                     putLocationRetrofitWork(latitude, longitude, town)
 
                     registerViewModel.deleteAllInfo()
+
+                    findNavController().navigate(R.id.action_userLocationFragment2_to_myPageFragment)
+                    (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+
+                    prefs.edit().remove("getLocationFrom").apply()
+
                 }
             } else {
                 Log.d("from?", "register")
@@ -160,14 +166,18 @@ class UserLocationFragment :
                     registerViewModel.deleteAllInfo()
                     prefs.edit().remove("resId").apply()
                 }
+
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+
+                activity?.finish() //RegisterActivity 종료
             }
 
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
+            //val intent = Intent(activity, MainActivity::class.java)
+            //startActivity(intent)
 
-            prefs.edit().remove("getLocationFrom").apply()
 
-            activity?.finish() //RegisterActivity 종료
+            //activity?.finish() //RegisterActivity 종료
         }
     }
 

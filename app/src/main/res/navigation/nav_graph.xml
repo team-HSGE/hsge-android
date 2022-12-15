@@ -94,5 +94,10 @@
         android:name="com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragment"
         android:label="UserLocationFragment"
         tools:layout="@layout/fragment_user_location">
+        <action
+            android:id="@+id/action_userLocationFragment2_to_myPageFragment"
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/myPageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
