@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class UserLocationData(
     val town : String,
     val latitude : Double,
-    val longitude : Double
-    //val radius : Double
+    val longitude : Double,
+    val radius : Double
 ) : Parcelable

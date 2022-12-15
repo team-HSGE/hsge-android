@@ -40,11 +40,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.locationSettingSection.setOnClickListener {
-//            val action = MyPageFragmentDirections.actionMyPageFragmentToUserLocationFragment2(
-//                UserLocationData(town, latitude, longitude)
-//            )
-//            findNavController().navigate(action)
-            findNavController().navigate(R.id.action_myPageFragment_to_userLocationFragment2)
+            val action = MyPageFragmentDirections.actionMyPageFragmentToUserLocationFragment2(
+                UserLocationData(town, latitude, longitude, radius)
+            )
+            findNavController().navigate(action)
             prefs.edit().putInt("getLocationFrom", 1).apply()
             goneBtmNav()
         }
@@ -84,7 +83,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     radius = result.radius
 
                     var townStrList =  town.split(" ")
-                    splitTown = townStrList[1] + " " + townStrList[2]
+                    if (townStrList.size == 3) {
+                        splitTown = townStrList[1] + " " + townStrList[2]
+                    } else if (townStrList.size > 3) {
+                        splitTown = townStrList[1] + " " + townStrList[2] + " " + townStrList[3]
+                    }
 
                     // 사용자 정보 적용
                     binding.ivUserProfile.setImageResource(profileImage)

@@ -102,5 +102,10 @@
             app:destination="@id/myPageFragment"
             app:popUpTo="@id/myPageFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="userLocationData"
+            app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

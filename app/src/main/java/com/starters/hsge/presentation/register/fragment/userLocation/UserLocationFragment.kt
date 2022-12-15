@@ -57,10 +57,14 @@ class UserLocationFragment :
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private val registerViewModel: RegisterViewModel by viewModels()
 
+    val args : UserLocationFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         changeDoneButton()
 
+        // safe args로 전달받아서 데이터 사용하기
+        Log.d("확인", "${args.userLocationData?.town}, ${args.userLocationData?.latitude}, ${args.userLocationData?.longitude}, ${args.userLocationData?.radius}")
 
         // 데이터 유지
 
