@@ -253,14 +253,14 @@ class DogProfileEditFragment :
             val imgFile = UriUtil.toFile(requireContext(), dogProfileEditViewModel.img.toUri())
 
             val dogProfileInfo = EditDogProfileRequest(
-                petName = "봉봉봉",
+                petName = "다운이",
                 gender = "남",
                 age = "ONE_YEAR",
                 breed = "BEAGLE",
                 neutralization = true,
-                description = "사실 전 비글이에요",
-                likeTag = "#산책#수영",
-                dislikeTag = "#암컷"
+                description = "간식을 무척 좋아해요. 특히 고양이 간식이요!",
+                likeTag = "소형견,암컷,",
+                dislikeTag = "남자사람,"
             )
             dogProfileEditViewModel.putEditDogProfile(args.dogDetailInfo.id, imgFile, dogProfileInfo)
 
