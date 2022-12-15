@@ -17,6 +17,6 @@ class App : Application() {
 
         KakaoSdk.init(this, "e9ee5f6eb7b2679f8f67b4938252e566")
 
-        prefs = getSharedPreferences("HSGE", Application.MODE_PRIVATE)
+        prefs = applicationContext.getSharedPreferences("HSGE", Application.MODE_PRIVATE)
     }
 }

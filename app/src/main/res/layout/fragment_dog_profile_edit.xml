@@ -5,8 +5,11 @@
 
     <data>
 
-    </data>
+        <variable
+            name="dogDetailInfo"
+            type="com.starters.hsge.data.model.remote.response.MyDogResponse" />
 
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,10 +51,11 @@
 
                 <ImageView
                     android:id="@+id/iv_dog_photo"
+                    bindDogPhoto="@{dogDetailInfo.picture}"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/bg_gray_circle"
+                    android:background="@drawable/bg_gray_circle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +75,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dog_name_edit_section"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingHorizontal="20dp"
@@ -84,6 +88,7 @@
                         android:id="@+id/tv_dog_name_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{dogDetailInfo.petName}"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -126,6 +131,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <RadioGroup
+                        android:id="@+id/radio_group"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -133,11 +139,13 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_dog_sex_label">
 
                         <RadioButton
+                            android:id="@+id/rbtn_male"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/male" />
 
                         <RadioButton
+                            android:id="@+id/rbtn_female"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="50dp"
@@ -147,12 +155,11 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_neuter"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkable="true"
+                        android:checked="@{dogDetailInfo.neutralization}"
                         android:text="@string/dog_edit_neuter"
-                        app:checkedIconVisible="false"
-                        app:chipIcon="@drawable/ic_check"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_dog_sex_label" />
 
@@ -178,6 +185,7 @@
                         android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:text="@{dogDetailInfo.age}"
                         android:textColor="@color/black"
                         app:drawableRightCompat="@drawable/ic_arrow_drop_down"
                         tools:text="1살" />
@@ -192,6 +200,7 @@
                         android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
+                        android:text="@{dogDetailInfo.breed}"
                         android:textColor="@color/black"
                         app:drawableRightCompat="@drawable/ic_arrow_drop_down"
                         tools:text="이탈리안\n그레이하운드" />
@@ -228,29 +237,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_dog_like_label">
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/bg_g100_r14"
-                            android:drawablePadding="6dp"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="8dp"
-                            android:textColor="@color/black"
-                            app:drawableLeftCompat="@drawable/ic_chip_like"
-                            tools:text="공놀이" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_g100_r14"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="8dp"
-                            android:textColor="@color/black"
-                            app:drawableLeftCompat="@drawable/ic_chip_like"
-                            tools:text="공놀이" />
-
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -285,27 +271,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_dog_dislike_label">
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/bg_g100_r14"
-                            android:drawablePadding="6dp"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="8dp"
-                            android:textColor="@color/black"
-                            tools:text="샤워하기" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_g100_r14"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="8dp"
-                            android:textColor="@color/black"
-                            tools:text="공놀이" />
-
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -338,6 +303,7 @@
                         android:background="@drawable/bg_g100_r12"
                         android:inputType="text"
                         android:padding="16dp"
+                        android:text="@{dogDetailInfo.description}"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@id/tv_dog_comment_label"

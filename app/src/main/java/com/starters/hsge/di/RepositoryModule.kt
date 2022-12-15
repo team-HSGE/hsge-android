@@ -1,13 +1,7 @@
 package com.starters.hsge.di
 
-import com.starters.hsge.data.repository.DogOptionRepositoryImpl
-import com.starters.hsge.data.repository.DogProfileRepositoryImpl
-import com.starters.hsge.data.repository.RegisterPreferencesRepositoryImpl
-import com.starters.hsge.data.repository.RegisterRepositoryImpl
-import com.starters.hsge.domain.repository.DogOptionRepository
-import com.starters.hsge.domain.repository.DogProfileRepository
-import com.starters.hsge.domain.repository.RegisterPreferencesRepository
-import com.starters.hsge.domain.repository.RegisterRepository
+import com.starters.hsge.data.repository.*
+import com.starters.hsge.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,5 +34,11 @@ abstract class RepositoryModule {
     abstract fun bindsRegisterPreferencesRepository(
         registerPreferencesRepositoryImpl: RegisterPreferencesRepositoryImpl
     ): RegisterPreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsMyDogRepository(
+        myDogRepositoryImpl: MyDogRepositoryImpl
+    ): MyDogRepository
 
 }

@@ -98,11 +98,9 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             ) == PackageManager.PERMISSION_GRANTED -> {
                 navigateGallery()
             }
-
             shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
@@ -155,7 +153,6 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
             }
         }
     }
-
 
     private fun initListener() {
         binding.ivDogPhoto.setOnClickListener {

@@ -1,7 +1,6 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -45,26 +44,11 @@ class DogAgeFragment @Inject constructor(
                             lifecycleScope.launch {
                                 age[content]?.let { it -> registerViewModel.saveDogAge(it) }
                                 registerViewModel.saveDogAgeForView(content)
-                                Log.d("보내는 값", "${age[content]}")
                             }
                         }
                     })
                 }
             }
-
-            // 로컬데이터 띄우기 (테스트용)
-//            ageBottomSheet = BottomSheetDialog(registerViewModel.testDogAgeToLocal().map{ it.age })
-//            ageBottomSheet.show(childFragmentManager, BottomSheetDialog.TAG)
-//                    ageBottomSheet.setBottomSheetClickListener(object :
-//                        BottomSheetDialog.BottomSheetClickListener {
-//                        override fun onContentClick(content: String) {
-//                            lifecycleScope.launch {
-//                                registerViewModel.saveDogAgeForView(content)
-//                                registerViewModel.saveDogAge("MIX")
-//                                Log.d("나이 저장디어야디", "${registerViewModel.fetchDogAgeForView().first()}, ${registerViewModel.fetchDogAge().first()} ")
-//                            }
-//                        }
-//                    })
         }
 
         binding.btnNext.setOnClickListener {
