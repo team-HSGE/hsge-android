@@ -62,7 +62,6 @@ class UserLocationFragment :
         // 데이터 유지
 
         if (prefs.getInt("getLocationFrom", 0) == 1) { // 위치 새로고침 하다가 나간 경우
-            Log.d("어디", "mypage")
             lifecycleScope.launch {
                 // TODO : 마이페이지에서 받은 정보 띄우기, 번들로 넘어온 town, location, longitude 값 할당하기
                 // 받아와서 수정
@@ -75,8 +74,6 @@ class UserLocationFragment :
             }
 
         } else { // 회원가입하다가 앱 종료인 경우
-            Log.d("어디", "register")
-
             lifecycleScope.launch {
                 if (!registerViewModel.fetchUserLocation().first().isNullOrEmpty()) {
                     binding.tvMyLocation.text = registerViewModel.fetchUserLocation().first()
@@ -127,7 +124,6 @@ class UserLocationFragment :
                     val latitude = registerViewModel.fetchUserLatitude().first()
                     val longitude = registerViewModel.fetchUserLongitude().first()
                     val town = registerViewModel.fetchUserLocation().first()
-                    Log.d("진짜??-b", town)
 
                     putLocationRetrofitWork(latitude, longitude, town)
 
@@ -143,7 +139,7 @@ class UserLocationFragment :
                     val imgFile = UriUtil.toFile(requireContext(), imgUri)
 
                     val registerInfo = RegisterInfo(
-                        email = registerViewModel.fetchUserEmail().first(),
+                        email = prefs.getString("email", ""),
                         userNickName = registerViewModel.fetchUserNickname().first(),
                         userIcon = prefs.getInt("resId", 0),
                         dogName = registerViewModel.fetchDogName().first(),
@@ -159,11 +155,10 @@ class UserLocationFragment :
                     )
 
                     registerViewModel.postRegisterInfo(imgFile, registerInfo)
-                    Log.d("진짜??-b", registerViewModel.fetchUserLocation().first())
+                    Log.d("회원가입 때 작성한 내용", "${registerInfo}")
 
-                    Log.d("회원가입", "${registerInfo}")
                     registerViewModel.deleteAllInfo()
-                    prefs.edit().remove("resId") // sp에 저장된 resId 제거
+                    prefs.edit().remove("resId").apply()
                 }
             }
 
