@@ -109,7 +109,7 @@
     <string name="user_profile_edit_nickname_title">닉네임</string>
     <string name="user_profile_edit_nickname_text">사용자 닉네임 입력란</string>
     <string name="user_profile_edit_button">수정하기</string>
-    <string name="user_profile_edit_nickname_hint">최대 8글자로 입력해주세요.</string>
+    <string name="user_profile_edit_nickname_hint">최대 13자 이내로 입력하세요.</string>
     <string name="user_profile_edit_nickname_hint_text">사용자 닉네임 입력 힌트</string>
 
 
@@ -124,7 +124,6 @@
     <string name="dog_like">관심 있어요</string>
     <string name="dog_location">근처의 강아지를 보여드려요</string>
     <string name="no_card">카드가 없어요ㅠㅠ</string>
-    <string name="user_profile_edit_email">abcde@kakao.com</string>
     <string name="register_nick_name_label">사용할 닉네임을 알려주세요</string>
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
