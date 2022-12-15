@@ -87,13 +87,20 @@
         android:label="UserDistanceFragment"
         tools:layout="@layout/fragment_user_distance">
         <action
-            android:id="@+id/action_userDistanceFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_userDistanceFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/myPageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/userLocationFragment2"
         android:name="com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragment"
         android:label="UserLocationFragment"
         tools:layout="@layout/fragment_user_location">
+        <action
+            android:id="@+id/action_userLocationFragment2_to_myPageFragment"
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/myPageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
