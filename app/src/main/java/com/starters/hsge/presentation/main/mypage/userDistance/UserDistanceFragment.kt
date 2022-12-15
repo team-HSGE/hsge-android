@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
@@ -14,6 +15,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
+import com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragmentArgs
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,8 +25,13 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     private lateinit var callback: OnBackPressedCallback
     private var distance = 3
 
+    private val args : UserLocationFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // safe args로 전달받아서 데이터 사용하기
+        Log.d("확인2", "${args.userLocationData?.town}, ${args.userLocationData?.latitude}, ${args.userLocationData?.longitude}, ${args.userLocationData?.radius}")
 
         // TODO : 마이페이지에서 서버에 저장된 radius 넘어옴. 이 radius에 넣으면 됨
         val radius = 14

@@ -57,7 +57,7 @@ class UserLocationFragment :
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private val registerViewModel: RegisterViewModel by viewModels()
 
-    val args : UserLocationFragmentArgs by navArgs()
+    private val args : UserLocationFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
