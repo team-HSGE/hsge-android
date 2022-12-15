@@ -15,6 +15,14 @@ import retrofit2.Response
 
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
+    var profileImage : Int = 0
+    var nickname : String = ""
+    var town : String = ""
+    var latitude : Double = 0.0
+    var longitude : Double = 0.0
+    var splitTown : String = ""
+    var radius : Double = 0.0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,6 +40,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.locationSettingSection.setOnClickListener {
+//            val action = MyPageFragmentDirections.actionMyPageFragmentToUserLocationFragment2(
+//                UserLocationData(town, latitude, longitude)
+//            )
+//            findNavController().navigate(action)
             findNavController().navigate(R.id.action_myPageFragment_to_userLocationFragment2)
             prefs.edit().putInt("getLocationFrom", 1).apply()
             goneBtmNav()
@@ -64,20 +76,20 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     val result = response.body() as UsersGetResponse
 
                     // 사용자 정보 가져오기
-                    var profileImage = result.profilePath
-                    var nickname = result.nickname
-                    var town = result.town
-                    var latitude = result.latitude
-                    var longitude = result.longtitude
+                    profileImage = result.profilePath
+                    nickname = result.nickname
+                    town = result.town
+                    latitude = result.latitude
+                    longitude = result.longtitude
+                    radius = result.radius
 
+                    var townStrList =  town.split(" ")
+                    splitTown = townStrList[1] + " " + townStrList[2]
+
+                    // 사용자 정보 적용
                     binding.ivUserProfile.setImageResource(profileImage)
                     binding.tvUserNickname.text = nickname
-                    binding.tvUserLocation.text = town
-
-                } else  {
-                    when(response.code()) {
-
-                    }
+                    binding.tvUserLocation.text = splitTown
                 }
             }
 

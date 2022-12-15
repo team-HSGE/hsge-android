@@ -24,6 +24,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -38,6 +39,7 @@ import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
+import com.starters.hsge.presentation.main.mypage.UserLocationData
 import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,6 +60,7 @@ class UserLocationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         changeDoneButton()
+
 
         // 데이터 유지
 
@@ -296,16 +299,18 @@ class UserLocationFragment :
         addressList.removeAt(0)
         addressList.removeAt(addressList.size - 1)
 
-        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동'
+        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동 '
         val locationAddress = StringBuilder()
         for (i in addressList) {
             locationAddress.append(i)
             locationAddress.append(" ")
         }
-        binding.tvMyLocation.text = locationAddress
+        val town = locationAddress.dropLast(1).toString()
+        Log.d("확인", "${town}")
+        binding.tvMyLocation.text = town
 
         lifecycleScope.launch {
-            registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
+            registerViewModel.saveUserLocation(town).apply { }
         }
 
 
