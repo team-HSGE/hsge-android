@@ -262,16 +262,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val card = dogCardList[manager.topPosition - 1] // 카트스택의 최 상위를 찾은다음에 뺴줘야함
         Log.d("isLike?", isLike.toString())
         Log.d("isLike?", card.petId.toString())
-        //postIsLikeRetrofitWork(card.petId, isLike)
+        postIsLikeRetrofitWork(card.petId, isLike)
 
         // post 통신 진행
-
     }
 
     private fun postIsLikeRetrofitWork(petId: Int, isLike: Boolean){
         val isLikeRetrofit = RetrofitApi.retrofit.create(IsLikeService::class.java)
 
-        isLikeRetrofit.postIsLikeData(request = IsLikeRequest(petId, isLike)).enqueue(object: Callback<Void>{
+        isLikeRetrofit.postIsLikeData(petId = petId, request = IsLikeRequest(isLike)).enqueue(object: Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if(response.isSuccessful){
                     Log.d("isLike", response.toString())
