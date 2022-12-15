@@ -173,11 +173,6 @@ class UserLocationFragment :
                 activity?.finish() //RegisterActivity 종료
             }
 
-            //val intent = Intent(activity, MainActivity::class.java)
-            //startActivity(intent)
-
-
-            //activity?.finish() //RegisterActivity 종료
         }
     }
 
