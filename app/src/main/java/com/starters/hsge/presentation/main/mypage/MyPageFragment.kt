@@ -35,7 +35,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.userProfileEditSection.setOnClickListener {
-            findNavController().navigate(R.id.action_myPageFragment_to_userProfileEditFragment)
+            val action = MyPageFragmentDirections.actionMyPageFragmentToUserProfileEditFragment(
+                UserInfoData(profileImage, nickname)
+            )
+            findNavController().navigate(action)
             goneBtmNav()
         }
 

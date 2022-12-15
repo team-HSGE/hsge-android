@@ -45,7 +45,13 @@
         android:id="@+id/userProfileEditFragment"
         android:name="com.starters.hsge.presentation.main.mypage.UserProfileEditFragment"
         android:label="fragment_user_profile_edit"
-        tools:layout="@layout/fragment_user_profile_edit" />
+        tools:layout="@layout/fragment_user_profile_edit" >
+        <argument
+            android:name="userInfoData"
+            app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.starters.hsge.presentation.main.mypage.settings.SettingsFragment"

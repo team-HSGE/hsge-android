@@ -2,20 +2,27 @@ package com.starters.hsge.presentation.main.mypage
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragmentArgs
 
 class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit) {
 
     private lateinit var callback: OnBackPressedCallback
 
+    private val args : UserProfileEditFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.d("확인3", "${args.userInfoData?.profileImage}, ${args.userInfoData?.nickname}")
 
         setNavigation()
     }

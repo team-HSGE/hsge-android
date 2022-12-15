@@ -25,7 +25,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     private lateinit var callback: OnBackPressedCallback
     private var distance = 3
 
-    private val args : UserLocationFragmentArgs by navArgs()
+    private val args : UserDistanceFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
