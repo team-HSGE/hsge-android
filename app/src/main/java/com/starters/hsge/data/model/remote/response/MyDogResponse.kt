@@ -13,7 +13,7 @@ data class MyDogResponse(
     @SerialName("breed")
     val breed: String,
     @SerialName("description")
-    val description: String,
+    val description: String?,
     @SerialName("gender")
     val gender: String,
     @SerialName("id")
@@ -22,8 +22,8 @@ data class MyDogResponse(
     val neutralization: Boolean,
     @SerialName("petName")
     val petName: String,
-    @SerialName("picture")
-    val picture: String,
+    @SerialName("petImg")
+    val picture: List<String>,
     @SerialName("tag")
     val tag: MyDogTag
 ): Parcelable

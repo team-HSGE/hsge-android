@@ -37,15 +37,14 @@ object NetworkModule {
     @Singleton
     fun providesHeaderInterceptor() = Interceptor { chain ->
         with(chain) {
-            val request = request()
+            val request = request().newBuilder()
             val bearerJwt: String? = App.prefs.getString("BearerAccessToken", "")
 
             if (bearerJwt != null) {
-                request.newBuilder()
+                request
                     .addHeader("Authorization", bearerJwt)
-                    .build()
             }
-            proceed(request)
+            proceed(request.build())
         }
     }
 
