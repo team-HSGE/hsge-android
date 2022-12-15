@@ -1,6 +1,7 @@
 package com.starters.hsge.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.starters.hsge.App
 import com.starters.hsge.data.api.DogOptionApi
 import com.starters.hsge.data.api.ImageService
 import com.starters.hsge.data.api.MyDogApi
@@ -37,11 +38,13 @@ object NetworkModule {
     fun providesHeaderInterceptor() = Interceptor { chain ->
         with(chain) {
             val request = request().newBuilder()
-                .addHeader(
-                    "Authorization",
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMxNTkxOTEsImlhdCI6MTY3MDU2NzE5MCwiZW1haWwiOiJoYWViYWxhZ2k3N0BuYXZlci5jb20ifQ.dqAQSB5a1tuX7l9_rHMEFQGlyifa5fCPRm0MSkhrtcw")
-                .build()
-            proceed(request)
+            val bearerJwt: String? = App.prefs.getString("BearerAccessToken", "")
+
+            if (bearerJwt != null) {
+                request
+                    .addHeader("Authorization", bearerJwt)
+            }
+            proceed(request.build())
         }
     }
 
