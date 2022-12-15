@@ -79,7 +79,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         // 완료 버튼
         binding.btnNext.setOnClickListener {
             // post로 api 통신하면 됨
-            findNavController().navigate(R.id.action_userDistanceFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_userDistanceFragment_to_myPageFragment)
             (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
 
             retrofitWork(distance.toDouble())
