@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,7 +31,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.layout.fragment_dog_profile_edit) {
+class DogProfileEditFragment :
+    BaseFragment<FragmentDogProfileEditBinding>(R.layout.fragment_dog_profile_edit) {
 
     private val args: DogProfileEditFragmentArgs by navArgs()
 
@@ -44,13 +47,13 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
 
     private val likeTagList = listOf(
-        "지방,", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
+        "#남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
         "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
         "간식", "고구마", "닭가슴살", "야채", "과일", "단호박", "개껌", "인형"
     )
 
     private val dislikeTagList = listOf(
-        "", "단거,", "지방,", "사람", "암컷", "대형견", "중형견",
+        "#남자사람", "#여자사람", "#아이", "사람", "암컷", "대형견", "중형견",
         "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
         "스킨십", "큰소리", "향수"
     )
@@ -71,8 +74,8 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
         }
 
         initListener()
-        createLikeTagTextView()
-        createDislikeTagTextView()
+        createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
+        createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
     }
 
     private fun initPermissionLauncher() {
@@ -175,10 +178,10 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
 
         // 반려견 이름
         binding.dogNameEditSection.setOnClickListener {
-            //Custom EditText Dialog
-            val dialog = EditNameDialogFragment()
+            val dialog = EditNameDialogFragment(okBtnClickListener = {
+                binding.tvDogNameEdit.text = it
+            })
             dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
-
         }
 
         // 반려견 나이 Dialog
@@ -215,13 +218,33 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
 
         // like tag
         binding.dogLikeTagEditSection.setOnClickListener {
-            tagBottomSheetDialog = TagBottomSheetDialog(likeTagList, ViewType.LIKE, args.dogDetailInfo.tag.tagLike)
+            tagBottomSheetDialog = TagBottomSheetDialog(
+                likeTagList,
+                ViewType.LIKE,
+                args.dogDetailInfo.tag.tagLike,
+                okBtnClickListener = {
+                    // 기존 태그 view에서 삭제
+                    binding.likeChipsContainer.apply {
+                        removeAllViewsInLayout()
+                    }
+                    createTagTextView(binding.likeChipsContainer, it)
+                })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
 
         // dislike tag
         binding.dogDislikeTagEditSection.setOnClickListener {
-            tagBottomSheetDialog = TagBottomSheetDialog(dislikeTagList, ViewType.DISLIKE, args.dogDetailInfo.tag.tagDisLike)
+            tagBottomSheetDialog = TagBottomSheetDialog(
+                dislikeTagList,
+                ViewType.DISLIKE,
+                args.dogDetailInfo.tag.tagDisLike,
+                okBtnClickListener = {
+                    // 기존 태그 view에서 삭제
+                    binding.dislikeChipsContainer.apply {
+                        removeAllViewsInLayout()
+                    }
+                    createTagTextView(binding.dislikeChipsContainer, it)
+                })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
 
@@ -232,24 +255,16 @@ class DogProfileEditFragment : BaseFragment<FragmentDogProfileEditBinding>(R.lay
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun createLikeTagTextView() {
-        for (i in args.dogDetailInfo.tag.tagLike) {
+    private fun createTagTextView(container: LinearLayout, tagList: List<String>) {
+        val layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(0, 0, 30, 0)
+        for (i in tagList) {
             val textView = TextView(requireContext())
             textView.text = i
-            textView.background = resources.getDrawable(R.drawable.bg_g100_r14)
-            textView.setPadding(30, 24, 30, 24)
-            binding.likeChipsContainer.addView(textView)
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun createDislikeTagTextView() {
-        for (i in args.dogDetailInfo.tag.tagDisLike) {
-            val textView = TextView(requireContext())
-            textView.text = i
-            textView.background = resources.getDrawable(R.drawable.bg_g100_r14)
-            textView.setPadding(30, 24, 30, 24)
-            binding.dislikeChipsContainer.addView(textView)
+            textView.background = resources.getDrawable(R.drawable.bg_g100_r14, null)
+            textView.setPadding(34, 22, 34, 22)
+            container.addView(textView)
+            textView.layoutParams = layoutParams
         }
     }
 }
