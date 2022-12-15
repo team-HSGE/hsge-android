@@ -34,6 +34,8 @@ interface RegisterPreferencesRepository {
 
     val userLongitude: Flow<Double>
 
+    val userLocation: Flow<String>
+
     suspend fun setUserEmail(email: String)
 
     suspend fun setUserNickName(nickName: String)
@@ -64,5 +66,10 @@ interface RegisterPreferencesRepository {
 
     suspend fun setUserLongitude(longitude: Double)
 
+    suspend fun setUserLocation(location: String)
+
+    suspend fun deleteUserLocation()
+
     suspend fun deleteAllData()
+
 }

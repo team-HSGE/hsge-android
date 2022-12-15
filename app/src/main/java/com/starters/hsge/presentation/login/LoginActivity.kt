@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -16,6 +18,7 @@ import com.starters.hsge.network.AccessResponse
 import com.starters.hsge.network.AccessTokenInterface
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
@@ -30,17 +33,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
+    private var fcmToken : String = ""
     private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         checkLoginInfo()
-
-        // 해시 키
-//        val keyHash = Utility.getKeyHash(this)
-//        Log.d("Hash", keyHash)
-
+        getFcmToken()
         callback()
         loginBtnClick()
     }
@@ -104,8 +104,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                 access_token = token.accessToken
 
-                val json = AccessRequest(access_token)
+                val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
+                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 tryPostAccessToken(json)
             }
         }
@@ -122,13 +123,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
                 Log.d("회원정보", "${str}")
 
-                // 카카오톡 계정 이메일 ds에 저장
-//                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
-                lifecycleScope.launch {
-                    user.kakaoAccount?.email?.let { registerViewModel.saveUserEmail(it) }
-                }
+                // 카카오톡 계정 이메일 sp에 저장
+                prefs.edit().putString("email", user.kakaoAccount?.email).apply()
             }
         }
+    }
+
+    fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            fcmToken = task.result
+        })
     }
 
     fun loginBtnClick() {
@@ -149,18 +159,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             Callback<com.starters.hsge.network.AccessResponse> {
             override fun onResponse(
                 call: Call<AccessResponse>,
-                accessResponse: Response<com.starters.hsge.network.AccessResponse>
+                response: Response<com.starters.hsge.network.AccessResponse>
             ) {
-                if (accessResponse.isSuccessful) {
-                    val result = accessResponse.body() as AccessResponse
+                if (response.isSuccessful) {
+                    val result = response.body() as AccessResponse
 
                     if (result.message == "LOGIN") {
-                        Log.d("회원정보", "${result.message} / 로그인 성공")
+                        Log.d("소셜로그인", "${result.message}")
 
-                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장
-                        prefs.edit().putString("accessToken", result.accessToken).apply()
-                        prefs.edit().putString("refreshToken", result.refreshToken).apply()
-                        Log.d("리스폰스", "메시지: ${result.message}\naccess: ${result.accessToken}\nrefresh: ${result.refreshToken}")
+                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
+                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
+                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
+                        prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
+                        prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
+
+                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                        Log.d("Normal토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
 
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -169,15 +183,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
                     } else if (result.message == "NEED_SIGNUP") {
-                        Log.d("회원정보", "${result.message} / 회원가입 필요")
+                        Log.d("소셜로그인", "${result.message}")
+
                         val intent = Intent(applicationContext, RegisterActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
                     }
                 } else  {
-                    when(accessResponse.code()) {
+                    when(response.code()) {
                         400 -> {
-                            // 유효기간 끝났을 때
+                            // 카카오톡 accessToken 유효기간 끝났을 때
                             Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
                         }
                     }

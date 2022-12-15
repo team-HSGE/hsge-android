@@ -40,7 +40,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
-    fun goneBtmNav(){
+    private fun goneBtmNav(){
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
     }
 

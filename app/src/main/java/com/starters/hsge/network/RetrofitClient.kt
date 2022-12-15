@@ -14,7 +14,7 @@ object RetrofitClient {
     val sRetrofit = initRetrofit()
     private const val AccessToken_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com/"
 
-    private fun initRetrofit(): Retrofit =
+    private fun initRetrofit() : Retrofit =
         Retrofit.Builder()
             .baseUrl(AccessToken_URL)
             .client(provideOkHttpClient(AppInterceptor()))
@@ -32,10 +32,10 @@ object RetrofitClient {
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
 
-            val jwt: String? = prefs.getString("accessToken", "")
+            val bearerJwt: String? = prefs.getString("BearerAccessToken", "")
 
-            if (jwt != null) {
-                builder.addHeader("Authorization", "Bearer ${jwt}")
+            if (bearerJwt != null) {
+                builder.addHeader("Authorization", bearerJwt)
             }
             return chain.proceed(builder.build())
         }

@@ -3,6 +3,7 @@ package com.starters.hsge.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.starters.hsge.data.api.DogOptionApi
 import com.starters.hsge.data.api.ImageService
+import com.starters.hsge.data.api.MyDogApi
 import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.presentation.common.BASE_URL
 import dagger.Module
@@ -36,7 +37,9 @@ object NetworkModule {
     fun providesHeaderInterceptor() = Interceptor { chain ->
         with(chain) {
             val request = request().newBuilder()
-                .addHeader("Accept", "application/json")
+                .addHeader(
+                    "Authorization",
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMxNTkxOTEsImlhdCI6MTY3MDU2NzE5MCwiZW1haWwiOiJoYWViYWxhZ2k3N0BuYXZlci5jb20ifQ.dqAQSB5a1tuX7l9_rHMEFQGlyifa5fCPRm0MSkhrtcw")
                 .build()
             proceed(request)
         }
@@ -99,6 +102,13 @@ object NetworkModule {
     @RetrofitHSGE
     fun providesUserApi(@RetrofitHSGE retrofit: Retrofit): UserApi =
         retrofit.create(UserApi::class.java)
+
+    // MyDog Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesMyDogApi(@RetrofitHSGE retrofit: Retrofit): MyDogApi =
+        retrofit.create(MyDogApi::class.java)
 
 }
 

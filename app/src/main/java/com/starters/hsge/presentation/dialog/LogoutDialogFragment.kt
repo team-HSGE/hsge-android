@@ -94,6 +94,6 @@ class LogoutDialogFragment: DialogFragment() {
             }
         }
 
-        dialogFragmentResize(requireContext(), this@LogoutDialogFragment, 0.8f, 0.2f)
+        dialogFragmentResize(requireContext(), this@LogoutDialogFragment, 0.8f, 0.215f)
     }
 }
