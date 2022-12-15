@@ -22,8 +22,10 @@ data class MyDogResponse(
     val neutralization: Boolean,
     @SerialName("petName")
     val petName: String,
-    @SerialName("picture")
-    val picture: String,
+//    @SerialName("picture")
+//    val picture: String,
+    @SerialName("petImg")
+    val picture: List<String>,
     @SerialName("tag")
     val tag: MyDogTag
 ): Parcelable

@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class DogCard(
     val petId: Int,
     val name: String,
-    val picture: String,
-    //val petImg: List<String>,
+    //val picture: String,
+    val petImg: List<String>,
     val breed: String,
     val age: String,
     val sex: String,
