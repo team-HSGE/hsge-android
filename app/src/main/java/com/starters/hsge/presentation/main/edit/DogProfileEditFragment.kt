@@ -16,19 +16,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
+import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
+import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.EditNameDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DogProfileEditFragment :
@@ -37,6 +38,7 @@ class DogProfileEditFragment :
     private val args: DogProfileEditFragmentArgs by navArgs()
 
     private val registerViewModel: RegisterViewModel by viewModels()
+    private val dogProfileEditViewModel: DogProfileEditViewModel by viewModels()
 
     private lateinit var ageBottomSheet: BottomSheetDialog
     private lateinit var breedBottomSheet: BottomSheetDialog
@@ -47,13 +49,13 @@ class DogProfileEditFragment :
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
 
     private val likeTagList = listOf(
-        "#남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
+        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
         "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
         "간식", "고구마", "닭가슴살", "야채", "과일", "단호박", "개껌", "인형"
     )
 
     private val dislikeTagList = listOf(
-        "#남자사람", "#여자사람", "#아이", "사람", "암컷", "대형견", "중형견",
+        "남자사람", "여자사람", "아이", "사람", "암컷", "대형견", "중형견",
         "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
         "스킨십", "큰소리", "향수"
     )
@@ -98,11 +100,7 @@ class DogProfileEditFragment :
                     context?.let {
                         if (imageUri != null) {
                             val imgUriToStr = imageUri.toString()
-                            registerViewModel.img = imgUriToStr
-                            lifecycleScope.launch {
-                                registerViewModel.saveDogPhoto(imgUriToStr)
-                            }
-
+                            dogProfileEditViewModel.img = imgUriToStr
                             Glide.with(this)
                                 .load(imageUri)
                                 .fitCenter()
@@ -251,6 +249,19 @@ class DogProfileEditFragment :
         // 수정하기
         binding.btnEdit.setOnClickListener {
 
+            val imgFile = UriUtil.toFile(requireContext(), dogProfileEditViewModel.img.toUri())
+
+            val dogProfileInfo = EditDogProfileRequest(
+                petName = "봉봉봉",
+                gender = "남",
+                age = "ONE_YEAR",
+                breed = "BEAGLE",
+                neutralization = true,
+                description = "사실 전 비글이에요",
+                likeTag = "#산책#수영",
+                dislikeTag = "#암컷"
+            )
+            dogProfileEditViewModel.putEditDogProfile(args.dogDetailInfo.id, imgFile, dogProfileInfo)
         }
     }
 
