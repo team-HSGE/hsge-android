@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
@@ -262,6 +263,12 @@ class DogProfileEditFragment :
                 dislikeTag = "#암컷"
             )
             dogProfileEditViewModel.putEditDogProfile(args.dogDetailInfo.id, imgFile, dogProfileInfo)
+
+            // 마이페이지로 이동
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+
+
         }
     }
 
