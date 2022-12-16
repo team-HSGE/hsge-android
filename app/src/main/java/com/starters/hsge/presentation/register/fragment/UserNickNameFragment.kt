@@ -17,6 +17,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,6 +35,7 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         setTextWatcher()
         setNavigation()
         initListener()
+        showUserNickName()
     }
 
     private fun setTextWatcher() {
@@ -131,4 +133,12 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
     }
 
     private fun  verifyNickname(nickname: String): Boolean = nickname.matches(Regex("^[가-힣a-zA-Z0-9]{2,13}$"))
+
+    private fun showUserNickName() {
+        lifecycleScope.launch {
+            if (registerViewModel.fetchUserNickname().first().isNotEmpty()) {
+                binding.edtUserNickName.setText(registerViewModel.fetchUserNickname().first())
+            }
+        }
+    }
 }
