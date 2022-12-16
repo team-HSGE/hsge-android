@@ -47,4 +47,10 @@ abstract class RepositoryModule {
         editDogProfileRepositoryImpl: EditDogProfileRepositoryImpl
     ): EditDogProfileRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindsEditLocationRepository(
+        editLocationRepositoryImpl: EditLocationRepositoryImpl
+    ): EditLocationRepository
+
 }
