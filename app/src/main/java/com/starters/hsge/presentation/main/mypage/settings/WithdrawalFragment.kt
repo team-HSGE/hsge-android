@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
+import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
 import com.starters.hsge.network.*
@@ -36,7 +37,14 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
                 override fun onWithdrawalBtnClicked() {
                     // 탈퇴 버튼 클릭했을 때 처리
-                    tryDeleteUserInfo()
+                    UserApiClient.instance.unlink { error ->
+                        if (error != null) {
+                            Log.d("회원 탈퇴", "회원 탈퇴 실패 : ${error}")
+                            Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                        }else {
+                            tryDeleteUserInfo()
+                        }
+                    }
                 }
             })
 
