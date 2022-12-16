@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -26,17 +27,19 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
+import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentEditLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditLocationFragment :
     BaseFragment<FragmentEditLocationBinding>(R.layout.fragment_edit_location) {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
-    private var newLatitude: Double? = null
-    private var newLongitude: Double? = null
+    private val editLocationViewModel: EditLocationViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,6 +67,13 @@ class EditLocationFragment :
 
         binding.btnFinish.setOnClickListener {
             //위치 전송
+            editLocationViewModel.putLocation(
+                UserLocationRequest(
+                    latitude = editLocationViewModel.latitude,
+                    longtitude = editLocationViewModel.longitude,
+                    town = editLocationViewModel.town
+                )
+            )
 
             //마이페이지로 이동
             Navigation.findNavController(binding.root)
@@ -183,8 +193,8 @@ class EditLocationFragment :
                     Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
                         .show()
                 else {
-                    newLatitude = location.latitude
-                    newLongitude = location.longitude
+                    editLocationViewModel.latitude = location.latitude
+                    editLocationViewModel.longitude = location.longitude
                     val geocoder = Geocoder(requireContext())
                     convertToAddress(geocoder, location)
                 }
@@ -207,6 +217,7 @@ class EditLocationFragment :
             locationAddress.append(" ")
         }
         binding.tvMyLocation.text = locationAddress
+        editLocationViewModel.town = locationAddress.toString()
         dismissLoadingDialog()
     }
 }
