@@ -92,8 +92,10 @@ class DogProfileEditFragment :
         dogProfileEditViewModel.dogNeuter = args.dogDetailInfo.neutralization
         dogProfileEditViewModel.dogAge = args.dogDetailInfo.ageDto.key
         dogProfileEditViewModel.dogBreed = args.dogDetailInfo.breedDto.key
-        dogProfileEditViewModel.dogLikeTag = changeListToString(args.dogDetailInfo.tag.tagLike)
-        dogProfileEditViewModel.dogDislikeTag = changeListToString(args.dogDetailInfo.tag.tagDisLike)
+        dogProfileEditViewModel.dogLikeTagStr = changeListToString(args.dogDetailInfo.tag.tagLike)
+        dogProfileEditViewModel.dogDislikeTagStr = changeListToString(args.dogDetailInfo.tag.tagDisLike)
+        dogProfileEditViewModel.dogLikeTag = args.dogDetailInfo.tag.tagLike
+        dogProfileEditViewModel.dogDislikeTag = args.dogDetailInfo.tag.tagDisLike
         dogProfileEditViewModel.description = args.dogDetailInfo.description.toString()
     }
 
@@ -251,14 +253,15 @@ class DogProfileEditFragment :
             tagBottomSheetDialog = TagBottomSheetDialog(
                 likeTagList,
                 ViewType.LIKE,
-                args.dogDetailInfo.tag.tagLike,
+                dogProfileEditViewModel.dogLikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
                     binding.likeChipsContainer.apply {
                         removeAllViewsInLayout()
                     }
                     createTagTextView(binding.likeChipsContainer, tagList)
-                    dogProfileEditViewModel.dogLikeTag = changeListToString(tagList)
+                    dogProfileEditViewModel.dogLikeTagStr = changeListToString(tagList)
+                    dogProfileEditViewModel.dogLikeTag = tagList
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -268,14 +271,15 @@ class DogProfileEditFragment :
             tagBottomSheetDialog = TagBottomSheetDialog(
                 dislikeTagList,
                 ViewType.DISLIKE,
-                args.dogDetailInfo.tag.tagDisLike,
+                dogProfileEditViewModel.dogDislikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
                     binding.dislikeChipsContainer.apply {
                         removeAllViewsInLayout()
                     }
                     createTagTextView(binding.dislikeChipsContainer, tagList)
-                    dogProfileEditViewModel.dogDislikeTag = changeListToString(tagList)
+                    dogProfileEditViewModel.dogDislikeTagStr = changeListToString(tagList)
+                    dogProfileEditViewModel.dogDislikeTag = tagList
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -293,8 +297,8 @@ class DogProfileEditFragment :
                 breed = dogProfileEditViewModel.dogBreed,
                 neutralization = getDogNeuter(),
                 description = getDescription(),
-                likeTag = dogProfileEditViewModel.dogLikeTag,
-                dislikeTag = dogProfileEditViewModel.dogDislikeTag
+                likeTag = dogProfileEditViewModel.dogLikeTagStr,
+                dislikeTag = dogProfileEditViewModel.dogDislikeTagStr
             )
             dogProfileEditViewModel.putEditDogProfile(
                 args.dogDetailInfo.id,
@@ -305,7 +309,6 @@ class DogProfileEditFragment :
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
-
 
         }
     }
