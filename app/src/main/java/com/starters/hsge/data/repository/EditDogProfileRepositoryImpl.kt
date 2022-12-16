@@ -11,19 +11,21 @@ import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
+const val CONTENT_KEY = "content"
+
 class EditDogProfileRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: EditDogApi
 ) : EditDogProfileRepository {
     override suspend fun postDogData(
         petId: Int,
-        img: File,
+        img: File?,
         data: EditDogProfileRequest
     ) {
         val formJson = Json.encodeToString(data)
-        val formMultipart = FormDataUtil.getImageBody("imgFile", img)
+        val formMultipart = img?.let { FormDataUtil.getImageBody("imgFile", it) }
         val formRequestBody = FormDataUtil.getJsonBody(formJson)
         val dogInfoHashMap = hashMapOf<String, RequestBody>()
-        dogInfoHashMap["content"] = formRequestBody
+        dogInfoHashMap[CONTENT_KEY] = formRequestBody
         api.postEditDog(petId, formMultipart, dogInfoHashMap)
     }
 }

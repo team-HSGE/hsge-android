@@ -24,7 +24,7 @@ class DogProfileEditViewModel @Inject constructor(
     var dogLikeTag = ""
     var dogDislikeTag = ""
     var description = ""
-    var dogPhoto: String = ""
+    var dogPhoto: String? = null
 
     private val _likeTags: MutableStateFlow<List<String>> = MutableStateFlow(listOf())
     val likeTags: StateFlow<List<String>>
@@ -36,7 +36,7 @@ class DogProfileEditViewModel @Inject constructor(
         }
     }
 
-    fun putEditDogProfile(petId: Int, img: File, data: EditDogProfileRequest ) {
+    fun putEditDogProfile(petId: Int, img: File?, data: EditDogProfileRequest ) {
         viewModelScope.launch {
             putEditDogProfileUseCase(petId, img, data)
         }

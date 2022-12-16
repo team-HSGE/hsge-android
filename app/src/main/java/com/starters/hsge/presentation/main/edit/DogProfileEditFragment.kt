@@ -202,7 +202,7 @@ class DogProfileEditFragment :
 
         //반려견 성별
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.rbtn_male -> {
                     dogProfileEditViewModel.dogSex = "남"
                 }
@@ -283,7 +283,8 @@ class DogProfileEditFragment :
         // 수정하기
         binding.btnEdit.setOnClickListener {
 
-            val imgFile = UriUtil.toFile(requireContext(), dogProfileEditViewModel.dogPhoto.toUri())
+            val imgFile = dogProfileEditViewModel.dogPhoto?.toUri()
+                ?.let { uri -> UriUtil.toFile(requireContext(), uri) }
 
             val dogProfileInfo = EditDogProfileRequest(
                 petName = dogProfileEditViewModel.dogName,
@@ -295,7 +296,11 @@ class DogProfileEditFragment :
                 likeTag = dogProfileEditViewModel.dogLikeTag,
                 dislikeTag = dogProfileEditViewModel.dogDislikeTag
             )
-            dogProfileEditViewModel.putEditDogProfile(args.dogDetailInfo.id, imgFile, dogProfileInfo)
+            dogProfileEditViewModel.putEditDogProfile(
+                args.dogDetailInfo.id,
+                imgFile,
+                dogProfileInfo
+            )
 
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
