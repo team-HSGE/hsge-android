@@ -15,7 +15,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -38,14 +37,15 @@ import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
-import com.starters.hsge.presentation.register.RegisterActivity
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UserLocationFragment :
@@ -167,12 +167,14 @@ class UserLocationFragment :
                     prefs.edit().remove("resId").apply()
                 }
 
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(500)
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
 
-                activity?.finish() //RegisterActivity 종료
+                    activity?.finish() //RegisterActivity 종료
+                }
             }
-
         }
     }
 
