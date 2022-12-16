@@ -9,9 +9,9 @@ import kotlinx.serialization.Serializable
 @Parcelize
 data class MyDogResponse(
     @SerialName("age")
-    val age: String,
+    val age: String? = null,
     @SerialName("breed")
-    val breed: String,
+    val breed: String? = null,
     @SerialName("description")
     val description: String?,
     @SerialName("gender")
@@ -25,7 +25,11 @@ data class MyDogResponse(
     @SerialName("petImg")
     val picture: List<String>,
     @SerialName("tag")
-    val tag: MyDogTag
+    val tag: MyDogTag,
+    @SerialName("ageDto")
+    val ageDto: AgeDto,
+    @SerialName("breedDto")
+    val breedDto: BreedDto
 ): Parcelable
 
 @Serializable
@@ -35,4 +39,22 @@ data class MyDogTag(
     val tagDisLike: List<String>,
     @SerialName("tagLike")
     val tagLike: List<String>
+): Parcelable
+
+@Serializable
+@Parcelize
+data class AgeDto(
+    @SerialName("key")
+    val key: String,
+    @SerialName("value")
+    val value: String
+): Parcelable
+
+@Serializable
+@Parcelize
+data class BreedDto(
+    @SerialName("key")
+    val key: String,
+    @SerialName("value")
+    val value: String
 ): Parcelable

@@ -185,7 +185,7 @@
                         android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:text="@{dogDetailInfo.age}"
+                        android:text="@{dogDetailInfo.ageDto.value}"
                         android:textColor="@color/black"
                         app:drawableRightCompat="@drawable/ic_arrow_drop_down"
                         tools:text="1살" />
@@ -200,7 +200,7 @@
                         android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:text="@{dogDetailInfo.breed}"
+                        android:text="@{dogDetailInfo.breedDto.value}"
                         android:textColor="@color/black"
                         app:drawableRightCompat="@drawable/ic_arrow_drop_down"
                         tools:text="이탈리안\n그레이하운드" />
