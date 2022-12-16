@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="80dp"
-            android:text="@string/set_location_title"
+            android:text="내 위치 설정하기"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@string/user_location_dog_location_explain"
+            android:text="우리 동네 강아지들을 볼 수 있어요"
             app:layout_constraintStart_toStartOf="@id/tv_user_location_title"
             app:layout_constraintTop_toBottomOf="@id/tv_user_location_title" />
 
