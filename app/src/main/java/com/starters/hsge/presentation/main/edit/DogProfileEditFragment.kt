@@ -61,12 +61,16 @@ class DogProfileEditFragment :
         "스킨십", "큰소리", "향수"
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initValue()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         initPermissionLauncher()
         initImageLauncher()
+        initValue()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val dogDetail = args.dogDetailInfo
         binding.dogDetailInfo = dogDetail
@@ -88,16 +92,8 @@ class DogProfileEditFragment :
         dogProfileEditViewModel.dogNeuter = args.dogDetailInfo.neutralization
         dogProfileEditViewModel.dogAge = args.dogDetailInfo.ageDto.key
         dogProfileEditViewModel.dogBreed = args.dogDetailInfo.breedDto.key
-        var likeTag = ""
-        for (i in args.dogDetailInfo.tag.tagLike) {
-            likeTag += "$i,"
-        }
-        var dislikeTag = ""
-        for (i in args.dogDetailInfo.tag.tagDisLike) {
-            dislikeTag += "$i,"
-        }
-        dogProfileEditViewModel.dogLikeTag = likeTag
-        dogProfileEditViewModel.dogDislikeTag = dislikeTag
+        dogProfileEditViewModel.dogLikeTag = changeListToString(args.dogDetailInfo.tag.tagLike)
+        dogProfileEditViewModel.dogDislikeTag = changeListToString(args.dogDetailInfo.tag.tagDisLike)
         dogProfileEditViewModel.description = args.dogDetailInfo.description.toString()
     }
 
@@ -256,17 +252,13 @@ class DogProfileEditFragment :
                 likeTagList,
                 ViewType.LIKE,
                 args.dogDetailInfo.tag.tagLike,
-                okBtnClickListener = {
+                okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
                     binding.likeChipsContainer.apply {
                         removeAllViewsInLayout()
                     }
-                    createTagTextView(binding.likeChipsContainer, it)
-                    var tags = ""
-                    for (i in it) {
-                        tags += "$i,"
-                    }
-                    dogProfileEditViewModel.dogLikeTag = tags
+                    createTagTextView(binding.likeChipsContainer, tagList)
+                    dogProfileEditViewModel.dogLikeTag = changeListToString(tagList)
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -277,17 +269,13 @@ class DogProfileEditFragment :
                 dislikeTagList,
                 ViewType.DISLIKE,
                 args.dogDetailInfo.tag.tagDisLike,
-                okBtnClickListener = {
+                okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
                     binding.dislikeChipsContainer.apply {
                         removeAllViewsInLayout()
                     }
-                    createTagTextView(binding.dislikeChipsContainer, it)
-                    var tags = ""
-                    for (i in it) {
-                        tags += "$i,"
-                    }
-                    dogProfileEditViewModel.dogDislikeTag = tags
+                    createTagTextView(binding.dislikeChipsContainer, tagList)
+                    dogProfileEditViewModel.dogDislikeTag = changeListToString(tagList)
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -339,5 +327,13 @@ class DogProfileEditFragment :
             container.addView(textView)
             textView.layoutParams = layoutParams
         }
+    }
+
+    private fun changeListToString(list: List<String>): String {
+        var tagText = ""
+        for (i in list) {
+            tagText += "$i,"
+        }
+        return tagText
     }
 }
