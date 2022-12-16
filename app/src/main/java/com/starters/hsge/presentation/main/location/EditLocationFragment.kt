@@ -41,10 +41,15 @@ class EditLocationFragment :
 
     private val editLocationViewModel: EditLocationViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initPermissionLauncher()
+        initValue()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initPermissionLauncher()
         initListener()
         setNavigation()
     }
@@ -52,6 +57,17 @@ class EditLocationFragment :
     private fun initPermissionLauncher() {
         locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
+    }
+
+    /**
+     * @author 이서윤
+     * 마이페이지 화면에서 넘어오는 데이터 값을 초기값으로 설정합니다
+     */
+    private fun initValue() {
+        // safe args로 넘어오는 값을 할당해주세요
+        editLocationViewModel.latitude = 0.0
+        editLocationViewModel.longitude = 0.0
+        editLocationViewModel.town = "서울특별시 중구 다동"
     }
 
     private fun initListener() {
