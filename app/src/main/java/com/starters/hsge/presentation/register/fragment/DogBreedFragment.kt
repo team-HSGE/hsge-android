@@ -57,7 +57,7 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
 
     private fun upDateDogAgeText() {
         registerViewModel.fetchDogBreedForView().asLiveData().observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (!it.isNullOrEmpty()) {
                 binding.tvDogBreed.text = it
                 binding.btnNext.isEnabled = true
             }

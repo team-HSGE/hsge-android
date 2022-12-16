@@ -59,7 +59,7 @@ class DogAgeFragment @Inject constructor(
 
     private fun upDateDogAgeText() {
         registerViewModel.fetchDogAgeForView().asLiveData().observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (!it.isNullOrEmpty()) {
                 binding.tvDogAge.text = it
                 binding.btnNext.isEnabled = true
             }

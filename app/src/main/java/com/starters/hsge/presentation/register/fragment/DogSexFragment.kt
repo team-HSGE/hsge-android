@@ -65,7 +65,7 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
 
     private fun updateCheckedGender() {
         registerViewModel.fetchDogSex().asLiveData().observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (!it.isNullOrEmpty()) {
                 when (it) {
                     "남" -> binding.rbtnMale.isChecked = true
                     "여" -> binding.rbtnFemale.isChecked = true
