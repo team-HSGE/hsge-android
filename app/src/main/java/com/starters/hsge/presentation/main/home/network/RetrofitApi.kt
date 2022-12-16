@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitApi {
-    private const val BASE_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com/"
+    private const val BASE_URL = "http://192.168.0.57:8080/"
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder().addInterceptor(

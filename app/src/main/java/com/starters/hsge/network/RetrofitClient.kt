@@ -12,7 +12,7 @@ object RetrofitClient {
 
     //Retrofit.Builder 클래스의 인스턴스를 만들고 Base URL을 구성해준다.
     val sRetrofit = initRetrofit()
-    private const val AccessToken_URL = "http://ec2-3-38-191-250.ap-northeast-2.compute.amazonaws.com/"
+    private const val AccessToken_URL = "http://192.168.0.57:8080/"
 
     private fun initRetrofit() : Retrofit =
         Retrofit.Builder()
