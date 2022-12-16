@@ -63,6 +63,7 @@ class DogProfileEditFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initValue()
 
         initPermissionLauncher()
         initImageLauncher()
@@ -79,6 +80,25 @@ class DogProfileEditFragment :
         initListener()
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
+    }
+
+    private fun initValue() {
+        dogProfileEditViewModel.dogName = args.dogDetailInfo.petName
+        dogProfileEditViewModel.dogSex = args.dogDetailInfo.gender
+        dogProfileEditViewModel.dogNeuter = args.dogDetailInfo.neutralization
+        dogProfileEditViewModel.dogAge = args.dogDetailInfo.ageDto.key
+        dogProfileEditViewModel.dogBreed = args.dogDetailInfo.breedDto.key
+        var likeTag = ""
+        for (i in args.dogDetailInfo.tag.tagLike) {
+            likeTag += "$i,"
+        }
+        var dislikeTag = ""
+        for (i in args.dogDetailInfo.tag.tagDisLike) {
+            dislikeTag += "$i,"
+        }
+        dogProfileEditViewModel.dogLikeTag = likeTag
+        dogProfileEditViewModel.dogDislikeTag = dislikeTag
+        dogProfileEditViewModel.description = args.dogDetailInfo.description.toString()
     }
 
     private fun initPermissionLauncher() {
@@ -101,7 +121,7 @@ class DogProfileEditFragment :
                     context?.let {
                         if (imageUri != null) {
                             val imgUriToStr = imageUri.toString()
-                            dogProfileEditViewModel.img = imgUriToStr
+                            dogProfileEditViewModel.dogPhoto = imgUriToStr
                             Glide.with(this)
                                 .load(imageUri)
                                 .fitCenter()
@@ -179,8 +199,21 @@ class DogProfileEditFragment :
         binding.dogNameEditSection.setOnClickListener {
             val dialog = EditNameDialogFragment(okBtnClickListener = {
                 binding.tvDogNameEdit.text = it
+                dogProfileEditViewModel.dogName = it
             })
             dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
+        }
+
+        //반려견 성별
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when(checkedId) {
+                R.id.rbtn_male -> {
+                    dogProfileEditViewModel.dogSex = "남"
+                }
+                R.id.rbtn_female -> {
+                    dogProfileEditViewModel.dogSex = "여"
+                }
+            }
         }
 
         // 반려견 나이 Dialog
@@ -193,6 +226,7 @@ class DogProfileEditFragment :
                         BottomSheetDialog.BottomSheetClickListener {
                         override fun onContentClick(content: String) {
                             binding.tvDogAgeEdit.text = content
+                            dogProfileEditViewModel.dogAge = age[content].toString()
                         }
                     })
                 }
@@ -209,6 +243,7 @@ class DogProfileEditFragment :
                         BottomSheetDialog.BottomSheetClickListener {
                         override fun onContentClick(content: String) {
                             binding.tvDogBreedEdit.text = content
+                            dogProfileEditViewModel.dogBreed = breed[content].toString()
                         }
                     })
                 }
@@ -227,6 +262,11 @@ class DogProfileEditFragment :
                         removeAllViewsInLayout()
                     }
                     createTagTextView(binding.likeChipsContainer, it)
+                    var tags = ""
+                    for (i in it) {
+                        tags += "$i,"
+                    }
+                    dogProfileEditViewModel.dogLikeTag = tags
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -243,6 +283,11 @@ class DogProfileEditFragment :
                         removeAllViewsInLayout()
                     }
                     createTagTextView(binding.dislikeChipsContainer, it)
+                    var tags = ""
+                    for (i in it) {
+                        tags += "$i,"
+                    }
+                    dogProfileEditViewModel.dogDislikeTag = tags
                 })
             tagBottomSheetDialog.show(childFragmentManager, TagBottomSheetDialog.TAG)
         }
@@ -250,17 +295,17 @@ class DogProfileEditFragment :
         // 수정하기
         binding.btnEdit.setOnClickListener {
 
-            val imgFile = UriUtil.toFile(requireContext(), dogProfileEditViewModel.img.toUri())
+            val imgFile = UriUtil.toFile(requireContext(), dogProfileEditViewModel.dogPhoto.toUri())
 
             val dogProfileInfo = EditDogProfileRequest(
-                petName = "다운이",
-                gender = "남",
-                age = "ONE_YEAR",
-                breed = "BEAGLE",
-                neutralization = true,
-                description = "간식을 무척 좋아해요. 특히 고양이 간식이요!",
-                likeTag = "소형견,암컷,",
-                dislikeTag = "남자사람,"
+                petName = dogProfileEditViewModel.dogName,
+                gender = dogProfileEditViewModel.dogSex,
+                age = dogProfileEditViewModel.dogAge,
+                breed = dogProfileEditViewModel.dogBreed,
+                neutralization = getDogNeuter(),
+                description = getDescription(),
+                likeTag = dogProfileEditViewModel.dogLikeTag,
+                dislikeTag = dogProfileEditViewModel.dogDislikeTag
             )
             dogProfileEditViewModel.putEditDogProfile(args.dogDetailInfo.id, imgFile, dogProfileInfo)
 
@@ -270,6 +315,16 @@ class DogProfileEditFragment :
 
 
         }
+    }
+
+    private fun getDescription(): String {
+        dogProfileEditViewModel.description = binding.edtComment.text.toString()
+        return dogProfileEditViewModel.description
+    }
+
+    private fun getDogNeuter(): Boolean {
+        dogProfileEditViewModel.dogNeuter = binding.chipNeuter.isChecked
+        return dogProfileEditViewModel.dogNeuter
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
