@@ -70,15 +70,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun tryGetUsersInfo(){
-        val usersGetInterface = RetrofitClient.sRetrofit.create(UsersGetInterface::class.java)
-        usersGetInterface.getUsersInfo().enqueue(object :
-            Callback<UsersGetResponse> {
+        val userInfoGetInterface = RetrofitClient.sRetrofit.create(UserInfoGetInterface::class.java)
+        userInfoGetInterface.getUserInfo().enqueue(object :
+            Callback<UserInfoGetResponse> {
             override fun onResponse(
-                call: Call<UsersGetResponse>,
-                response: Response<UsersGetResponse>
+                call: Call<UserInfoGetResponse>,
+                response: Response<UserInfoGetResponse>
             ) {
                 if (response.isSuccessful) {
-                    val result = response.body() as UsersGetResponse
+                    val result = response.body() as UserInfoGetResponse
 
                     // 사용자 정보 가져오기
                     profileImage = result.profilePath
@@ -102,7 +102,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 }
             }
 
-            override fun onFailure(call: Call<UsersGetResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserInfoGetResponse>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
 
             }

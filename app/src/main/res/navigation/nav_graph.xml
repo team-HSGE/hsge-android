@@ -51,6 +51,13 @@
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_userProfileEditFragment_to_userProfileIconFragment2"
+            app:destination="@id/userProfileIconFragment2" />
+        <argument
+            android:name="resId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -118,5 +125,20 @@
             app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
             app:nullable="true"
             android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileIconFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
+        android:label="UserProfileIconFragment"
+        tools:layout="@layout/fragment_user_profile_icon">
+        <action
+            android:id="@+id/action_userProfileIconFragment2_to_userProfileEditFragment"
+            app:destination="@id/userProfileEditFragment"
+            app:popUpTo="@id/userProfileEditFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="checkLayout"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

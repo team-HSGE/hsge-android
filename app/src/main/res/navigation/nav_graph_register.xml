@@ -51,6 +51,10 @@
             app:destination="@id/userImageFragment"
             app:popUpTo="@id/userImageFragment"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="checkLayout"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/dogNameFragment"
