@@ -2,6 +2,8 @@ package com.starters.hsge.presentation.main.edit
 
 import androidx.lifecycle.viewModelScope
 import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
+import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
+import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.domain.usecase.PutEditDogProfileUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DogProfileEditViewModel @Inject constructor(
+    private val getLikeTagsUseCase: GetLikeTagsUseCase,
+    private val getDislikeTagsUseCase: GetDislikeTagsUseCase,
     private val putEditDogProfileUseCase: PutEditDogProfileUseCase,
 ) : BaseViewModel() {
 
@@ -25,6 +29,10 @@ class DogProfileEditViewModel @Inject constructor(
     var dogDislikeTag = listOf<String>()
     var description = ""
     var dogPhoto: String? = null
+
+    fun getLikeTags() = getLikeTagsUseCase()
+
+    fun getDislikeTags() = getDislikeTagsUseCase()
 
     fun putEditDogProfile(petId: Int, img: File?, data: EditDogProfileRequest ) {
         viewModelScope.launch {
