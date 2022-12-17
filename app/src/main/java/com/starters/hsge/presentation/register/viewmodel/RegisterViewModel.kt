@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.starters.hsge.ApiResult
 import com.starters.hsge.App.Companion.prefs
 import com.starters.hsge.domain.model.RegisterInfo
-import com.starters.hsge.domain.repository.DogProfileRepository
 import com.starters.hsge.domain.repository.RegisterPreferencesRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
@@ -24,7 +23,6 @@ class RegisterViewModel @Inject constructor(
     private val getDogBreedUseCase: GetDogBreedUseCase,
     private val getDogAgeUseCase: GetDogAgeUseCase,
     private val registerPreferencesRepository: RegisterPreferencesRepository,
-    private val dogProfileRepository: DogProfileRepository
 ) : ViewModel() {
 
     var img = ""
@@ -82,11 +80,6 @@ class RegisterViewModel @Inject constructor(
     suspend fun deleteAllInfo() {
         registerPreferencesRepository.deleteAllData()
     }
-
-
-
-    //테스트를 위한 Age 로컬데이터
-    fun testDogAgeToLocal() = dogProfileRepository.getDogAge()
 
     // datastore에서 값 가져오기
     fun fetchUserEmail() = registerPreferencesRepository.userEmail

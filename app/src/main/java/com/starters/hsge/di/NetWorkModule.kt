@@ -82,13 +82,6 @@ object NetworkModule {
         .addConverterFactory(converterFactory)
         .build()
 
-    // multipart API
-    @Provides
-    @Singleton
-    @RetrofitHSGE
-    fun providesApi(@RetrofitHSGE retrofit: Retrofit): ImageService =
-        retrofit.create(ImageService::class.java)
-
     // DogOption API
     @Provides
     @Singleton
