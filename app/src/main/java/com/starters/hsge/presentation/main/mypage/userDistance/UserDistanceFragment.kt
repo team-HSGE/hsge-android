@@ -25,13 +25,8 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     private lateinit var callback: OnBackPressedCallback
     private var distance = 3
 
-    private val args : UserDistanceFragmentArgs by navArgs()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // safe args로 전달받아서 데이터 사용하기
-        Log.d("확인2", "${args.userLocationData?.town}, ${args.userLocationData?.latitude}, ${args.userLocationData?.longitude}, ${args.userLocationData?.radius}")
 
         // TODO : 마이페이지에서 서버에 저장된 radius 넘어옴. 이 radius에 넣으면 됨
         val radius = 14
