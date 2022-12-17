@@ -301,7 +301,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/bg_g100_r12"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:padding="16dp"
                         android:text="@{dogDetailInfo.description}"
                         android:textColor="@color/black"
