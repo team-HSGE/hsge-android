@@ -87,7 +87,9 @@
 
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask"
+            >
 
             <meta-data
                 android:name="android.app.lib_name"
