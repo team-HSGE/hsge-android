@@ -11,14 +11,19 @@ import android.provider.Settings
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
+import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
+import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
@@ -243,9 +248,43 @@ class AddDogProfileFragment :
         }
 
         // 완료 버튼
-        binding.btnFinish.setOnClickListener { }
+        binding.btnFinish.setOnClickListener {
+            if (binding.edtDogNameInput.text.isNullOrEmpty()) {
+                Toast.makeText(context, "이름을 적어주세요", Toast.LENGTH_SHORT).show()
+            } else if (addDogProfileViewModel.dogSex.isEmpty()) {
+                Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else if (addDogProfileViewModel.dogAge.isEmpty()) {
+                Toast.makeText(context, "나이를 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else if (addDogProfileViewModel.dogBreed.isEmpty()) {
+                Toast.makeText(context, "품종을 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else if (addDogProfileViewModel.dogLikeTag.isEmpty()) {
+                Toast.makeText(context, "like 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else if (addDogProfileViewModel.dogDislikeTag.isEmpty()) {
+                Toast.makeText(context, "dislike 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                val imgUri = addDogProfileViewModel.dogPhoto.toUri()
+                val imgFile = UriUtil.toFile(requireContext(), imgUri)
+
+                addDogProfileViewModel.postDogProfile(
+                    imgFile,
+                    AddDogRequest(
+                        petName = binding.edtDogNameInput.text.toString(),
+                        gender = addDogProfileViewModel.dogSex,
+                        neutralization = binding.chipNeuter.isChecked,
+                        age = addDogProfileViewModel.dogAge,
+                        breed = addDogProfileViewModel.dogBreed,
+                        likeTag = addDogProfileViewModel.dogLikeTagStr,
+                        dislikeTag = addDogProfileViewModel.dogDislikeTagStr,
+                        description = binding.edtComment.text.toString()
+                    ))
+
+                // 마이페이지로 이동
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_addDogProfileFragment_to_myPageFragment)
+            }
 
 
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

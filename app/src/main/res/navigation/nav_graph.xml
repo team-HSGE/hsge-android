@@ -153,5 +153,9 @@
         android:id="@+id/addDogProfileFragment"
         android:name="com.starters.hsge.presentation.main.add.AddDogProfileFragment"
         android:label="fragment_add_dog_profile"
-        tools:layout="@layout/fragment_add_dog_profile" />
+        tools:layout="@layout/fragment_add_dog_profile" >
+        <action
+            android:id="@+id/action_addDogProfileFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
+    </fragment>
 </navigation>
