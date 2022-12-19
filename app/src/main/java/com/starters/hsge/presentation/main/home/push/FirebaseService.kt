@@ -1,15 +1,18 @@
 package com.starters.hsge.presentation.main.home.push
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.*
+import android.os.PowerManager
 import android.util.Log
+import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.messaging.RemoteMessage.Notification
 import com.starters.hsge.R
 import com.starters.hsge.presentation.main.MainActivity
 import java.util.*
@@ -24,19 +27,21 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        message.notification?.let {
-            //알림 메세지 _ 포그라운드에서도 알림 받은 것 처럼 받은 정보를 가지고 notification 구현하기.
-            sendNotification(message.notification!!)
-            //sendNofi(message.notification!!)
-        }
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        @SuppressLint("InvalidWakeLockTag")
+        val wakeLock = powerManager.newWakeLock(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, "screen_on")
+        wakeLock.acquire(5000L /*10 minutes*/)
 
-        //데이터 메세지의 경우.
+        // Data message를 수신함
         if (message.data.isNotEmpty()) {
-            //sendDataMessage(message.data)
+            sendNotification(message)
+        } else {
+            Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
+        wakeLock.release()
     }
 
-    private fun sendNotification(data: Notification) {
+    private fun sendNotification(remoteMessage: RemoteMessage) {
 
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.putExtra("createdAt", "chatFragment")
@@ -66,19 +71,51 @@ class FirebaseService : FirebaseMessagingService() {
             }
         }
 
-        val notification = getNotificationBuilder(data.title!!, data.body!!, pendingIntent).build()
+        val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, pendingIntent).build()
         notificationManager.notify(1, notification)
 
     }
 
     private fun getNotificationBuilder(title: String, content: String, pendingIntent: PendingIntent) : NotificationCompat.Builder{
+
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
+
         return NotificationCompat.Builder(this, resources.getString(R.string.default_notification_channel_id))
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(pendingIntent)
             .setGroupSummary(true)
             .setAutoCancel(true)
-            .setSmallIcon(R.drawable.ic_chat)
+            .setLargeIcon(bitmap)
+            .setSmallIcon(R.drawable.ic_logo)
             .setShowWhen(true)
     }
+
+//    private fun getCircleBitmap(bitmap: Bitmap) : Bitmap {
+//        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(output)
+//
+//        val color = Color.RED
+//        val paint = Paint()
+//        val setLength: Int
+//        if(bitmap.width >= bitmap.height){
+//            setLength = bitmap.height
+//        }else {
+//            setLength = bitmap.width
+//        }
+//        val rect = Rect(0, 0, setLength, setLength)
+//        val rectF = RectF(rect)
+//
+//        paint.isAntiAlias = true
+//        canvas.drawARGB(0, 0, 0, 0)
+//        paint.setColor(color)
+//        canvas.drawOval(rectF, paint)
+//
+//        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+//        canvas.drawBitmap(bitmap, rect, rect, paint)
+//
+//        bitmap.recycle()
+//
+//        return output
+//    }
 }

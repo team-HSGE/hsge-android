@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -40,9 +41,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             "chatFragment" ->{
                 val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                 NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
-
             }
         }
+        visibleBtmNav()
+    }
 
+    private fun visibleBtmNav(){
+       binding.navigationMain.visibility = View.VISIBLE
     }
 }
