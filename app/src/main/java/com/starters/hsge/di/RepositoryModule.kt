@@ -13,12 +13,6 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindsDogProfileRepository(
-        dogProfileRepositoryImp: DogProfileRepositoryImpl
-    ): DogProfileRepository
-
-    @Binds
-    @Singleton
     abstract fun bindsDogOptionRepository(
         dogOptionRepositoryImpl: DogOptionRepositoryImpl
     ): DogOptionRepository

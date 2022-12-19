@@ -42,6 +42,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -164,12 +166,14 @@ class UserLocationFragment :
                     prefs.edit().remove("resId").apply()
                 }
 
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(500)
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
 
-                activity?.finish() //RegisterActivity 종료
+                    activity?.finish() //RegisterActivity 종료
+                }
             }
-
         }
     }
 
