@@ -1,5 +1,7 @@
 package com.starters.hsge.presentation.splash
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -37,6 +39,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         super.onCreate(savedInstanceState)
 
         initSplashScreen()
+        createNotificationChannel(this)
+    }
+
+    //알림 권한
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "my-notification-channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channelId = "${context.packageName}-$name"
+            val channel = NotificationChannel(channelId, name, importance)
+            channel.description = "my notification channel description"
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     // 스플래시 초기화
