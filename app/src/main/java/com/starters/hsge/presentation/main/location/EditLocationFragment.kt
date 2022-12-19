@@ -11,8 +11,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -30,6 +33,7 @@ import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentEditLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,9 +44,12 @@ class EditLocationFragment :
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
     private val editLocationViewModel: EditLocationViewModel by viewModels()
+    private val args : EditLocationFragmentArgs by navArgs()
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initPermissionLauncher()
         initValue()
     }
@@ -50,8 +57,25 @@ class EditLocationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.userLocation = args.userLocationData
         initListener()
         setNavigation()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+                visibleBtmNav()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     private fun initPermissionLauncher() {
@@ -59,19 +83,13 @@ class EditLocationFragment :
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
     }
 
-    /**
-     * @author 이서윤
-     * 마이페이지 화면에서 넘어오는 데이터 값을 초기값으로 설정합니다
-     */
     private fun initValue() {
-        // safe args로 넘어오는 값을 할당해주세요
-        editLocationViewModel.latitude = 0.0
-        editLocationViewModel.longitude = 0.0
-        editLocationViewModel.town = "서울특별시 중구 다동"
+        editLocationViewModel.latitude = args.userLocationData?.latitude ?: 0.0
+        editLocationViewModel.longitude = args.userLocationData?.longitude ?: 0.0
+        editLocationViewModel.town = args.userLocationData?.town ?: ""
     }
 
     private fun initListener() {
-
         binding.btnSearch.setOnClickListener {
             // 사용자 위치 받아오기
             if (isEnableLocationSystem(requireContext())) {
@@ -236,4 +254,6 @@ class EditLocationFragment :
         editLocationViewModel.town = locationAddress.toString()
         dismissLoadingDialog()
     }
+
+    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 }

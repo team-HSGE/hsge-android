@@ -2,15 +2,22 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserProfileIconBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.mypage.MyPageFragmentDirections
+import com.starters.hsge.presentation.main.mypage.UserInfoData
+import com.starters.hsge.presentation.main.mypage.UserLocationData
+import com.starters.hsge.presentation.main.mypage.UserProfileEditFragmentArgs
 import com.starters.hsge.presentation.register.adapter.UserProfileIconAdapter
 
 class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.layout.fragment_user_profile_icon) {
 
     private lateinit var adapter: UserProfileIconAdapter
+    private val args : UserProfileIconFragmentArgs by navArgs()
 
     var userIconList = listOf<Int>()
 
@@ -42,6 +49,22 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
     private fun initRecyclerView(list: List<Int>) {
         adapter = UserProfileIconAdapter(list)
         binding.rvProfileIcon.adapter = adapter
+
+        adapter.setItemClickListener(object: UserProfileIconAdapter.OnItemClickListener{
+            override fun onClick(v: View, resId: Int) {
+                if(args.checkLayout == 1) {
+                    // 회원가입
+                    prefs.edit().putInt("resId", resId).apply()
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_userProfileIconFragment_to_userImageFragment)
+
+                } else if (args.checkLayout == 2) {
+                    // 회원 정보 수정
+                    val action = UserProfileIconFragmentDirections.actionUserProfileIconFragment2ToUserProfileEditFragment(null, resId)
+                    findNavController().navigate(action)
+                }
+            }
+        })
     }
 
     private fun setNavigation() {

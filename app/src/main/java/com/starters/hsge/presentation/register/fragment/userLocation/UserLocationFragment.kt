@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +24,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -37,6 +39,8 @@ import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
+import com.starters.hsge.presentation.main.mypage.UserLocationData
+import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -129,6 +133,7 @@ class UserLocationFragment :
 
                     registerViewModel.deleteAllInfo()
 
+                    findNavController().navigate(R.id.action_editLocationFragment_to_myPageFragment)
                     (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
 
                     prefs.edit().remove("getLocationFrom").apply()
@@ -302,15 +307,18 @@ class UserLocationFragment :
         addressList.removeAt(0)
         addressList.removeAt(addressList.size - 1)
 
-        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동'
+        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동 '
         val locationAddress = StringBuilder()
         for (i in addressList) {
             locationAddress.append(i)
             locationAddress.append(" ")
         }
-        binding.tvMyLocation.text = locationAddress
+        val town = locationAddress.dropLast(1).toString()
+        Log.d("확인", "${town}")
+        binding.tvMyLocation.text = town
 
         lifecycleScope.launch {
+            registerViewModel.saveUserLocation(town).apply { }
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
