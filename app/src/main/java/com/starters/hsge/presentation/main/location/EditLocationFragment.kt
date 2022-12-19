@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -40,9 +42,11 @@ class EditLocationFragment :
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
     private val editLocationViewModel: EditLocationViewModel by viewModels()
+    private val args : EditLocationFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initPermissionLauncher()
         initValue()
     }
@@ -65,9 +69,10 @@ class EditLocationFragment :
      */
     private fun initValue() {
         // safe args로 넘어오는 값을 할당해주세요
-        editLocationViewModel.latitude = 0.0
-        editLocationViewModel.longitude = 0.0
-        editLocationViewModel.town = "서울특별시 중구 다동"
+        editLocationViewModel.latitude = args.userLocationData?.latitude ?: 0.0
+        editLocationViewModel.longitude = args.userLocationData?.longitude ?: 0.0
+        editLocationViewModel.town = args.userLocationData?.town ?: ""
+        Log.d("사용자정보받아온거", "${editLocationViewModel.latitude}, ${editLocationViewModel.longitude}, ${editLocationViewModel.town}")
     }
 
     private fun initListener() {

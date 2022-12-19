@@ -43,12 +43,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.locationSettingSection.setOnClickListener {
-            findNavController().navigate(R.id.action_myPageFragment_to_editLocationFragment)
+            val action = MyPageFragmentDirections.actionMyPageFragmentToEditLocationFragment(
+                UserLocationData(town, latitude, longitude, radius)
+            )
+            findNavController().navigate(action)
             goneBtmNav()
         }
 
         binding.radiusSettingSection.setOnClickListener {
-            findNavController().navigate(R.id.action_myPageFragment_to_userDistanceFragment)
+            val action = MyPageFragmentDirections.actionMyPageFragmentToUserDistanceFragment(
+                UserLocationData(town, latitude, longitude, radius)
+            )
+            findNavController().navigate(action)
             goneBtmNav()
         }
 
@@ -75,7 +81,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
                     // 사용자 정보 가져오기
                     profileImage = result.profilePath
-                    nickname = result.nickname.toString()
+                    nickname = result.nickname
                     town = result.town
                     latitude = result.latitude
                     longitude = result.longtitude
