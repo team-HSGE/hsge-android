@@ -35,11 +35,11 @@
             android:id="@+id/action_myPageFragment_to_userDistanceFragment"
             app:destination="@id/userDistanceFragment" />
         <action
-            android:id="@+id/action_myPageFragment_to_userLocationFragment2"
-            app:destination="@id/userLocationFragment2" />
-        <action
             android:id="@+id/action_myPageFragment_to_managementFragment"
             app:destination="@id/managementFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_editLocationFragment"
+            app:destination="@id/editLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -93,14 +93,11 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/userLocationFragment2"
-        android:name="com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragment"
-        android:label="UserLocationFragment"
-        tools:layout="@layout/fragment_user_location">
+        android:id="@+id/editLocationFragment"
+        android:name="com.starters.hsge.presentation.main.location.EditLocationFragment"
+        android:label="EditLocationFragment" >
         <action
-            android:id="@+id/action_userLocationFragment2_to_myPageFragment"
-            app:destination="@id/myPageFragment"
-            app:popUpTo="@id/myPageFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_editLocationFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
     </fragment>
 </navigation>
