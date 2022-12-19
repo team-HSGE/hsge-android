@@ -34,16 +34,28 @@ class FirebaseService : FirebaseMessagingService() {
 
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
-            sendNotification(message)
+            val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
+            sendNotification(message, about)
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
         wakeLock.release()
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage) {
+    private fun sendNotification(remoteMessage: RemoteMessage, about: String) {
 
         val intent = Intent(applicationContext, MainActivity::class.java)
+
+        when(about){
+            "like" -> { // 좋아요 -> 채팅 탭으로 이동
+                intent.putExtra("pushAbout", "chatFragment")
+            }
+            "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
+                intent.putExtra("pushAbout", "myPageFragment")
+            }
+            else -> return
+        }
+
         intent.putExtra("createdAt", "chatFragment")
 
         val pendingIntent = PendingIntent.getActivity(
@@ -90,5 +102,4 @@ class FirebaseService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_logo)
             .setShowWhen(true)
     }
-
 }

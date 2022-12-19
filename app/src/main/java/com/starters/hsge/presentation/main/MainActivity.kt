@@ -34,14 +34,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val createdAt = intent?.extras!!.getString("createdAt")
-        Log.d("createdAt", createdAt.toString())
+        val createdAt = intent?.extras!!.getString("pushAbout")
+        Log.d("pushAbout", createdAt.toString())
 
         when(createdAt){
             "chatFragment" ->{
                 val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                 NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
             }
+            "myPageFragment" -> {
+                val item = binding.navigationMain.menu.findItem(R.id.myPageFragment)
+                NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
+            }
+            else -> return
         }
         visibleBtmNav()
     }
