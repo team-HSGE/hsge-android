@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_managementFragment_to_dogProfileEditFragment"
             app:destination="@id/dogProfileEditFragment" />
+        <action
+            android:id="@+id/action_managementFragment_to_addDogProfileFragment"
+            app:destination="@id/addDogProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
@@ -100,4 +103,9 @@
             android:id="@+id/action_editLocationFragment_to_myPageFragment"
             app:destination="@id/myPageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addDogProfileFragment"
+        android:name="com.starters.hsge.presentation.main.add.AddDogProfileFragment"
+        android:label="fragment_add_dog_profile"
+        tools:layout="@layout/fragment_add_dog_profile" />
 </navigation>
