@@ -11,12 +11,9 @@ import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
 import com.starters.hsge.network.*
-import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.WithdrawalDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
-import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

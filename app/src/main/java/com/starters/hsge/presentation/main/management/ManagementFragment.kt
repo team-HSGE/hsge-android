@@ -4,16 +4,17 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentManagementBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.CustomDecoration
-import dagger.hilt.android.AndroidEntryPoint
 import com.starters.hsge.presentation.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.fragment_management) {
@@ -34,8 +35,22 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
             binding.rvDogList.adapter = adapter
         }
 
+
         setNavigation()
+
+        binding.toolBar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_add -> {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_managementFragment_to_addDogProfileFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

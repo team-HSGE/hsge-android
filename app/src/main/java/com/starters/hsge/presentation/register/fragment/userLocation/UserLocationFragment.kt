@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.request.userLocationRequest
+import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
@@ -42,6 +42,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -127,7 +129,7 @@ class UserLocationFragment :
 
                     registerViewModel.deleteAllInfo()
 
-                    findNavController().navigate(R.id.action_userLocationFragment2_to_myPageFragment)
+                    findNavController().navigate(R.id.action_editLocationFragment_to_myPageFragment)
                     (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
 
                     prefs.edit().remove("getLocationFrom").apply()
@@ -165,10 +167,13 @@ class UserLocationFragment :
                     prefs.edit().remove("resId").apply()
                 }
 
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(500)
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
 
-                activity?.finish() //RegisterActivity 종료
+                    activity?.finish() //RegisterActivity 종료
+                }
             }
 
         }
@@ -299,15 +304,18 @@ class UserLocationFragment :
         addressList.removeAt(0)
         addressList.removeAt(addressList.size - 1)
 
-        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동'
+        // tvMyLocation에 넣을 주소 - '서울특별시 중구 다동 '
         val locationAddress = StringBuilder()
         for (i in addressList) {
             locationAddress.append(i)
             locationAddress.append(" ")
         }
-        binding.tvMyLocation.text = locationAddress
+        val town = locationAddress.dropLast(1).toString()
+        Log.d("확인", "${town}")
+        binding.tvMyLocation.text = town
 
         lifecycleScope.launch {
+            registerViewModel.saveUserLocation(town).apply { }
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
@@ -320,7 +328,7 @@ class UserLocationFragment :
     private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String) {
         val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
 
-        locationRetrofit.putLocationData(request = userLocationRequest(lat, lng, town))
+        locationRetrofit.putLocationData(request = UserLocationRequest(lat, lng, town))
             .enqueue(object :
                 Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {

@@ -21,6 +21,7 @@
 
     <!-- Grey scale -->
     <color name="light_gray">#DBDBDB</color>
+    <color name="stroke_gray">#9E9E9E</color>
 
     <color name="G900">#222222</color>
     <color name="G800">#4D4D4D</color>
