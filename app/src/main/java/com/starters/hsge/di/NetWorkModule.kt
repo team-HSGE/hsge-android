@@ -110,6 +110,13 @@ object NetworkModule {
     fun providesEditDogApi(@RetrofitHSGE retrofit: Retrofit): EditDogApi =
         retrofit.create(EditDogApi::class.java)
 
+    // EditLocation Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesEditLocationApi(@RetrofitHSGE retrofit: Retrofit): EditLocationApi =
+        retrofit.create(EditLocationApi::class.java)
+
 }
 
 @Qualifier

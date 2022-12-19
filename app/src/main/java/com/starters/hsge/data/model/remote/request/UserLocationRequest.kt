@@ -1,6 +1,9 @@
 package com.starters.hsge.data.model.remote.request
 
-data class userLocationRequest(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class UserLocationRequest(
     val latitude: Double,
     val longtitude: Double,
     val town: String
