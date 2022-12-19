@@ -43,19 +43,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.locationSettingSection.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageFragmentToUserLocationFragment2(
-                UserLocationData(town, latitude, longitude, radius)
-            )
-            findNavController().navigate(action)
-            prefs.edit().putInt("getLocationFrom", 1).apply()
+            findNavController().navigate(R.id.action_myPageFragment_to_editLocationFragment)
             goneBtmNav()
         }
 
         binding.radiusSettingSection.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageFragmentToUserDistanceFragment(
-                UserLocationData(town, latitude, longitude, radius)
-            )
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_myPageFragment_to_userDistanceFragment)
             goneBtmNav()
         }
 

@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
@@ -15,7 +14,6 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
-import com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragmentArgs
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

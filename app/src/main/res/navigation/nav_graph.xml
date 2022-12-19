@@ -35,11 +35,11 @@
             android:id="@+id/action_myPageFragment_to_userDistanceFragment"
             app:destination="@id/userDistanceFragment" />
         <action
-            android:id="@+id/action_myPageFragment_to_userLocationFragment2"
-            app:destination="@id/userLocationFragment2" />
-        <action
             android:id="@+id/action_myPageFragment_to_managementFragment"
             app:destination="@id/managementFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_editLocationFragment"
+            app:destination="@id/editLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_managementFragment_to_dogProfileEditFragment"
             app:destination="@id/dogProfileEditFragment" />
+        <action
+            android:id="@+id/action_managementFragment_to_addDogProfileFragment"
+            app:destination="@id/addDogProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
@@ -116,15 +119,13 @@
             android:defaultValue="@null" />
     </fragment>
     <fragment
-        android:id="@+id/userLocationFragment2"
-        android:name="com.starters.hsge.presentation.register.fragment.userLocation.UserLocationFragment"
-        android:label="UserLocationFragment"
-        tools:layout="@layout/fragment_user_location">
+        android:id="@+id/editLocationFragment"
+        android:name="com.starters.hsge.presentation.main.location.EditLocationFragment"
+        android:label="EditLocationFragment"
+        tools:layout="@layout/fragment_edit_location">
         <action
-            android:id="@+id/action_userLocationFragment2_to_myPageFragment"
-            app:destination="@id/myPageFragment"
-            app:popUpTo="@id/myPageFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_editLocationFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
         <argument
             android:name="userLocationData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
@@ -146,4 +147,9 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/addDogProfileFragment"
+        android:name="com.starters.hsge.presentation.main.add.AddDogProfileFragment"
+        android:label="fragment_add_dog_profile"
+        tools:layout="@layout/fragment_add_dog_profile" />
 </navigation>
