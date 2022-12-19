@@ -12,10 +12,17 @@ import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentSettingsBinding
+import com.starters.hsge.network.FcmDeleteInterface
+import com.starters.hsge.network.FcmPostInterface
+import com.starters.hsge.network.FcmPostRequest
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.LogoutDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {
 
@@ -46,7 +53,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                             Log.d("로그아웃", "로그아웃 실패 : ${error}")
                             Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                         }else {
+                            // access token & fcm token 날리기
                             prefs.edit().clear().apply()
+                            //tryDeleteFcmToken()
+
                             moveToLoginActivity()
                             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
                         }
@@ -87,5 +97,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         ActivityCompat.finishAffinity(requireActivity())
         startActivity(intent)
+    }
+
+    private fun tryDeleteFcmToken(){
+        val fcmTokenInterface = RetrofitClient.sRetrofit.create(FcmDeleteInterface::class.java)
+        fcmTokenInterface.deleteFcmToken().enqueue(object :
+            Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.d("FCM토큰 삭제", "성공!")
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("FCM토큰 삭제 실패", t.message ?: "통신오류")
+            }
+        })
     }
 }

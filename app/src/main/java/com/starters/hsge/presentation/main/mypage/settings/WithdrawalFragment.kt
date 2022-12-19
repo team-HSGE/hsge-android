@@ -70,6 +70,8 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
                     Log.d("회원탈퇴", "회원탈퇴 성공 : 응답코드 ${response.code()}")
 
                     prefs.edit().clear().apply()
+                    //tryDeleteFcmToken()
+
                     moveToLoginActivity()
                     Toast.makeText(context, "회원탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
                 }
@@ -77,6 +79,20 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
+            }
+        })
+    }
+
+    private fun tryDeleteFcmToken(){
+        val fcmTokenInterface = RetrofitClient.sRetrofit.create(FcmDeleteInterface::class.java)
+        fcmTokenInterface.deleteFcmToken().enqueue(object :
+            Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.d("FCM토큰 삭제", "성공!")
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("FCM토큰 삭제 실패", t.message ?: "통신오류")
             }
         })
     }
