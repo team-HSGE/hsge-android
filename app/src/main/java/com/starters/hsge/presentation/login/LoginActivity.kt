@@ -13,10 +13,7 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityLoginBinding
-import com.starters.hsge.network.AccessRequest
-import com.starters.hsge.network.AccessResponse
-import com.starters.hsge.network.AccessTokenInterface
-import com.starters.hsge.network.RetrofitClient
+import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
@@ -51,11 +48,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("카카오톡 토큰 정보 보기", "실패")
             } else if (tokenInfo != null) {
                 Log.d("카카오톡 토큰 정보 보기", "성공")
-
-                // 회원가입 후에 다시 재접속 했을 경우 토큰 정보를 확인 -> 토큰이 있으면 다음 화면으로 바로 넘어감
-//                val intent = Intent(this, RegisterActivity::class.java)
-//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-//                finish()
             }
         }
     }
@@ -102,11 +94,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 loadUserInfo()
 
                 access_token = token.accessToken
-
                 val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
-                Log.d("json", "${json}")
-                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 tryPostAccessToken(json)
+                Log.d("json", "${json}")
             }
         }
     }
@@ -117,9 +107,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("에러", "사용자 정보요청 실패")
             }
             else if (user != null) {
-                val str= "\n회원번호: ${user.id}" +
-                        "\n이메일: ${user.kakaoAccount?.email}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
+                val str= "\n회원번호: ${user.id}" + "\n이메일: ${user.kakaoAccount?.email}" + "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
                 Log.d("회원정보", "${str}")
 
                 // 카카오톡 계정 이메일 sp에 저장
@@ -137,6 +125,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
             // Get new FCM registration token
             fcmToken = task.result
+            prefs.edit().putString("fcmToken", fcmToken).apply()
+            Log.d("FCM토큰", "FCM토큰: ${fcmToken} / sp: ${prefs.getString("fcmToken", "")}")
         })
     }
 
@@ -171,10 +161,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
                         prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
                         prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
-
                         Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
                         Log.d("Normal토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
 
+                        // FCM토큰 서버에 보내기
+                        val fcmToken = FcmPostRequest(fcmToken)
+                        //tryPostFcmToken(fcmToken)
+
+                        // 메인 화면 이동
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
@@ -184,6 +178,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     } else if (result.message == "NEED_SIGNUP") {
                         Log.d("소셜로그인", "${result.message}")
 
+                        // 회원 가입 화면 이동
                         val intent = Intent(applicationContext, RegisterActivity::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
@@ -199,8 +194,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             }
 
             override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
-                Log.d("실패", t.message ?: "통신오류")
+                Log.d("Access Token 보내기 실패", t.message ?: "통신오류")
+            }
+        })
+    }
 
+    private fun tryPostFcmToken(fcmToken : FcmPostRequest){
+        val fcmTokenInterface = RetrofitClient.sRetrofit.create(FcmPostInterface::class.java)
+        fcmTokenInterface.postFcmToken(fcmToken).enqueue(object :
+            Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.d("FCM토큰 보내기", "성공!")
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("FCM토큰 보내기 실패", t.message ?: "통신오류")
             }
         })
     }
