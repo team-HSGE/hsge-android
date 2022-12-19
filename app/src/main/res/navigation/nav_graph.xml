@@ -67,7 +67,8 @@
         tools:layout="@layout/fragment_management">
         <action
             android:id="@+id/action_managementFragment_to_dogProfileEditFragment"
-            app:destination="@id/dogProfileEditFragment" />
+            app:destination="@id/dogProfileEditFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
@@ -79,7 +80,9 @@
             app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
         <action
             android:id="@+id/action_dogProfileEditFragment_to_myPageFragment"
-            app:destination="@id/myPageFragment" />
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/myPageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/userDistanceFragment"
