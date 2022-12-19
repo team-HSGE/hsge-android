@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.AddDogRequest
@@ -27,6 +28,7 @@ import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.edit.ViewType
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +71,7 @@ class AddDogProfileFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setNavigation()
     }
 
     private fun initPermissionLauncher() {
@@ -278,12 +281,13 @@ class AddDogProfileFragment :
                         description = binding.edtComment.text.toString()
                     ))
 
+                visibleBtmNav()
+                Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
+
                 // 마이페이지로 이동
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_addDogProfileFragment_to_myPageFragment)
             }
-
-
         }
     }
 
@@ -311,4 +315,12 @@ class AddDogProfileFragment :
         }
         return tagText
     }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 }

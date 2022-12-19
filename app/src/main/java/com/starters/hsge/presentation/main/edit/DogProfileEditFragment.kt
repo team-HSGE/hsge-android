@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -54,6 +55,7 @@ class DogProfileEditFragment :
 
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
 
+
     private val likeTagList = listOf(
         "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
         "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
@@ -89,7 +91,7 @@ class DogProfileEditFragment :
         initListener()
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
-
+        setNavigation()
     }
 
     private fun initValue() {
@@ -111,7 +113,7 @@ class DogProfileEditFragment :
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigateUp()
-                visibleBtmNav()
+                goneBtmNav()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -329,6 +331,9 @@ class DogProfileEditFragment :
                 dogProfileInfo
             )
 
+            visibleBtmNav()
+            Toast.makeText(context, "반려견 프로필이 수정되었습니다", Toast.LENGTH_SHORT).show()
+
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
@@ -367,5 +372,15 @@ class DogProfileEditFragment :
         return tagText
     }
 
-    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun goneBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
+    }
+
+    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 }
