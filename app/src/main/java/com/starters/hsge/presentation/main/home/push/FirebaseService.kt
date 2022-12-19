@@ -72,7 +72,7 @@ class FirebaseService : FirebaseMessagingService() {
         }
 
         val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, pendingIntent).build()
-        notificationManager.notify(1, notification)
+        notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
 
     }
 
