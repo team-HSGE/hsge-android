@@ -49,7 +49,8 @@
         <argument
             android:name="userInfoData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileIconFragment2"
             app:destination="@id/userProfileIconFragment2" />
@@ -133,7 +134,7 @@
     <fragment
         android:id="@+id/userProfileIconFragment2"
         android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
-        android:label="UserProfileIconFragment"
+        android:label="UserProfileIconFragment2"
         tools:layout="@layout/fragment_user_profile_icon">
         <action
             android:id="@+id/action_userProfileIconFragment2_to_userProfileEditFragment"

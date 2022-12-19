@@ -3,13 +3,12 @@ package com.starters.hsge.presentation.main.mypage
 import android.content.Context
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
@@ -188,6 +187,9 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
                     Log.d("회원 정보 수정", "성공! / ${response.code()}")
                     prefs.edit().remove("nickname").apply()
                     prefs.edit().remove("nickname2").apply()
+
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
 
                 } else {
                     Log.d("userInfo", "putUserInfo - onResponse : Error code ${response.code()}")
