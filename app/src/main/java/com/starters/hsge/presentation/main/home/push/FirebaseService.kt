@@ -9,7 +9,6 @@ import android.content.Intent
 import android.graphics.*
 import android.os.PowerManager
 import android.util.Log
-import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -27,9 +26,10 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
+        // 화면 깨우기
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         @SuppressLint("InvalidWakeLockTag")
-        val wakeLock = powerManager.newWakeLock(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, "screen_on")
+        val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "screen_on")
         wakeLock.acquire(5000L /*10 minutes*/)
 
         // Data message를 수신함
