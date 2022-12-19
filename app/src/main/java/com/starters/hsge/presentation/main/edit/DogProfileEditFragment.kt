@@ -56,7 +56,7 @@ class DogProfileEditFragment :
     )
 
     private val dislikeTagList = listOf(
-        "남자사람", "여자사람", "아이", "사람", "암컷", "대형견", "중형견",
+        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "대형견", "중형견",
         "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
         "스킨십", "큰소리", "향수"
     )
@@ -84,6 +84,7 @@ class DogProfileEditFragment :
         initListener()
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
+
     }
 
     private fun initValue() {
@@ -93,7 +94,8 @@ class DogProfileEditFragment :
         dogProfileEditViewModel.dogAge = args.dogDetailInfo.ageDto.key
         dogProfileEditViewModel.dogBreed = args.dogDetailInfo.breedDto.key
         dogProfileEditViewModel.dogLikeTagStr = changeListToString(args.dogDetailInfo.tag.tagLike)
-        dogProfileEditViewModel.dogDislikeTagStr = changeListToString(args.dogDetailInfo.tag.tagDisLike)
+        dogProfileEditViewModel.dogDislikeTagStr =
+            changeListToString(args.dogDetailInfo.tag.tagDisLike)
         dogProfileEditViewModel.dogLikeTag = args.dogDetailInfo.tag.tagLike
         dogProfileEditViewModel.dogDislikeTag = args.dogDetailInfo.tag.tagDisLike
         dogProfileEditViewModel.description = args.dogDetailInfo.description.toString()
@@ -309,7 +311,6 @@ class DogProfileEditFragment :
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
-
         }
     }
 

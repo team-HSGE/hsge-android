@@ -68,5 +68,4 @@ class DogOptionRepositoryImpl @Inject constructor(
         DislikeTag.LOUD_NOISE,
         DislikeTag.PERFUME
     )
-
 }
