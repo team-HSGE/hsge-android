@@ -14,7 +14,6 @@ import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
-import com.starters.hsge.presentation.main.mypage.UserProfileEditFragmentArgs
 import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,7 +53,6 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         callback.remove()
     }
 
-
     // seekBar - 반경 설정
     private fun seekbar(radius: Int) {
         // 이전에 정했던 반경으로 디폴트 값
@@ -79,7 +77,6 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
             }
         })
 
-
         // 완료 버튼
         binding.btnNext.setOnClickListener {
             // post로 api 통신하면 됨
@@ -90,7 +87,6 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         }
     }
 
-
     // 화면 이동
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
@@ -99,10 +95,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         }
     }
 
-    private fun visibleBtmNav(){
-        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
-    }
-
+    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     // 반경 재설정_통신
     private fun retrofitWork(distance: Double){

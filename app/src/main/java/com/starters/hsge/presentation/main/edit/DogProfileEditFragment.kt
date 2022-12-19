@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.main.edit
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -19,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
@@ -29,6 +32,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.EditNameDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +41,7 @@ class DogProfileEditFragment :
     BaseFragment<FragmentDogProfileEditBinding>(R.layout.fragment_dog_profile_edit) {
 
     private val args: DogProfileEditFragmentArgs by navArgs()
+    private lateinit var callback: OnBackPressedCallback
 
     private val registerViewModel: RegisterViewModel by viewModels()
     private val dogProfileEditViewModel: DogProfileEditViewModel by viewModels()
@@ -79,6 +84,22 @@ class DogProfileEditFragment :
         initListener()
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+                visibleBtmNav()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     private fun initPermissionLauncher() {
@@ -285,4 +306,6 @@ class DogProfileEditFragment :
             textView.layoutParams = layoutParams
         }
     }
+
+    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 }

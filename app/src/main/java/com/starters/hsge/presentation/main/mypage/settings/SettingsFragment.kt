@@ -74,7 +74,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         callback.remove()
     }
 
-
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -82,9 +81,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         }
     }
 
-    private fun visibleBtmNav() {
-        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
-    }
+    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     private fun moveToLoginActivity() {
         val intent = Intent(requireActivity(), LoginActivity::class.java)

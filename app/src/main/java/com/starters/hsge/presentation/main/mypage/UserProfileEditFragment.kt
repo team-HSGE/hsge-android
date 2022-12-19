@@ -33,7 +33,6 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         super.onViewCreated(view, savedInstanceState)
 
         email = prefs.getString("email", "")
-        binding.edtNicknameLayout.requestFocus()
 
         setUserData()
         initListener()
