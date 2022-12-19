@@ -3,6 +3,8 @@ package com.starters.hsge.presentation.main.mypage
 import android.content.Context
 import android.graphics.Paint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -26,6 +28,7 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
     private val args : UserProfileEditFragmentArgs by navArgs()
     private var nickNameFlag = false
     private var email : String? = ""
+    private var profile : Int? = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,14 +65,17 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
 
         if (args.resId != 0) {
             // 프로필 이미지 클릭 이후 세팅
-            binding.ivUserProfile.setImageResource(args.resId)
+            profile = args.resId
+            binding.ivUserProfile.setImageResource(profile!!)
             binding.edtNickname.setText(prefs.getString("nickname2", ""))
 
         } else {
             // 초기 세팅
-            binding.ivUserProfile.setImageResource(args.userInfoData?.profileImage ?: 2131165374)
+            profile = args.userInfoData?.profileImage
+            binding.ivUserProfile.setImageResource(profile ?: 2131165374)
             binding.edtNickname.setText(args.userInfoData?.nickname ?: "")
             prefs.edit().putString("nickname", binding.edtNickname.text.toString()).apply()
+            prefs.edit().putString("nickname2", binding.edtNickname.text.toString()).apply()
         }
     }
 
@@ -81,6 +87,9 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         }
         // 수정 버튼 클릭
         binding.btnEdit.setOnClickListener {
+            val userInfo = UserInfoPutRequest(profilePath = profile!!, nickname = prefs.getString("nickname2", "테스트")!!)
+            Log.d("확인", "${profile}, ${prefs.getString("nickname2", "")}")
+            tryPutUserInfo(userInfo)
         }
     }
 
@@ -165,10 +174,30 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
             }
 
             override fun onFailure(call: Call<NicknameResponse>, t: Throwable) {
-                Log.d("userNickname", t.message ?: "통신오류")
+                Log.d("userNickname 실패", t.message ?: "통신오류")
             }
         })
     }
 
+    private fun tryPutUserInfo(userInfo: UserInfoPutRequest) {
+        val userInfoPutInterface = RetrofitClient.sRetrofit.create(UserInfoPutInterface::class.java)
+        userInfoPutInterface.putUserInfo(userInfo).enqueue(object :
+            Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("회원 정보 수정", "성공! / ${response.code()}")
+                    prefs.edit().remove("nickname").apply()
+                    prefs.edit().remove("nickname2").apply()
+
+                } else {
+                    Log.d("userInfo", "putUserInfo - onResponse : Error code ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("userInfo 실패", t.message ?: "통신오류")
+            }
+        })
+    }
 
 }

@@ -82,7 +82,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
                     // 사용자 정보 가져오기
                     profileImage = result.profilePath
-                    nickname = result.nickname
+                    nickname = result.nickname.toString()
                     town = result.town
                     latitude = result.latitude
                     longitude = result.longtitude
@@ -103,7 +103,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             }
 
             override fun onFailure(call: Call<UserInfoGetResponse>, t: Throwable) {
-                Log.d("실패", t.message ?: "통신오류")
+                Log.d("MyPage 실패", t.message ?: "통신오류")
 
             }
         })

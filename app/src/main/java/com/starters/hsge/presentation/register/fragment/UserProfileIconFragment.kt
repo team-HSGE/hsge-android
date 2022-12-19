@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserProfileIconBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.mypage.UserInfoData
 import com.starters.hsge.presentation.main.mypage.UserProfileEditFragmentArgs
 import com.starters.hsge.presentation.register.adapter.UserProfileIconAdapter
 
@@ -57,7 +58,7 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
 
                 } else if (args.checkLayout == 2) {
                     // 회원 정보 수정
-                    val action = UserProfileIconFragmentDirections.actionUserProfileIconFragment2ToUserProfileEditFragment(resId = resId)
+                    val action = UserProfileIconFragmentDirections.actionUserProfileIconFragment2ToUserProfileEditFragment(resId = resId, userInfoData = null)
                     findNavController().navigate(action)
                 }
             }
