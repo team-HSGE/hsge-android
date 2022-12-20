@@ -13,18 +13,15 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityLoginBinding
 import com.starters.hsge.data.model.remote.request.LoginRequest
 import com.starters.hsge.data.model.remote.response.LoginResponse
-import com.starters.hsge.data.api.LoginApi
-import com.starters.hsge.network.RetrofitClient
+import com.starters.hsge.data.interfaces.LoginInterface
+import com.starters.hsge.data.service.LoginService
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login), LoginInterface {
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
@@ -46,11 +43,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("카카오톡 토큰 정보 보기", "실패")
             } else if (tokenInfo != null) {
                 Log.d("카카오톡 토큰 정보 보기", "성공")
-
-                // 회원가입 후에 다시 재접속 했을 경우 토큰 정보를 확인 -> 토큰이 있으면 다음 화면으로 바로 넘어감
-//                val intent = Intent(this, RegisterActivity::class.java)
-//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-//                finish()
             }
         }
     }
@@ -101,7 +93,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 val json = LoginRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
                 Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
-                tryPostAccessToken(json)
+                //tryPostAccessToken(json)
+
+                LoginService(this).tryPostAccessToken(json)
             }
         }
     }
@@ -147,56 +141,44 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
-    private fun tryPostAccessToken(accessToken : LoginRequest){
-        val loginApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
-        loginApi.postLogin(accessToken).enqueue(object :
-            Callback<LoginResponse> {
-            override fun onResponse(
-                call: Call<LoginResponse>,
-                response: Response<LoginResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val result = response.body() as LoginResponse
+    override fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int) {
+        if (isSuccess == true) {
+            if (loginResponse.message == "LOGIN") {
+                Log.d("소셜로그인", "${loginResponse.message}")
 
-                    if (result.message == "LOGIN") {
-                        Log.d("소셜로그인", "${result.message}")
+                // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
+                prefs.edit().putString("BearerAccessToken", "Bearer ${loginResponse.accessToken}").apply()
+                prefs.edit().putString("BearerRefreshToken", "Bearer ${loginResponse.refreshToken}").apply()
+                prefs.edit().putString("NormalAccessToken", "${loginResponse.accessToken}").apply()
+                prefs.edit().putString("NormalRefreshToken", "${loginResponse.refreshToken}").apply()
 
-                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
-                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
-                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
-                        prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
-                        prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
+                Log.d("Bearer토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
+                Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
 
-                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
-                        Log.d("Normal토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
 
-                        val intent = Intent(applicationContext, MainActivity::class.java)
-                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
+                Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
-                        Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            } else if (loginResponse.message == "NEED_SIGNUP") {
+                Log.d("소셜로그인", "${loginResponse.message}")
 
-                    } else if (result.message == "NEED_SIGNUP") {
-                        Log.d("소셜로그인", "${result.message}")
-
-                        val intent = Intent(applicationContext, RegisterActivity::class.java)
-                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
-                    }
-                } else  {
-                    when(response.code()) {
-                        400 -> {
-                            // 카카오톡 accessToken 유효기간 끝났을 때
-                            Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                val intent = Intent(applicationContext, RegisterActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
+            }
+        } else {
+            when(code) {
+                400 -> {
+                    // 카카오톡 accessToken 유효기간 끝났을 때
+                    Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.d("실패", t.message ?: "통신오류")
-
-            }
-        })
+    override fun onPostAccessTokenFailure(message: String) {
+        Log.d("Login 오류", "오류: $message")
     }
 }

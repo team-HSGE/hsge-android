@@ -15,7 +15,7 @@ import com.starters.hsge.data.api.NicknameApi
 import com.starters.hsge.data.model.remote.request.NicknameRequest
 import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel

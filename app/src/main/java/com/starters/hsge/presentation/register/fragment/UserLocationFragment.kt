@@ -38,7 +38,6 @@ import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

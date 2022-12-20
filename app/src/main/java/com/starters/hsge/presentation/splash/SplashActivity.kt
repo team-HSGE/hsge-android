@@ -17,7 +17,7 @@ import com.starters.hsge.data.api.CheckTokenApi
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.databinding.ActivitySplashBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity

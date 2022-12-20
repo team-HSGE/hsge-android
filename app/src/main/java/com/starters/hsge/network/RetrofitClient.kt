@@ -7,7 +7,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import retrofit2.Retrofit
 import java.io.IOException
 import com.starters.hsge.App.Companion.prefs
-import kotlinx.serialization.ExperimentalSerializationApi
 
 object RetrofitClient {
 

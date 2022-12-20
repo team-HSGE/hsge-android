@@ -18,7 +18,7 @@ import com.starters.hsge.data.model.remote.request.NicknameRequest
 import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
 import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import retrofit2.Call

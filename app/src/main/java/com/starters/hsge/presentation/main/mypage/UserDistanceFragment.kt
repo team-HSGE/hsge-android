@@ -13,7 +13,6 @@ import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import com.starters.hsge.data.api.DistanceApi
 import com.starters.hsge.network.RetrofitClient
 import retrofit2.Call
