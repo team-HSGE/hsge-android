@@ -8,29 +8,20 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
-import com.starters.hsge.data.api.NicknameApi
-import com.starters.hsge.data.api.UserInfoPutApi
 import com.starters.hsge.data.interfaces.NicknameInterface
 import com.starters.hsge.data.interfaces.UserInfoPutInterface
 import com.starters.hsge.data.model.remote.request.NicknameRequest
 import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
 import com.starters.hsge.data.model.remote.response.NicknameResponse
-import com.starters.hsge.data.service.CheckTokenService
 import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.data.service.UserInfoPutService
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit), UserInfoPutInterface, NicknameInterface {
 
