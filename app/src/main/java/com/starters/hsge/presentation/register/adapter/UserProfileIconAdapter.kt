@@ -3,13 +3,8 @@ package com.starters.hsge.presentation.register.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.starters.hsge.R
 import com.starters.hsge.databinding.ItemProfileIconBinding
-import com.starters.hsge.presentation.common.base.BaseFragment.Companion.prefs
-import com.starters.hsge.presentation.main.mypage.UserProfileEditFragmentArgs
 
 class UserProfileIconAdapter(private var userIconList: List<Int>)
     : RecyclerView.Adapter<UserProfileIconAdapter.UserProfileIconViewHolder>() {

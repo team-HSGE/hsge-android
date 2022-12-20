@@ -1,7 +1,12 @@
 package com.starters.hsge.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityMainBinding
@@ -16,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         initNavigation()
 
+
     }
 
     private fun initNavigation() {
@@ -24,5 +30,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         naviController?.let {
             binding.navigationMain.setupWithNavController(it)
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val createdAt = intent?.extras!!.getString("pushAbout")
+        Log.d("pushAbout", createdAt.toString())
+
+        when(createdAt){
+            "chatFragment" ->{
+                val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
+                NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
+            }
+            "myPageFragment" -> {
+                val item = binding.navigationMain.menu.findItem(R.id.myPageFragment)
+                NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
+            }
+            else -> return
+        }
+        visibleBtmNav()
+    }
+
+    private fun visibleBtmNav(){
+       binding.navigationMain.visibility = View.VISIBLE
     }
 }

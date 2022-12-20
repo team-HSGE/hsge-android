@@ -66,7 +66,7 @@ class UserLocationFragment :
             lifecycleScope.launch {
                 // TODO : 마이페이지에서 받은 정보 띄우기, 번들로 넘어온 town, location, longitude 값 할당하기
                 // 받아와서 수정
-                registerViewModel.saveUserLocation("테스트 장소 : 마이페이지에서 원래 장소가 넘어왓다고 칩시다").apply { }
+                registerViewModel.saveUserLocation("기존 내 위치").apply { }
                 registerViewModel.saveUserLatitude(37.0).apply { }
                 registerViewModel.saveUserLongitude(126.0).apply { }
 
@@ -318,15 +318,6 @@ class UserLocationFragment :
             registerViewModel.saveUserLocation(town).apply { }
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
-
-
-        // 마이페이지에서 변환용 '중구 다동'만 저장
-//        addressList.removeAt(0)
-//        val addressForMyPage = StringBuilder()
-//        for (i in addressList) {
-//            addressForMyPage.append(i)
-//            addressForMyPage.append(" ")
-//        }
 
         dismissLoadingDialog()
         changeDoneButton()

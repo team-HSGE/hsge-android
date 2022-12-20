@@ -1,25 +1,22 @@
 package com.starters.hsge.presentation.main.home.push
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.graphics.*
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.messaging.RemoteMessage.Notification
 import com.starters.hsge.R
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chat.ChatFragment
+import java.util.*
 
 class FirebaseService : FirebaseMessagingService() {
-
-    private val TAG = "FirebaseService"
-
-
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -29,70 +26,80 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-//        Log.d("FirebaseService", message.notification?.title.toString())
-//        Log.d("FirebaseService", message.notification?.body.toString())
-//
-//        Log.d("FirebaseMessagingService*************", "Message noti : ${message.notification}")
+        // 화면 깨우기
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        @SuppressLint("InvalidWakeLockTag")
+        val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "screen_on")
+        wakeLock.acquire(5000L /*10 minutes*/)
 
-
-        //받은 remoteMessage의 값 출력해보기. 데이터메세지 / 알림메세지
-        Log.d("FirebaseMessagingService*************", "Message data : ${message.data}")
-        Log.d("FirebaseMessagingService*************", "Message noti : ${message.notification}")
-
-        //알림 메세지의 경우.
-        message.notification?.let {
-            Log.d("FirebaseMessagingService*************", "Message Notification Body: ${it.body}")
-            //알림 메세지 _ 포그라운드에서도 알림 받은 것 처럼 받은 정보를 가지고 notification 구현하기.
-            sendNotification(message.notification!!)
+        // Data message를 수신함
+        if (message.data.isNotEmpty()) {
+            val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
+            sendNotification(message, about)
+        } else {
+            Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
-
-        //데이터 메세지의 경우.
-        if(message.data.isNotEmpty()) {
-            //sendDataMessage(message.data)
-        }
-
+        wakeLock.release()
     }
 
-    private fun createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
+    private fun sendNotification(remoteMessage: RemoteMessage, about: String) {
 
-            channel.enableLights(true)
-            channel.enableVibration(true)
+        val intent = Intent(applicationContext, MainActivity::class.java)
 
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
+        when(about){
+            "like" -> { // 좋아요 -> 채팅 탭으로 이동
+                intent.putExtra("pushAbout", "chatFragment")
+            }
+            "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
+                intent.putExtra("pushAbout", "myPageFragment")
+            }
+            else -> return
         }
-    }
 
-    companion object {
-        private const val CHANNEL_NAME = "FCM STUDY"
-        private const val CHANNEL_ID = "FCM__channel_id"
+        intent.putExtra("createdAt", "chatFragment")
 
-    }
-
-    private fun sendNotification(data: Notification){
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+            applicationContext,
+            UUID.randomUUID().hashCode(),
+            intent,
+            PendingIntent.FLAG_ONE_SHOT // 일회용 펜딩 인텐트
         )
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        createNotificationChannel()
 
-        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-        notificationBuilder.setContentTitle(data.title)
-            .setSmallIcon(R.drawable.ic_user_icon_test)
-            .setContentText(data.body)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+            val channel = NotificationChannel(
+                resources.getString(R.string.default_notification_channel_id), //채널 ID
+                "CHATTING", //채널명
+                NotificationManager.IMPORTANCE_HIGH// 알림음이 울리며 헤드업 알림 표시
+            )
+            channel.apply {
+                enableLights(true)
+                lightColor= Color.BLUE
+                enableVibration(true)
+                description = "notification"
+                notificationManager.createNotificationChannel(channel)
+            }
+        }
+
+        val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, pendingIntent).build()
+        notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
+
+    }
+
+    private fun getNotificationBuilder(title: String, content: String, pendingIntent: PendingIntent) : NotificationCompat.Builder{
+
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
+
+        return NotificationCompat.Builder(this, resources.getString(R.string.default_notification_channel_id))
+            .setContentTitle(title)
+            .setContentText(content)
             .setContentIntent(pendingIntent)
+            .setGroupSummary(true)
             .setAutoCancel(true)
-
-        notificationManager.notify(100, notificationBuilder.build())
+            .setLargeIcon(bitmap)
+            .setSmallIcon(R.drawable.ic_logo)
+            .setShowWhen(true)
     }
 }
