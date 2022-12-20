@@ -148,4 +148,6 @@
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="add_dog_profile">반려견 추가</string>
+    <string name="edit_location_title">내 위치 설정하기</string>
+    <string name="edit_location_subtitle">우리 동네 강아지들을 볼 수 있어요</string>
 </resources>

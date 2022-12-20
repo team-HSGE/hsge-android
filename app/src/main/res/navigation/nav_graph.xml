@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/editLocationFragment"
-        android:name="com.starters.hsge.presentation.main.location.EditLocationFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.location.EditLocationFragment"
         android:label="EditLocationFragment"
         tools:layout="@layout/fragment_edit_location">
         <action
