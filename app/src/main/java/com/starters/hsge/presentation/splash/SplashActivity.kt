@@ -13,6 +13,9 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
+import com.starters.hsge.data.api.CheckTokenApi
+import com.starters.hsge.data.model.remote.request.CheckTokenRequest
+import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseActivity
@@ -170,8 +173,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun tryPostCheckToken(checkToken: CheckTokenRequest){
-        val checkTokenInterface = RetrofitClient.sRetrofit.create(CheckTokenInterface::class.java)
-        checkTokenInterface.postToken(checkToken).enqueue(object :
+        val checkTokenApi = RetrofitClient.sRetrofit.create(CheckTokenApi::class.java)
+        checkTokenApi.postToken(checkToken).enqueue(object :
             Callback<CheckTokenResponse?> {
             override fun onResponse(
                 call: Call<CheckTokenResponse?>,

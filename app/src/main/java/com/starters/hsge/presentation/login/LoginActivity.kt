@@ -6,24 +6,19 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityLoginBinding
-import com.starters.hsge.network.AccessRequest
-import com.starters.hsge.network.AccessResponse
-import com.starters.hsge.network.AccessTokenInterface
+import com.starters.hsge.data.model.remote.request.LoginRequest
+import com.starters.hsge.data.model.remote.response.LoginResponse
+import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
-import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -103,7 +98,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                 access_token = token.accessToken
 
-                val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
+                val json = LoginRequest(access_token) //API 수정 -> fcmToken 추가 예정
                 Log.d("json", "${json}")
                 Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
                 tryPostAccessToken(json)
@@ -152,16 +147,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
-    private fun tryPostAccessToken(accessToken : AccessRequest){
-        val accessTokenInterface = RetrofitClient.sRetrofit.create(AccessTokenInterface::class.java)
-        accessTokenInterface.postLogin(accessToken).enqueue(object :
-            Callback<com.starters.hsge.network.AccessResponse> {
+    private fun tryPostAccessToken(accessToken : LoginRequest){
+        val loginApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
+        loginApi.postLogin(accessToken).enqueue(object :
+            Callback<LoginResponse> {
             override fun onResponse(
-                call: Call<AccessResponse>,
-                response: Response<com.starters.hsge.network.AccessResponse>
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
             ) {
                 if (response.isSuccessful) {
-                    val result = response.body() as AccessResponse
+                    val result = response.body() as LoginResponse
 
                     if (result.message == "LOGIN") {
                         Log.d("소셜로그인", "${result.message}")
@@ -198,7 +193,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 }
             }
 
-            override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.d("실패", t.message ?: "통신오류")
 
             }

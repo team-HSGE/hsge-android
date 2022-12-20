@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
+import com.starters.hsge.data.api.UserInfoGetApi
+import com.starters.hsge.data.model.remote.response.UserInfoGetResponse
 import com.starters.hsge.databinding.FragmentMyPageBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -69,8 +71,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun tryGetUsersInfo(){
-        val userInfoGetInterface = RetrofitClient.sRetrofit.create(UserInfoGetInterface::class.java)
-        userInfoGetInterface.getUserInfo().enqueue(object :
+        val userInfoGetApi = RetrofitClient.sRetrofit.create(UserInfoGetApi::class.java)
+        userInfoGetApi.getUserInfo().enqueue(object :
             Callback<UserInfoGetResponse> {
             override fun onResponse(
                 call: Call<UserInfoGetResponse>,

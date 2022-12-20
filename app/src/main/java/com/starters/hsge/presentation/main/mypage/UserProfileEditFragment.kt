@@ -12,6 +12,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
+import com.starters.hsge.data.api.NicknameApi
+import com.starters.hsge.data.api.UserInfoPutApi
+import com.starters.hsge.data.model.remote.request.NicknameRequest
+import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
+import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -149,8 +154,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
     private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     private fun tryPostNickname(value: NicknameRequest) {
-        val nicknameInterface = RetrofitClient.sRetrofit.create(NicknameInterface::class.java)
-        nicknameInterface.postNickname(nickname = value).enqueue(object :
+        val nicknameApi = RetrofitClient.sRetrofit.create(NicknameApi::class.java)
+        nicknameApi.postNickname(nickname = value).enqueue(object :
             Callback<NicknameResponse> {
             override fun onResponse(
                 call: Call<NicknameResponse>,
@@ -178,8 +183,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
     }
 
     private fun tryPutUserInfo(userInfo: UserInfoPutRequest) {
-        val userInfoPutInterface = RetrofitClient.sRetrofit.create(UserInfoPutInterface::class.java)
-        userInfoPutInterface.putUserInfo(userInfo).enqueue(object :
+        val userInfoPutApi = RetrofitClient.sRetrofit.create(UserInfoPutApi::class.java)
+        userInfoPutApi.putUserInfo(userInfo).enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {

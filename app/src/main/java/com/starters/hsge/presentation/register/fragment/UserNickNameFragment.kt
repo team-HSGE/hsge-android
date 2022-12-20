@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.starters.hsge.R
+import com.starters.hsge.data.api.NicknameApi
+import com.starters.hsge.data.model.remote.request.NicknameRequest
+import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
 import com.starters.hsge.network.*
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -87,8 +90,8 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
     }
 
     private fun tryPostNickname(value: NicknameRequest) {
-        val nicknameInterface = RetrofitClient.sRetrofit.create(NicknameInterface::class.java)
-        nicknameInterface.postNickname(nickname = value).enqueue(object :
+        val nicknameApi = RetrofitClient.sRetrofit.create(NicknameApi::class.java)
+        nicknameApi.postNickname(nickname = value).enqueue(object :
             Callback<NicknameResponse> {
             override fun onResponse(
                 call: Call<NicknameResponse>,
