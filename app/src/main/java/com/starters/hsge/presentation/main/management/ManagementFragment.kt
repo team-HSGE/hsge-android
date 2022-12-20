@@ -29,28 +29,26 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
         val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
         binding.rvDogList.addItemDecoration(customDecoration)
 
+        initRecyclerView()
+        initListener()
+        setNavigation()
+
+    }
+
+    private fun initRecyclerView() {
         managementViewModel.myDogList.observe(viewLifecycleOwner) {
             val adapter = it?.let { it1 -> DogListAdapter(it1) }
             binding.rvDogList.layoutManager = LinearLayoutManager(context)
             binding.rvDogList.adapter = adapter
         }
-
-
-        setNavigation()
-
-        binding.toolBar.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.menu_add -> {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_managementFragment_to_addDogProfileFragment)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
-
+    private fun initListener() {
+        binding.fabAddDog.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_managementFragment_to_addDogProfileFragment)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

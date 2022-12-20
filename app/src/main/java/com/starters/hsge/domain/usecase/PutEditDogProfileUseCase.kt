@@ -9,5 +9,5 @@ class PutEditDogProfileUseCase @Inject constructor(
     private val editDogProfileRepository: EditDogProfileRepository
 ) {
     suspend operator fun invoke(petId: Int, img: File?, data: EditDogProfileRequest ) =
-        editDogProfileRepository.postDogData(petId, img, data)
+        editDogProfileRepository.putDogData(petId, img, data)
 }

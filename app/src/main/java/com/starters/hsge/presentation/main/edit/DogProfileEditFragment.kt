@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +30,7 @@ import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.EditNameDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
@@ -53,6 +55,7 @@ class DogProfileEditFragment :
     private lateinit var imageResult: ActivityResultLauncher<Intent>
 
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
+
 
     private val likeTagList = listOf(
         "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
@@ -89,7 +92,7 @@ class DogProfileEditFragment :
         initListener()
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
-
+        setNavigation()
     }
 
     private fun initValue() {
@@ -111,7 +114,7 @@ class DogProfileEditFragment :
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigateUp()
-                visibleBtmNav()
+                goneBtmNav()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -219,8 +222,10 @@ class DogProfileEditFragment :
         // 반려견 이름
         binding.dogNameEditSection.setOnClickListener {
             val dialog = EditNameDialogFragment(okBtnClickListener = {
-                binding.tvDogNameEdit.text = it
-                dogProfileEditViewModel.dogName = it
+                if (it.isNotEmpty() && it.isNotBlank()) {
+                    binding.tvDogNameEdit.text = it
+                    dogProfileEditViewModel.dogName = it
+                }
             })
             dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
         }
@@ -329,9 +334,28 @@ class DogProfileEditFragment :
                 dogProfileInfo
             )
 
+            visibleBtmNav()
+            Toast.makeText(context, "반려견 프로필이 수정되었습니다", Toast.LENGTH_SHORT).show()
+
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+        }
+
+        binding.tvDeleteBtn.setOnClickListener {
+            val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
+            dialog.setButtonClickListener(object: BaseDialogFragment.OnButtonClickListener {
+                override fun onCancelBtnClicked() {
+                    // 취소 버튼 클릭했을 때 처리
+                }
+
+                override fun onOkBtnClicked() {
+                    dogProfileEditViewModel.deleteDog(args.dogDetailInfo.id)
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+                }
+            })
+            dialog.show(childFragmentManager, "CustomDialog")
         }
     }
 
@@ -367,5 +391,15 @@ class DogProfileEditFragment :
         return tagText
     }
 
-    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun goneBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
+    }
+
+    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 }

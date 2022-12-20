@@ -4,5 +4,5 @@ import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
 import java.io.File
 
 interface EditDogProfileRepository {
-    suspend fun postDogData(petId: Int, img: File?, data: EditDogProfileRequest)
+    suspend fun putDogData(petId: Int, img: File?, data: EditDogProfileRequest)
 }

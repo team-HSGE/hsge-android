@@ -8,8 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserImageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.main.mypage.MyPageFragmentDirections
-import com.starters.hsge.presentation.main.mypage.UserInfoData
 
 class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragment_user_image) {
 

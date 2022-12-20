@@ -16,7 +16,7 @@ const val CONTENT_KEY = "content"
 class EditDogProfileRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: EditDogApi
 ) : EditDogProfileRepository {
-    override suspend fun postDogData(
+    override suspend fun putDogData(
         petId: Int,
         img: File?,
         data: EditDogProfileRequest

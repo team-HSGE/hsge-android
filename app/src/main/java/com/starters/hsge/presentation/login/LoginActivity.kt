@@ -6,27 +6,23 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityLoginBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.data.model.remote.request.LoginRequest
+import com.starters.hsge.data.model.remote.response.LoginResponse
+import com.starters.hsge.data.interfaces.LoginInterface
+import com.starters.hsge.data.service.LoginService
+import com.starters.hsge.network.FcmPostRequest
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
-import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login), LoginInterface {
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private var access_token : String = ""
@@ -94,9 +90,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 loadUserInfo()
 
                 access_token = token.accessToken
-                val json = AccessRequest(access_token) //API 수정 -> fcmToken 추가 예정
-                tryPostAccessToken(json)
+
+                val json = LoginRequest(access_token) //API 수정 -> fcmToken 추가 예정
+                LoginService(this).tryPostAccessToken(json)
                 Log.d("json", "${json}")
+                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
             }
         }
     }
@@ -107,7 +105,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("에러", "사용자 정보요청 실패")
             }
             else if (user != null) {
-                val str= "\n회원번호: ${user.id}" + "\n이메일: ${user.kakaoAccount?.email}" + "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
+                val str= "\n회원번호: ${user.id}" +
+                        "\n이메일: ${user.kakaoAccount?.email}" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
                 Log.d("회원정보", "${str}")
 
                 // 카카오톡 계정 이메일 sp에 저장
@@ -142,74 +142,49 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
-    private fun tryPostAccessToken(accessToken : AccessRequest){
-        val accessTokenInterface = RetrofitClient.sRetrofit.create(AccessTokenInterface::class.java)
-        accessTokenInterface.postLogin(accessToken).enqueue(object :
-            Callback<com.starters.hsge.network.AccessResponse> {
-            override fun onResponse(
-                call: Call<AccessResponse>,
-                response: Response<com.starters.hsge.network.AccessResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val result = response.body() as AccessResponse
+    override fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int) {
+        if (isSuccess) {
+            if (loginResponse.message == "LOGIN") {
+                Log.d("소셜로그인", "${loginResponse.message}")
 
-                    if (result.message == "LOGIN") {
-                        Log.d("소셜로그인", "${result.message}")
+                // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
+                prefs.edit().putString("BearerAccessToken", "Bearer ${loginResponse.accessToken}").apply()
+                prefs.edit().putString("BearerRefreshToken", "Bearer ${loginResponse.refreshToken}").apply()
+                prefs.edit().putString("NormalAccessToken", "${loginResponse.accessToken}").apply()
+                prefs.edit().putString("NormalRefreshToken", "${loginResponse.refreshToken}").apply()
 
-                        // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
-                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.accessToken}").apply()
-                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.refreshToken}").apply()
-                        prefs.edit().putString("NormalAccessToken", "${result.accessToken}").apply()
-                        prefs.edit().putString("NormalRefreshToken", "${result.refreshToken}").apply()
-                        Log.d("Bearer토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
-                        Log.d("Normal토큰", "access 토큰: ${result.accessToken}\nrefresh 토큰: ${result.refreshToken}")
+                Log.d("Bearer토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
+                Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
 
-                        // FCM토큰 서버에 보내기
-                        val fcmToken = FcmPostRequest(fcmToken)
-                        //tryPostFcmToken(fcmToken)
+                // FCM토큰 서버에 보내기
+                val fcmToken = FcmPostRequest(fcmToken)
+                //tryPostFcmToken(fcmToken)
 
-                        // 메인 화면 이동
-                        val intent = Intent(applicationContext, MainActivity::class.java)
-                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
+                // 메인 화면 이동
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
 
-                        Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
-                    } else if (result.message == "NEED_SIGNUP") {
-                        Log.d("소셜로그인", "${result.message}")
+            } else if (loginResponse.message == "NEED_SIGNUP") {
+                Log.d("소셜로그인", "${loginResponse.message}")
 
-                        // 회원 가입 화면 이동
-                        val intent = Intent(applicationContext, RegisterActivity::class.java)
-                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
-                    }
-                } else  {
-                    when(response.code()) {
-                        400 -> {
-                            // 카카오톡 accessToken 유효기간 끝났을 때
-                            Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                val intent = Intent(applicationContext, RegisterActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
+            }
+        } else {
+            when(code) {
+                400 -> {
+                    // 카카오톡 accessToken 유효기간 끝났을 때
+                    Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            override fun onFailure(call: Call<com.starters.hsge.network.AccessResponse>, t: Throwable) {
-                Log.d("Access Token 보내기 실패", t.message ?: "통신오류")
-            }
-        })
+        }
     }
 
-    private fun tryPostFcmToken(fcmToken : FcmPostRequest){
-        val fcmTokenInterface = RetrofitClient.sRetrofit.create(FcmPostInterface::class.java)
-        fcmTokenInterface.postFcmToken(fcmToken).enqueue(object :
-            Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                Log.d("FCM토큰 보내기", "성공!")
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("FCM토큰 보내기 실패", t.message ?: "통신오류")
-            }
-        })
+    override fun onPostAccessTokenFailure(message: String) {
+        Log.d("Login 오류", "오류: $message")
     }
 }

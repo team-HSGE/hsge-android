@@ -9,8 +9,9 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
+import com.starters.hsge.data.api.WithdrawalApi
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.WithdrawalDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
@@ -62,8 +63,8 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
     }
 
     private fun tryDeleteUserInfo(){
-        val withdrawalInterface = RetrofitClient.sRetrofit.create(WithdrawalInterface::class.java)
-        withdrawalInterface.deleteUserInfo().enqueue(object :
+        val withdrawalApi = RetrofitClient.sRetrofit.create(WithdrawalApi::class.java)
+        withdrawalApi.deleteUserInfo().enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {

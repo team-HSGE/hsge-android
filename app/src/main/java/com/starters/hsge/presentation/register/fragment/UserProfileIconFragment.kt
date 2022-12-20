@@ -8,10 +8,6 @@ import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserProfileIconBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.main.mypage.MyPageFragmentDirections
-import com.starters.hsge.presentation.main.mypage.UserInfoData
-import com.starters.hsge.presentation.main.mypage.UserLocationData
-import com.starters.hsge.presentation.main.mypage.UserProfileEditFragmentArgs
 import com.starters.hsge.presentation.register.adapter.UserProfileIconAdapter
 
 class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.layout.fragment_user_profile_icon) {
