@@ -14,9 +14,12 @@ import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.data.api.NicknameApi
 import com.starters.hsge.data.api.UserInfoPutApi
+import com.starters.hsge.data.interfaces.UserInfoPutInterface
 import com.starters.hsge.data.model.remote.request.NicknameRequest
 import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
 import com.starters.hsge.data.model.remote.response.NicknameResponse
+import com.starters.hsge.data.service.CheckTokenService
+import com.starters.hsge.data.service.UserInfoPutService
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
 import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -25,7 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit) {
+class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit), UserInfoPutInterface {
 
     private lateinit var callback: OnBackPressedCallback
 
@@ -92,7 +95,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         binding.btnEdit.setOnClickListener {
             val userInfo = UserInfoPutRequest(profilePath = profile!!, nickname = prefs.getString("nickname2", "테스트")!!)
             Log.d("확인", "${profile}, ${prefs.getString("nickname2", "")}")
-            tryPutUserInfo(userInfo)
+
+            UserInfoPutService(this).tryPutUserInfo(userInfo)
         }
     }
 
@@ -182,28 +186,18 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         })
     }
 
-    private fun tryPutUserInfo(userInfo: UserInfoPutRequest) {
-        val userInfoPutApi = RetrofitClient.sRetrofit.create(UserInfoPutApi::class.java)
-        userInfoPutApi.putUserInfo(userInfo).enqueue(object :
-            Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Log.d("회원 정보 수정", "성공! / ${response.code()}")
-                    prefs.edit().remove("nickname").apply()
-                    prefs.edit().remove("nickname2").apply()
+    override fun onPutUserInfoSuccess(isSuccess: Boolean, code: Int) {
+        if (isSuccess) {
+            Log.d("회원 정보 수정", "성공!")
+            prefs.edit().remove("nickname").apply()
+            prefs.edit().remove("nickname2").apply()
 
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
-
-                } else {
-                    Log.d("userInfo", "putUserInfo - onResponse : Error code ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("userInfo 실패", t.message ?: "통신오류")
-            }
-        })
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
+        }
     }
 
+    override fun onPutUserInfoFailure(message: String) {
+        Log.d("UserInfoPut 오류", "오류: $message")
+    }
 }
