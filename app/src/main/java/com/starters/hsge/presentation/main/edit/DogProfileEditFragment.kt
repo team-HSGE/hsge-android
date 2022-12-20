@@ -222,8 +222,10 @@ class DogProfileEditFragment :
         // 반려견 이름
         binding.dogNameEditSection.setOnClickListener {
             val dialog = EditNameDialogFragment(okBtnClickListener = {
-                binding.tvDogNameEdit.text = it
-                dogProfileEditViewModel.dogName = it
+                if (it.isNotEmpty() && it.isNotBlank()) {
+                    binding.tvDogNameEdit.text = it
+                    dogProfileEditViewModel.dogName = it
+                }
             })
             dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
         }
