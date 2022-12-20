@@ -13,7 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentSettingsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.dialog.LogoutDialogFragment
+import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
 
@@ -31,14 +31,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         }
 
         binding.settingLogoutSection.setOnClickListener {
-            val dialog = LogoutDialogFragment()
+            val dialog = BaseDialogFragment("로그아웃 하시겠습니까?")
 
-            dialog.setButtonClickListener(object: LogoutDialogFragment.OnButtonClickListener {
+            dialog.setButtonClickListener(object: BaseDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
 
-                override fun onLogoutBtnClicked() {
+                override fun onOkBtnClicked() {
                     // 확인 버튼 클릭했을 때 처리
 
                     UserApiClient.instance.logout { error ->

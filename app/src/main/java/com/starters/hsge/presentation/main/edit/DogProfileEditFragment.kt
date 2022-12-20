@@ -30,6 +30,7 @@ import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.EditNameDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
@@ -221,8 +222,10 @@ class DogProfileEditFragment :
         // 반려견 이름
         binding.dogNameEditSection.setOnClickListener {
             val dialog = EditNameDialogFragment(okBtnClickListener = {
-                binding.tvDogNameEdit.text = it
-                dogProfileEditViewModel.dogName = it
+                if (it.isNotEmpty() && it.isNotBlank()) {
+                    binding.tvDogNameEdit.text = it
+                    dogProfileEditViewModel.dogName = it
+                }
             })
             dialog.show(childFragmentManager, EditNameDialogFragment.TAG)
         }
@@ -337,6 +340,22 @@ class DogProfileEditFragment :
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+        }
+
+        binding.tvDeleteBtn.setOnClickListener {
+            val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
+            dialog.setButtonClickListener(object: BaseDialogFragment.OnButtonClickListener {
+                override fun onCancelBtnClicked() {
+                    // 취소 버튼 클릭했을 때 처리
+                }
+
+                override fun onOkBtnClicked() {
+                    dogProfileEditViewModel.deleteDog(args.dogDetailInfo.id)
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+                }
+            })
+            dialog.show(childFragmentManager, "CustomDialog")
         }
     }
 

@@ -10,11 +10,11 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentDialogLogoutBinding
+import com.starters.hsge.databinding.FragmentDialogBaseBinding
 
-class LogoutDialogFragment: DialogFragment() {
+class BaseDialogFragment(private val text: String): DialogFragment() {
 
-    private lateinit var binding: FragmentDialogLogoutBinding
+    private lateinit var binding: FragmentDialogBaseBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,7 +23,7 @@ class LogoutDialogFragment: DialogFragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_dialog_logout,
+            R.layout.fragment_dialog_base,
             container,
             false
         )
@@ -32,8 +32,13 @@ class LogoutDialogFragment: DialogFragment() {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         initDialog()
+        setDialogTitle()
 
         return binding.root
+    }
+
+    fun setDialogTitle() {
+        binding.tvDialogTitle.text = text
     }
 
     fun initDialog(){
@@ -43,14 +48,14 @@ class LogoutDialogFragment: DialogFragment() {
         }
 
         binding.tvDialogLogoutBtn.setOnClickListener {
-            buttonClickListener.onLogoutBtnClicked()
+            buttonClickListener.onOkBtnClicked()
             dismiss()
         }
     }
 
     interface OnButtonClickListener {
         fun onCancelBtnClicked()
-        fun onLogoutBtnClicked()
+        fun onOkBtnClicked()
     }
 
     // 클릭 이벤트 설정
@@ -94,6 +99,6 @@ class LogoutDialogFragment: DialogFragment() {
             }
         }
 
-        dialogFragmentResize(requireContext(), this@LogoutDialogFragment, 0.8f, 0.215f)
+        dialogFragmentResize(requireContext(), this@BaseDialogFragment, 0.8f, 0.215f)
     }
 }
