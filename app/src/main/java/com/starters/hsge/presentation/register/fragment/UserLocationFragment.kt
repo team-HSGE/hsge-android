@@ -30,17 +30,11 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
-import com.starters.hsge.data.api.LocationApi
-import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -61,25 +55,10 @@ class UserLocationFragment :
         changeDoneButton()
 
         // 데이터 유지
-
-        if (prefs.getInt("getLocationFrom", 0) == 1) { // 위치 새로고침 하다가 나간 경우
-            lifecycleScope.launch {
-                // TODO : 마이페이지에서 받은 정보 띄우기, 번들로 넘어온 town, location, longitude 값 할당하기
-                // 받아와서 수정
-                registerViewModel.saveUserLocation("기존 내 위치").apply { }
-                registerViewModel.saveUserLatitude(37.0).apply { }
-                registerViewModel.saveUserLongitude(126.0).apply { }
-
+        lifecycleScope.launch {
+            if (!registerViewModel.fetchUserLocation().first().isNullOrEmpty()) {
                 binding.tvMyLocation.text = registerViewModel.fetchUserLocation().first()
                 changeDoneButton()
-            }
-
-        } else { // 회원가입하다가 앱 종료인 경우
-            lifecycleScope.launch {
-                if (!registerViewModel.fetchUserLocation().first().isNullOrEmpty()) {
-                    binding.tvMyLocation.text = registerViewModel.fetchUserLocation().first()
-                    changeDoneButton()
-                }
             }
         }
 
@@ -116,65 +95,43 @@ class UserLocationFragment :
         binding.btnNext.setOnClickListener {
 
             // 홈 화면으로 이동
+            Log.d("from?", "register")
 
-            if (prefs.getInt("getLocationFrom", 0) == 1) {
-                Log.d("from?", "mypage")
-                // 위도, 경도, 장소 보내는 post api 통신
+            lifecycleScope.launch {
 
-                lifecycleScope.launch {
-                    val latitude = registerViewModel.fetchUserLatitude().first()
-                    val longitude = registerViewModel.fetchUserLongitude().first()
-                    val town = registerViewModel.fetchUserLocation().first()
+                // 저장된 이미지 타입 변환: String -> Uri -> File
+                val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
+                val imgFile = UriUtil.toFile(requireContext(), imgUri)
 
-                    putLocationRetrofitWork(latitude, longitude, town)
+                val registerInfo = RegisterInfo(
+                    email = prefs.getString("email", ""),
+                    userNickName = registerViewModel.fetchUserNickname().first(),
+                    userIcon = prefs.getInt("resId", 0),
+                    dogName = registerViewModel.fetchDogName().first(),
+                    dogAge = registerViewModel.fetchDogAge().first(),
+                    dogBreed = registerViewModel.fetchDogBreed().first(),
+                    dogSex = registerViewModel.fetchDogSex().first(),
+                    isNeuter = registerViewModel.fetchDogNeuter().first(),
+                    dogLikeTag = registerViewModel.fetchDogLikeTag().first(),
+                    dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
+                    latitude = registerViewModel.fetchUserLatitude().first(),
+                    longitude = registerViewModel.fetchUserLongitude().first(),
+                    town = registerViewModel.fetchUserLocation().first()
+                )
 
-                    registerViewModel.deleteAllInfo()
+                registerViewModel.postRegisterInfo(imgFile, registerInfo)
+                Log.d("회원가입 때 작성한 내용", "${registerInfo}")
 
-                    findNavController().navigate(R.id.action_editLocationFragment_to_myPageFragment)
-                    (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+                registerViewModel.deleteAllInfo()
+                prefs.edit().remove("resId").apply()
+            }
 
-                    prefs.edit().remove("getLocationFrom").apply()
+            lifecycleScope.launch(Dispatchers.IO) {
+                delay(500)
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
 
-                }
-            } else {
-                Log.d("from?", "register")
-
-                lifecycleScope.launch {
-
-                    // 저장된 이미지 타입 변환: String -> Uri -> File
-                    val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
-                    val imgFile = UriUtil.toFile(requireContext(), imgUri)
-
-                    val registerInfo = RegisterInfo(
-                        email = prefs.getString("email", ""),
-                        userNickName = registerViewModel.fetchUserNickname().first(),
-                        userIcon = prefs.getInt("resId", 0),
-                        dogName = registerViewModel.fetchDogName().first(),
-                        dogAge = registerViewModel.fetchDogAge().first(),
-                        dogBreed = registerViewModel.fetchDogBreed().first(),
-                        dogSex = registerViewModel.fetchDogSex().first(),
-                        isNeuter = registerViewModel.fetchDogNeuter().first(),
-                        dogLikeTag = registerViewModel.fetchDogLikeTag().first(),
-                        dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
-                        latitude = registerViewModel.fetchUserLatitude().first(),
-                        longitude = registerViewModel.fetchUserLongitude().first(),
-                        town = registerViewModel.fetchUserLocation().first()
-                    )
-
-                    registerViewModel.postRegisterInfo(imgFile, registerInfo)
-                    Log.d("회원가입 때 작성한 내용", "${registerInfo}")
-
-                    registerViewModel.deleteAllInfo()
-                    prefs.edit().remove("resId").apply()
-                }
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    delay(500)
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
-
-                    activity?.finish() //RegisterActivity 종료
-                }
+                activity?.finish() //RegisterActivity 종료
             }
         }
     }
@@ -323,35 +280,9 @@ class UserLocationFragment :
         changeDoneButton()
     }
 
-
-    // retrofit 통신
-    private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String) {
-        val locationRetrofit = RetrofitClient.sRetrofit.create(LocationApi::class.java)
-
-        locationRetrofit.putLocationData(request = UserLocationRequest(lat, lng, town))
-            .enqueue(object :
-                Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        Log.d("set_location_again", response.toString())
-                        Log.d("set_location_again", "성공")
-                    } else {
-                        Log.d("set_location_again", "실패")
-                        Log.d("set_location_again", response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("set_location_again", "실패")
-                    Log.d("set_location_again", t.toString())
-                }
-            })
-    }
-
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
-
 }

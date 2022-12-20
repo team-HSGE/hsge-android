@@ -13,21 +13,16 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
-import com.starters.hsge.data.api.CheckTokenApi
 import com.starters.hsge.data.interfaces.CheckTokenInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.service.CheckTokenService
 import com.starters.hsge.databinding.ActivitySplashBinding
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash), CheckTokenInterface {
 
