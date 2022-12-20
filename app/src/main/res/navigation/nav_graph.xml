@@ -90,7 +90,8 @@
             app:destination="@id/dogProfileEditFragment" />
         <action
             android:id="@+id/action_managementFragment_to_addDogProfileFragment"
-            app:destination="@id/addDogProfileFragment" />
+            app:destination="@id/addDogProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
@@ -158,6 +159,8 @@
         tools:layout="@layout/fragment_add_dog_profile" >
         <action
             android:id="@+id/action_addDogProfileFragment_to_myPageFragment"
-            app:destination="@id/myPageFragment" />
+            app:destination="@id/myPageFragment"
+            app:popUpTo="@id/addDogProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
