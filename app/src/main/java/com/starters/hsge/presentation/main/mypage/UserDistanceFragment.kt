@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.main.mypage.userDistance
+package com.starters.hsge.presentation.main.mypage
 
 import android.content.Context
 import android.os.Bundle
@@ -13,8 +13,8 @@ import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.home.network.RetrofitApi
-import com.starters.hsge.presentation.main.mypage.userDistance.network.DistanceService
+import com.starters.hsge.data.api.DistanceApi
+import com.starters.hsge.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -99,7 +99,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
 
     // 반경 재설정_통신
     private fun retrofitWork(distance: Double){
-        val distanceRetrofit = RetrofitApi.retrofit.create(DistanceService::class.java)
+        val distanceRetrofit = RetrofitClient.sRetrofit.create(DistanceApi::class.java)
         val radius = distance / 100
 
         distanceRetrofit.putDistanceData(request = DistanceRequest(radius)).enqueue(object : Callback<Void>{

@@ -13,8 +13,13 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
+import com.starters.hsge.data.api.CheckTokenApi
+import com.starters.hsge.data.interfaces.CheckTokenInterface
+import com.starters.hsge.data.model.remote.request.CheckTokenRequest
+import com.starters.hsge.data.model.remote.response.CheckTokenResponse
+import com.starters.hsge.data.service.CheckTokenService
 import com.starters.hsge.databinding.ActivitySplashBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
@@ -24,7 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
+class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash), CheckTokenInterface {
 
     var isReady = false
     var accessToken: String = ""
@@ -144,8 +149,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun checkToken() {
         if (prefs.contains("NormalAccessToken")){
             val check = CheckTokenRequest(accessToken = accessToken, refreshToken = refreshToken)
-            tryPostCheckToken(check)
-
+            CheckTokenService(this).tryPostCheckToken(check)
+            
         } else {
             startLoginActivity()
         }
@@ -169,65 +174,46 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    private fun tryPostCheckToken(checkToken: CheckTokenRequest){
-        val checkTokenInterface = RetrofitClient.sRetrofit.create(CheckTokenInterface::class.java)
-        checkTokenInterface.postToken(checkToken).enqueue(object :
-            Callback<CheckTokenResponse?> {
-            override fun onResponse(
-                call: Call<CheckTokenResponse?>,
-                response: Response<CheckTokenResponse?>
-            ) {
-                val result = response.body() as CheckTokenResponse?
+    override fun onPostCheckTokenSuccess(checkTokenResponse: CheckTokenResponse, isSuccess: Boolean, code: Int) {
+        if (isSuccess) {
+            // sp에 access랑 refresh 저장 (갱신)
+            prefs.edit().putString("NormalAccessToken", "${checkTokenResponse?.accessToken}").apply()
+            prefs.edit().putString("NormalRefreshToken", "${checkTokenResponse?.refreshToken}").apply()
+            prefs.edit().putString("BearerAccessToken", "Bearer ${checkTokenResponse?.accessToken}").apply()
+            prefs.edit().putString("BearerRefreshToken", "Bearer ${checkTokenResponse?.refreshToken}").apply()
+            Log.d("토큰 갱신", "메시지: ${checkTokenResponse?.message}" +
+                    "\naccess토큰: ${checkTokenResponse?.accessToken}" +
+                    "\nrefresh토큰: ${checkTokenResponse?.refreshToken}")
 
-                if (response.isSuccessful) {
-                    // sp에 access랑 refresh 저장 (갱신)
-                    prefs.edit().putString("NormalAccessToken", "${result?.accessToken}").apply()
-                    prefs.edit().putString("NormalRefreshToken", "${result?.refreshToken}").apply()
-                    prefs.edit().putString("BearerAccessToken", "Bearer ${result?.accessToken}").apply()
-                    prefs.edit().putString("BearerRefreshToken", "Bearer ${result?.refreshToken}").apply()
-                    Log.d("토큰 갱신", "메시지: ${result?.message}\naccess토큰: ${result?.accessToken}\nrefresh토큰: ${result?.refreshToken}")
+            startMainActivity()
 
-                    startMainActivity()
+        } else  {
+            val msg = checkTokenResponse.message
 
-                } else  {
-                    val msg = result?.message
-
-                    when(response.code()) {
-                        401 -> {
-                            when (msg) {
-                                "NO_ACCESS" -> {
-                                    Log.d("토큰 상태", "access, refresh 토큰이 없습니다.")
-                                }
-                                "TOKEN type Bearer" -> {
-                                    Log.d("토큰 상태", "접두사 Bearer가 없습니다.")
-                                }
-                                "NEED_NEW_LOGIN" -> {
-                                    Toast.makeText(applicationContext, "세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
-                                    Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다. / ${result.time}")
-                                }
-                            }
-                        }
-                        403 -> {
-                            when (msg) {
-                                "Malformed Token" -> {
-                                    Log.d("토큰 상태", "토큰이 조작되었습니다.")
-                                }
-                                "BadSignatured Token" -> {
-                                    Log.d("토큰 상태", "토큰이 형식에 맞지 않습니다.")
-                                }
-                            }
+            when(code) {
+                401 -> {
+                    when (msg) {
+                        "NO_ACCESS" -> { Log.d("토큰 상태", "access, refresh 토큰이 없습니다.") }
+                        "TOKEN type Bearer" -> { Log.d("토큰 상태", "접두사 Bearer가 없습니다.") }
+                        "NEED_NEW_LOGIN" -> {
+                            Toast.makeText(applicationContext, "세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                            Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다. / ${checkTokenResponse.time}")
                         }
                     }
-
-                    startLoginActivity()
+                }
+                403 -> {
+                    when (msg) {
+                        "Malformed Token" -> { Log.d("토큰 상태", "토큰이 조작되었습니다.") }
+                        "BadSignatured Token" -> { Log.d("토큰 상태", "토큰이 형식에 맞지 않습니다.") }
+                    }
                 }
             }
+            startLoginActivity()
+        }
+    }
 
-            override fun onFailure(call: Call<CheckTokenResponse?>, t: Throwable) {
-                Log.d("실패", t.message ?: "통신오류")
-
-            }
-        })
+    override fun onPostCheckTokenFailure(message: String) {
+        Log.d("CheckToken 오류", "오류: $message")
     }
 
 }

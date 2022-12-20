@@ -8,19 +8,31 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
+import com.starters.hsge.data.api.NicknameApi
+import com.starters.hsge.data.api.UserInfoPutApi
+import com.starters.hsge.data.interfaces.NicknameInterface
+import com.starters.hsge.data.interfaces.UserInfoPutInterface
+import com.starters.hsge.data.model.remote.request.NicknameRequest
+import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
+import com.starters.hsge.data.model.remote.response.NicknameResponse
+import com.starters.hsge.data.service.CheckTokenService
+import com.starters.hsge.data.service.NicknameService
+import com.starters.hsge.data.service.UserInfoPutService
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
-import com.starters.hsge.network.*
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit) {
+class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.layout.fragment_user_profile_edit), UserInfoPutInterface, NicknameInterface {
 
     private lateinit var callback: OnBackPressedCallback
 
@@ -87,7 +99,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         binding.btnEdit.setOnClickListener {
             val userInfo = UserInfoPutRequest(profilePath = profile!!, nickname = prefs.getString("nickname2", "테스트")!!)
             Log.d("확인", "${profile}, ${prefs.getString("nickname2", "")}")
-            tryPutUserInfo(userInfo)
+
+            UserInfoPutService(this).tryPutUserInfo(userInfo)
         }
     }
 
@@ -99,7 +112,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         } else {
             val value = NicknameRequest(binding.edtNickname.text.toString())
             Log.d("입력한 값", "${binding.edtNickname.text.toString()}")
-            tryPostNickname(value)
+
+            NicknameService(this).tryPostNickname(value)
         }
     }
 
@@ -148,57 +162,38 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
 
     private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
-    private fun tryPostNickname(value: NicknameRequest) {
-        val nicknameInterface = RetrofitClient.sRetrofit.create(NicknameInterface::class.java)
-        nicknameInterface.postNickname(nickname = value).enqueue(object :
-            Callback<NicknameResponse> {
-            override fun onResponse(
-                call: Call<NicknameResponse>,
-                response: Response<NicknameResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val result = response.body() as NicknameResponse
-                    val availability = result.data
+    override fun onPostUserNicknameSuccess(nicknameResponse: NicknameResponse, isSuccess: Boolean, code: Int, nicknameRequest:NicknameRequest) {
+        if (isSuccess) {
+            val availability = nicknameResponse.data
 
-                    if (availability==false) {
-                        // 다시 입력하기
-                        binding.edtNicknameLayout.error = "이미 사용중인 닉네임입니다."
-                        nickNameFlag = false
-                        flagCheck()
-                    }
-                } else {
-                    Log.d("userNickname", "getNickname - onResponse : Error code ${response.code()}")
-                }
+            if (availability==false) {
+                // 다시 입력하기
+                binding.edtNicknameLayout.error = "이미 사용중인 닉네임입니다."
+                nickNameFlag = false
+                flagCheck()
             }
 
-            override fun onFailure(call: Call<NicknameResponse>, t: Throwable) {
-                Log.d("userNickname 실패", t.message ?: "통신오류")
-            }
-        })
+        } else {
+            Log.d("UserNickname 오류", "getNickname - onResponse : Error code ${code}")
+        }
     }
 
-    private fun tryPutUserInfo(userInfo: UserInfoPutRequest) {
-        val userInfoPutInterface = RetrofitClient.sRetrofit.create(UserInfoPutInterface::class.java)
-        userInfoPutInterface.putUserInfo(userInfo).enqueue(object :
-            Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Log.d("회원 정보 수정", "성공! / ${response.code()}")
-                    prefs.edit().remove("nickname").apply()
-                    prefs.edit().remove("nickname2").apply()
-
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
-
-                } else {
-                    Log.d("userInfo", "putUserInfo - onResponse : Error code ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("userInfo 실패", t.message ?: "통신오류")
-            }
-        })
+    override fun onPostUserNicknameFailure(message: String) {
+        Log.d("UserNickname 오류", "오류: $message")
     }
 
+    override fun onPutUserInfoSuccess(isSuccess: Boolean, code: Int) {
+        if (isSuccess) {
+            Log.d("회원 정보 수정", "성공!")
+            prefs.edit().remove("nickname").apply()
+            prefs.edit().remove("nickname2").apply()
+
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
+        }
+    }
+
+    override fun onPutUserInfoFailure(message: String) {
+        Log.d("UserInfoPut 오류", "오류: $message")
+    }
 }

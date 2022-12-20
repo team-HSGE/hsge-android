@@ -1,4 +1,4 @@
-package com.starters.hsge.data.model.remote.request
+package com.starters.hsge.data.model.remote.response
 
 import kotlinx.serialization.Serializable
 
