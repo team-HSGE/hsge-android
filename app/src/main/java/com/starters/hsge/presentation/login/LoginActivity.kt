@@ -142,7 +142,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     override fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int) {
-        if (isSuccess == true) {
+        if (isSuccess) {
             if (loginResponse.message == "LOGIN") {
                 Log.d("소셜로그인", "${loginResponse.message}")
 
