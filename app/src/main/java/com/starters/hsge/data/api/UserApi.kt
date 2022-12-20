@@ -1,6 +1,6 @@
 package com.starters.hsge.data.api
 
-import com.starters.hsge.data.model.remote.request.SignUpResponse
+import com.starters.hsge.data.model.remote.response.SignUpResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Multipart

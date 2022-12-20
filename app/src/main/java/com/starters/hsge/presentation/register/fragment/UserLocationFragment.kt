@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register.fragment.userLocation
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -15,7 +15,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +23,6 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -32,15 +30,15 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
+import com.starters.hsge.data.api.LocationApi
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
-import com.starters.hsge.presentation.main.mypage.UserLocationData
-import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -338,7 +336,7 @@ class UserLocationFragment :
 
     // retrofit 통신
     private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String) {
-        val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
+        val locationRetrofit = RetrofitClient.sRetrofit.create(LocationApi::class.java)
 
         locationRetrofit.putLocationData(request = UserLocationRequest(lat, lng, town))
             .enqueue(object :

@@ -12,7 +12,8 @@ import com.starters.hsge.data.model.remote.request.IsLikeRequest
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
-import com.starters.hsge.presentation.main.home.network.IsLikeService
+import com.starters.hsge.data.api.IsLikeApi
+import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.main.home.network.RetrofitApi
 import com.yuyakaido.android.cardstackview.*
 import retrofit2.*
@@ -200,8 +201,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
+    // 수정 필요
     private fun retrofitWork() {
-        RetrofitApi.dogService.getDogData().enqueue(object : retrofit2.Callback<List<DogCard>> {
+        RetrofitApi.homeDogApi.getDogData().enqueue(object : retrofit2.Callback<List<DogCard>> {
             override fun onResponse(
                 call: retrofit2.Call<List<DogCard>>,
                 response: Response<List<DogCard>>
@@ -268,7 +270,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun postIsLikeRetrofitWork(petId: Int, isLike: Boolean){
-        val isLikeRetrofit = RetrofitApi.retrofit.create(IsLikeService::class.java)
+        val isLikeRetrofit = RetrofitClient.sRetrofit.create(IsLikeApi::class.java)
 
         isLikeRetrofit.postIsLikeData(petId = petId, request = IsLikeRequest(isLike)).enqueue(object: Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

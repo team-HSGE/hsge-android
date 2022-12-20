@@ -1,10 +1,10 @@
-package com.starters.hsge.presentation.main.home.network
+package com.starters.hsge.data.api
 
 import com.starters.hsge.data.model.remote.response.DogCard
 import retrofit2.Call
 import retrofit2.http.GET
 
-interface DogService {
+interface HomeDogApi {
     @GET("/api/pets/area")
     fun getDogData(): Call<List<DogCard>>
 }
