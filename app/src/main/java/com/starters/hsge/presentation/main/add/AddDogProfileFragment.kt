@@ -252,7 +252,9 @@ class AddDogProfileFragment :
 
         // 완료 버튼
         binding.btnFinish.setOnClickListener {
-            if (binding.edtDogNameInput.text.isNullOrEmpty()) {
+            if (addDogProfileViewModel.dogPhoto.isEmpty()) {
+                Toast.makeText(context, "사진을 등록해주세요", Toast.LENGTH_SHORT).show()
+            } else if (binding.edtDogNameInput.text.isNullOrEmpty()) {
                 Toast.makeText(context, "이름을 적어주세요", Toast.LENGTH_SHORT).show()
             } else if (addDogProfileViewModel.dogSex.isEmpty()) {
                 Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
