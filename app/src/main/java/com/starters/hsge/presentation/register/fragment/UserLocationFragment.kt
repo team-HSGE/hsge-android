@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.register.fragment.userLocation
+package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -30,16 +30,11 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.home.network.RetrofitApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -70,7 +65,9 @@ class UserLocationFragment :
         initPermissionLauncher()
         initListener()
         setNavigation()
+
     }
+
 
 
     private fun initPermissionLauncher() {
@@ -281,31 +278,6 @@ class UserLocationFragment :
 
         dismissLoadingDialog()
         changeDoneButton()
-    }
-
-
-    // retrofit 통신
-    private fun putLocationRetrofitWork(lat: Double, lng: Double, town: String) {
-        val locationRetrofit = RetrofitApi.retrofit.create(LocationService::class.java)
-
-        locationRetrofit.putLocationData(request = UserLocationRequest(lat, lng, town))
-            .enqueue(object :
-                Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        Log.d("set_location_again", response.toString())
-                        Log.d("set_location_again", "성공")
-                    } else {
-                        Log.d("set_location_again", "실패")
-                        Log.d("set_location_again", response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("set_location_again", "실패")
-                    Log.d("set_location_again", t.toString())
-                }
-            })
     }
 
     private fun setNavigation() {

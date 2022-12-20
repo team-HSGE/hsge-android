@@ -109,7 +109,7 @@
     </fragment>
     <fragment
         android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.userDistance.UserDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
         android:label="UserDistanceFragment"
         tools:layout="@layout/fragment_user_distance">
         <action

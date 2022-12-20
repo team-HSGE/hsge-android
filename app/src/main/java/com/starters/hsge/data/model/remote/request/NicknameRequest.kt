@@ -1,4 +1,4 @@
-package com.starters.hsge.network
+package com.starters.hsge.data.model.remote.request
 
 import kotlinx.serialization.SerialName
 

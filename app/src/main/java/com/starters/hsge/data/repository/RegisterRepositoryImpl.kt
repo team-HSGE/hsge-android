@@ -2,7 +2,7 @@ package com.starters.hsge.data.repository
 
 import com.starters.hsge.ApiResult
 import com.starters.hsge.data.api.UserApi
-import com.starters.hsge.data.model.remote.request.SignUpResponse
+import com.starters.hsge.data.model.remote.response.SignUpResponse
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.FormDataUtil
 import com.starters.hsge.domain.model.RegisterInfo
