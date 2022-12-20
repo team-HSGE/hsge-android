@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.main.location
+package com.starters.hsge.presentation.main.mypage.location
 
 import android.Manifest
 import android.content.Context
@@ -33,6 +33,7 @@ import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentEditLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.location.EditLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
