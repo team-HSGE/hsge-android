@@ -12,18 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentSettingsBinding
-import com.starters.hsge.data.api.FcmDeleteApi
 import com.starters.hsge.data.interfaces.SettingsInterface
-import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.data.service.SettingsService
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings), SettingsInterface {
 

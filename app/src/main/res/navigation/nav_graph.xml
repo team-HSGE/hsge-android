@@ -19,9 +19,7 @@
         android:id="@+id/chatFragment"
         android:name="com.starters.hsge.presentation.main.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" >
-
-    </fragment>
+        tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.starters.hsge.presentation.main.mypage.MyPageFragment"
@@ -167,4 +165,10 @@
         android:name="com.starters.hsge.presentation.main.chatroom.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" />
+    <fragment
+        android:id="@+id/chatReportFragment"
+        android:name="com.starters.hsge.presentation.main.chat.ChatReportFragment"
+        android:label="ChatReportFragment"
+        tools:layout="@layout/fragment_chat_report"
+        />
 </navigation>
