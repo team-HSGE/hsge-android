@@ -28,11 +28,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/user_profile_edit_title"
                 android:text="@string/user_profile_edit_title"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/user_profile_edit_title"/>
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -53,7 +53,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_marginTop="40dp"
-                    android:background="@drawable/bg_gray_circle"
+                    android:background="@drawable/ic_default_img"
                     android:contentDescription="@string/user_profile_edit_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,14 +63,14 @@
                     android:id="@+id/iv_user_profile_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_user_profile_edit_btn"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="50dp"
                     android:contentDescription="@string/user_profile_edit_select"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_user_profile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.42"
-                    app:layout_constraintStart_toStartOf="@+id/iv_user_profile"
-                    app:layout_constraintTop_toTopOf="@+id/iv_user_profile"
-                    app:layout_constraintVertical_bias="0.8" />
+                    android:src="@drawable/ic_user_profile_edit_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
+                    app:layout_constraintEnd_toEndOf="@id/iv_user_profile"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_profile"
+                    app:layout_constraintTop_toTopOf="@id/iv_user_profile" />
 
                 <TextView
                     android:id="@+id/tv_email_title"
@@ -78,11 +78,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="40dp"
+                    android:contentDescription="@string/user_profile_email_title"
                     android:text="@string/user_profile_email_title"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:contentDescription="@string/user_profile_email_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_user_profile" />
 
@@ -93,13 +93,13 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_gray_stroke_r4"
+                    android:contentDescription="@string/user_profile_edit_email_text"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="18dp"
                     android:textColor="@color/G500"
                     android:textSize="14sp"
                     android:textStyle="normal"
-                    android:contentDescription="@string/user_profile_edit_email_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email_title" />
@@ -110,11 +110,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="32dp"
+                    android:contentDescription="@string/user_profile_edit_nickname_title"
                     android:text="@string/user_profile_edit_nickname_title"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:contentDescription="@string/user_profile_edit_nickname_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
@@ -126,10 +126,10 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="10dp"
                     android:contentDescription="@string/user_profile_edit_nickname_text"
-                    app:hintEnabled="false"
-                    app:errorEnabled="true"
                     app:counterEnabled="true"
                     app:counterMaxLength="13"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_nickname_title">
@@ -138,14 +138,14 @@
                         android:id="@+id/edt_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
                         android:hint="@string/user_profile_edit_nickname_hint"
                         android:imeOptions="actionGo"
                         android:maxLength="13"
                         android:maxLines="1"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,11 +161,11 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_next_button"
+            android:contentDescription="@string/user_profile_edit_button"
             android:text="@string/user_profile_edit_button"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:contentDescription="@string/user_profile_edit_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
