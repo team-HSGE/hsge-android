@@ -2,9 +2,11 @@ package com.starters.hsge.presentation.main.chat
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatReportBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
 
@@ -24,9 +26,12 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             "기타"
         )
 
+        setNavigation()
         selectReason(reasonList)
+
     }
 
+    // 이유 선택
     private fun selectReason(reasonList: List<String>) {
         binding.tvChatReportSelectReason.setOnClickListener {
             reasonBottomSheet = BottomSheetDialog(reasonList)
@@ -35,23 +40,39 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
                 BottomSheetDialog.BottomSheetClickListener {
                 override fun onContentClick(content: String) {
 
-                    if(content == "기타") {
+                    if (content == "기타") {
                         val dialog = ChatReportOtherDialogFragment(
                             okBtnClickListener = {
-                            if(it.isNotEmpty() && it.isNotBlank()){
-                                binding.tvChatReportSelectReason.text = it
-                                isReason = true
-                                binding.btnReport.isEnabled = isReason
-                            }
-                        })
+                                if (it.isNotEmpty() && it.isNotBlank()) {
+                                    binding.tvChatReportSelectReason.text = it
+                                    isReason = true
+                                    binding.btnReport.isEnabled = isReason
+                                }
+                            })
                         dialog.show(childFragmentManager, ChatReportOtherDialogFragment.TAG)
-                    } else{
+                    } else {
                         binding.tvChatReportSelectReason.text = content
                         isReason = true
                         binding.btnReport.isEnabled = isReason
                     }
                 }
             })
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            val dialog = BaseDialogFragment("신고를 취소하시겠습니까?")
+
+            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+                override fun onCancelBtnClicked() {
+
+                }
+                override fun onOkBtnClicked() {
+                    findNavController().navigateUp()
+                }
+            })
+            dialog.show(childFragmentManager, "CustomDialog")
         }
     }
 }
