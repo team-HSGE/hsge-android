@@ -163,4 +163,9 @@
             app:popUpTo="@id/addDogProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/specificDogFragment"
+        android:name="com.starters.hsge.presentation.main.chat.SpecificDogFragment"
+        android:label="SpecificDogFragment"
+        tools:layout="@layout/fragment_chat_partner_specific_dog"/>
 </navigation>
