@@ -20,6 +20,7 @@ data class RegisterInfo(
     @SerialName("dislikeTag") val dogDislikeTag: String,
     @SerialName("latitude") val latitude: Double,
     @SerialName("longtitude") val longitude: Double,
-    @SerialName("town") val town: String
+    @SerialName("town") val town: String,
+    @SerialName("fcmToken") val fcmToken: String
 )
 

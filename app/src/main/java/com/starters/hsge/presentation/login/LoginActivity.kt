@@ -15,6 +15,7 @@ import com.starters.hsge.data.model.remote.request.LoginRequest
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.service.LoginService
+import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
@@ -90,12 +91,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                 access_token = token.accessToken
 
-                val json = LoginRequest(access_token) //API 수정 -> fcmToken 추가 예정
-                Log.d("json", "${json}")
-                Log.d("FCM토큰", "FCM토큰: ${fcmToken}")
-                //tryPostAccessToken(json)
-
+                val json = LoginRequest(access_token)
                 LoginService(this).tryPostAccessToken(json)
+                Log.d("json", "${json}")
             }
         }
     }
@@ -124,8 +122,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 return@OnCompleteListener
             }
 
-            // Get new FCM registration token
+            // FCM토큰 발급 및 sp에 저장
             fcmToken = task.result
+            prefs.edit().putString("fcmToken", fcmToken).apply()
+            Log.d("FCM토큰", "FCM토큰: ${fcmToken} / sp: ${prefs.getString("fcmToken", "")}")
         })
     }
 
@@ -155,6 +155,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("Bearer토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
                 Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
 
+                // FCM토큰 서버에 보내기
+                val fcmToken = FcmPostRequest(fcmToken)
+                LoginService(this).tryPostFcmToken(fcmToken)
+
+                // 메인 화면 이동
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
@@ -180,5 +185,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     override fun onPostAccessTokenFailure(message: String) {
         Log.d("Login 오류", "오류: $message")
+    }
+
+    override fun onPostFcmTokenSuccess(isSuccess: Boolean) {
+        if (isSuccess) {
+            Log.d("FCM 토큰 보내기", "성공!")
+        }
+    }
+
+    override fun onPostFcmTokenFailure(message: String) {
+        Log.d("Fcm Token 보내기 오류", "오류: $message")
     }
 }
