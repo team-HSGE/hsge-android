@@ -1,7 +1,9 @@
 package com.starters.hsge.data.service
 
+import com.starters.hsge.data.api.FcmPostApi
 import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.LoginInterface
+import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.model.remote.request.LoginRequest
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import com.starters.hsge.network.RetrofitClient
@@ -25,6 +27,21 @@ class LoginService(val loginInterface: LoginInterface) {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 loginInterface.onPostAccessTokenFailure(t.message ?: "통신 오류")
             }
+        })
+    }
+
+    fun tryPostFcmToken(fcmToken: FcmPostRequest) {
+        val fcmPostApi = RetrofitClient.sRetrofit.create(FcmPostApi::class.java)
+        fcmPostApi.postFcmToken(fcmToken).enqueue(object :
+        Callback<Void>{
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                loginInterface.onPostFcmTokenSuccess(response.isSuccessful)
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                loginInterface.onPostFcmTokenFailure(t.message ?: "통신 오류")
+            }
+
         })
     }
 }

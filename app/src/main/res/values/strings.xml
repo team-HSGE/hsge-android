@@ -136,11 +136,13 @@
     <string name="chat_liked_people_title">좋아요 보낸 사람들</string>
     <string name="chat_chat_list">채팅 목록</string>
     <string name="dog_management_title">반려견 관리</string>
+
     <string name="dog_edit_neuter">중성화</string>
     <string name="dog_edit_like">Like</string>
     <string name="dog_edit_dislike">Dislike</string>
     <string name="dog_edit_comment_title">자기소개</string>
     <string name="dog_edit_info_title">기본 정보</string>
+
     <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
     <string name="dialog_btn_ok">확인</string>
     <string name="dialog_dog_name_edit_title">이름을 변경해주세요</string>
@@ -158,4 +160,7 @@
     <string name="report_report">신고</string>
     <string name="chat_report_dialog_reason_title">이유를 작성해주세요.</string>
     <string name="chat_report_dialog_reason_hint">ex) 금전적 요구, 심한 욕설</string>
+    <string name="reporting">신고하기</string>
+    <string name="leave_chatroom">채팅방 나가기</string>
+    <string name="chatroom_message_explanation">메세지를 작성하세요</string>
 </resources>

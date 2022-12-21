@@ -117,14 +117,8 @@ class UserLocationFragment :
                     latitude = registerViewModel.fetchUserLatitude().first(),
                     longitude = registerViewModel.fetchUserLongitude().first(),
                     town = registerViewModel.fetchUserLocation().first(),
-                    fcmToken = ""
+                    fcmToken = prefs.getString("fcmToken", "")!!
                 )
-
-                /**
-                 * @author 이서윤
-                 * 아래의 pref를 registerInfo의 fcmToken에 넣어주세요
-                 * prefs.getString("fcmToken", "")
-                 */
 
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
                 Log.d("회원가입 때 작성한 내용", "${registerInfo}")

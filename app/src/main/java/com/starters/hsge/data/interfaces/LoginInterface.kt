@@ -7,4 +7,8 @@ interface LoginInterface {
     fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int)
 
     fun onPostAccessTokenFailure(message: String)
+
+    fun onPostFcmTokenSuccess(isSuccess: Boolean)
+
+    fun onPostFcmTokenFailure(message: String)
 }
