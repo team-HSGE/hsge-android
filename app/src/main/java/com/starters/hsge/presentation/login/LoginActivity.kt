@@ -16,7 +16,6 @@ import com.starters.hsge.data.model.remote.response.LoginResponse
 import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.service.LoginService
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
-import com.starters.hsge.data.service.UserInfoPutService
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
