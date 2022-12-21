@@ -13,10 +13,10 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
-import com.starters.hsge.data.interfaces.CheckTokenInterface
+import com.starters.hsge.data.interfaces.SplashInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
-import com.starters.hsge.data.service.CheckTokenService
+import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
@@ -24,7 +24,7 @@ import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
 import kotlinx.coroutines.*
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash), CheckTokenInterface {
+class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash), SplashInterface {
 
     var isReady = false
     var accessToken: String = ""
@@ -144,7 +144,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun checkToken() {
         if (prefs.contains("NormalAccessToken")){
             val check = CheckTokenRequest(accessToken = accessToken, refreshToken = refreshToken)
-            CheckTokenService(this).tryPostCheckToken(check)
+            SplashService(this).tryPostCheckToken(check)
             
         } else {
             startLoginActivity()
