@@ -157,8 +157,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
 
                 // FCM토큰 서버에 보내기
-//                val fcmToken = FcmPostRequest(fcmToken)
-//                LoginService(this).tryPostFcmToken(fcmToken)
+                val fcmToken = FcmPostRequest(fcmToken)
+                LoginService(this).tryPostFcmToken(fcmToken)
 
                 // 메인 화면 이동
                 val intent = Intent(applicationContext, MainActivity::class.java)
