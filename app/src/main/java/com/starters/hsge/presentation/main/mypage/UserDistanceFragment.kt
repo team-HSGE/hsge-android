@@ -9,17 +9,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.databinding.FragmentUserDistanceBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.data.api.DistanceApi
-import com.starters.hsge.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.starters.hsge.data.interfaces.distanceInterface
+import com.starters.hsge.data.service.DistanceService
 
-class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance) {
+class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance), distanceInterface {
 
     private val args : UserDistanceFragmentArgs by navArgs()
     private lateinit var callback: OnBackPressedCallback
@@ -28,8 +24,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO : 마이페이지에서 서버에 저장된 radius 넘어옴. 이 radius에 넣으면 됨
-        var radius = args.userLocationData?.radius ?: 0.0
+        val radius = args.userLocationData?.radius ?: 0.0
         Log.d("사용자정보받아온거", "$radius")
 
         seekbar((radius*100).toInt())
@@ -83,7 +78,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
             findNavController().navigate(R.id.action_userDistanceFragment_to_myPageFragment)
             (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
 
-            retrofitWork(distance.toDouble())
+            DistanceService(this).tryPostDistance(distance.toDouble())
         }
     }
 
@@ -98,26 +93,18 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     // 반경 재설정_통신
-    private fun retrofitWork(distance: Double){
-        val distanceRetrofit = RetrofitClient.sRetrofit.create(DistanceApi::class.java)
-        val radius = distance / 100
+    override fun onPostDistanceSuccess(isSuccess: Boolean, code: Int) {
+        if(isSuccess){
+            Log.d("Distance", "성공")
 
-        distanceRetrofit.putDistanceData(request = DistanceRequest(radius)).enqueue(object : Callback<Void>{
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if(response.isSuccessful){
-                    Log.d("distance", radius.toString())
-                    Log.d("distance", response.toString())
-                    Log.d("distance", "성공")
-                } else{
-                    Log.d("distance", "실패")
-                    Log.d("distance", response.code().toString())
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("distance", "실패")
-                Log.d("distance", t.toString())
-            }
-        })
+        }else{
+            Log.d("Distance 오류", "Error code : ${code}")
+        }
     }
+
+    override fun onPostIsLikeFailure(message: String) {
+        Log.d("Distance 오류", "오류: $message")
+
+    }
+
 }
