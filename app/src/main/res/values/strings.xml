@@ -151,4 +151,7 @@
     <string name="edit_location_title">내 위치 설정하기</string>
     <string name="edit_location_subtitle">우리 동네 강아지들을 볼 수 있어요</string>
     <string name="delete">삭제</string>
+    <string name="reporting">신고하기</string>
+    <string name="leave_chatroom">채팅방 나가기</string>
+    <string name="chatroom_message_explanation">메세지를 작성하세요</string>
 </resources>
