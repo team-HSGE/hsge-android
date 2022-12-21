@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/chatReportFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -163,4 +163,10 @@
             app:popUpTo="@id/addDogProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/chatReportFragment"
+        android:name="com.starters.hsge.presentation.main.chat.ChatReportFragment"
+        android:label="ChatReportFragment"
+        tools:layout="@layout/fragment_chat_report"
+        />
 </navigation>
