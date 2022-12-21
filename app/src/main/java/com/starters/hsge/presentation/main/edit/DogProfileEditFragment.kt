@@ -268,7 +268,11 @@ class DogProfileEditFragment :
                     breedBottomSheet.setBottomSheetClickListener(object :
                         BottomSheetDialog.BottomSheetClickListener {
                         override fun onContentClick(content: String) {
-                            binding.tvDogBreedEdit.text = content
+                            var newFormatBreed = content
+                            if (content.length > 5) {
+                                newFormatBreed = content.replace(" ", "\n")
+                            }
+                            binding.tvDogBreedEdit.text = newFormatBreed
                             dogProfileEditViewModel.dogBreed = breed[content].toString()
                         }
                     })
