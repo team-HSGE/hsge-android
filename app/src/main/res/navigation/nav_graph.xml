@@ -168,4 +168,9 @@
         android:name="com.starters.hsge.presentation.main.chat.SpecificDogFragment"
         android:label="SpecificDogFragment"
         tools:layout="@layout/fragment_chat_partner_specific_dog"/>
+    <fragment
+        android:id="@+id/partnerDogsFragment"
+        android:name="com.starters.hsge.presentation.main.chat.PartnerDogsFragment"
+        android:label="PartnerDogsFragment"
+        tools:layout="@layout/fragment_chat_partner_dogs"/>
 </navigation>
