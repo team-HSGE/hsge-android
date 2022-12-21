@@ -22,7 +22,7 @@
             bindDogPhoto="@{myDogList.picture[0]}"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/bg_gray_circle"
+            android:background="@drawable/ic_default_img"
             android:contentDescription="@string/dog_management_list_dog_photo"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
