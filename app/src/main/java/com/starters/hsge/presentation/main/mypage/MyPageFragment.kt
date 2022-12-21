@@ -5,18 +5,12 @@ import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
-import com.starters.hsge.data.api.UserInfoGetApi
 import com.starters.hsge.data.interfaces.UserInfoGetInterface
 import com.starters.hsge.data.model.remote.response.UserInfoGetResponse
-import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.data.service.UserInfoGetService
 import com.starters.hsge.databinding.FragmentMyPageBinding
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page), UserInfoGetInterface {
 
