@@ -151,4 +151,11 @@
     <string name="edit_location_title">내 위치 설정하기</string>
     <string name="edit_location_subtitle">우리 동네 강아지들을 볼 수 있어요</string>
     <string name="delete">삭제</string>
+    <string name="report_toolbar">신고</string>
+    <string name="report_title">신고 이유가 무엇인가요?</string>
+    <string name="report_reason">해당하는 이유를 선택해주세요</string>
+    <string name="report_not_noticed">상대방에게 신고 사실이 공개되지 않습니다.</string>
+    <string name="report_report">신고</string>
+    <string name="chat_report_dialog_reason_title">이유를 작성해주세요.</string>
+    <string name="chat_report_dialog_reason_hint">ex) 금전적 요구, 심한 욕설</string>
 </resources>
