@@ -116,7 +116,8 @@ class UserLocationFragment :
                     dogDislikeTag = registerViewModel.fetchDogDislikeTag().first(),
                     latitude = registerViewModel.fetchUserLatitude().first(),
                     longitude = registerViewModel.fetchUserLongitude().first(),
-                    town = registerViewModel.fetchUserLocation().first()
+                    town = registerViewModel.fetchUserLocation().first(),
+                    fcmToken = prefs.getString("fcmToken", "")!!
                 )
 
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
