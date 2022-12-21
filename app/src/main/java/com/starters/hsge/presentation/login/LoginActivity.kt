@@ -123,7 +123,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 return@OnCompleteListener
             }
 
-            // Get new FCM registration token
+            // FCM토큰 발급 및 sp에 저장
             fcmToken = task.result
             prefs.edit().putString("fcmToken", fcmToken).apply()
             Log.d("FCM토큰", "FCM토큰: ${fcmToken} / sp: ${prefs.getString("fcmToken", "")}")
