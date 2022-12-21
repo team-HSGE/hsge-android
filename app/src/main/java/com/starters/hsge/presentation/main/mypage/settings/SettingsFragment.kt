@@ -48,18 +48,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
 
                 override fun onOkBtnClicked() {
                     // 확인 버튼 클릭했을 때 처리
-
                     UserApiClient.instance.logout { error ->
                         if (error != null) {
                             Log.d("로그아웃", "로그아웃 실패 : ${error}")
                             Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                         }else {
                             // access token & fcm token 날리기
-                            prefs.edit().clear().apply()
-                            //SettingsService(this@SettingsFragment).tryDeleteFcmToken()
-
-                            moveToLoginActivity()
-                            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                            SettingsService(this@SettingsFragment).tryDeleteFcmToken()
                         }
                     }
                 }
@@ -103,6 +98,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
         if (isSuccess) {
             Log.d("FCM토큰 삭제", "성공!")
+
+            prefs.edit().clear().apply()
+
+            moveToLoginActivity()
+            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -21,7 +21,6 @@ class WithdrawalService(val withdrawalInterface: WithdrawalInterface) {
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 withdrawalInterface.onDeleteUserFailure(t.message ?: "통신 오류")
             }
-
         })
     }
 
@@ -38,5 +37,4 @@ class WithdrawalService(val withdrawalInterface: WithdrawalInterface) {
             }
         })
     }
-
 }

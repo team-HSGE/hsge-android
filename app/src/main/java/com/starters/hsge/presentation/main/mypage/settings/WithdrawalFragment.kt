@@ -12,6 +12,7 @@ import com.starters.hsge.R
 import com.starters.hsge.data.api.WithdrawalApi
 import com.starters.hsge.data.interfaces.SettingsInterface
 import com.starters.hsge.data.interfaces.WithdrawalInterface
+import com.starters.hsge.data.service.SettingsService
 import com.starters.hsge.data.service.WithdrawalService
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
 import com.starters.hsge.network.RetrofitClient
@@ -40,7 +41,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
                     // 탈퇴 버튼 클릭했을 때 처리
                     UserApiClient.instance.unlink { error ->
                         if (error != null) {
-                            Log.d("회원 탈퇴", "회원 탈퇴 실패 : ${error}")
+                            Log.d("회원 탈퇴", "회원 탈퇴 실패 : $error")
                             Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                         }else {
                             WithdrawalService(this@WithdrawalFragment).tryDeleteUserInfo()
@@ -71,11 +72,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
             Log.d("회원탈퇴", "회원탈퇴 성공")
 
             // access token & fcm token 날리기
-            prefs.edit().clear().apply()
-            //SettingsService(this@SettingsFragment).tryDeleteFcmToken()
-
-            moveToLoginActivity()
-            Toast.makeText(context, "회원탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
+            WithdrawalService(this).tryDeleteFcmToken()
         }
     }
 
@@ -86,6 +83,10 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
     override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
         if (isSuccess) {
             Log.d("FCM토큰 삭제", "성공!")
+            prefs.edit().clear().apply()
+
+            moveToLoginActivity()
+            Toast.makeText(context, "회원탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
