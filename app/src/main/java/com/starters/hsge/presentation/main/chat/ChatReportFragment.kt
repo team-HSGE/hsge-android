@@ -26,11 +26,20 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             "기타"
         )
 
+        initListener()
         setNavigation()
         selectReason(reasonList)
 
     }
 
+    private fun initListener(){
+        binding.btnReport.setOnClickListener {
+            // TODO : 신고 post 통신 진행
+
+
+            findNavController().navigateUp()
+        }
+    }
     // 이유 선택
     private fun selectReason(reasonList: List<String>) {
         binding.tvChatReportSelectReason.setOnClickListener {

@@ -45,6 +45,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_chat_report_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/tv_chat_report_subtitle"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_chat_report_title"/>
+
+
 
         <TextView
             android:id="@+id/tv_chat_report_select_reason"
@@ -62,7 +74,7 @@
             app:drawableRightCompat="@drawable/ic_arrow_drop_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_chat_report_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_chat_report_subtitle" />
 
         <TextView
             android:layout_width="wrap_content"

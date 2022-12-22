@@ -163,4 +163,14 @@
     <string name="reporting">신고하기</string>
     <string name="leave_chatroom">채팅방 나가기</string>
     <string name="chatroom_message_explanation">메세지를 작성하세요</string>
+    <string name="tv_chat_exit_bottom_sheet_report_title">신고</string>
+    <string name="tv_chat_exit_bottom_sheet_report_content">해당 사용자를 차단하고 채팅방이 사라져요</string>
+    <string name="tv_chat_exit_bottom_sheet_exit_title">채팅방 나가기</string>
+    <string name="tv_chat_exit_bottom_sheet_exit_content">채팅방이 사라져요</string>
+    <string name="tv_chat_exit_bottom_sheet_unmatch_title">매칭 취소</string>
+    <string name="tv_chat_exit_bottom_sheet_unmatch_content">언제든지 매칭을 취소할 수 있어요. 해당 강아지를 더 이상 볼 수 없어요.</string>
+    <string name="iv_chat_exit_unmatch">채팅 나가기 옵션 중 매칭 취소 이미지</string>
+    <string name="iv_chat_exit_exit">채팅 나가기 옵션 중 나가기 이미지</string>
+    <string name="iv_chat_exit_report">채팅 나가기 옵션 중 신고 이미지</string>
+    <string name="tv_chat_report_subtitle">불량 유저를 신고해주시면 자세히 검토하겠습니다.</string>
 </resources>
