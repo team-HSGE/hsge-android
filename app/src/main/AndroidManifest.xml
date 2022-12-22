@@ -24,6 +24,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="e9ee5f6eb7b2679f8f67b4938252e566"/>
 
         <service
             android:name=".presentation.main.home.push.FirebaseService"

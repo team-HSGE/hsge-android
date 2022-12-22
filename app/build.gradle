@@ -112,6 +112,9 @@ dependencies {
     // kakao
     implementation 'com.kakao.sdk:v2-user:2.10.0'
 
+    // kakao Maps
+    implementation files('libs/libDaumMapAndroid.jar')
+
     // google-location
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
