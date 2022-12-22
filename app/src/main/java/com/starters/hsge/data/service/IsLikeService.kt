@@ -11,9 +11,9 @@ import retrofit2.Response
 class IsLikeService(val isLikeInterface: IsLikeInterface) {
 
     fun tryPostIsLike(petId: Int, isLikeRequest: IsLikeRequest){
-        val isLikeRetrofit = RetrofitClient.sRetrofit.create(IsLikeApi::class.java)
+        val isLikeApi = RetrofitClient.sRetrofit.create(IsLikeApi::class.java)
 
-        isLikeRetrofit.postIsLikeData(petId, isLikeRequest).enqueue(object : Callback<Void>{
+        isLikeApi.postIsLikeData(petId, isLikeRequest).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 isLikeInterface.onPostIsLikeSuccess(response.isSuccessful, response.code())
             }
