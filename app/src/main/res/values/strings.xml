@@ -65,8 +65,6 @@
 
     <string name="mypage_settings_icon">설정 아이콘</string>
     <string name="mypage_user_profile">사용자 프로필</string>
-    <string name="mypage_user_nickname">사용자닉네임</string>
-    <string name="mypage_user_location">사용자 위치</string>
     <string name="mypage_user_profile_edit">사용자 프로필 수정 선택</string>
     <string name="mypage_my_title">MY</string>
     <string name="mypage_dog_manage_icon">반려견 관리 아이콘</string>

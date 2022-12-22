@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserInfoData(
-    val profileImage: Int?,
+    var profileImage: Int?,
     var nickname : String?
 ) : Parcelable

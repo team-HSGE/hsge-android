@@ -70,7 +70,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_marginTop="28dp"
-                    android:background="@drawable/bg_gray_circle"
+                    android:background="@drawable/ic_circle_camera"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -79,14 +79,13 @@
                     android:id="@+id/iv_user_profile_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/user_profile_edit_select"
-                    android:src="@drawable/ic_user_profile_edit_btn"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_dog_photo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.42"
-                    app:layout_constraintStart_toStartOf="@+id/iv_dog_photo"
-                    app:layout_constraintTop_toTopOf="@id/iv_dog_photo"
-                    app:layout_constraintVertical_bias="0.8" />
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/ic_dog_profile_edit_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_dog_photo"
+                    app:layout_constraintEnd_toEndOf="@id/iv_dog_photo"
+                    app:layout_constraintStart_toStartOf="@id/iv_dog_photo"
+                    app:layout_constraintTop_toTopOf="@id/iv_dog_photo" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dog_name_edit_section"
