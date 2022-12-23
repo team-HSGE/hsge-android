@@ -40,8 +40,11 @@ class FirebaseService : FirebaseMessagingService() {
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
             val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
-            sendNotification(message, about)
+            sendNotification(message, "like")
             Log.d("fcm_service_data", message.data["title"].toString())
+            Log.d("fcm_service_data", message.data["body"].toString())
+            Log.d("fcm_service_data", message.data["about"].toString())
+
 
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
@@ -49,8 +52,9 @@ class FirebaseService : FirebaseMessagingService() {
         wakeLock.release()
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage, about: String) {
+    private fun sendNotification(remoteMessage: RemoteMessage, about: String?) {
 
+        Log.d("fcm_service_data_hey", "${remoteMessage.data["title"]}, ${remoteMessage.data["body"]}")
         val intent = Intent(applicationContext, MainActivity::class.java)
 
         when(about){
@@ -69,11 +73,10 @@ class FirebaseService : FirebaseMessagingService() {
             applicationContext,
             UUID.randomUUID().hashCode(),
             intent,
-            PendingIntent.FLAG_ONE_SHOT // 일회용 펜딩 인텐트
+            PendingIntent.FLAG_IMMUTABLE // 일회용 펜딩 인텐트
         )
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
 
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
             val channel = NotificationChannel(
@@ -106,7 +109,7 @@ class FirebaseService : FirebaseMessagingService() {
             .setGroupSummary(true)
             .setAutoCancel(true)
             .setLargeIcon(bitmap)
-            .setSmallIcon(R.drawable.ic_logo)
+            .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
     }
 }

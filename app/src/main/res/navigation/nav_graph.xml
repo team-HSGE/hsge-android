@@ -23,8 +23,7 @@
         <action
             android:id="@+id/action_chatFragment_to_chatReportFragment"
             app:destination="@id/chatReportFragment"
-            app:popUpTo="@id/chatFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"
