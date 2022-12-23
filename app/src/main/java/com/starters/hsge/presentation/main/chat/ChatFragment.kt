@@ -2,12 +2,14 @@ package com.starters.hsge.presentation.main.chat
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.data.model.remote.response.LikedPeopleResponse
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
 import com.starters.hsge.presentation.main.chat.adapter.LikedPeopleAdapter
 
@@ -118,13 +120,23 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
     private fun likePeopleRecyclerView(list: List<LikedPeopleResponse>) {
         binding.chatRvLikedPeople.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        likedPeopleAdapter = LikedPeopleAdapter(list)
+        likedPeopleAdapter = LikedPeopleAdapter(list, itemClickListener = {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+            goneBtmNav()
+        })
         binding.chatRvLikedPeople.adapter = likedPeopleAdapter
     }
 
     private fun chatListRecyclerView(list: List<ChatListResponse>){
         binding.chatRvChatList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        chatListAdapter = ChatListAdapter(list)
+        chatListAdapter = ChatListAdapter(list, itemClickListener = {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+            goneBtmNav()
+        })
         binding.chatRvChatList.adapter = chatListAdapter
     }
+
+    private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
 }

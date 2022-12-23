@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/chatRoomFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -21,6 +21,9 @@
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
 
+        <action
+            android:id="@+id/action_chatFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"

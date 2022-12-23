@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.databinding.ItemChatListBinding
 
-class ChatListAdapter(private var chatListResponse: List<ChatListResponse>) : RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
+class ChatListAdapter(
+    private var chatListResponse: List<ChatListResponse>,
+    private val itemClickListener: () -> Unit
+) : RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListViewHolder {
-        val binding = ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChatListViewHolder(binding)
     }
 
@@ -20,13 +24,18 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse>) : Re
         return chatListResponse.size
     }
 
-    class ChatListViewHolder(private val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(chat: ChatListResponse){
-            with(binding){
+    inner class ChatListViewHolder(private val binding: ItemChatListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chat: ChatListResponse) {
+            with(binding) {
                 chatListIvPersonIcon.setImageResource(chat.iconId)
                 chatListTvPersonName.text = chat.nickName
                 chatListTvDateBefore.text = "${chat.date}일 전"
                 chatListTvMessage.text = chat.chatMessage
+            }
+
+            itemView.setOnClickListener {
+                itemClickListener.invoke()
             }
         }
     }
