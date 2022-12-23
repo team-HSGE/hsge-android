@@ -1,8 +1,5 @@
 package com.starters.hsge.data.service
 
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import com.starters.hsge.data.api.FcmPostApi
 import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.LoginInterface
@@ -10,9 +7,6 @@ import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.model.remote.request.LoginRequest
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import com.starters.hsge.network.RetrofitClient
-import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

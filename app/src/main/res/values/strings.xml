@@ -65,8 +65,6 @@
 
     <string name="mypage_settings_icon">설정 아이콘</string>
     <string name="mypage_user_profile">사용자 프로필</string>
-    <string name="mypage_user_nickname">사용자닉네임</string>
-    <string name="mypage_user_location">사용자 위치</string>
     <string name="mypage_user_profile_edit">사용자 프로필 수정 선택</string>
     <string name="mypage_my_title">MY</string>
     <string name="mypage_dog_manage_icon">반려견 관리 아이콘</string>
@@ -136,11 +134,13 @@
     <string name="chat_liked_people_title">좋아요 보낸 사람들</string>
     <string name="chat_chat_list">채팅 목록</string>
     <string name="dog_management_title">반려견 관리</string>
+
     <string name="dog_edit_neuter">중성화</string>
     <string name="dog_edit_like">Like</string>
     <string name="dog_edit_dislike">Dislike</string>
     <string name="dog_edit_comment_title">자기소개</string>
     <string name="dog_edit_info_title">기본 정보</string>
+
     <string name="dog_management_list_dog_photo">리스트에서 강아지 프로필 사진이 들어가는 imageView 입니다.</string>
     <string name="dialog_btn_ok">확인</string>
     <string name="dialog_dog_name_edit_title">이름을 변경해주세요</string>
@@ -151,8 +151,25 @@
     <string name="edit_location_title">내 위치 설정하기</string>
     <string name="edit_location_subtitle">우리 동네 강아지들을 볼 수 있어요</string>
     <string name="delete">삭제</string>
+    <string name="report_toolbar">신고</string>
+    <string name="report_title">신고 이유가 무엇인가요?</string>
+    <string name="report_reason">해당하는 이유를 선택해주세요</string>
+    <string name="report_not_noticed">상대방에게 신고 사실이 공개되지 않습니다.</string>
+    <string name="report_report">신고</string>
+    <string name="chat_report_dialog_reason_title">이유를 작성해주세요.</string>
+    <string name="chat_report_dialog_reason_hint">ex) 금전적 요구, 심한 욕설</string>
     <string name="reporting">신고하기</string>
     <string name="leave_chatroom">채팅방 나가기</string>
     <string name="chatroom_message_explanation">메세지를 작성하세요</string>
     <string name="chat_menu">채팅방 메뉴</string>
+    <string name="tv_chat_exit_bottom_sheet_report_title">신고</string>
+    <string name="tv_chat_exit_bottom_sheet_report_content">해당 사용자를 차단하고 채팅방이 사라져요</string>
+    <string name="tv_chat_exit_bottom_sheet_exit_title">채팅방 나가기</string>
+    <string name="tv_chat_exit_bottom_sheet_exit_content">채팅방이 사라져요</string>
+    <string name="tv_chat_exit_bottom_sheet_unmatch_title">매칭 취소</string>
+    <string name="tv_chat_exit_bottom_sheet_unmatch_content">언제든지 매칭을 취소할 수 있어요. 해당 강아지를 더 이상 볼 수 없어요.</string>
+    <string name="iv_chat_exit_unmatch">채팅 나가기 옵션 중 매칭 취소 이미지</string>
+    <string name="iv_chat_exit_exit">채팅 나가기 옵션 중 나가기 이미지</string>
+    <string name="iv_chat_exit_report">채팅 나가기 옵션 중 신고 이미지</string>
+    <string name="tv_chat_report_subtitle">불량 유저를 신고해주시면 자세히 검토하겠습니다.</string>
 </resources>

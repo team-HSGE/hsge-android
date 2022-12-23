@@ -10,11 +10,14 @@ import com.starters.hsge.data.model.remote.response.LikedPeopleResponse
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.dialog.BottomSheetDialog
+import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
 import com.starters.hsge.presentation.main.chat.adapter.LikedPeopleAdapter
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
 
+    private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
     private lateinit var likedPeopleAdapter: LikedPeopleAdapter
     private lateinit var chatListAdapter: ChatListAdapter
 
@@ -114,7 +117,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
         likePeopleRecyclerView(likedPeopleResponseLists)
         chatListRecyclerView(chatListResponses)
 
-
+        selectReason()
     }
 
     private fun likePeopleRecyclerView(list: List<LikedPeopleResponse>) {
@@ -139,4 +142,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
     }
 
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+
+    private fun selectReason() {
+        binding.tvChatLikedPeopleTitle.setOnClickListener {
+            chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
+            chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
+        }
+    }
 }

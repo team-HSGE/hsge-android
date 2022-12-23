@@ -32,10 +32,17 @@ class FirebaseService : FirebaseMessagingService() {
         val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "screen_on")
         wakeLock.acquire(5000L /*10 minutes*/)
 
+        // notification 수신한 경우
+        if (message.getNotification() != null){
+            Log.d("fcm_service_notification", message.notification?.title.toString())
+        }
+
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
             val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
             sendNotification(message, about)
+            Log.d("fcm_service_data", message.data["title"].toString())
+
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }

@@ -9,5 +9,5 @@ import retrofit2.http.Path
 interface IsLikeApi {
     @POST("/api/pets/{petId}/interest")
     fun postIsLikeData(@Path("petId") petId: Int,
-                       @Body request: IsLikeRequest ) : Call<Void>
+                       @Body like: IsLikeRequest ) : Call<Void>
 }

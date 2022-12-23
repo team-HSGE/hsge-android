@@ -9,19 +9,12 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
-import com.starters.hsge.data.api.WithdrawalApi
-import com.starters.hsge.data.interfaces.SettingsInterface
 import com.starters.hsge.data.interfaces.WithdrawalInterface
-import com.starters.hsge.data.service.SettingsService
 import com.starters.hsge.data.service.WithdrawalService
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
-import com.starters.hsge.network.RetrofitClient
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.WithdrawalDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragment_withdrawal), WithdrawalInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
