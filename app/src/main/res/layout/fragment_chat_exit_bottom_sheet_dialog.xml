@@ -33,11 +33,11 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_report"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:contentDescription="@string/iv_chat_exit_report"
                     android:src="@drawable/ic_report"
-                    app:layout_constraintBottom_toBottomOf="parent"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,11 +75,10 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_exit"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:contentDescription="@string/iv_chat_exit_exit"
                     android:src="@drawable/ic_exit"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,11 +116,10 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_unmatch"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:contentDescription="@string/iv_chat_exit_unmatch"
                     android:src="@drawable/ic_unmatch"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
