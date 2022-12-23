@@ -24,11 +24,6 @@
         <action
             android:id="@+id/action_chatFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
-        <action
-            android:id="@+id/action_chatFragment_to_chatReportFragment"
-            app:destination="@id/chatReportFragment"
-            app:popUpTo="@id/chatFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"
@@ -175,10 +170,18 @@
         android:id="@+id/chatRoomFragment"
         android:name="com.starters.hsge.presentation.main.chatroom.ChatRoomFragment"
         android:label="fragment_chat_room"
-        tools:layout="@layout/fragment_chat_room" />
+        tools:layout="@layout/fragment_chat_room" >
+        <action
+            android:id="@+id/action_chatRoomFragment_to_chatReportFragment"
+            app:destination="@id/chatReportFragment"
+            app:popUpTo="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_chatRoomFragment_to_partnerDogsFragment"
+            app:destination="@id/partnerDogsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatReportFragment"
-        android:name="com.starters.hsge.presentation.main.chat.ChatReportFragment"
+        android:name="com.starters.hsge.presentation.main.report.ChatReportFragment"
         android:label="ChatReportFragment"
         tools:layout="@layout/fragment_chat_report"
         />
@@ -191,5 +194,9 @@
         android:id="@+id/partnerDogsFragment"
         android:name="com.starters.hsge.presentation.main.chat.PartnerDogsFragment"
         android:label="PartnerDogsFragment"
-        tools:layout="@layout/fragment_chat_partner_dogs"/>
+        tools:layout="@layout/fragment_chat_partner_dogs">
+        <action
+            android:id="@+id/action_partnerDogsFragment_to_specificDogFragment"
+            app:destination="@id/specificDogFragment" />
+    </fragment>
 </navigation>
