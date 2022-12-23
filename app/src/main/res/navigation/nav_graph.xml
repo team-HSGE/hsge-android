@@ -173,8 +173,7 @@
         tools:layout="@layout/fragment_chat_room" >
         <action
             android:id="@+id/action_chatRoomFragment_to_chatReportFragment"
-            app:destination="@id/chatReportFragment"
-            app:popUpTo="@id/chatRoomFragment" />
+            app:destination="@id/chatReportFragment" />
         <action
             android:id="@+id/action_chatRoomFragment_to_partnerDogsFragment"
             app:destination="@id/partnerDogsFragment" />
@@ -184,7 +183,13 @@
         android:name="com.starters.hsge.presentation.main.report.ChatReportFragment"
         android:label="ChatReportFragment"
         tools:layout="@layout/fragment_chat_report"
-        />
+        >
+        <action
+            android:id="@+id/action_chatReportFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/chatFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/specificDogFragment"
         android:name="com.starters.hsge.presentation.main.chat.SpecificDogFragment"

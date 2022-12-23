@@ -15,6 +15,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
+import com.starters.hsge.presentation.main.MainActivity
 
 class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface {
 
@@ -45,7 +46,8 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             val reason = binding.tvChatReportSelectReason.text
             ReportService(this).tryPostReport(ReportRequest(reason.toString(), 10))
 
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
+            visibleBtmNav()
         }
     }
     // 이유 선택
@@ -119,5 +121,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     override fun onPostReportFailure(message: String) {
         Log.d("Report 오류", "오류: $message")
+    }
+
+    private fun visibleBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }
