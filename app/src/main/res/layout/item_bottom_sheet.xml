@@ -24,6 +24,7 @@
             android:padding="14dp"
             android:text="@{contents}"
             android:textSize="20sp"
+            android:textColor="@color/G900"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
