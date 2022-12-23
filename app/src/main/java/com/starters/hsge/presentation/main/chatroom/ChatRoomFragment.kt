@@ -102,6 +102,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
                 else -> false
             }
         }
+
+        // 파트너 아이콘 click
+        binding.ivPartnerProfileLarge.setOnClickListener {
+            findNavController().navigate(R.id.action_chatRoomFragment_to_partnerDogsFragment)
+        }
     }
 
     override fun onAttach(context: Context) {
