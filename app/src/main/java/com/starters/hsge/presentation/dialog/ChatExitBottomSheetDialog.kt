@@ -36,7 +36,7 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
     private fun initListener() {
         // 신고
         binding.constChatExitReport.setOnClickListener {
-            findNavController().navigate(R.id.action_chatFragment_to_chatReportFragment)
+            findNavController().navigate(R.id.action_chatRoomFragment_to_chatReportFragment)
             dismiss()
         }
 

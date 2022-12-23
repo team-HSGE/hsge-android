@@ -155,7 +155,7 @@
     <string name="report_title">신고 이유가 무엇인가요?</string>
     <string name="report_reason">해당하는 이유를 선택해주세요</string>
     <string name="report_not_noticed">상대방에게 신고 사실이 공개되지 않습니다.</string>
-    <string name="report_report">신고</string>
+    <string name="report_report">신고하기</string>
     <string name="chat_report_dialog_reason_title">이유를 작성해주세요.</string>
     <string name="chat_report_dialog_reason_hint">ex) 금전적 요구, 심한 욕설</string>
     <string name="reporting">신고하기</string>
@@ -167,7 +167,7 @@
     <string name="tv_chat_exit_bottom_sheet_exit_title">채팅방 나가기</string>
     <string name="tv_chat_exit_bottom_sheet_exit_content">채팅방이 사라져요</string>
     <string name="tv_chat_exit_bottom_sheet_unmatch_title">매칭 취소</string>
-    <string name="tv_chat_exit_bottom_sheet_unmatch_content">언제든지 매칭을 취소할 수 있어요. 해당 강아지를 더 이상 볼 수 없어요.</string>
+    <string name="tv_chat_exit_bottom_sheet_unmatch_content"> 서로의 강아지를 더 이상 볼 수 없고 채팅방이 사라져요</string>
     <string name="iv_chat_exit_unmatch">채팅 나가기 옵션 중 매칭 취소 이미지</string>
     <string name="iv_chat_exit_exit">채팅 나가기 옵션 중 나가기 이미지</string>
     <string name="iv_chat_exit_report">채팅 나가기 옵션 중 신고 이미지</string>

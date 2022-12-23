@@ -113,7 +113,7 @@ class DogProfileEditFragment :
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigateUp()
+                showCancelDialog()
                 goneBtmNav()
             }
         }
@@ -397,7 +397,7 @@ class DogProfileEditFragment :
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            showCancelDialog()
         }
     }
 
@@ -406,4 +406,16 @@ class DogProfileEditFragment :
     }
 
     private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+
+    private fun showCancelDialog() {
+        val dialog = BaseDialogFragment("수정을 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            override fun onCancelBtnClicked() {
+            }
+            override fun onOkBtnClicked() {
+                findNavController().navigateUp()
+            }
+        })
+        dialog.show(childFragmentManager, "CustomDialog")
+    }
 }

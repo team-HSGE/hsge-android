@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatRoomBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.dialog.BottomSheetDialog
+import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
@@ -23,6 +25,7 @@ import ua.naiksoftware.stomp.dto.StompHeader
 @AndroidEntryPoint
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
 
+    private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
     private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,11 +95,17 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
-                    //TODO : 바텀시트 호출을 여기서 해주세요
+                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
+                    chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
                     true
                 }
                 else -> false
             }
+        }
+
+        // 파트너 아이콘 click
+        binding.ivPartnerProfileLarge.setOnClickListener {
+            findNavController().navigate(R.id.action_chatRoomFragment_to_partnerDogsFragment)
         }
     }
 

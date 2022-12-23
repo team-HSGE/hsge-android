@@ -13,7 +13,7 @@ fun ImageView.bindProfileIcon(resId: Int) {
 }
 
 @BindingAdapter("bindDogPhoto")
-fun ImageView.bindDogPhoto(imgUri: String) {
+fun ImageView.bindDogPhoto(imgUri: String?) {
     Glide.with(this)
         .load(imgUri)
         .circleCrop()
@@ -21,7 +21,7 @@ fun ImageView.bindDogPhoto(imgUri: String) {
 }
 
 @BindingAdapter("bindDogSexIcon")
-fun ImageView.bindSexIcon(sex: String) {
+fun ImageView.bindSexIcon(sex: String?) {
     when (sex) {
         "남" -> {
             Glide.with(this)
