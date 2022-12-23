@@ -206,7 +206,11 @@ class AddDogProfileFragment :
                     breedBottomSheet.setBottomSheetClickListener(object :
                         BottomSheetDialog.BottomSheetClickListener {
                         override fun onContentClick(content: String) {
-                            binding.tvDogBreedInput.text = content
+                            var newFormatBreed = content
+                            if (content.length > 5) {
+                                newFormatBreed = content.replace(" ", "\n")
+                            }
+                            binding.tvDogBreedInput.text = newFormatBreed
                             addDogProfileViewModel.dogBreed = breed[content].toString()
                         }
                     })

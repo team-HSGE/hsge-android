@@ -7,7 +7,9 @@ import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.databinding.ItemChatListBinding
 import com.starters.hsge.databinding.ItemLikedPeopleBinding
 
-class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?) :
+class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
+                      private val itemClickListener: () -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -55,7 +57,7 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?) :
         return active
     }
 
-    inner class ChatListViewHolder(private val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
+   inner class ChatListViewHolder(private val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatListResponse) {
             with(binding) {
                 chat.userIcon.let { chatListIvPersonIcon.setImageResource(it) }
@@ -63,6 +65,9 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?) :
                 // TODO : date 연결
                 //chatListTvDateBefore.text = "${chat.date}일 전"
                 chatListTvMessage.text = chat.message
+            }
+            itemView.setOnClickListener {
+                itemClickListener.invoke()
             }
         }
     }
@@ -72,6 +77,10 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?) :
             with(binding) {
                 chat.userIcon.let { likedPeopleIvIcon.setImageResource(it) }
                 likedPeopleTvNickName.text = chat.nickname
+            }
+
+            itemView.setOnClickListener {
+                itemClickListener.invoke()
             }
         }
     }

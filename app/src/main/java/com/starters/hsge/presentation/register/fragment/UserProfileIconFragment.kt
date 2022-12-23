@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,6 +15,7 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
 
     private lateinit var adapter: UserProfileIconAdapter
     private val args : UserProfileIconFragmentArgs by navArgs()
+    private lateinit var action : NavDirections
 
     var userIconList = listOf<Int>()
 
@@ -56,7 +58,7 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
 
                 } else if (args.checkLayout == 2) {
                     // 회원 정보 수정
-                    val action = UserProfileIconFragmentDirections.actionUserProfileIconFragment2ToUserProfileEditFragment(null, resId)
+                    action = UserProfileIconFragmentDirections.actionUserProfileEditIconFragmentToUserProfileEditFragment(null, resId)
                     findNavController().navigate(action)
                 }
             }

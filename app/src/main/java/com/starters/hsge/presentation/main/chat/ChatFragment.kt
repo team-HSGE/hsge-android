@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.main.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.chatListInterface
@@ -10,6 +11,7 @@ import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.data.service.ChatListService
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
@@ -36,6 +38,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
         }
     }
 
+    private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+
     override fun onGetChatListSuccess(
         chatListResponse: List<ChatListResponse?>?,
         isSuccess: Boolean,
@@ -51,13 +55,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             }
 
             // active
-            chatListAdapter = ChatListAdapter(chatList)
+            chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                goneBtmNav()
+            })
             binding.chatRvChatList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.chatRvChatList.adapter = chatListAdapter
 
             // inactive
-            chatListAdapter = ChatListAdapter(likedPeopleList)
+            chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                goneBtmNav()
+            })
             binding.chatRvLikedPeople.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.chatRvLikedPeople.adapter = chatListAdapter
