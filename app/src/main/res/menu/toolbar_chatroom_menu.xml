@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_report"
-        android:title="@string/reporting" />
-
-    <item
-        android:id="@+id/menu_leave"
-        android:title="@string/leave_chatroom" />
-
+        android:icon="@drawable/ic_more_vert"
+        android:title="@string/chat_menu"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -1,60 +1,129 @@
 package com.starters.hsge.presentation.main.chatroom
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
+import com.starters.hsge.databinding.FragmentChatRoomBinding
+import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okio.Okio
+import org.json.JSONObject
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
+import ua.naiksoftware.stomp.dto.LifecycleEvent
+import ua.naiksoftware.stomp.dto.StompHeader
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatRoomFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ChatRoomFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var callback: OnBackPressedCallback
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        /**
+         * @author
+         * initListener()를 타고 가시면 툴바 버튼 클릭 시 action을 정의할 수 있습니다
+         */
+
+        initListener()
+        setNavigation()
+
+        val url = "ws://[domain]/connect/websocket"
+        val intervalMillis = 1000L
+        val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+
+//        fun runStomp() {
+//            stompClient.topic("/topic/~").subscribe { topicMessage ->
+//                Log.i("message Receive", topicMessage.payload)
+//            }
+//
+//
+//            // 헤더를 넣고 싶으면 connect할 때 설정한 헤더들을 넣어주면 됨
+//            val headerList = arrayListOf<StompHeader>()
+//            headerList.add(StompHeader("inviteCode","test0912"))
+//            headerList.add(StompHeader("username", text.value))
+//            headerList.add(StompHeader("positionType", "1"))
+//            stompClient.connect(headerList)
+//
+//
+//            //stopmClient의 lifecycle 변경에 따라 로그를 찍는 코드
+//            stompClient.lifecycle().subscribe { lifecycleEvent ->
+//                when (lifecycleEvent.type) {
+//                    LifecycleEvent.Type.OPENED -> {
+//                        Log.i("OPEND", "!!")
+//                    }
+//                    LifecycleEvent.Type.CLOSED -> {
+//                        Log.i("CLOSED", "!!")
+//
+//                    }
+//                    LifecycleEvent.Type.ERROR -> {
+//                        Log.i("ERROR", "!!")
+//                        Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
+//                    }
+//                    else ->{
+//                        Log.i("ELSE", lifecycleEvent.message)
+//                    }
+//                }
+//            }
+//
+//            // 채팅을 보낼 때 채팅 메세지의 값에 맞춰서 보낼 주소에 넣어주기기
+//            val data =JSONObject()
+//            data.put("userKey", text.value)
+//            data.put("positionType", "1")
+//            data.put("content", "test")
+//            data.put("messageType", "CHAT")
+//            data.put("destRoomCode", "test0912")
+//
+//            //정책에 맞게 문자 전송
+//            stompClient.send("/stream/chat/send", data.toString()).subscribe()
+//
+//        }
+    }
+
+    private fun initListener() {
+        binding.toolBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_report -> {
+                    //TODO : 바텀시트 호출을 여기서 해주세요
+                    true
+                }
+                else -> false
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_room, container, false)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+                visibleBtmNav()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatRoomFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatRoomFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+            visibleBtmNav()
+        }
+    }
+
+    private fun visibleBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }

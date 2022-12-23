@@ -20,6 +20,10 @@
         android:name="com.starters.hsge.presentation.main.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
+
+        <action
+            android:id="@+id/action_chatFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
         <action
             android:id="@+id/action_chatFragment_to_chatReportFragment"
             app:destination="@id/chatReportFragment"

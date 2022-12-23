@@ -161,6 +161,7 @@
     <string name="reporting">신고하기</string>
     <string name="leave_chatroom">채팅방 나가기</string>
     <string name="chatroom_message_explanation">메세지를 작성하세요</string>
+    <string name="chat_menu">채팅방 메뉴</string>
     <string name="tv_chat_exit_bottom_sheet_report_title">신고</string>
     <string name="tv_chat_exit_bottom_sheet_report_content">해당 사용자를 차단하고 채팅방이 사라져요</string>
     <string name="tv_chat_exit_bottom_sheet_exit_title">채팅방 나가기</string>
