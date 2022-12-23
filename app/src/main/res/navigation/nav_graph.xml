@@ -192,12 +192,12 @@
     </fragment>
     <fragment
         android:id="@+id/specificDogFragment"
-        android:name="com.starters.hsge.presentation.main.chat.SpecificDogFragment"
+        android:name="com.starters.hsge.presentation.main.detail.SpecificDogFragment"
         android:label="SpecificDogFragment"
         tools:layout="@layout/fragment_chat_partner_specific_dog"/>
     <fragment
         android:id="@+id/partnerDogsFragment"
-        android:name="com.starters.hsge.presentation.main.chat.PartnerDogsFragment"
+        android:name="com.starters.hsge.presentation.main.partner.PartnerDogsFragment"
         android:label="PartnerDogsFragment"
         tools:layout="@layout/fragment_chat_partner_dogs">
         <action
