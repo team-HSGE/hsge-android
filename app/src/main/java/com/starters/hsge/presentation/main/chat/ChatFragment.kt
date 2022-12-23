@@ -1,134 +1,32 @@
 package com.starters.hsge.presentation.main.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
+import com.starters.hsge.data.interfaces.chatListInterface
 import com.starters.hsge.data.model.remote.response.ChatListResponse
-import com.starters.hsge.data.model.remote.response.LikedPeopleResponse
+import com.starters.hsge.data.service.ChatListService
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
-import com.starters.hsge.presentation.main.chat.adapter.LikedPeopleAdapter
 
-class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
+class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), chatListInterface {
 
     private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
-    private lateinit var likedPeopleAdapter: LikedPeopleAdapter
     private lateinit var chatListAdapter: ChatListAdapter
+
+    private var likedPeopleList = mutableListOf<ChatListResponse>()
+    private var chatList = mutableListOf<ChatListResponse>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val likedPeopleResponseLists = listOf(
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀안녕하세요"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            ),
-            LikedPeopleResponse(
-                R.drawable.ic_user_icon_test,
-                "덴마크당나귀"
-            )
-        )
-
-        val chatListResponses = listOf(
-            ChatListResponse(
-                R.drawable.ic_dog_profile_9,
-                "응콩",
-                4,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ),
-            ChatListResponse(
-                R.drawable.ic_dog_profile_7,
-                "예빈",
-                1,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ),
-            ChatListResponse(
-                R.drawable.ic_dog_profile_14,
-                "서윤",
-                2,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ), ChatListResponse(
-                R.drawable.ic_dog_profile_1,
-                "석주",
-                4,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ),
-            ChatListResponse(
-                R.drawable.ic_dog_profile_13,
-                "정은",
-                7,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ), ChatListResponse(
-                R.drawable.ic_dog_profile_10,
-                "김인",
-                1,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ),
-            ChatListResponse(
-                R.drawable.ic_dog_profile_3,
-                "태민",
-                5,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ), ChatListResponse(
-                R.drawable.ic_dog_profile_15,
-                "화진",
-                2,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            ),
-            ChatListResponse(
-                R.drawable.ic_dog_profile_4,
-                "영선",
-                3,
-                "안녕하세요, 나이가 어떻게 되세요?"
-            )
-
-        )
-
-        likePeopleRecyclerView(likedPeopleResponseLists)
-        chatListRecyclerView(chatListResponses)
-
+        ChatListService(this).tryGetChatList()
         selectReason()
-    }
-
-    private fun likePeopleRecyclerView(list: List<LikedPeopleResponse>) {
-        binding.chatRvLikedPeople.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        likedPeopleAdapter = LikedPeopleAdapter(list)
-        binding.chatRvLikedPeople.adapter = likedPeopleAdapter
-    }
-
-    private fun chatListRecyclerView(list: List<ChatListResponse>){
-        binding.chatRvChatList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        chatListAdapter = ChatListAdapter(list)
-        binding.chatRvChatList.adapter = chatListAdapter
     }
 
     private fun selectReason() {
@@ -136,5 +34,42 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
             chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
             chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
         }
+    }
+
+    override fun onGetChatListSuccess(
+        chatListResponse: List<ChatListResponse?>?,
+        isSuccess: Boolean,
+        code: Int
+    ) {
+        if (isSuccess) {
+            for (element in chatListResponse!!) {
+                if (element!!.active) { // active
+                    chatList.add(element)
+                } else { // inactive
+                    likedPeopleList.add(element)
+                }
+            }
+
+            // active
+            chatListAdapter = ChatListAdapter(chatList)
+            binding.chatRvChatList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.chatRvChatList.adapter = chatListAdapter
+
+            // inactive
+            chatListAdapter = ChatListAdapter(likedPeopleList)
+            binding.chatRvLikedPeople.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            binding.chatRvLikedPeople.adapter = chatListAdapter
+
+
+            Log.d("ChatList", "성공, $chatListResponse")
+        } else {
+            Log.d("ChatList 오류", "Error code : ${code}")
+        }
+    }
+
+    override fun onGetChatListFailure(message: String) {
+        Log.d("ChatList 오류", "오류: $message")
     }
 }
