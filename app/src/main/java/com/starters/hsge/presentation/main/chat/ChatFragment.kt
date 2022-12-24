@@ -27,15 +27,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ChatListService(this).tryGetChatList()
-        selectReason()
-    }
-
-    private fun selectReason() {
-        binding.tvChatLikedPeopleTitle.setOnClickListener {
-            chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
-            chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
-        }
     }
 
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
@@ -54,17 +45,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
                 }
             }
 
-            // active
-            chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_chatFragment_to_chatRoomFragment)
-                goneBtmNav()
-            })
-            binding.chatRvChatList.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            binding.chatRvChatList.adapter = chatListAdapter
-
-            // inactive
+            // inactive_좋아요
             chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_chatFragment_to_chatRoomFragment)
@@ -73,9 +54,22 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             binding.chatRvLikedPeople.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.chatRvLikedPeople.adapter = chatListAdapter
+            Log.d("likeList", "성공, $likedPeopleList")
+
+            // active_채팅
+            chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                goneBtmNav()
+            })
+            binding.chatRvChatList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            binding.chatRvChatList.adapter = chatListAdapter
+            Log.d("ChatList", "성공, $chatList")
 
 
-            Log.d("ChatList", "성공, $chatListResponse")
+
+            Log.d("ChatList_all", "성공, $chatListResponse")
         } else {
             Log.d("ChatList 오류", "Error code : ${code}")
         }

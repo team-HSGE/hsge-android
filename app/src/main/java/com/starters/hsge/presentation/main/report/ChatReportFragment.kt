@@ -1,8 +1,10 @@
-package com.starters.hsge.presentation.main.chat
+package com.starters.hsge.presentation.main.report
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.ReportInterface
@@ -13,10 +15,12 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
+import com.starters.hsge.presentation.main.MainActivity
 
 class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface {
 
     private lateinit var reasonBottomSheet: BottomSheetDialog
+    private lateinit var callback: OnBackPressedCallback
     private var isReason = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +46,8 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             val reason = binding.tvChatReportSelectReason.text
             ReportService(this).tryPostReport(ReportRequest(reason.toString(), 10))
 
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
+            visibleBtmNav()
         }
     }
     // 이유 선택
@@ -74,20 +79,37 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showCancelDialog()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            val dialog = BaseDialogFragment("신고를 취소하시겠습니까?")
-
-            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
-                override fun onCancelBtnClicked() {
-
-                }
-                override fun onOkBtnClicked() {
-                    findNavController().navigateUp()
-                }
-            })
-            dialog.show(childFragmentManager, "CustomDialog")
+            showCancelDialog()
         }
+    }
+
+    private fun showCancelDialog() {
+        val dialog = BaseDialogFragment("신고를 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            override fun onCancelBtnClicked() {
+            }
+            override fun onOkBtnClicked() {
+                findNavController().navigateUp()
+            }
+        })
+        dialog.show(childFragmentManager, "CustomDialog")
     }
 
     override fun onPostReportSuccess(isSuccess: Boolean, code: Int) {
@@ -99,5 +121,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     override fun onPostReportFailure(message: String) {
         Log.d("Report 오류", "오류: $message")
+    }
+
+    private fun visibleBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }

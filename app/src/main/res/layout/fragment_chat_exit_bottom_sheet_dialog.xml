@@ -33,11 +33,10 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_report"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:contentDescription="@string/iv_chat_exit_report"
                     android:src="@drawable/ic_report"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +47,7 @@
                     android:layout_marginStart="24dp"
                     android:text="@string/tv_chat_exit_bottom_sheet_report_title"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_chat_exit_report"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -75,11 +74,10 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_exit"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:contentDescription="@string/iv_chat_exit_exit"
                     android:src="@drawable/ic_exit"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +88,7 @@
                     android:layout_marginStart="24dp"
                     android:text="@string/tv_chat_exit_bottom_sheet_exit_title"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_chat_exit_exit"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -117,11 +115,10 @@
 
                 <ImageView
                     android:id="@+id/iv_chat_exit_unmatch"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:contentDescription="@string/iv_chat_exit_unmatch"
                     android:src="@drawable/ic_unmatch"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +129,7 @@
                     android:layout_marginStart="24dp"
                     android:text="@string/tv_chat_exit_bottom_sheet_unmatch_title"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_chat_exit_unmatch"
                     app:layout_constraintTop_toTopOf="parent" />

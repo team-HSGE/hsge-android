@@ -18,19 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back_btn">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/report_toolbar"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-
-        </androidx.appcompat.widget.Toolbar>
+            app:navigationIcon="@drawable/ic_back_btn"/>
 
         <TextView
             android:id="@+id/tv_chat_report_title"
