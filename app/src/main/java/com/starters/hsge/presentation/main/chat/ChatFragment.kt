@@ -29,6 +29,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        ChatListService(this).tryGetChatList()
+        likedPeopleList.clear()
+        chatList.clear()
+    }
+
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
 
     override fun onGetChatListSuccess(
