@@ -32,14 +32,16 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setZoomLevel()
         setTrackingBtn()
-        catchCurrentLocation()
     }
 
     override fun onStop() {
         super.onStop()
         stopTracking()
     }
+
+    private fun setZoomLevel() { binding.kakaoMapView.setZoomLevel(3, true) }
 
     // 내 주변 탐색 버튼 세팅
     private fun setTrackingBtn() {
@@ -73,9 +75,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
                 builder.setPositiveButton("확인") { dialog, which ->
                     ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ACCESS_FINE_LOCATION)
                 }
-                builder.setNegativeButton("취소") { dialog, which ->
-
-                }
                 builder.show()
             } else {
                 if (isFirstCheck) {
@@ -86,12 +85,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
                     // 다시 묻지 않음 클릭 (앱 정보 화면으로 이동)
                     val builder = AlertDialog.Builder(context)
                     builder.setMessage("현재 위치를 확인하시려면 설정에서 위치 권한을 허용해주세요.")
-                    builder.setPositiveButton("설정으로 이동") { dialog, which ->
+                    builder.setPositiveButton("설정으로 이동하기") { dialog, which ->
                         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + context?.packageName))
                         startActivity(intent)
-                    }
-                    builder.setNegativeButton("취소") { dialog, which ->
-
                     }
                     builder.show()
                 }
@@ -100,21 +96,15 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             // 권한이 있는 상태
             val lm : LocationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-
-            //위도 , 경도
-            mCurrentLat = userNowLocation?.latitude
-            mCurrentLng = userNowLocation?.longitude
+            mCurrentLat = userNowLocation?.latitude // 위도
+            mCurrentLng = userNowLocation?.longitude // 경도
 
             startTracking()
         }
     }
 
     // 권한 요청에 따른 분기 처리
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == ACCESS_FINE_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +127,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
     // 현재 위치 마커 세팅
     private fun setMyLocationMarker() {
-        binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20,0))
+        binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20,20))
     }
 
     // 현재 위치 반경 세팅
@@ -145,8 +135,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         val circle1 = MapCircle(
             MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!),  // center
             3000,  // radius
-            Color.argb(40, 37, 114, 209),  // strokeColor
-            Color.argb(40, 37, 114, 209) // fillColor
+            Color.argb(30, 37, 114, 209),  // strokeColor
+            Color.argb(30, 37, 114, 209) // fillColor
         )
 
         // 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정.
@@ -161,7 +151,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             }
             "end" -> {
                 binding.kakaoMapView.removeAllCircles()
-                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!)))
             }
             "current" -> {
                 binding.kakaoMapView.removeAllCircles()
@@ -176,6 +166,12 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
         setMyLocationMarker()
         setCircle("start")
+
+        binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
+        binding.trackingBtn.text = "탐색 종료"
+
+        binding.fabCurrentLocation.isClickable = true
+        catchCurrentLocation()
         status = false
         Log.d("추적", "시작")
     }
@@ -184,6 +180,11 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
         setCircle("end")
+
+        binding.trackingBtn.setBackgroundResource(R.drawable.bg_yellow_r12)
+        binding.trackingBtn.text = "내 주변 탐색"
+
+        binding.fabCurrentLocation.isClickable = false
         status = true
         Log.d("추적", "멈춤")
     }
@@ -193,5 +194,4 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             setCircle("current")
         }
     }
-
 }
