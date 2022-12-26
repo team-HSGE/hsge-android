@@ -125,6 +125,5 @@ dependencies {
 
     // STOMP
     implementation "com.github.NaikSoftware:StompProtocolAndroid:$stomp_version"
-
 }
 apply plugin: 'com.google.gms.google-services'

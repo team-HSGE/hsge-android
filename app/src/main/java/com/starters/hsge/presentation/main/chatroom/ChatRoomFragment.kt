@@ -13,14 +13,7 @@ import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.Okio
-import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
-import ua.naiksoftware.stomp.StompClient
-import ua.naiksoftware.stomp.dto.LifecycleEvent
-import ua.naiksoftware.stomp.dto.StompHeader
 
 @AndroidEntryPoint
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {

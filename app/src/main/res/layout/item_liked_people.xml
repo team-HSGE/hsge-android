@@ -26,6 +26,7 @@
             app:shapeAppearanceOverlay="@style/Circle" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/liked_people_tv_nick_name"
             android:layout_width="68dp"
             android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/liked_people_iv_icon"
-            tools:text="닉네임여섯자" />
+            tools:text="닉네임" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,7 +84,7 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
     private fun initListener() {
         // 프로필 이미지 클릭
         binding.ivUserProfile.setOnClickListener {
-            val action = UserProfileEditFragmentDirections.actionUserProfileEditFragmentToUserProfileIconFragment2(2)
+            val action = UserProfileEditFragmentDirections.actionUserProfileEditFragmentToUserProfileEditIconFragment(2)
             findNavController().navigate(action)
         }
         // 수정 버튼 클릭
