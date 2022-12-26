@@ -2,8 +2,7 @@ package com.starters.hsge.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.navigation.findNavController
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -19,18 +18,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         initNavigation()
-
-        // 백그라운드 푸시 화면 이동
-        val notificationPayload = intent?.extras
-        if(notificationPayload != null){
-            val naviController =
-                supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
-            val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-            NavigationUI.onNavDestinationSelected(item, naviController!!)
-        }
-        Log.d("notificationPayload", notificationPayload.toString())
-
+        killedPush()
     }
+
 
     private fun initNavigation() {
         val naviController =
@@ -40,33 +30,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    // 포그라운드 화면 이동
+    // background_앱이 꺼져있는 경우 push
+    private fun killedPush() {
+        val notificationPayload = intent?.extras
+        if (notificationPayload != null) {
+
+            val moveTo = notificationPayload.getString("pushAbout")
+            moveFragment(moveTo)
+        }
+    }
+
+    // foreground, background_화면 안 떠있는 경우 화면 이동
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        Log.d("뭐가", "dd")
+        val moveTo = intent?.extras!!.getString("pushAbout")
+        moveFragment(moveTo)
+    }
 
-        val createdAt = intent?.extras!!.getString("pushAbout")
-        Log.d("pushAbout", intent.extras!!.getString("pushAbout").toString())
 
-        when (createdAt) {
+    private fun moveFragment(moveTo: String?) {
+        val naviController = supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
+        when (moveTo) {
             "chatFragment" -> {
                 val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-                NavigationUI.onNavDestinationSelected(
-                    item,
-                    navController = findNavController(R.id.fcv_main)
-                )
+                NavigationUI.onNavDestinationSelected(item, naviController!!)
             }
-            "myPageFragment" -> {
-                val item = binding.navigationMain.menu.findItem(R.id.myPageFragment)
-                NavigationUI.onNavDestinationSelected(
-                    item,
-                    navController = findNavController(R.id.fcv_main)
-                )
+            "chatRoomFragment" -> {
+                naviController!!.navigate(R.id.chatFragment)
+                naviController.navigate(R.id.chatRoomFragment)
+                goneBtmNav()
             }
             else -> return
         }
-
-
     }
+
+    private fun goneBtmNav(){ binding.navigationMain.visibility = View.GONE }
 }

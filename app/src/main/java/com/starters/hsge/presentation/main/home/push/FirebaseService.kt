@@ -40,7 +40,7 @@ class FirebaseService : FirebaseMessagingService() {
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
             val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
-            sendNotification(message, "like")
+            sendNotification(message, "chat")
             Log.d("fcm_service_data", message.data["title"].toString())
             Log.d("fcm_service_data", message.data["body"].toString())
             Log.d("fcm_service_data", message.data["about"].toString())
@@ -64,7 +64,7 @@ class FirebaseService : FirebaseMessagingService() {
                 Log.d("hey?", intent.extras!!.getString("pushAbout").toString())
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
-                intent.putExtra("pushAbout", "myPageFragment")
+                intent.putExtra("pushAbout", "chatRoomFragment")
             }
             else -> return
         }
