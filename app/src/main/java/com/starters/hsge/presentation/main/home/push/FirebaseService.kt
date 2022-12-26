@@ -56,10 +56,12 @@ class FirebaseService : FirebaseMessagingService() {
 
         Log.d("fcm_service_data_hey", "${remoteMessage.data["title"]}, ${remoteMessage.data["body"]}")
         val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         when(about){
             "like" -> { // 좋아요 -> 채팅 탭으로 이동
                 intent.putExtra("pushAbout", "chatFragment")
+                Log.d("hey?", intent.extras!!.getString("pushAbout").toString())
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "myPageFragment")
@@ -73,7 +75,7 @@ class FirebaseService : FirebaseMessagingService() {
             applicationContext,
             UUID.randomUUID().hashCode(),
             intent,
-            PendingIntent.FLAG_IMMUTABLE // 일회용 펜딩 인텐트
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT // 일회용 펜딩 인텐트
         )
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -95,12 +97,11 @@ class FirebaseService : FirebaseMessagingService() {
 
         val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, pendingIntent).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
-
     }
 
     private fun getNotificationBuilder(title: String, content: String, pendingIntent: PendingIntent) : NotificationCompat.Builder{
 
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
+        //val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
 
         return NotificationCompat.Builder(this, resources.getString(R.string.default_notification_channel_id))
             .setContentTitle(title)
@@ -108,8 +109,8 @@ class FirebaseService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .setGroupSummary(true)
             .setAutoCancel(true)
-            .setLargeIcon(bitmap)
             .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
+        //            .setLargeIcon(bitmap)
     }
 }

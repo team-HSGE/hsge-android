@@ -89,7 +89,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             >
 
             <meta-data
