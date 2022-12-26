@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,46 +19,43 @@ import androidx.core.content.ContextCompat
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapView
+import net.daum.mf.map.api.*
 
 class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
-    private var status = true
+    private var mCurrentLat : Double? = 0.0
+    private var mCurrentLng : Double? = 0.0
+
+    private var status : Boolean = true
     private val ACCESS_FINE_LOCATION = 1000
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setTrackingBtn()
-
-
+        catchCurrentLocation()
     }
 
-    private fun setMyLocationMarker() {
-        binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20,0))
-    }
-
+    // 내 주변 탐색 버튼 세팅
     private fun setTrackingBtn() {
         binding.trackingBtn.setOnClickListener {
             if (status == true) {
                 if (checkLocationService()) {
                     // GPS가 켜져있을 경우
                     permissionCheck()
-                    status = false
+
                 } else {
                     // GPS가 꺼져있을 경우
                     Toast.makeText(context, "GPS를 켜주세요.", Toast.LENGTH_SHORT).show()
-                    status = true
                 }
 
             } else {
                 stopTracking()
-                status = true
             }
         }
     }
 
+    // 권한 체크
     private fun permissionCheck() {
         val isFirstCheck = prefs.getBoolean("isFirstPermissionCheck", true)
 
@@ -94,10 +93,18 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             }
         } else {
             // 권한이 있는 상태
+            val lm : LocationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+            //위도 , 경도
+            mCurrentLat = userNowLocation?.latitude
+            mCurrentLng = userNowLocation?.longitude
+
             startTracking()
         }
     }
 
+    // 권한 요청에 따른 분기 처리
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -123,16 +130,63 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
+    // 현재 위치 마커 세팅
+    private fun setMyLocationMarker() {
+        binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20,0))
+    }
+
+    // 현재 위치 반경 세팅
+    private fun setCircle(circleName : String) {
+        val circle1 = MapCircle(
+            MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!),  // center
+            3000,  // radius
+            Color.argb(40, 37, 114, 209),  // strokeColor
+            Color.argb(40, 37, 114, 209) // fillColor
+        )
+
+        // 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정.
+        val mapPointBoundsArray = arrayOf(circle1.bound)
+        val mapPointBounds = MapPointBounds(mapPointBoundsArray)
+        val padding = 50 // px
+
+        when(circleName) {
+            "start" -> {
+                binding.kakaoMapView.addCircle(circle1)
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
+            }
+            "end" -> {
+                binding.kakaoMapView.removeAllCircles()
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
+            }
+            "current" -> {
+                binding.kakaoMapView.removeAllCircles()
+                binding.kakaoMapView.addCircle(circle1)
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!)))
+            }
+        }
+    }
+
+    // Tracking 상태
     private fun startTracking() {
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
         setMyLocationMarker()
+        setCircle("start")
+        status = false
         Log.d("추적", "시작")
     }
 
     private fun stopTracking() {
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
+        binding.kakaoMapView.setShowCurrentLocationMarker(false)
+        setCircle("end")
+        status = true
         Log.d("추적", "멈춤")
+    }
 
+    private fun catchCurrentLocation() {
+        binding.fabCurrentLocation.setOnClickListener {
+            setCircle("current")
+        }
     }
 
 }

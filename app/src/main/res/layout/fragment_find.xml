@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.main.find.FindFragment">
-        
+
         <net.daum.mf.map.api.MapView
             android:id="@+id/kakao_map_view"
             android:layout_width="match_parent"
@@ -20,7 +20,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_current_location"
