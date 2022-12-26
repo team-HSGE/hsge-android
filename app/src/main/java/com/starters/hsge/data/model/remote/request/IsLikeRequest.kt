@@ -1,6 +1,8 @@
 package com.starters.hsge.data.model.remote.request
 
+import kotlinx.serialization.SerialName
+
 @kotlinx.serialization.Serializable
 data class IsLikeRequest(
-    val like: Boolean
+    @SerialName("like") val like: Boolean
 )

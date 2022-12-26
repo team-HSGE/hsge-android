@@ -1,6 +1,8 @@
 package com.starters.hsge.data.model.remote.request
 
+import kotlinx.serialization.SerialName
+
 @kotlinx.serialization.Serializable
 data class DistanceRequest(
-    val radius: Double
+    @SerialName("radius") val radius: Double
 )
