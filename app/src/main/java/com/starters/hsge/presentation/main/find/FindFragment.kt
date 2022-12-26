@@ -36,6 +36,11 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         catchCurrentLocation()
     }
 
+    override fun onStop() {
+        super.onStop()
+        stopTracking()
+    }
+
     // 내 주변 탐색 버튼 세팅
     private fun setTrackingBtn() {
         binding.trackingBtn.setOnClickListener {
