@@ -32,6 +32,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
         initListener()
         setNavigation()
 
+        Log.d("tesst", "chatRoom")
         val url = "ws://[domain]/connect/websocket"
         val intervalMillis = 1000L
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)

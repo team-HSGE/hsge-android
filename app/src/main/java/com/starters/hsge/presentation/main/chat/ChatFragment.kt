@@ -24,16 +24,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
 
-    override fun onResume() {
-        super.onResume()
-        ChatListService(this).tryGetChatList()
+            ChatListService(this@ChatFragment).tryGetChatList()
+
+        Log.d("순서", "tryGetChatList")
         likedPeopleList.clear()
         chatList.clear()
     }
 
-    private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+
+    private fun goneBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
+    }
 
     override fun onGetChatListSuccess(
         chatListResponse: List<ChatListResponse?>?,
@@ -71,9 +73,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             binding.chatRvChatList.adapter = chatListAdapter
             Log.d("ChatList", "성공, $chatList")
 
-
-
             Log.d("ChatList_all", "성공, $chatListResponse")
+
+
         } else {
             Log.d("ChatList 오류", "Error code : ${code}")
         }
