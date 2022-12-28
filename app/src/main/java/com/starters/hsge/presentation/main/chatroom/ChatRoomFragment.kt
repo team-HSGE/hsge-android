@@ -2,17 +2,21 @@ package com.starters.hsge.presentation.main.chatroom
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatRoomBinding
-import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
@@ -26,27 +30,37 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 
 @AndroidEntryPoint
-class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
+class ChatRoomFragment : Fragment() {
+
+    lateinit var binding : FragmentChatRoomBinding
 
     private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
     private lateinit var callback: OnBackPressedCallback
     private lateinit var listAdapterObserver: RecyclerView.AdapterDataObserver
     private lateinit var adapter: MessageListAdapter
+    private var isOpen = false
 
     private val chatRoomViewModel: ChatRoomViewModel by viewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_room, container, false)
+        return binding.root
+    }
 
     @SuppressLint("CheckResult", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setChatView()
+        setupView()
         initListener()
         setNavigation()
         setListAdapter()
         setToolbar()
-        //loadNewMessage()
-
 
         val url = "ws://192.168.0.8:8081/ws/websocket"
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -70,7 +84,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
                                 it.messageList.add(messageFromJson)
                                 Log.d("메세지 리스트 데이터", "${it.messageList}")
                                 adapter.notifyDataSetChanged()
-                                binding.rvMessages.scrollToPosition(it.messageList.size - 1)
+                                binding.rvMessages.smoothScrollToPosition(it.messageList.size - 1)
                             }
                         }
                     }
@@ -78,7 +92,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
                     //메세지 보내기
                     binding.btnSend.setOnClickListener {
                         //TODO: 데이터 넣기
-                        if (binding.edtMessage.text.isNotEmpty()) {
+                        if (binding.edtMessage.text.isNotEmpty() && binding.edtMessage.text.isNotBlank()) {
                             val data = JSONObject()
                             data.put("senderId", 1)
                             data.put("message", binding.edtMessage.text)
@@ -119,14 +133,28 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
     }
 
     private fun setListAdapter() {
-        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                binding.rvMessages.scrollToPosition(positionStart)
+//        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
+//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                binding.rvMessages.scrollToPosition(positionStart)
+//            }
+//        })
+
+        binding.rvMessages.apply {
+            //키보드 올라올 때 레이아웃 이동
+            addOnLayoutChangeListener(onLayoutChangeListener)
+
+            //
+            viewTreeObserver.addOnScrollChangedListener {
+                if (isScrollable() && !isOpen) {
+                    setStackFromEnd()
+                    removeOnLayoutChangeListener(onLayoutChangeListener)
+                }
             }
-        })
+        }
+
         chatRoomViewModel.getChatInfo(1).observe(viewLifecycleOwner) {
             adapter = MessageListAdapter(it.userInfo.userId)
-            adapter.registerAdapterDataObserver(listAdapterObserver)
+            //adapter.registerAdapterDataObserver(listAdapterObserver)
             binding.rvMessages.adapter = adapter
             adapter.submitList(it.messageList)
         }
@@ -182,4 +210,24 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
     private fun visibleBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
+
+    private fun setupView() {
+        // 키보드 Open/Close 체크
+        binding.layoutContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            binding.layoutContainer.getWindowVisibleDisplayFrame(rect)
+
+            val rootViewHeight = binding.layoutContainer.rootView.height
+            val heightDiff = rootViewHeight - rect.height()
+            isOpen = heightDiff > rootViewHeight * 0.25
+        }
+    }
+
+    private val onLayoutChangeListener =
+        View.OnLayoutChangeListener {  _, _, _, _, bottom, _, _, _, oldBottom ->
+            // 키보드 올라오면서 높이 변화
+            if (bottom < oldBottom) {
+                binding.rvMessages.scrollBy(0, oldBottom - bottom)
+            }
+        }
 }
