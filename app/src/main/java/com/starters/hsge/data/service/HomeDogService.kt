@@ -10,14 +10,15 @@ import retrofit2.Response
 
 class HomeDogService(val homeDogInterface: HomeDogInterface) {
 
-    fun tryGetHomeDog() {
+     fun tryGetHomeDog() {
         val dogCardApi = RetrofitClient.sRetrofit.create(HomeDogApi::class.java)
         dogCardApi.getDogData().enqueue(object : Callback<List<DogCard>> {
             override fun onResponse(
                 call: Call<List<DogCard>>,
                 response: Response<List<DogCard>>
             ) {
-                homeDogInterface.onGetHomeDogSuccess(response.body() , response.isSuccessful, response.code())
+                    response.body()
+                        ?.let { homeDogInterface.onGetHomeDogSuccess(it, response.isSuccessful, response.code()) }
             }
 
             override fun onFailure(call: Call<List<DogCard>>, t: Throwable) {

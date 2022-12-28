@@ -12,8 +12,8 @@ object RetrofitClient {
 
     //Retrofit.Builder 클래스의 인스턴스를 만들고 Base URL을 구성해준다.
     val sRetrofit = initRetrofit()
-    private const val AccessToken_URL = "http://192.168.0.8:8081/" // 채팅용
-    //private const val AccessToken_URL = "https://dev.hsge.site/"
+    //private const val AccessToken_URL = "http://192.168.0.8:8081/" // 채팅용
+    private const val AccessToken_URL = "https://dev.hsge.site/"
 
     private fun initRetrofit() : Retrofit =
         Retrofit.Builder()

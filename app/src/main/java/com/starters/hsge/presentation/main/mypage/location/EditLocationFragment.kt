@@ -109,6 +109,8 @@ class EditLocationFragment :
                 )
             )
 
+            visibleBtmNav()
+
             //마이페이지로 이동
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_editLocationFragment_to_myPageFragment)
