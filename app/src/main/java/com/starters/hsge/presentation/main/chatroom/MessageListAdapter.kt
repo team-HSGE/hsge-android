@@ -1,11 +1,15 @@
 package com.starters.hsge.presentation.main.chatroom
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.databinding.ItemMessageReceivedBinding
 import com.starters.hsge.databinding.ItemMessageSentBinding
 
-class MessageListAdapter(private val userId: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessageListAdapter(private val userId: Long) :
+    ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffCallback()) {
 
     companion object {
         private const val VIEW_TYPE_MESSAGE_SENT = 1
@@ -13,29 +17,69 @@ class MessageListAdapter(private val userId: String) : RecyclerView.Adapter<Recy
     }
 
 
-    class ReceivedViewHolder(private val binding: ItemMessageSentBinding) :
+    class SentViewHolder(private val binding: ItemMessageSentBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        fun bind(msg: Message) {
+            binding.messageList = msg
+            binding.executePendingBindings()
+        }
     }
 
 
-    class SentViewHolder(private val binding: ItemMessageReceivedBinding) :
+    class ReceivedViewHolder(private val binding: ItemMessageReceivedBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        fun bind(msg: Message) {
+            binding.messageList = msg
+            binding.executePendingBindings()
+        }
+
     }
 
     // 뷰타입 설정해준대로 동작
     override fun getItemViewType(position: Int): Int {
-        return getItemViewType(position)
+        return if (getItem(position).senderId == userId) {
+            VIEW_TYPE_MESSAGE_SENT
+        } else {
+            VIEW_TYPE_MESSAGE_RECEIVED
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+        val layoutInflater = LayoutInflater.from(parent.context)
+
+        return when (viewType) {
+            VIEW_TYPE_MESSAGE_SENT -> {
+                val binding = ItemMessageSentBinding.inflate(layoutInflater, parent, false)
+                SentViewHolder(binding)
+            }
+            VIEW_TYPE_MESSAGE_RECEIVED -> {
+                val binding = ItemMessageReceivedBinding.inflate(layoutInflater, parent, false)
+                ReceivedViewHolder(binding)
+            }
+            else -> {
+                throw Exception("Error reading holder type")
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when(holder.itemViewType) {
+            VIEW_TYPE_MESSAGE_SENT -> (holder as SentViewHolder).bind(
+                getItem(position)
+            )
+            VIEW_TYPE_MESSAGE_RECEIVED -> (holder as ReceivedViewHolder).bind(
+                getItem(position)
+            )
+        }
+    }
+}
+
+class MessageDiffCallback : DiffUtil.ItemCallback<Message>() {
+    override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem == newItem
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+    override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem.timeStamp == newItem.timeStamp
     }
 }

@@ -45,7 +45,7 @@ class FirebaseService : FirebaseMessagingService() {
         if (message.data.isNotEmpty()) {
             val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
-            sendNotification(message, about, img)
+            sendNotification(message, "match", img)
             Log.d("fcm_service_data", message.data["body"].toString())
 
             Log.d("fcm_service_data", message.data["pushID"].toString())
