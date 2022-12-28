@@ -58,4 +58,10 @@ abstract class RepositoryModule {
     abstract fun bindsDeleteDogRepository(
         deleteDogRepositoryImpl: DeleteDogRepositoryImpl
     ): DeleteDogRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsChatListRepository(
+        chatListRepositoryImpl: ChatListRepositoryImpl
+    ) : ChatListRepository
 }
