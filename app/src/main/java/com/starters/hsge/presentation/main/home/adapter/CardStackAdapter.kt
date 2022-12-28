@@ -11,6 +11,7 @@ import com.google.android.material.chip.ChipGroup
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.databinding.ItemCardBinding
+import com.starters.hsge.presentation.common.base.BaseFragment.Companion.prefs
 
 
 class CardStackAdapter(val context: Context, private val items: List<DogCard>) : RecyclerView.Adapter<CardStackAdapter.CardViewHolder>(){
@@ -63,7 +64,9 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                     chipGroupDislike.addDisLikeChip(context, it)
                 }
             }
+            prefs.edit().putString("homeDogResponse", "완료").apply()
         }
+
     }
 
     private fun ChipGroup.addLikeChip(context: Context, label: String) {

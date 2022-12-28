@@ -28,12 +28,16 @@ class FirebaseService : FirebaseMessagingService() {
 
         // 화면 깨우기
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+
         @SuppressLint("InvalidWakeLockTag")
-        val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "screen_on")
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "screen_on"
+        )
         wakeLock.acquire(5000L /*10 minutes*/)
 
         // notification 수신한 경우
-        if (message.getNotification() != null){
+        if (message.getNotification() != null) {
             Log.d("fcm_service_notification", message.notification?.title.toString())
         }
 
@@ -42,12 +46,7 @@ class FirebaseService : FirebaseMessagingService() {
             val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
             sendNotification(message, "chat", img)
-            Log.d("fcm_service_data", message.data["title"].toString())
-            Log.d("fcm_service_data", message.data["body"].toString())
             Log.d("fcm_service_data", message.data["about"].toString())
-            Log.d("fcm_service_data", message.data["image"].toString())
-
-
 
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
@@ -57,14 +56,12 @@ class FirebaseService : FirebaseMessagingService() {
 
     private fun sendNotification(remoteMessage: RemoteMessage, about: String?, img: Int?) {
 
-        Log.d("fcm_service_data_hey", "${remoteMessage.data["title"]}, ${remoteMessage.data["body"]}")
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        when(about){
+        when (about) {
             "match" -> { // 좋아요 -> 채팅 탭으로 이동
                 intent.putExtra("pushAbout", "chatFragment")
-                Log.d("hey?", intent.extras!!.getString("pushAbout").toString())
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "chatRoomFragment")
@@ -83,7 +80,7 @@ class FirebaseService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 resources.getString(R.string.default_notification_channel_id), //채널 ID
                 "CHATTING", //채널명
@@ -91,20 +88,19 @@ class FirebaseService : FirebaseMessagingService() {
             )
             channel.apply {
                 enableLights(true)
-                lightColor= Color.BLUE
+                lightColor = Color.BLUE
                 enableVibration(true)
                 description = "notification"
                 notificationManager.createNotificationChannel(channel)
             }
         }
 
-        val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent).build()
+        val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent
+        ).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
     }
 
-    private fun getNotificationBuilder(title: String, content: String, img: Int?, pendingIntent: PendingIntent) : NotificationCompat.Builder{
-
-
+    private fun getNotificationBuilder(title: String, content: String, img: Int?, pendingIntent: PendingIntent): NotificationCompat.Builder {
         val bitmap = when (img) {
             1 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_1)
@@ -133,7 +129,7 @@ class FirebaseService : FirebaseMessagingService() {
             9 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_9)
             }
-            10-> {
+            10 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_10)
             }
             11 -> {
@@ -153,7 +149,8 @@ class FirebaseService : FirebaseMessagingService() {
             }
         }
 
-        return NotificationCompat.Builder(this, resources.getString(R.string.default_notification_channel_id))
+        return NotificationCompat
+            .Builder(this, resources.getString(R.string.default_notification_channel_id))
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(pendingIntent)
@@ -161,6 +158,7 @@ class FirebaseService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
-                    .setLargeIcon(bitmap)
+            .setLargeIcon(bitmap)
+
     }
 }

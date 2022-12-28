@@ -25,7 +25,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
         super.onViewCreated(view, savedInstanceState)
 
 
-            ChatListService(this@ChatFragment).tryGetChatList()
+            ChatListService(this).tryGetChatList()
 
         Log.d("순서", "tryGetChatList")
         likedPeopleList.clear()
@@ -74,6 +74,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             Log.d("ChatList", "성공, $chatList")
 
             Log.d("ChatList_all", "성공, $chatListResponse")
+            Log.d("순서", "chatListResponse")
+
+            prefs.edit().putString("chatListResponse", "완료").apply()
 
 
         } else {

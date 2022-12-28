@@ -17,9 +17,7 @@ import com.starters.hsge.data.interfaces.IsLikeInterface
 import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface,
     IsLikeInterface {
@@ -29,6 +27,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        CoroutineScope(Dispatchers.IO).launch {
+                HomeDogService(this@HomeFragment).tryGetHomeDog()
+            Log.d("순서", "tryGetHomeDog")
+
+        }
+
+
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -42,13 +48,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         })
 
-        CoroutineScope(Dispatchers.IO).launch {
-            HomeDogService(this@HomeFragment).tryGetHomeDog()
-            Log.d("순서", "tryGetHomeDog")
-        }
+
 
         fabClick(binding.cardStackView)
     }
+
 
 
     private fun fabClick(cardStackView: CardStackView) {
@@ -132,12 +136,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
+            Log.d("순서", "DogCardResponse")
+
 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")
 
         }
     }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        prefs.edit().remove("homeDogResponse").apply()
+//
+//    }
 
     override fun onGetHomeDogFailure(message: String) {
         Log.d("HomeDog 오류", "오류: $message")

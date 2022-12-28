@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -21,8 +21,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         initNavigation()
-        CoroutineScope(Dispatchers.Main).launch {
-            killedPush()
+
+        //인텐트가 잇으면 sp 확인해서 넘어가기
+        val notificationPayload = intent?.extras
+        if (notificationPayload != null) {
+            CoroutineScope(Dispatchers.Main).launch {
+
+                delay(1000L) // DogCardResponse 올 때까지 1초 시간 벌기
+
+                if (prefs.getString("homeDogResponse", "0").toString() == "완료") {
+                    Log.d("순서", "${prefs.getString("homeDogResponse", "0").toString()}")
+                    val moveTo = notificationPayload.getString("pushAbout")
+                    Log.d("순서?", "ㅇㅋ moveFragment 들어가")
+
+                    moveFragment(moveTo, "killed")
+
+                    prefs.edit().remove("homeDogResponse").apply()
+
+                }
+
+
+            }
         }
     }
 
@@ -31,17 +50,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
         naviController?.let {
             binding.navigationMain.setupWithNavController(it)
+
+
         }
     }
 
     // background_앱이 꺼져있는 경우 push
     private fun killedPush() {
-        val notificationPayload = intent?.extras
-        if (notificationPayload != null) {
 
-            val moveTo = notificationPayload.getString("pushAbout")
-            moveFragment(moveTo, "killed")
-        }
+
     }
 
     // foreground, background_화면 안 떠있는 경우 화면 이동
@@ -65,23 +82,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     NavigationUI.onNavDestinationSelected(item, naviController)
                 }
                 "chatRoomFragment" -> {
-
-
+                    //delay(1000L)
                     CoroutineScope(Dispatchers.Main).launch {
-                        val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-                        Log.d("순서?", "chatFrag")
-                        NavigationUI.onNavDestinationSelected(item, naviController)
 
-                        delay(1000L)
-                        Navigation.findNavController(binding.fcvMain).navigate(R.id.chatRoomFragment)
-                        Log.d("순서?", "charRoomFrag")
+                        launch {
+                            val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
+                            Log.d("순서?", "chatFrag")
+                            NavigationUI.onNavDestinationSelected(item, naviController)
+                        }
+                        launch {
 
-                        goneBtmNav()
+                            if (prefs.getString("chatListResponse", "0").toString() == "완료") {
+
+                                findNavController(binding.fcvMain).navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                                Log.d("순서?", "charRoomFrag")
+
+                                goneBtmNav()
+                                prefs.edit().remove("chatListResponse").apply()
+
+                            } else {
+                                return@launch
+                            }
+                        }
                     }
                 }
                 else -> return
             }
-
         }
     }
 
