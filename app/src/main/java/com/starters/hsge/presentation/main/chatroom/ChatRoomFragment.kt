@@ -1,11 +1,15 @@
 package com.starters.hsge.presentation.main.chatroom
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatRoomBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -13,82 +17,125 @@ import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.Okio
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import ua.naiksoftware.stomp.Stomp
-import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-import ua.naiksoftware.stomp.dto.StompHeader
 
 @AndroidEntryPoint
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
 
     private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
     private lateinit var callback: OnBackPressedCallback
+    private lateinit var listAdapterObserver: RecyclerView.AdapterDataObserver
+    private lateinit var adapter: MessageListAdapter
 
+    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+
+
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /**
-         * @author
-         * initListener()를 타고 가시면 툴바 버튼 클릭 시 action을 정의할 수 있습니다
-         */
-
+        setChatView()
         initListener()
         setNavigation()
+        setListAdapter()
+        setToolbar()
+        //loadNewMessage()
 
-        val url = "ws://[domain]/connect/websocket"
-        val intervalMillis = 1000L
+
+        val url = "ws://192.168.0.8:8081/ws/websocket"
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
-//        fun runStomp() {
-//            stompClient.topic("/topic/~").subscribe { topicMessage ->
-//                Log.i("message Receive", topicMessage.payload)
-//            }
-//
-//
-//            // 헤더를 넣고 싶으면 connect할 때 설정한 헤더들을 넣어주면 됨
-//            val headerList = arrayListOf<StompHeader>()
-//            headerList.add(StompHeader("inviteCode","test0912"))
-//            headerList.add(StompHeader("username", text.value))
-//            headerList.add(StompHeader("positionType", "1"))
-//            stompClient.connect(headerList)
-//
-//
-//            //stopmClient의 lifecycle 변경에 따라 로그를 찍는 코드
-//            stompClient.lifecycle().subscribe { lifecycleEvent ->
-//                when (lifecycleEvent.type) {
-//                    LifecycleEvent.Type.OPENED -> {
-//                        Log.i("OPEND", "!!")
-//                    }
-//                    LifecycleEvent.Type.CLOSED -> {
-//                        Log.i("CLOSED", "!!")
-//
-//                    }
-//                    LifecycleEvent.Type.ERROR -> {
-//                        Log.i("ERROR", "!!")
-//                        Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
-//                    }
-//                    else ->{
-//                        Log.i("ELSE", lifecycleEvent.message)
-//                    }
-//                }
-//            }
-//
-//            // 채팅을 보낼 때 채팅 메세지의 값에 맞춰서 보낼 주소에 넣어주기기
-//            val data =JSONObject()
-//            data.put("userKey", text.value)
-//            data.put("positionType", "1")
-//            data.put("content", "test")
-//            data.put("messageType", "CHAT")
-//            data.put("destRoomCode", "test0912")
-//
-//            //정책에 맞게 문자 전송
-//            stompClient.send("/stream/chat/send", data.toString()).subscribe()
-//
-//        }
+        // stomp 연결
+        stompClient.connect()
+
+        stompClient.lifecycle().subscribe { lifecycleEvent ->
+            when (lifecycleEvent.type) {
+                LifecycleEvent.Type.OPENED -> {
+                    Log.i("OPEND", "!!")
+
+                    // subscribe 채널 구독, 내가 보내는 메세지와 상대가 보내는 메세지를 구독할 수 있음
+                    stompClient.topic("/sub/chat/room/1").subscribe { topicMessage ->
+                        // 메세지 디코딩
+                        val messageFromJson = Json.decodeFromString<Message>(topicMessage.payload)
+
+                        // 리사이클러뷰에 데이터 추가
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            chatRoomViewModel.chatList.value?.let {
+                                it.messageList.add(messageFromJson)
+                                Log.d("메세지 리스트 데이터", "${it.messageList}")
+                                adapter.notifyDataSetChanged()
+                                binding.rvMessages.scrollToPosition(it.messageList.size - 1)
+                            }
+                        }
+                    }
+
+                    //메세지 보내기
+                    binding.btnSend.setOnClickListener {
+                        //TODO: 데이터 넣기
+                        if (binding.edtMessage.text.isNotEmpty()) {
+                            val data = JSONObject()
+                            data.put("senderId", 1)
+                            data.put("message", binding.edtMessage.text)
+                            data.put("roomId", 1)
+
+                            stompClient.send("/pub/chat/message", data.toString()).subscribe()
+                            binding.edtMessage.text.clear()
+                        }
+                    }
+                }
+                LifecycleEvent.Type.CLOSED -> {
+                    //Log.i("CLOSED", "!!")
+
+                }
+                LifecycleEvent.Type.ERROR -> {
+                    //Log.i("ERROR", "!!")
+                    //Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
+                }
+                else -> {
+                    Log.i("ELSE", lifecycleEvent.message)
+                }
+            }
+        }
+    }
+
+    private fun setChatView() {
+        when (requireArguments().getInt("active")) {
+            0 -> {
+                //TODO: 첫 번째 메세지를 보낼 때 visible 처리
+            }
+            1 -> {
+                binding.ivPartnerProfileLarge.visibility = View.GONE
+                binding.tvLikeWho.visibility = View.GONE
+                binding.tvChatroomExplanation.visibility = View.GONE
+                binding.tvChatroomTime.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setListAdapter() {
+        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.rvMessages.scrollToPosition(positionStart)
+            }
+        })
+        chatRoomViewModel.getChatInfo(1).observe(viewLifecycleOwner) {
+            adapter = MessageListAdapter(it.userInfo.userId)
+            adapter.registerAdapterDataObserver(listAdapterObserver)
+            binding.rvMessages.adapter = adapter
+            adapter.submitList(it.messageList)
+        }
+    }
+
+    private fun setToolbar() {
+        chatRoomViewModel.getChatInfo(1).observe(viewLifecycleOwner) {
+            binding.toolBar.title = it.userInfo.nickname
+        }
     }
 
     private fun initListener() {
@@ -132,7 +179,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(R.layout.fragment
         }
     }
 
-    private fun visibleBtmNav(){
+    private fun visibleBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }

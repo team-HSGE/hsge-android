@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.main.chat
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
@@ -121,7 +122,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         likedPeopleAdapter = LikedPeopleAdapter(list, itemClickListener = {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                .navigate(R.id.action_chatFragment_to_chatRoomFragment, bundleOf(ACTIVE to 0) )
             goneBtmNav()
         })
         binding.chatRvLikedPeople.adapter = likedPeopleAdapter
@@ -131,7 +132,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
         binding.chatRvChatList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         chatListAdapter = ChatListAdapter(list, itemClickListener = {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                .navigate(R.id.action_chatFragment_to_chatRoomFragment, bundleOf(ACTIVE to 1))
             goneBtmNav()
         })
         binding.chatRvChatList.adapter = chatListAdapter
@@ -139,4 +140,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
 
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
 
+    companion object {
+        const val ACTIVE = "active"
+    }
 }
