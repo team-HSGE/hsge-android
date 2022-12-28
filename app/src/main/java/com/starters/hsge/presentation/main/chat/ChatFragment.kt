@@ -13,6 +13,9 @@ import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), chatListInterface {
 
@@ -24,16 +27,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
+        CoroutineScope(Dispatchers.IO).launch {
+            ChatListService(this@ChatFragment).tryGetChatList()
+        }
 
-    override fun onResume() {
-        super.onResume()
-        ChatListService(this).tryGetChatList()
+        Log.d("순서", "tryGetChatList")
         likedPeopleList.clear()
         chatList.clear()
     }
 
-    private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+    private fun goneBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
+    }
 
     override fun onGetChatListSuccess(
         chatListResponse: List<ChatListResponse?>?,
@@ -71,9 +76,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             binding.chatRvChatList.adapter = chatListAdapter
             Log.d("ChatList", "성공, $chatList")
 
-
-
             Log.d("ChatList_all", "성공, $chatListResponse")
+            Log.d("순서", "chatListResponse")
+
+            prefs.edit().putString("chatListResponse", "완료").apply()
+
+
         } else {
             Log.d("ChatList 오류", "Error code : ${code}")
         }

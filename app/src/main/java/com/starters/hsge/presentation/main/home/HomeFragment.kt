@@ -17,14 +17,24 @@ import com.starters.hsge.data.interfaces.IsLikeInterface
 import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.coroutines.*
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface, IsLikeInterface {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface,
+    IsLikeInterface {
 
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager: CardStackLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        CoroutineScope(Dispatchers.IO).launch {
+                HomeDogService(this@HomeFragment).tryGetHomeDog()
+            Log.d("순서", "tryGetHomeDog")
+
+        }
+
+
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -38,10 +48,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         })
 
-        HomeDogService(this).tryGetHomeDog()
-        //retrofitWork()
+
+
         fabClick(binding.cardStackView)
     }
+
+
 
     private fun fabClick(cardStackView: CardStackView) {
         clickDislike(cardStackView)
@@ -80,12 +92,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     // HomeDog 통신
-    override fun onGetHomeDogSuccess(DogCardResponse: List<DogCard>?, isSuccess: Boolean, code: Int) {
-        if(isSuccess){
-            Log.d("TAG", DogCardResponse.toString())
-            Log.d("TAG", "성공")
+    override fun onGetHomeDogSuccess(
+        DogCardResponse: List<DogCard>,
+        isSuccess: Boolean,
+        code: Int
+    ) {
+        if (isSuccess) {
+
             val dogCardResult = DogCardResponse
-            cardStackAdapter = CardStackAdapter(requireContext(), dogCardResult!!)
+            cardStackAdapter = CardStackAdapter(requireContext(), dogCardResult)
 
             manager = CardStackLayoutManager(context, object : CardStackListener {
                 override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -118,8 +133,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
             binding.cardStackView.layoutManager = manager
             binding.cardStackView.adapter = cardStackAdapter
-        } else{
-                Log.d("HomeDog 오류", "Error code : ${code}")
+
+            Log.d("TAG", DogCardResponse.toString())
+            Log.d("TAG", "성공")
+            Log.d("순서", "DogCardResponse")
+            prefs.edit().putString("homeDogResponse", "완료").apply()
+
+        } else {
+            Log.d("HomeDog 오류", "Error code : ${code}")
 
         }
     }
@@ -130,9 +151,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     // isLike 통신
     override fun onPostIsLikeSuccess(isSuccess: Boolean, code: Int) {
-        if(isSuccess){
+        if (isSuccess) {
             Log.d("IsLike", "성공")
-        }else{
+        } else {
             Log.d("IsLike 오류", "Error code : ${code}")
         }
     }

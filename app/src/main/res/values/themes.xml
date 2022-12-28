@@ -19,6 +19,9 @@
         <item name="CustomLikeChipChoiceStyle">@style/ChipCustomStyleLike</item>
         <item name="CustomDislikeChipChoiceStyle">@style/ChipCustomStyleDislike</item>
         <item name="CustomNeuterChipChoiceStyle">@style/ChipCustomStyleNeuter</item>
+        <item name="CustomMainLikeChipStyle">@style/CustomMainLikeChipStyle</item>
+        <item name="CustomMainDisLikeChipStyle">@style/CustomMainDisLikeChipStyle</item>
+
     </style>
 
     <style name="SplashActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -51,5 +54,22 @@
         <item name="chipCornerRadius">16dp</item>
         <item name="checkedIcon">@drawable/ic_check</item>
     </style>
+
+    <style name="CustomMainLikeChipStyle" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/light_yellow_70</item>
+        <item name="chipSurfaceColor">@color/light_yellow_70</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="chipCornerRadius">16dp</item>
+    </style>
+
+    <style name="CustomMainDisLikeChipStyle" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/G200_70</item>
+        <item name="chipSurfaceColor">@color/G200_70</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="chipCornerRadius">16dp</item>
+    </style>
+
 
 </resources>
