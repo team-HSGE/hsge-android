@@ -144,12 +144,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         }
     }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        prefs.edit().remove("homeDogResponse").apply()
-//
-//    }
 
     override fun onGetHomeDogFailure(message: String) {
         Log.d("HomeDog 오류", "오류: $message")

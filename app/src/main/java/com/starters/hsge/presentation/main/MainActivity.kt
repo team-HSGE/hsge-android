@@ -82,28 +82,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     NavigationUI.onNavDestinationSelected(item, naviController)
                 }
                 "chatRoomFragment" -> {
-                    //delay(1000L)
-                    CoroutineScope(Dispatchers.Main).launch {
+                    val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
+                    Log.d("순서?", "chatFrag")
+                    NavigationUI.onNavDestinationSelected(item, naviController)
 
-                        launch {
-                            val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-                            Log.d("순서?", "chatFrag")
-                            NavigationUI.onNavDestinationSelected(item, naviController)
-                        }
-                        launch {
+                    if (prefs.getString("chatListResponse", "0").toString() == "완료") {
+                        findNavController(binding.fcvMain).navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                        Log.d("순서?", "charRoomFrag")
 
-                            if (prefs.getString("chatListResponse", "0").toString() == "완료") {
-
-                                findNavController(binding.fcvMain).navigate(R.id.action_chatFragment_to_chatRoomFragment)
-                                Log.d("순서?", "charRoomFrag")
-
-                                goneBtmNav()
-                                prefs.edit().remove("chatListResponse").apply()
-
-                            } else {
-                                return@launch
-                            }
-                        }
+                        goneBtmNav()
+                        prefs.edit().remove("chatListResponse").apply()
+                    } else {
+                        return
                     }
                 }
                 else -> return

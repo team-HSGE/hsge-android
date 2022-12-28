@@ -13,6 +13,9 @@ import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), chatListInterface {
 
@@ -24,14 +27,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-            ChatListService(this).tryGetChatList()
+        CoroutineScope(Dispatchers.IO).launch {
+            ChatListService(this@ChatFragment).tryGetChatList()
+        }
 
         Log.d("순서", "tryGetChatList")
         likedPeopleList.clear()
         chatList.clear()
     }
-
 
     private fun goneBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
