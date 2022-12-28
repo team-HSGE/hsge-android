@@ -3,4 +3,7 @@
     <attr name="CustomLikeChipChoiceStyle" format="reference"/>
     <attr name="CustomDislikeChipChoiceStyle" format="reference"/>
     <attr name="CustomNeuterChipChoiceStyle" format="reference"/>
+    <attr name="CustomMainLikeChipStyle" format="reference"/>
+    <attr name="CustomMainDisLikeChipStyle" format="reference"/>
+
 </resources>

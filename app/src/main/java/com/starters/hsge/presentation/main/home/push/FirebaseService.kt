@@ -43,10 +43,12 @@ class FirebaseService : FirebaseMessagingService() {
 
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
-            val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
+            val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
-            sendNotification(message, "chat", img)
-            Log.d("fcm_service_data", message.data["about"].toString())
+            sendNotification(message, about, img)
+            Log.d("fcm_service_data", message.data["body"].toString())
+
+            Log.d("fcm_service_data", message.data["pushID"].toString())
 
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")

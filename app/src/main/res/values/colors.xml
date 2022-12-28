@@ -35,6 +35,12 @@
 
     <!-- Colors_ -->
     <color name="yellow_56">#8FFFBF43</color>
+    <color name="light_yellow_56">#8FFFE5B2</color>
+    <color name="G200_56">#8FEFEFEF</color>
+    <color name="light_yellow_70">#81FFE5B2</color>
+    <color name="G200_70">#81EFEFEF</color>
+
+
     <color name="white_50">#80FFFFFF</color>
 
     <!-- Card -->

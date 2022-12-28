@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
@@ -33,14 +33,14 @@
             </intent-filter>
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel"
-                android:value="@string/default_notification_channel_id"/>
+                android:value="@string/default_notification_channel_id" />
 
         </service>
 
         <activity
             android:name=".presentation.splash.SplashActivity"
-            android:theme="@style/SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +58,7 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -89,8 +90,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            >
+            android:launchMode="singleInstance">
 
             <meta-data
                 android:name="android.app.lib_name"
