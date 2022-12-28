@@ -40,8 +40,11 @@ class FirebaseService : FirebaseMessagingService() {
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
             val about = message.data["about"].toString() // 서버로 받아온 푸시 구분값
-            sendNotification(message, about)
+            sendNotification(message, "chat")
             Log.d("fcm_service_data", message.data["title"].toString())
+            Log.d("fcm_service_data", message.data["body"].toString())
+            Log.d("fcm_service_data", message.data["about"].toString())
+
 
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
@@ -49,16 +52,19 @@ class FirebaseService : FirebaseMessagingService() {
         wakeLock.release()
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage, about: String) {
+    private fun sendNotification(remoteMessage: RemoteMessage, about: String?) {
 
+        Log.d("fcm_service_data_hey", "${remoteMessage.data["title"]}, ${remoteMessage.data["body"]}")
         val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         when(about){
             "like" -> { // 좋아요 -> 채팅 탭으로 이동
                 intent.putExtra("pushAbout", "chatFragment")
+                Log.d("hey?", intent.extras!!.getString("pushAbout").toString())
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
-                intent.putExtra("pushAbout", "myPageFragment")
+                intent.putExtra("pushAbout", "chatRoomFragment")
             }
             else -> return
         }
@@ -69,11 +75,10 @@ class FirebaseService : FirebaseMessagingService() {
             applicationContext,
             UUID.randomUUID().hashCode(),
             intent,
-            PendingIntent.FLAG_ONE_SHOT // 일회용 펜딩 인텐트
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT // 일회용 펜딩 인텐트
         )
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
 
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
             val channel = NotificationChannel(
@@ -92,12 +97,11 @@ class FirebaseService : FirebaseMessagingService() {
 
         val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, pendingIntent).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
-
     }
 
     private fun getNotificationBuilder(title: String, content: String, pendingIntent: PendingIntent) : NotificationCompat.Builder{
 
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
+        //val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_push_img)
 
         return NotificationCompat.Builder(this, resources.getString(R.string.default_notification_channel_id))
             .setContentTitle(title)
@@ -105,8 +109,8 @@ class FirebaseService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .setGroupSummary(true)
             .setAutoCancel(true)
-            .setLargeIcon(bitmap)
-            .setSmallIcon(R.drawable.ic_logo)
+            .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
+        //            .setLargeIcon(bitmap)
     }
 }

@@ -2,9 +2,7 @@ package com.starters.hsge.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -20,9 +18,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         initNavigation()
-
-
+        killedPush()
     }
+
 
     private fun initNavigation() {
         val naviController =
@@ -32,26 +30,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
+    // background_앱이 꺼져있는 경우 push
+    private fun killedPush() {
+        val notificationPayload = intent?.extras
+        if (notificationPayload != null) {
+
+            val moveTo = notificationPayload.getString("pushAbout")
+            moveFragment(moveTo)
+        }
+    }
+
+    // foreground, background_화면 안 떠있는 경우 화면 이동
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val createdAt = intent?.extras!!.getString("pushAbout")
-        Log.d("pushAbout", createdAt.toString())
 
-        when(createdAt){
-            "chatFragment" ->{
+        val moveTo = intent?.extras!!.getString("pushAbout")
+        moveFragment(moveTo)
+    }
+
+
+    private fun moveFragment(moveTo: String?) {
+        val naviController = supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
+        when (moveTo) {
+            "chatFragment" -> {
                 val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-                NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
+                NavigationUI.onNavDestinationSelected(item, naviController!!)
             }
-            "myPageFragment" -> {
-                val item = binding.navigationMain.menu.findItem(R.id.myPageFragment)
-                NavigationUI.onNavDestinationSelected(item, navController = findNavController(R.id.fcv_main))
+            "chatRoomFragment" -> {
+                naviController!!.navigate(R.id.chatFragment)
+                naviController.navigate(R.id.chatRoomFragment)
+                goneBtmNav()
             }
             else -> return
         }
-        visibleBtmNav()
     }
 
-    private fun visibleBtmNav(){
-       binding.navigationMain.visibility = View.VISIBLE
-    }
+    private fun goneBtmNav(){ binding.navigationMain.visibility = View.GONE }
 }

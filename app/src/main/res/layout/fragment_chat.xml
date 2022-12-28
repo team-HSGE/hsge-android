@@ -42,7 +42,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chat_rv_liked_people"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:clipToPadding="false"
                     android:paddingHorizontal="14dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -56,13 +56,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="142dp"
                     android:text="@string/chat_chat_list"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chat_rv_liked_people" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_chat_liked_people_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chat_rv_chat_list"
