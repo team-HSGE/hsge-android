@@ -4,6 +4,14 @@
 
     <data>
 
+        <variable
+            name="messageInfo"
+            type="com.starters.hsge.presentation.main.chatroom.MessageInfo" />
+
+        <variable
+            name="messageList"
+            type="com.starters.hsge.presentation.main.chatroom.Message" />
+
     </data>
 
     <LinearLayout
@@ -27,26 +35,30 @@
             android:orientation="horizontal"
             android:paddingHorizontal="16dp">
 
-            <ImageView
-                android:id="@+id/iv_partner_profile"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="@drawable/bg_gray_circle"
-                android:src="@drawable/ic_account_circle" />
-
             <TextView
                 android:id="@+id/tv_message_received"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginStart="8dp"
                 android:background="@drawable/bg_g100_r50"
                 android:maxWidth="240dp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="10dp"
                 android:textColor="@color/G900"
                 android:textSize="15sp"
+                android:text="@{messageList.message}"
                 tools:text="This is a message" />
+
+            <TextView
+                android:id="@+id/tv_time_stamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="10sp"
+                timeFormat="@{messageList.timeStamp}"
+                tools:text="10:10" />
 
         </LinearLayout>
     </LinearLayout>
