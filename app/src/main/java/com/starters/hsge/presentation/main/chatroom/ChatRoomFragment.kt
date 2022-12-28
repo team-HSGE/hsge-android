@@ -59,8 +59,8 @@ class ChatRoomFragment : Fragment() {
         setupView()
         initListener()
         setNavigation()
-        setListAdapter()
-        setToolbar()
+        setupListAdapter()
+        setupToolbar()
 
         val url = "ws://192.168.0.8:8081/ws/websocket"
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
@@ -132,7 +132,7 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
-    private fun setListAdapter() {
+    private fun setupListAdapter() {
 //        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
 //            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
 //                binding.rvMessages.scrollToPosition(positionStart)
@@ -160,9 +160,14 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
-    private fun setToolbar() {
+    private fun setupToolbar() {
         chatRoomViewModel.getChatInfo(1).observe(viewLifecycleOwner) {
-            binding.toolBar.title = it.userInfo.nickname
+            binding.tvToolbarOtherNickname.text = it.userInfo.nickname
+        }
+
+        // 파트너 아이콘 클릭
+        binding.ivToolbarOtherIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_chatRoomFragment_to_partnerDogsFragment)
         }
     }
 
