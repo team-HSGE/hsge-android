@@ -13,6 +13,9 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -37,10 +40,11 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
+
+    private val trackingHandler by lazy { TrackingHandler() }
     private var mCurrentLat: Double? = 0.0
     private var mCurrentLng: Double? = 0.0
     private var status: Boolean = true
-    private val TAG = "SOL_LOG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         startLocationUpdates()
         setZoomLevel()
         setTrackingBtn()
@@ -59,13 +62,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     override fun onResume() {
         super.onResume()
         setAutoLocation()
-
     }
 
     override fun onStop() {
         super.onStop()
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
+        endInfinite()
     }
 
     // 권한 런처
@@ -91,8 +94,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
                 if (location != null) {
                     mCurrentLat = location.latitude
                     mCurrentLng = location.longitude
-                    Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
-
+                    //Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
+                    Toast.makeText(context, "위도: ${mCurrentLat}\n경도: ${mCurrentLng}", Toast.LENGTH_SHORT).show()
                     setCurrentLocation()
                 }
             }
@@ -138,8 +141,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     )
                 )
-            }
-            .show()
+            }.show()
     }
 
     private fun showSecondPermissionDialog() {
@@ -169,16 +171,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     }
 
     // 초기 Zoom 세팅
-    private fun setZoomLevel() {
-        binding.kakaoMapView.setZoomLevel(3, true)
-    }
+    private fun setZoomLevel() { binding.kakaoMapView.setZoomLevel(3, true) }
 
     // 내 주변 탐색 버튼 세팅
     private fun setTrackingBtn() {
         binding.trackingBtn.setOnClickListener {
             if (status) {
                 if (checkLocationService()) {
-                    // 반경 보이면서 주변 강아지 마커들 보이게 하기
                     startTracking()
                 } else {
                     setAutoLocation()
@@ -206,8 +205,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
         when (circleName) {
             "start" -> {
+                binding.kakaoMapView.removeAllCircles()
                 binding.kakaoMapView.addCircle(circle1)
                 binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
+            }
+            "tracking" -> {
+                binding.kakaoMapView.removeAllCircles()
+                binding.kakaoMapView.addCircle(circle1)
             }
             "end" -> {
                 binding.kakaoMapView.removeAllCircles()
@@ -219,6 +223,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     // Tracking 상태
     private fun startTracking() {
         setCircle("start")
+        startInfinite()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
         binding.trackingBtn.text = "탐색 종료"
         status = false
@@ -227,12 +232,14 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
     private fun stopTracking() {
         setCircle("end")
+        endInfinite()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_yellow_r12)
         binding.trackingBtn.text = "내 주변 탐색"
         status = true
         Log.d("추적", "멈춤")
     }
 
+    // 현재 위치로 이동 (FAB)
     private fun catchCurrentLocation() {
         binding.fabCurrentLocation.setOnClickListener {
             if (checkLocationService()) {
@@ -243,8 +250,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         }
     }
 
+    // GPS 꺼져 있을 때 자동으로 설정
     private fun setAutoLocation() {
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000).apply {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500).apply {
             setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
             setWaitForAccurateLocation(true)
         }.build()
@@ -257,19 +265,37 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             // GPS가 꺼져있을 경우
             binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
             binding.kakaoMapView.setShowCurrentLocationMarker(false)
-            
+
             if (exception is ResolvableApiException) {
-                Log.d(TAG, "OnFailure")
+                Log.d("locationRequest", "OnFailure")
                 try {
                     exception.startResolutionForResult(requireActivity(), 100)
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d(TAG, sendEx.message.toString())
+                    Log.d("locationRequest", sendEx.message.toString())
                 }
             }
-        }
-
-        task.addOnSuccessListener {
+        }.addOnSuccessListener {
             checkPermissionForLocation()
         }
     }
+
+    // 일정 시간마다 손 흔들기 대상 찾기
+    @SuppressLint("HandlerLeak")
+    private inner class TrackingHandler: Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if(msg.what == 0){
+                startLocationUpdates()
+                setCircle("tracking")
+            }
+        }
+    }
+
+    private fun startInfinite() {
+        trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
+        trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
+        trackingHandler.postDelayed(::startInfinite, 3000)
+    }
+    
+    private fun endInfinite() { trackingHandler.removeCallbacksAndMessages(null) }
 }
