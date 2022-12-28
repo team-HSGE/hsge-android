@@ -27,7 +27,8 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:textSize="12sp"
-            tools:text="11:40" />
+            tools:text="11:40"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
