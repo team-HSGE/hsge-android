@@ -137,7 +137,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
             Log.d("순서", "DogCardResponse")
-
+            prefs.edit().putString("homeDogResponse", "완료").apply()
 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")

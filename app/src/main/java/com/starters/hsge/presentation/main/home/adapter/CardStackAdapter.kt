@@ -64,7 +64,6 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                     chipGroupDislike.addDisLikeChip(context, it)
                 }
             }
-            prefs.edit().putString("homeDogResponse", "완료").apply()
         }
 
     }
