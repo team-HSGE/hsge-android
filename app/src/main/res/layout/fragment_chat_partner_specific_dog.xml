@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="dogDetail"
+            type="com.starters.hsge.data.model.remote.response.MyDogResponse" />
 
     </data>
 
@@ -26,10 +31,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="상대방 닉네임"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="상대방 닉네임"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -48,6 +53,7 @@
 
                 <ImageView
                     android:id="@+id/iv_partner_specific_img"
+                    bindDogPhoto="@{dogDetail.picture[0]}"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="24dp"
@@ -56,132 +62,133 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/partner_specific_dog_name_section"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_partner_specific_dog_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
-                    android:gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{dogDetail.petName}"
+                    android:textColor="@color/G900"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_partner_specific_img">
+                    app:layout_constraintTop_toBottomOf="@id/iv_partner_specific_img" />
 
-                    <TextView
-                        android:id="@+id/tv_partner_specific_dog_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="반려견이름"
-                        android:textColor="@color/G900"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-
-                    <ImageView
-                        android:id="@+id/iv_partner_specific_dog_gender"
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_gender_female_black"/>
-
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_partner_specific_dog_gender"
+                    bindDogSexIcon="@{dogDetail.gender}"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_gender_female_black"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_partner_specific_dog_name"
+                    app:layout_constraintStart_toEndOf="@id/tv_partner_specific_dog_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_partner_specific_dog_name" />
 
                 <LinearLayout
                     android:id="@+id/partner_specific_dog_breed_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/partner_specific_dog_name_section">
+                    app:layout_constraintTop_toBottomOf="@id/tv_partner_specific_dog_name">
 
                     <TextView
                         android:id="@+id/tv_partner_specific_dog_breed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="웰시코기"
+                        android:text="@{dogDetail.breed}"
                         android:textColor="@color/G900"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
 
                     <View
                         android:layout_width="2dp"
                         android:layout_height="12dp"
                         android:layout_marginHorizontal="6dp"
-                        android:background="@color/G600"/>
+                        android:background="@color/G600" />
 
                     <TextView
                         android:id="@+id/tv_partner_specific_dog_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3살"
+                        android:text="@{dogDetail.age}"
                         android:textColor="@color/G900"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
 
                     <View
+                        viewVisibility="@{dogDetail.neutralization}"
                         android:layout_width="2dp"
                         android:layout_height="12dp"
                         android:layout_marginHorizontal="6dp"
-                        android:background="@color/G600"/>
+                        android:background="@color/G600" />
 
                     <TextView
                         android:id="@+id/tv_partner_specific_dog_neutered"
+                        neuterFormat="@{dogDetail.neutralization}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="중성화"
                         android:textColor="@color/G900"
                         android:textSize="16sp"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal" />
 
                 </LinearLayout>
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/partner_specific_dog_like_chip_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                <LinearLayout
+                    android:id="@+id/like_chips_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/partner_specific_dog_breed_section"/>
+                    app:layout_constraintTop_toBottomOf="@id/partner_specific_dog_breed_section" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/partner_specific_dog_dislike_chip_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                <LinearLayout
+                    android:id="@+id/dislike_chips_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/partner_specific_dog_like_chip_group"/>
+                    app:layout_constraintTop_toBottomOf="@id/like_chips_container" />
+
 
                 <TextView
                     android:id="@+id/tv_partner_specific_dog_intro_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
                     android:text="자기소개"
                     android:textColor="@color/G900"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/partner_specific_dog_dislike_chip_group"/>
+                    app:layout_constraintTop_toBottomOf="@id/dislike_chips_container" />
 
                 <TextView
                     android:id="@+id/tv_partner_specific_dog_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/bg_g100_r12"
-                    android:padding="16dp"
                     android:hint="자기소개를 적어보세요."
+                    android:padding="16dp"
+                    android:text="@{dogDetail.description}"
                     android:textColor="@color/G900"
                     android:textSize="14sp"
                     android:textStyle="normal"

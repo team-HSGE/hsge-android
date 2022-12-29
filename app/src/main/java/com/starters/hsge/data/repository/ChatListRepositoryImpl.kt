@@ -9,7 +9,12 @@ import javax.inject.Inject
 class ChatListRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: ChatRecordApi
 ) : ChatListRepository {
-    override suspend fun getChatList(roomId: Int): MessageInfo {
+
+    override suspend fun getChatList(roomId: Long): MessageInfo {
         return api.getChatRecord(roomId)
+    }
+
+    override suspend fun postChatState(roomId: Long) {
+        api.postChatSate(roomId)
     }
 }
