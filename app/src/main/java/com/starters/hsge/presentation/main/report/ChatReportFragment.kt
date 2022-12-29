@@ -4,10 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.interfaces.ReportInterface
@@ -21,8 +20,6 @@ import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
-import com.starters.hsge.presentation.main.chatroom.ChatRoomViewModel
 
 class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface, ChatExitInterface {
 
@@ -141,6 +138,7 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
             findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
+            Toast.makeText(context, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
             Log.d("ChatExit_신고", "성공")
         }else{
             Log.d("ChatExit_신고 오류", "Error code : ${code}")
