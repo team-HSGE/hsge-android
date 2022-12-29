@@ -18,6 +18,7 @@ class PartnerDogsViewModel @Inject constructor(
     private val _partnerDogList = MutableLiveData<List<MyDogResponse>?>()
     val partnerDogList: LiveData<List<MyDogResponse>?> =  _partnerDogList
 
+    var partnerNickName = ""
 
     fun getPartnerDogs(partnerId: Long): LiveData<List<MyDogResponse>?> {
         viewModelScope.launch {

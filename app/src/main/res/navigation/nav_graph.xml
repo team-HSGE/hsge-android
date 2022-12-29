@@ -201,6 +201,9 @@
         <argument
             android:name="partnerDogDetail"
             app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+        <argument
+            android:name="partnerNickName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/partnerDogsFragment"
