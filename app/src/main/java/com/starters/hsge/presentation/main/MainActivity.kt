@@ -52,10 +52,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 "chatFragment" -> {
                     if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
                         supportFragmentManager.popBackStack()
+                        visibleBtmNav()
                     }else {
                         val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                         NavigationUI.onNavDestinationSelected(item, naviController)
                     }
+
                 }
                 "chatRoomFragment" -> {
                     val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
