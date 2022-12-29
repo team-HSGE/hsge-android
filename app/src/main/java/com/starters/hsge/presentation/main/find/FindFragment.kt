@@ -29,11 +29,15 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.gms.tasks.Task
 import com.starters.hsge.R
+import com.starters.hsge.data.interfaces.ShakeHandInterface
+import com.starters.hsge.data.model.remote.request.CurrentLocationPostRequest
+import com.starters.hsge.data.model.remote.response.ShakeHandResponse
+import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import net.daum.mf.map.api.*
 
-class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener {
+class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener, ShakeHandInterface {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
@@ -41,6 +45,10 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
 
     private var mCurrentLat: Double? = 0.0
     private var mCurrentLng: Double? = 0.0
+
+    private var uCurrentLat: Double? = 0.0
+    private var uCurrentLng: Double? = 0.0
+    private var uNickname: String? = null
     private var status: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +101,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
                 mCurrentLat = location.latitude
                 mCurrentLng = location.longitude
                 Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
+
+                val location = CurrentLocationPostRequest(mCurrentLat.toString(), mCurrentLng.toString())
+                ShakeHandService(this).tryPostCurrentLocation(location)
                 setCurrentLocation()
             }
         }
@@ -286,7 +297,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
                 startLocationUpdates()
                 setCircle("tracking")
                 binding.kakaoMapView.removeAllPOIItems()
-                createMarker()
+                ShakeHandService(this@FindFragment).tryGetHandShake()
             }
         }
     }
@@ -300,11 +311,11 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     private fun endInfinite() { trackingHandler.removeCallbacksAndMessages(null) }
 
     // 새로운 마커 생성
-    private fun createMarker() {
+    private fun createMarker(uCurrentLat: Double, uCurrentLng: Double, uNickname: String) {
         val marker = MapPOIItem()
         marker.apply {
-            itemName = "응콩쓰"
-            mapPoint = MapPoint.mapPointWithGeoCoord(37.577457, 126.975653)
+            itemName = uNickname
+            mapPoint = MapPoint.mapPointWithGeoCoord(uCurrentLat, uCurrentLng)
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_map_marker
             setCustomImageAnchor(0.5f, 0.5f)
@@ -312,16 +323,35 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         binding.kakaoMapView.addPOIItem(marker)
     }
 
-    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
-    }
-
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-    }
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
 
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
         Toast.makeText(context, "${p1?.itemName}님에게 손을 흔들었어요!", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
+    // 서버 통신
+    override fun onPostCurrentLocationSuccess(isSuccess: Boolean) {
+        if (isSuccess) { Log.d("PostCurrentLocation", "성공!") }
+    }
+
+    override fun onPostCurrentLocationFailure(message: String) {
+        Log.d("PostCurrentLocation 오류", "오류: $message")
+    }
+
+    override fun onGetShakeHandSuccess(shakeHandResponse: List<ShakeHandResponse>, isSuccess: Boolean) {
+        if (isSuccess) {
+            for (user in shakeHandResponse) {
+                uCurrentLat = user.latitude
+                uCurrentLng = user.longitude
+                uNickname = user.nickname
+                createMarker(uCurrentLat!!, uCurrentLng!!, uNickname!!)
+            }
+        }
+    }
+
+    override fun onGetShakeHandFailure(message: String) {
+        Log.d(" GetShakeHand 오류", "오류: $message")
     }
 }
