@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReportRequest(
     @SerialName("description") val description : String,
-    @SerialName("reportee") val reportee : Int
+    @SerialName("reportee") val reportee : Long
 )
