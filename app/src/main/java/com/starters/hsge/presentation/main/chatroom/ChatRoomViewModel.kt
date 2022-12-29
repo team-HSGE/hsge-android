@@ -24,6 +24,7 @@ class ChatRoomViewModel @Inject constructor(
     var roomId: Long = 0
     var active: Boolean = false
     var partnerId: Long = 0
+    var partnerNickName = ""
     var myId: Long = 0
 
     //private val messageList = MediatorLiveData<MutableList<Message>>()

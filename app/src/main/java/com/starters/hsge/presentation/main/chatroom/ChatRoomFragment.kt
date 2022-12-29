@@ -62,6 +62,7 @@ class ChatRoomFragment : Fragment() {
         val chatInfo = args.chatInfo
         chatRoomViewModel.roomId = chatInfo.roomId
         chatRoomViewModel.active = chatInfo.active
+        chatRoomViewModel.partnerNickName = chatInfo.nickname
 
         setChatView()
         setupView()
@@ -179,7 +180,10 @@ class ChatRoomFragment : Fragment() {
         binding.ivToolbarPartnerIcon.setOnClickListener {
             findNavController().navigate(
                 R.id.action_chatRoomFragment_to_partnerDogsFragment,
-                bundleOf(PARTNER_ID to chatRoomViewModel.partnerId)
+                bundleOf(
+                    PARTNER_ID to chatRoomViewModel.partnerId,
+                    PARTNER_NICKNAME to chatRoomViewModel.partnerNickName
+                )
             )
         }
     }
@@ -200,7 +204,10 @@ class ChatRoomFragment : Fragment() {
         binding.ivPartnerProfileLarge.setOnClickListener {
             findNavController().navigate(
                 R.id.action_chatRoomFragment_to_partnerDogsFragment,
-                bundleOf(PARTNER_ID to chatRoomViewModel.partnerId)
+                bundleOf(
+                    PARTNER_ID to chatRoomViewModel.partnerId,
+                    PARTNER_NICKNAME to chatRoomViewModel.partnerNickName
+                )
             )
         }
     }
@@ -254,5 +261,6 @@ class ChatRoomFragment : Fragment() {
 
     companion object {
         const val PARTNER_ID = "partnerId"
+        const val PARTNER_NICKNAME = "partnerNickName"
     }
 }
