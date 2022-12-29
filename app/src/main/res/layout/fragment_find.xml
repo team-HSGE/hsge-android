@@ -12,15 +12,44 @@
         android:layout_height="match_parent"
         tools:context=".presentation.main.find.FindFragment">
 
-        <TextView
-            android:id="@+id/tv"
+        <net.daum.mf.map.api.MapView
+            android:id="@+id/kakao_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_current_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="find fragment"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_current_location"
+            app:fabCustomSize="48dp"
+            app:fabSize="mini"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tracking_btn"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/tracking_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/bg_yellow_r12"
+            android:text="내 주변 탐색"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
