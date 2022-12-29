@@ -2,6 +2,7 @@ package com.starters.hsge.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
@@ -44,17 +45,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         naviController?.let { // null이 아닐 때만 확인하기 위해 let 사용
             binding.navigationMain.setupWithNavController(it)
 
+            val navHostFragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fcv_main)
+            val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
             when (moveTo) {
                 "chatFragment" -> {
-                    val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
-                    NavigationUI.onNavDestinationSelected(item, naviController)
+                    if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
+                        supportFragmentManager.popBackStack()
+                    }else {
+                        val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
+                        NavigationUI.onNavDestinationSelected(item, naviController)
+                    }
                 }
                 "chatRoomFragment" -> {
                     val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                     NavigationUI.onNavDestinationSelected(item, naviController)
 
-                    val navHostFragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fcv_main)
-                    val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
                     if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
                         return
                     }else {
@@ -69,5 +75,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun goneBtmNav() {
         binding.navigationMain.visibility = View.GONE
+    }
+
+    private fun visibleBtmNav() {
+        binding.navigationMain.visibility = View.VISIBLE
     }
 }

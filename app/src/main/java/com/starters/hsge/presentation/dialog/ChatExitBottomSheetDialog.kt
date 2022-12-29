@@ -14,6 +14,7 @@ import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
 
 class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId: Long): BottomSheetDialogFragment(), ChatExitInterface {
@@ -62,6 +63,7 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                     //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
                     findNavController().navigateUp()
+                    visibleBtmNav()
                 }
             })
             exitDialog.show(childFragmentManager, "CustomDialog")
@@ -78,7 +80,8 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                 override fun onOkBtnClicked() {
                     //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
-                    findNavController().navigateUp()
+
+                    visibleBtmNav()
                 }
             })
             unMatchDialog.show(childFragmentManager, "CustomDialog")
@@ -91,13 +94,18 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
-            Log.d("ChatExit", "성공")
+            findNavController().navigateUp()
+            Log.d("ChatExit_매칭 취소 / 나가기", "성공")
         }else{
-            Log.d("ChatExit 오류", "Error code : ${code}")
+            Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
-        Log.d("ChatExit 오류", "오류: $message")
+        Log.d("ChatExit_매칭 취소 / 나가기 오류", "오류: $message")
+    }
+
+    private fun visibleBtmNav(){
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }

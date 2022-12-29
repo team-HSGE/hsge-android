@@ -45,6 +45,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
         selectReason(reasonList)
         initListener()
 
+//        val partnerId = requireArguments().getLong("partnerId")
+//        val roomId = requireArguments().getLong("roomId")
+//        Log.d("방 정보", "$roomId $partnerId")
     }
 
     private fun initListener(){
@@ -58,7 +61,7 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
             //TODO : 채팅방 나가기 통신 - roomID 넣기, 사유 넣기, 상대방ID 넣기
             ChatExitService(this).tryPostChatExit(roomId, ChatExitRequest("REPORT", partnerId))
-            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
+
             visibleBtmNav()
         }
     }
@@ -137,14 +140,15 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
-            Log.d("ChatExit", "성공")
+            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
+            Log.d("ChatExit_신고", "성공")
         }else{
-            Log.d("ChatExit 오류", "Error code : ${code}")
+            Log.d("ChatExit_신고 오류", "Error code : ${code}")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
-        Log.d("ChatExit 오류", "오류: $message")
+        Log.d("ChatExit_신고 오류", "오류: $message")
     }
 
     private fun visibleBtmNav(){

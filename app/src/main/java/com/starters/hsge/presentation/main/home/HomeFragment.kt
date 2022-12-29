@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.tasks.OnCompleteListener
@@ -12,12 +13,14 @@ import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.HomeDogInterface
 import com.starters.hsge.data.interfaces.IsLikeInterface
 import com.starters.hsge.data.model.remote.request.IsLikeRequest
+import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.*
@@ -144,7 +147,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 naviController?.let {
                     when (moveTo) {
                         "chatFragment" -> {
-                            findNavController().navigate(R.id.chatFragment)
+                            val item =
+                                (activity as MainActivity).binding.navigationMain.menu.findItem(R.id.chatFragment)
+                            NavigationUI.onNavDestinationSelected(item, naviController)
                         }
                         "chatRoomFragment" -> {
                             val item =
@@ -154,10 +159,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                             //findNavController().navigate(R.id.chatFragment)
                             findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
                             goneBtmNav()
-                            (activity as MainActivity).intent.removeExtra("pushAbout")
                         }
+                        else -> return
                     }
-                    prefs.edit().remove("moveTo").apply()
+                    (activity as MainActivity).intent.removeExtra("pushAbout")
                 }
             }
 

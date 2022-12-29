@@ -67,6 +67,7 @@ class FirebaseService : FirebaseMessagingService() {
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "chatRoomFragment")
+                //intent.putExtra("roomId", roomId)
             }
             else -> return
         }
