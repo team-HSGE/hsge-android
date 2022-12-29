@@ -155,7 +155,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                             //findNavController().navigate(R.id.chatFragment)
                             findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
                             goneBtmNav()
-
+                            (activity as MainActivity).intent.removeExtra("pushAbout")
                         }
                     }
                     prefs.edit().remove("moveTo").apply()
