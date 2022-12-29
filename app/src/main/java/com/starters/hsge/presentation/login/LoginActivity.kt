@@ -174,10 +174,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 finish()
             }
         } else {
+            val msg = loginResponse.message
+
             when(code) {
                 400 -> {
-                    // 카카오톡 accessToken 유효기간 끝났을 때
-                    Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                    when (msg) {
+                        "REPORT LIMIT EXCEED" -> {
+                            Toast.makeText(applicationContext, "서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                            Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
+                        }
+                        "Access Token is not valid" -> {
+                            // 카카오톡 accessToken 유효기간 끝났을 때
+                            Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
