@@ -112,6 +112,8 @@ class ChatRoomFragment : Fragment() {
 
                             stompClient.send("/pub/chat/message", data.toString()).subscribe()
                             binding.edtMessage.text.clear()
+
+
                         }
                     }
                 }
@@ -133,24 +135,41 @@ class ChatRoomFragment : Fragment() {
     private fun setChatView() {
         when (chatRoomViewModel.active) {
             false -> {
-                //TODO: 첫 번째 메세지를 보낼 때 visible 처리
             }
             true -> {
                 binding.ivPartnerProfileLarge.visibility = View.GONE
                 binding.tvPartnerNickname.visibility = View.GONE
                 binding.tvChatroomExplanation.visibility = View.GONE
                 binding.tvChatroomTime.visibility = View.GONE
+
             }
         }
     }
 
     private fun setupListAdapter() {
-//        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
-//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                binding.rvMessages.scrollToPosition(positionStart)
-//            }
-//        })
 
+        // adapter의 데이터 변화 감지
+        listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                chatRoomViewModel.messages.forEach {
+                    if(it.senderId == chatRoomViewModel.myId) {
+                        // active 변경
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            chatRoomViewModel.postChatRoomState(chatRoomViewModel.roomId)
+                        }
+                        // inactive 상태의 뷰 지우기
+                        binding.ivPartnerProfileLarge.visibility = View.GONE
+                        binding.tvPartnerNickname.visibility = View.GONE
+                        binding.tvChatroomExplanation.visibility = View.GONE
+                        binding.tvChatroomTime.visibility = View.GONE
+                    }
+                }
+
+            }
+        })
+
+        // 리사이클러뷰 스크롤 위치 셋팅
         binding.rvMessages.apply {
             //키보드 올라올 때 레이아웃 이동
             addOnLayoutChangeListener(onLayoutChangeListener)
@@ -164,16 +183,19 @@ class ChatRoomFragment : Fragment() {
         }
 
 
+        // 채팅 대화 목록 호출
         chatRoomViewModel.getChatInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
             binding.messageInfo = it
+            chatRoomViewModel.messages = it.messageList
             chatRoomViewModel.partnerId = it.userInfo.otherUserId
             chatRoomViewModel.myId = it.userInfo.userId
             adapter = MessageListAdapter(it.userInfo.userId)
-            //adapter.registerAdapterDataObserver(listAdapterObserver)
+            adapter.registerAdapterDataObserver(listAdapterObserver)
             binding.rvMessages.adapter = adapter
             adapter.submitList(it.messageList)
         }
     }
+
 
     private fun setupToolbar() {
         // 파트너 아이콘 클릭
@@ -258,6 +280,7 @@ class ChatRoomFragment : Fragment() {
                 binding.rvMessages.scrollBy(0, oldBottom - bottom)
             }
         }
+
 
     companion object {
         const val PARTNER_ID = "partnerId"
