@@ -105,6 +105,8 @@ class AddDogProfileFragment :
                                 .fitCenter()
                                 .circleCrop()
                                 .into(binding.ivDogPhoto)
+
+                            binding.ivDogPhotoEdit.visibility = View.VISIBLE
                         }
                     }
                 }
