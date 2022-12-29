@@ -177,6 +177,9 @@
         <action
             android:id="@+id/action_chatRoomFragment_to_partnerDogsFragment"
             app:destination="@id/partnerDogsFragment" />
+        <argument
+            android:name="chatInfo"
+            app:argType="com.starters.hsge.data.model.remote.response.ChatListResponse" />
     </fragment>
     <fragment
         android:id="@+id/chatReportFragment"
