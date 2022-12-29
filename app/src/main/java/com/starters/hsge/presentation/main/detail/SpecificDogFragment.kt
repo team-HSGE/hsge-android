@@ -21,6 +21,7 @@ class SpecificDogFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.dogDetail = args.partnerDogDetail
+        binding.tvPartnerSpecificDogTitle.text = args.partnerNickName
 
         setNavigation()
         setupToolbar()
