@@ -135,6 +135,8 @@ class ChatRoomFragment : Fragment() {
         when (chatRoomViewModel.active) {
             false -> {
                 //TODO: 첫 번째 메세지를 보낼 때 visible 처리
+
+                binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
             }
             true -> {
                 binding.ivPartnerProfileLarge.visibility = View.GONE
