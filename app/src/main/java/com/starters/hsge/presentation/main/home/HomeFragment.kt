@@ -34,7 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         CoroutineScope(Dispatchers.IO).launch {
                 HomeDogService(this@HomeFragment).tryGetHomeDog()
-            Log.d("순서", "tryGetHomeDog")
 
         }
 
@@ -135,8 +134,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
-            Log.d("순서", "DogCardResponse")
 
+            // 앱이 죽어있는 경우
             val notificationPayload = (activity as MainActivity).intent?.extras
             notificationPayload?.let {
                 val moveTo = notificationPayload.getString("pushAbout")
