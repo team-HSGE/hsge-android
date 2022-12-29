@@ -93,7 +93,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data
