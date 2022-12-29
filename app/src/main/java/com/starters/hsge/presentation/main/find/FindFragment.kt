@@ -29,11 +29,14 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.gms.tasks.Task
 import com.starters.hsge.R
+import com.starters.hsge.data.interfaces.ShakeHandInterface
+import com.starters.hsge.data.model.remote.request.CurrentLocationPostRequest
+import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import net.daum.mf.map.api.*
 
-class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener {
+class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener, ShakeHandInterface {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
@@ -93,6 +96,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
                 mCurrentLat = location.latitude
                 mCurrentLng = location.longitude
                 Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
+
+                val location = CurrentLocationPostRequest(mCurrentLat.toString(), mCurrentLng.toString())
+                ShakeHandService(this).tryPostCurrentLocation(location)
                 setCurrentLocation()
             }
         }
@@ -323,5 +329,14 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
+    }
+
+    // 서버 통신
+    override fun onPostCurrentLocationSuccess(isSuccess: Boolean) {
+        if (isSuccess) { Log.d("PostCurrentLocation", "성공!") }
+    }
+
+    override fun onPostCurrentLocationFailure(message: String) {
+        Log.d("PostCurrentLocation 오류", "오류: $message")
     }
 }
