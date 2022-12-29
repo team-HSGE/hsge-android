@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.main.chatroom.ChatRoomFragment">
@@ -20,12 +21,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/toolbar_chatroom_menu"
+            app:contentInsetStart="0dp"
             app:navigationIcon="@drawable/ic_back_btn">
 
+            <ImageView
+                android:id="@+id/iv_toolbar_other_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start"
+                android:layout_marginEnd="10dp"
+                android:scaleType="center"
+                android:background="@drawable/bg_gray_circle"/>
+
             <TextView
+                android:id="@+id/tv_toolbar_other_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -43,7 +55,8 @@
             app:layout_constraintBottom_toTopOf="@id/layout_chatbox"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar" />
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            tools:listitem="@layout/item_message_received"/>
 
         <ImageView
             android:id="@+id/iv_partner_profile_large"

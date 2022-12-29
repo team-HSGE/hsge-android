@@ -74,7 +74,7 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
         } else {
             // 초기 세팅
             profile = args.userInfoData?.profileImage
-            binding.ivUserProfile.setImageResource(profile ?: 2131165374)
+            binding.ivUserProfile.setImageResource(profile ?: resources.getIdentifier("ic_default_img", "drawable", context?.packageName))
             binding.edtNickname.setText(args.userInfoData?.nickname ?: "")
             prefs.edit().putString("nickname", binding.edtNickname.text.toString()).apply()
             prefs.edit().putString("nickname2", binding.edtNickname.text.toString()).apply()
