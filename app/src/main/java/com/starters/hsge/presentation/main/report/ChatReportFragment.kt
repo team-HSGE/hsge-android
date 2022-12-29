@@ -5,10 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
+import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.interfaces.ReportInterface
+import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.model.remote.request.ReportRequest
+import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.data.service.ReportService
 import com.starters.hsge.databinding.FragmentChatReportBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -16,8 +21,10 @@ import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
+import com.starters.hsge.presentation.main.chatroom.ChatRoomViewModel
 
-class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface {
+class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface, ChatExitInterface {
 
     private lateinit var reasonBottomSheet: BottomSheetDialog
     private lateinit var callback: OnBackPressedCallback
@@ -42,10 +49,15 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     private fun initListener(){
         binding.btnReport.setOnClickListener {
+            val partnerId = requireArguments().getLong("partnerId")
+            val roomId = requireArguments().getLong("roomId")
+
             // TODO : 피신고자 reportee에 넣기
             val reason = binding.tvChatReportSelectReason.text
-            ReportService(this).tryPostReport(ReportRequest(reason.toString(), 10))
+            ReportService(this).tryPostReport(ReportRequest(reason.toString(), partnerId))
 
+            //TODO : 채팅방 나가기 통신 - roomID 넣기, 사유 넣기, 상대방ID 넣기
+            ChatExitService(this).tryPostChatExit(roomId, ChatExitRequest("REPORT", partnerId))
             findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
             visibleBtmNav()
         }
@@ -121,6 +133,18 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     override fun onPostReportFailure(message: String) {
         Log.d("Report 오류", "오류: $message")
+    }
+
+    override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
+        if(isSuccess){
+            Log.d("ChatExit", "성공")
+        }else{
+            Log.d("ChatExit 오류", "Error code : ${code}")
+        }
+    }
+
+    override fun onPostChatExitFailure(message: String) {
+        Log.d("ChatExit 오류", "오류: $message")
     }
 
     private fun visibleBtmNav(){

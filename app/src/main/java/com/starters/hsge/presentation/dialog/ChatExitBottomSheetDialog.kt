@@ -1,16 +1,22 @@
 package com.starters.hsge.presentation.dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.starters.hsge.R
+import com.starters.hsge.data.interfaces.ChatExitInterface
+import com.starters.hsge.data.model.remote.request.ChatExitRequest
+import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
 
-class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
+class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId: Long): BottomSheetDialogFragment(), ChatExitInterface {
 
     private lateinit var binding: FragmentChatExitBottomSheetDialogBinding
 
@@ -36,7 +42,11 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
     private fun initListener() {
         // 신고
         binding.constChatExitReport.setOnClickListener {
-            findNavController().navigate(R.id.action_chatRoomFragment_to_chatReportFragment)
+            // safeargs로 roomId전달하기
+            findNavController().navigate(R.id.action_chatRoomFragment_to_chatReportFragment, bundleOf(
+                "partnerId" to partnerId,
+                "roomId" to roomId)
+            )
             dismiss()
         }
 
@@ -49,6 +59,8 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
 
                 }
                 override fun onOkBtnClicked() {
+                    //TODO : 채팅방 나가기 통신
+                    ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
                     findNavController().navigateUp()
                 }
             })
@@ -64,6 +76,8 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
 
                 }
                 override fun onOkBtnClicked() {
+                    //TODO : 채팅방 나가기 통신
+                    ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
                     findNavController().navigateUp()
                 }
             })
@@ -73,5 +87,17 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "TagBottomSheetDialog"
+    }
+
+    override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
+        if(isSuccess){
+            Log.d("ChatExit", "성공")
+        }else{
+            Log.d("ChatExit 오류", "Error code : ${code}")
+        }
+    }
+
+    override fun onPostChatExitFailure(message: String) {
+        Log.d("ChatExit 오류", "오류: $message")
     }
 }
