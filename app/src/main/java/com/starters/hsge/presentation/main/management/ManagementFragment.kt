@@ -26,9 +26,6 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
-        binding.rvDogList.addItemDecoration(customDecoration)
-
         initRecyclerView()
         initListener()
         setNavigation()
@@ -36,6 +33,10 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
     }
 
     private fun initRecyclerView() {
+
+        val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
+        binding.rvDogList.addItemDecoration(customDecoration)
+
         managementViewModel.myDogList.observe(viewLifecycleOwner) {
             val adapter = it?.let { it1 -> DogListAdapter(it1) }
             binding.rvDogList.layoutManager = LinearLayoutManager(context)
