@@ -11,6 +11,7 @@ import com.google.android.material.chip.ChipGroup
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.databinding.ItemCardBinding
+import com.starters.hsge.presentation.common.base.BaseFragment.Companion.prefs
 
 
 class CardStackAdapter(val context: Context, private val items: List<DogCard>) : RecyclerView.Adapter<CardStackAdapter.CardViewHolder>(){
@@ -64,14 +65,15 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
                 }
             }
         }
+
     }
 
     private fun ChipGroup.addLikeChip(context: Context, label: String) {
-        Chip(context).apply {
+        val chip = Chip(context, null, R.attr.CustomMainLikeChipStyle)
+        chip.apply {
             textSize = 14F
             setChipIconResource(R.drawable.ic_chip_like)
             text = label
-            setChipBackgroundColorResource(R.color.light_yellow)
             chipIconSize = 34F
             iconStartPadding = 22F
             addView(this)
@@ -79,11 +81,11 @@ class CardStackAdapter(val context: Context, private val items: List<DogCard>) :
     }
 
     private fun ChipGroup.addDisLikeChip(context: Context, label: String) {
-        Chip(context).apply {
+        val chip = Chip(context, null, R.attr.CustomMainDisLikeChipStyle)
+        chip.apply {
             textSize = 14F
             setChipIconResource(R.drawable.ic_chip_dislike)
             text = label
-            setChipBackgroundColorResource(R.color.G200)
             chipIconSize = 34F
             iconStartPadding = 22F
             addView(this)

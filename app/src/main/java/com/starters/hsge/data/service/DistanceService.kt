@@ -11,10 +11,10 @@ import retrofit2.Response
 class DistanceService(val distanceInterface: distanceInterface) {
 
     fun tryPostDistance(distance: Double){
-        val distanceRetrofit = RetrofitClient.sRetrofit.create(DistanceApi::class.java)
+        val distanceApi= RetrofitClient.sRetrofit.create(DistanceApi::class.java)
         val radius = distance / 100
 
-        distanceRetrofit.putDistanceData(DistanceRequest(radius)).enqueue(object : retrofit2.Callback<Void> {
+        distanceApi.putDistanceData(DistanceRequest(radius)).enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 distanceInterface.onPostDistanceSuccess(response.isSuccessful, response.code())
             }

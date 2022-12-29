@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.main.add
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -26,6 +28,7 @@ import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
 import com.starters.hsge.domain.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
@@ -47,6 +50,8 @@ class AddDogProfileFragment :
     private val addDogProfileViewModel: AddDogProfileViewModel by viewModels()
 
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
+
+    private lateinit var callback: OnBackPressedCallback
 
     private val likeTagList = listOf(
         "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
@@ -206,7 +211,11 @@ class AddDogProfileFragment :
                     breedBottomSheet.setBottomSheetClickListener(object :
                         BottomSheetDialog.BottomSheetClickListener {
                         override fun onContentClick(content: String) {
-                            binding.tvDogBreedInput.text = content
+                            var newFormatBreed = content
+                            if (content.length > 5) {
+                                newFormatBreed = content.replace(" ", "\n")
+                            }
+                            binding.tvDogBreedInput.text = newFormatBreed
                             addDogProfileViewModel.dogBreed = breed[content].toString()
                         }
                     })
@@ -318,11 +327,38 @@ class AddDogProfileFragment :
         return tagText
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showCancelDialog()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            showCancelDialog()
         }
     }
 
     private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+
+    private fun showCancelDialog() {
+        val dialog = BaseDialogFragment("추가를 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            override fun onCancelBtnClicked() {
+            }
+            override fun onOkBtnClicked() {
+                findNavController().navigateUp()
+            }
+        })
+        dialog.show(childFragmentManager, "CustomDialog")
+    }
 }
