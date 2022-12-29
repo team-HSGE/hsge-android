@@ -4,20 +4,24 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.response.DogCard
-import com.starters.hsge.data.model.remote.request.IsLikeRequest
-import com.starters.hsge.databinding.FragmentHomeBinding
-import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.starters.hsge.data.interfaces.HomeDogInterface
 import com.starters.hsge.data.interfaces.IsLikeInterface
+import com.starters.hsge.data.model.remote.request.IsLikeRequest
+import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
+import com.starters.hsge.databinding.FragmentHomeBinding
+import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.*
+
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface,
     IsLikeInterface {
@@ -34,8 +38,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         }
 
-
-
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
@@ -48,11 +50,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         })
 
-
-
         fabClick(binding.cardStackView)
     }
-
 
 
     private fun fabClick(cardStackView: CardStackView) {
@@ -137,7 +136,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
             Log.d("순서", "DogCardResponse")
-            prefs.edit().putString("homeDogResponse", "완료").apply()
+
+            val notificationPayload = (activity as MainActivity).intent?.extras
+            notificationPayload?.let {
+                val moveTo = notificationPayload.getString("pushAbout")
+
+                val naviController = (activity as MainActivity).supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
+                naviController?.let {
+                    when (moveTo) {
+                        "chatFragment" -> {
+                            findNavController().navigate(R.id.chatFragment)
+                        }
+                        "chatRoomFragment" -> {
+                            val item =
+                                (activity as MainActivity).binding.navigationMain.menu.findItem(R.id.chatFragment)
+                            NavigationUI.onNavDestinationSelected(item, naviController)
+
+                            //findNavController().navigate(R.id.chatFragment)
+                            findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                            goneBtmNav()
+
+                        }
+                    }
+                    prefs.edit().remove("moveTo").apply()
+                }
+            }
 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")
@@ -161,4 +184,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("IsLike 오류", "오류: $message")
     }
+
+    private fun goneBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+
 }
