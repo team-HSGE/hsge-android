@@ -64,4 +64,10 @@ abstract class RepositoryModule {
     abstract fun bindsChatListRepository(
         chatListRepositoryImpl: ChatListRepositoryImpl
     ) : ChatListRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsPartnerInfoRepository(
+        partnerInfoRepositoryImpl: PartnerInfoRepositoryImpl
+    ) : PartnerInfoRepository
 }
