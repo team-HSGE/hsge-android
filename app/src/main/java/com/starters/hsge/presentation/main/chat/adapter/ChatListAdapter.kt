@@ -2,10 +2,12 @@ package com.starters.hsge.presentation.main.chat.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.databinding.ItemChatListBinding
 import com.starters.hsge.databinding.ItemLikedPeopleBinding
+import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 
 class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
                       private val itemClickListener: () -> Unit
@@ -67,6 +69,8 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
                 chatListTvMessage.text = chat.message
             }
             itemView.setOnClickListener {
+                val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chat)
+                it.findNavController().navigate(action)
                 itemClickListener.invoke()
             }
         }
@@ -80,6 +84,8 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
             }
 
             itemView.setOnClickListener {
+                val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chat)
+                it.findNavController().navigate(action)
                 itemClickListener.invoke()
             }
         }

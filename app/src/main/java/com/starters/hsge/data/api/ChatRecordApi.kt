@@ -7,6 +7,6 @@ import retrofit2.http.Path
 interface ChatRecordApi {
     @GET("/api/chats/{roomId}")
     suspend fun getChatRecord(
-        @Path("roomId") roomId: Int
+        @Path("roomId") roomId: Long
     ): MessageInfo
 }

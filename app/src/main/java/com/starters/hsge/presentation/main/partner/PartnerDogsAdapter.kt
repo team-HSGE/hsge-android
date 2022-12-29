@@ -2,24 +2,21 @@ package com.starters.hsge.presentation.main.partner
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.starters.hsge.R
+import com.starters.hsge.data.model.remote.response.MyDogResponse
 import com.starters.hsge.databinding.ItemDogListBinding
 
-class PartnerDogsAdapter(private val dogList: List<PartnerDogs>) :
+class PartnerDogsAdapter(private val dogList: List<MyDogResponse>?) :
     RecyclerView.Adapter<PartnerDogsAdapter.PartnerDogsViewHolder>() {
 
     inner class PartnerDogsViewHolder(private val binding: ItemDogListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: PartnerDogs) {
-            with(binding) {
-                tvDogName.text = data.name
-                tvDogAge.text = data.age
-                tvDogBreed.text = data.breed
-            }
-            itemView.setOnClickListener {
-                Navigation.findNavController(binding.root).navigate(R.id.action_partnerDogsFragment_to_specificDogFragment)
+        fun bind(data: MyDogResponse) {
+            binding.myDogList = data
+            itemView.setOnClickListener { view ->
+                val action = PartnerDogsFragmentDirections.actionPartnerDogsFragmentToSpecificDogFragment(data)
+                view.findNavController().navigate(action)
             }
         }
     }
@@ -31,12 +28,12 @@ class PartnerDogsAdapter(private val dogList: List<PartnerDogs>) :
     }
 
     override fun onBindViewHolder(holder: PartnerDogsViewHolder, position: Int) {
-        dogList.let {
+        dogList?.let {
             holder.bind(it[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return dogList.size
+        return dogList?.size ?: 0
     }
 }

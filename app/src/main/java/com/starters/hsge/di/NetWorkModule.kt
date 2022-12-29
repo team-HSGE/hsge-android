@@ -131,11 +131,19 @@ object NetworkModule {
     fun providesDeleteDogApi(@RetrofitHSGE retrofit: Retrofit): DeleteDogApi =
         retrofit.create(DeleteDogApi::class.java)
 
+    // Chat Api
     @Provides
     @Singleton
     @RetrofitHSGE
     fun provideChatRecordApi(@RetrofitHSGE retrofit: Retrofit): ChatRecordApi =
         retrofit.create(ChatRecordApi::class.java)
+
+    // Partner Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesPartnerApi(@RetrofitHSGE retrofit: Retrofit): PartnerApi =
+        retrofit.create(PartnerApi::class.java)
 
 }
 

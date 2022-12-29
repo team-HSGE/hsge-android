@@ -21,10 +21,16 @@ class ChatRoomViewModel @Inject constructor(
     var addedMessage = MutableLiveData<Message>()
     var messageList = MediatorLiveData<MutableList<Message>>()
 
+    var roomId: Long = 0
+    var active: Boolean = false
+    var partnerId: Long = 0
+    var partnerNickName = ""
+    var myId: Long = 0
+
     //private val messageList = MediatorLiveData<MutableList<Message>>()
 
 
-    fun getChatInfo(roomId: Int): LiveData<MessageInfo> {
+    fun getChatInfo(roomId: Long): LiveData<MessageInfo> {
         viewModelScope.launch {
             _chatList.value = chatListRepository.getChatList(roomId)
         }
