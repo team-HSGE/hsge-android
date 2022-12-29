@@ -197,7 +197,11 @@
         android:id="@+id/specificDogFragment"
         android:name="com.starters.hsge.presentation.main.detail.SpecificDogFragment"
         android:label="SpecificDogFragment"
-        tools:layout="@layout/fragment_chat_partner_specific_dog"/>
+        tools:layout="@layout/fragment_chat_partner_specific_dog">
+        <argument
+            android:name="partnerDogDetail"
+            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+    </fragment>
     <fragment
         android:id="@+id/partnerDogsFragment"
         android:name="com.starters.hsge.presentation.main.partner.PartnerDogsFragment"
