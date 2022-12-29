@@ -1,9 +1,11 @@
 package com.starters.hsge.presentation.main.detail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starters.hsge.R
@@ -22,8 +24,8 @@ class SpecificDogFragment :
 
         setNavigation()
         setupToolbar()
-        createTagTextView(binding.likeChipsContainer, args.partnerDogDetail.tag.tagLike)
-        createTagTextView(binding.dislikeChipsContainer, args.partnerDogDetail.tag.tagDisLike)
+        createLikeTagTextView(binding.likeChipsContainer, args.partnerDogDetail.tag.tagLike)
+        createDislikeTagTextView(binding.dislikeChipsContainer, args.partnerDogDetail.tag.tagDisLike)
     }
 
     private fun setNavigation() {
@@ -36,7 +38,7 @@ class SpecificDogFragment :
         //binding.tvPartnerSpecificDogTitle.text = requireArguments().getString("nickname")
     }
 
-    private fun createTagTextView(container: LinearLayout, tagList: List<String>) {
+    private fun createLikeTagTextView(container: LinearLayout, tagList: List<String>) {
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -45,8 +47,30 @@ class SpecificDogFragment :
         for (i in tagList) {
             val textView = TextView(requireContext())
             textView.text = i
-            textView.background = resources.getDrawable(R.drawable.bg_g200_r14, null)
-            textView.setPadding(34, 22, 34, 22)
+            textView.setTextColor(Color.parseColor("#222222"))
+            context?.resources?.let { textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon) }
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_chip_like, 0, 0, 0)
+            textView.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_light_yellow_r16, null)
+            textView.setPadding(34, 18, 34, 18)
+            container.addView(textView)
+            textView.layoutParams = layoutParams
+        }
+    }
+
+    private fun createDislikeTagTextView(container: LinearLayout, tagList: List<String>) {
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.setMargins(0, 0, 30, 0)
+        for (i in tagList) {
+            val textView = TextView(requireContext())
+            textView.text = i
+            textView.setTextColor(Color.parseColor("#222222"))
+            context?.resources?.let { textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon) }
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_chip_dislike, 0, 0, 0)
+            textView.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_g200_r16, null)
+            textView.setPadding(34, 18, 34, 18)
             container.addView(textView)
             textView.layoutParams = layoutParams
         }
