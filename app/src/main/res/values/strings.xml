@@ -172,4 +172,5 @@
     <string name="iv_chat_exit_exit">채팅 나가기 옵션 중 나가기 이미지</string>
     <string name="iv_chat_exit_report">채팅 나가기 옵션 중 신고 이미지</string>
     <string name="tv_chat_report_subtitle">불량 유저를 신고해주시면 자세히 검토하겠습니다.</string>
+    <string name="chat_try_talk">지금 당장 대화를 시작해보세요</string>
 </resources>
