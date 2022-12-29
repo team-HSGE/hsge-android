@@ -3,8 +3,6 @@ package com.starters.hsge.presentation.main.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.chatListInterface
@@ -57,10 +55,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
             // inactive_좋아요
             chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_chatFragment_to_chatRoomFragment, bundleOf(ACTIVE to 0))
                 goneBtmNav()
             })
+
             binding.chatRvLikedPeople.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.chatRvLikedPeople.adapter = chatListAdapter
@@ -68,10 +65,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
             // active_채팅
             chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_chatFragment_to_chatRoomFragment, bundleOf(ACTIVE to 1))
                 goneBtmNav()
             })
+
             binding.chatRvChatList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             binding.chatRvChatList.adapter = chatListAdapter
@@ -90,9 +86,5 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     override fun onGetChatListFailure(message: String) {
         Log.d("ChatList 오류", "오류: $message")
-    }
-
-    companion object {
-        const val ACTIVE = "active"
     }
 }
