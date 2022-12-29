@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -23,7 +22,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
@@ -33,15 +31,14 @@ import com.google.android.gms.tasks.Task
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
 
-class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
+class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
-
     private val trackingHandler by lazy { TrackingHandler() }
+
     private var mCurrentLat: Double? = 0.0
     private var mCurrentLng: Double? = 0.0
     private var status: Boolean = true
@@ -57,6 +54,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         setZoomLevel()
         setTrackingBtn()
         catchCurrentLocation()
+
+        binding.kakaoMapView.setCalloutBalloonAdapter(CustomBalloonAdapter(layoutInflater))  // 커스텀 말풍선 등록
+        binding.kakaoMapView.setPOIItemEventListener(this)  // 마커 클릭 이벤트 리스너 등록
     }
 
     override fun onResume() {
@@ -71,7 +71,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         endInfinite()
     }
 
-    // 권한 런처
     private fun initPermissionLauncher() {
         locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
@@ -87,18 +86,16 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         }
 
         fusedLocationClient!!.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-                override fun isCancellationRequested() = false
-
-            }).addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    mCurrentLat = location.latitude
-                    mCurrentLng = location.longitude
-                    //Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
-                    Toast.makeText(context, "위도: ${mCurrentLat}\n경도: ${mCurrentLng}", Toast.LENGTH_SHORT).show()
-                    setCurrentLocation()
-                }
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+            override fun isCancellationRequested() = false
+        }).addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                mCurrentLat = location.latitude
+                mCurrentLng = location.longitude
+                Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
+                setCurrentLocation()
             }
+        }
     }
 
     // 권한 체크
@@ -178,6 +175,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
         binding.trackingBtn.setOnClickListener {
             if (status) {
                 if (checkLocationService()) {
+                    setCircle("start")
                     startTracking()
                 } else {
                     setAutoLocation()
@@ -222,7 +220,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
 
     // Tracking 상태
     private fun startTracking() {
-        setCircle("start")
         startInfinite()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
         binding.trackingBtn.text = "탐색 종료"
@@ -233,6 +230,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     private fun stopTracking() {
         setCircle("end")
         endInfinite()
+        binding.kakaoMapView.removeAllPOIItems()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_yellow_r12)
         binding.trackingBtn.text = "내 주변 탐색"
         status = true
@@ -287,6 +285,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
             if(msg.what == 0){
                 startLocationUpdates()
                 setCircle("tracking")
+                binding.kakaoMapView.removeAllPOIItems()
+                createMarker()
             }
         }
     }
@@ -294,8 +294,34 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find) {
     private fun startInfinite() {
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
         trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
-        trackingHandler.postDelayed(::startInfinite, 3000)
+        trackingHandler.postDelayed(::startInfinite, 15000)
     }
-    
+
     private fun endInfinite() { trackingHandler.removeCallbacksAndMessages(null) }
+
+    // 새로운 마커 생성
+    private fun createMarker() {
+        val marker = MapPOIItem()
+        marker.apply {
+            itemName = "응콩쓰"
+            mapPoint = MapPoint.mapPointWithGeoCoord(37.577457, 126.975653)
+            markerType = MapPOIItem.MarkerType.CustomImage
+            customImageResourceId = R.drawable.ic_map_marker
+            setCustomImageAnchor(0.5f, 0.5f)
+        }
+        binding.kakaoMapView.addPOIItem(marker)
+    }
+
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
+        Toast.makeText(context, "${p1?.itemName}님에게 손을 흔들었어요!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
+    }
 }
