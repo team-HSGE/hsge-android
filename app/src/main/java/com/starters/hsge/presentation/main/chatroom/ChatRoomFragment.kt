@@ -59,6 +59,8 @@ class ChatRoomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.chatInfo = args.chatInfo
+
         val chatInfo = args.chatInfo
         chatRoomViewModel.roomId = chatInfo.roomId
         chatRoomViewModel.active = chatInfo.active
