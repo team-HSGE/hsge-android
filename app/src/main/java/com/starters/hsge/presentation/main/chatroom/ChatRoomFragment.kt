@@ -64,6 +64,7 @@ class ChatRoomFragment : Fragment() {
         chatRoomViewModel.active = chatInfo.active
         chatRoomViewModel.partnerNickName = chatInfo.nickname
 
+
         setChatView()
         setupView()
         initListener()
@@ -192,7 +193,7 @@ class ChatRoomFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
-                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
+                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(chatRoomViewModel.roomId, chatRoomViewModel.partnerId)
                     chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
                     true
                 }
@@ -262,5 +263,6 @@ class ChatRoomFragment : Fragment() {
     companion object {
         const val PARTNER_ID = "partnerId"
         const val PARTNER_NICKNAME = "partnerNickName"
+        const val ROOM_ID = "roomId"
     }
 }
