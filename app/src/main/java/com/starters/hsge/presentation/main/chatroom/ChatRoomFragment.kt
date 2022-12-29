@@ -71,8 +71,8 @@ class ChatRoomFragment : Fragment() {
         setupListAdapter()
         setupToolbar()
 
-        //val url = "wss://dev.hsge.site/ws/websocket"
-        val url = "ws://192.168.0.8:8081/ws/websocket" // 채팅 테스트 서버
+        val url = "wss://dev.hsge.site/ws/websocket"
+        //val url = "ws://192.168.0.8:8081/ws/websocket" // 채팅 테스트 서버
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
         // stomp 연결
