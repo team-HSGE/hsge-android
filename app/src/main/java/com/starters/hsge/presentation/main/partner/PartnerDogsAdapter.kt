@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.data.model.remote.response.MyDogResponse
 import com.starters.hsge.databinding.ItemDogListBinding
 
-class PartnerDogsAdapter(private val dogList: List<MyDogResponse>?) :
+class PartnerDogsAdapter(
+    private val dogList: List<MyDogResponse>?,
+    private val partnerNickName: String
+) :
     RecyclerView.Adapter<PartnerDogsAdapter.PartnerDogsViewHolder>() {
 
     inner class PartnerDogsViewHolder(private val binding: ItemDogListBinding) :
@@ -15,7 +18,11 @@ class PartnerDogsAdapter(private val dogList: List<MyDogResponse>?) :
         fun bind(data: MyDogResponse) {
             binding.myDogList = data
             itemView.setOnClickListener { view ->
-                val action = PartnerDogsFragmentDirections.actionPartnerDogsFragmentToSpecificDogFragment(data)
+                val action =
+                    PartnerDogsFragmentDirections.actionPartnerDogsFragmentToSpecificDogFragment(
+                        data,
+                        partnerNickName
+                    )
                 view.findNavController().navigate(action)
             }
         }

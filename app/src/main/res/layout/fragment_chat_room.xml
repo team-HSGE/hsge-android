@@ -9,6 +9,10 @@
             name="messageInfo"
             type="com.starters.hsge.presentation.main.chatroom.MessageInfo" />
 
+        <variable
+            name="chatInfo"
+            type="com.starters.hsge.data.model.remote.response.ChatListResponse" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,12 +108,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="2022년 12월 21일"
             android:textColor="@color/G500"
             android:textSize="14sp"
+            firstDateFormat="@{chatInfo.firstDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_chatroom_explanation" />
+            app:layout_constraintTop_toBottomOf="@id/tv_chatroom_explanation"
+            tools:text="2022년 12월 21일"/>
 
         <LinearLayout
             android:id="@+id/layout_chatbox"

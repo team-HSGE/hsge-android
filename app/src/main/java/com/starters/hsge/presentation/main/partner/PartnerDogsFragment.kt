@@ -18,6 +18,8 @@ class PartnerDogsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        partnerDogsViewModel.partnerNickName = requireArguments().getString("partnerNickName").toString()
+
         initRecyclerView()
         setUpToolbar()
         setNavigation()
@@ -32,12 +34,12 @@ class PartnerDogsFragment :
     private fun initRecyclerView() {
         partnerDogsViewModel.getPartnerDogs(requireArguments().getLong("partnerId"))
             .observe(viewLifecycleOwner) {
-                val adapter = it?.let { it1 -> PartnerDogsAdapter(it1) }
+                val adapter = it?.let { it1 -> PartnerDogsAdapter(it1, partnerDogsViewModel.partnerNickName) }
                 binding.rvChatPartnerDogsList.adapter = adapter
             }
     }
 
     private fun setUpToolbar() {
-        binding.tvChatPartnerNicknameTitle.text = requireArguments().getString("partnerNickName")
+        binding.tvChatPartnerNicknameTitle.text = partnerDogsViewModel.partnerNickName
     }
 }
