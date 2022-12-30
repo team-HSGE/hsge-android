@@ -114,8 +114,6 @@ class ChatRoomFragment : Fragment() {
 
                             stompClient.send("/pub/chat/message", data.toString()).subscribe()
                             binding.edtMessage.text.clear()
-
-
                         }
                     }
                 }
@@ -137,6 +135,9 @@ class ChatRoomFragment : Fragment() {
     private fun setChatView() {
         when (chatRoomViewModel.active) {
             false -> {
+                //TODO: 첫 번째 메세지를 보낼 때 visible 처리
+
+                //binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
             }
             true -> {
                 binding.ivPartnerProfileLarge.visibility = View.GONE
@@ -198,7 +199,6 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
-
     private fun setupToolbar() {
         // 파트너 아이콘 클릭
         binding.ivToolbarPartnerIcon.setOnClickListener {
@@ -216,7 +216,7 @@ class ChatRoomFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
-                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog()
+                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(chatRoomViewModel.roomId, chatRoomViewModel.partnerId)
                     chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
                     true
                 }
@@ -283,9 +283,9 @@ class ChatRoomFragment : Fragment() {
             }
         }
 
-
     companion object {
         const val PARTNER_ID = "partnerId"
         const val PARTNER_NICKNAME = "partnerNickName"
+        const val ROOM_ID = "roomId"
     }
 }

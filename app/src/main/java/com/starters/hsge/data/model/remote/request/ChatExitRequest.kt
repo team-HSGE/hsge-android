@@ -4,7 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ReportRequest(
-    @SerialName("description") val description : String,
-    @SerialName("reportee") val reportee : Long
-)
+data class ChatExitRequest(
+
+    @SerialName("type") val type: String,
+    @SerialName("counterUserId") val counterUserId: Long
+    )
