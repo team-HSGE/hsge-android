@@ -42,6 +42,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private val trackingHandler by lazy { TrackingHandler() }
+    private val trackingCircle by lazy { TrackingCircle() }
 
     private var mCurrentLat: Double? = 0.0
     private var mCurrentLng: Double? = 0.0
@@ -232,6 +233,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     // Tracking 상태
     private fun startTracking() {
         startInfinite()
+        startCircle()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
         binding.trackingBtn.text = "탐색 종료"
         status = false
@@ -295,20 +297,36 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             super.handleMessage(msg)
             if(msg.what == 0){
                 startLocationUpdates()
-                setCircle("tracking")
                 binding.kakaoMapView.removeAllPOIItems()
                 ShakeHandService(this@FindFragment).tryGetHandShake()
             }
         }
     }
 
+    @SuppressLint("HandlerLeak")
+    private inner class TrackingCircle: Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if(msg.what == 0){ setCircle("tracking") }
+        }
+    }
+
     private fun startInfinite() {
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
         trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
-        trackingHandler.postDelayed(::startInfinite, 15000)
+        trackingHandler.postDelayed(::startInfinite, 15000) // 한 번 돌고 지연시간
     }
 
-    private fun endInfinite() { trackingHandler.removeCallbacksAndMessages(null) }
+    private fun startCircle() {
+        trackingCircle.removeMessages(0)
+        trackingCircle.sendEmptyMessageDelayed(0, 500)
+        trackingCircle.postDelayed(::startCircle, 500)
+    }
+
+    private fun endInfinite() {
+        trackingHandler.removeCallbacksAndMessages(null)
+        trackingCircle.removeCallbacksAndMessages(null)
+    }
 
     // 새로운 마커 생성
     private fun createMarker(uCurrentLat: Double, uCurrentLng: Double, uNickname: String) {

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.main.MainActivity
 
 class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
 
@@ -50,6 +51,7 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
                 }
                 override fun onOkBtnClicked() {
                     findNavController().navigateUp()
+                    visibleBtmNav()
                 }
             })
             exitDialog.show(childFragmentManager, "CustomDialog")
@@ -65,10 +67,15 @@ class ChatExitBottomSheetDialog: BottomSheetDialogFragment() {
                 }
                 override fun onOkBtnClicked() {
                     findNavController().navigateUp()
+                    visibleBtmNav()
                 }
             })
             unMatchDialog.show(childFragmentManager, "CustomDialog")
         }
+    }
+
+    private fun visibleBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 
     companion object {
