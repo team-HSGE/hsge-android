@@ -25,13 +25,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            ChatListService(this@ChatFragment).tryGetChatList()
-        }
-
+    override fun onResume() {
+        super.onResume()
+        Log.d("성공", "onResume")
         likedPeopleList.clear()
         chatList.clear()
+        ChatListService(this).tryGetChatList()
     }
 
     private fun goneBtmNav() {

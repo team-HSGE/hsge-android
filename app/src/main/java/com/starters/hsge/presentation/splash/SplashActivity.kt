@@ -186,6 +186,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             val msg = checkTokenResponse.message
 
             when(code) {
+                400 -> {
+                    when (msg) {
+                        "REPORT LIMIT EXCEED" -> {
+                            Toast.makeText(applicationContext, "서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                            Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
+                        }
+                    }
+                }
                 401 -> {
                     when (msg) {
                         "NO_ACCESS" -> { Log.d("토큰 상태", "access, refresh 토큰이 없습니다.") }

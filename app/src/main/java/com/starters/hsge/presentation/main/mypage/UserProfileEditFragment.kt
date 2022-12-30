@@ -177,8 +177,8 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
     override fun onPutUserInfoSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess) {
             Log.d("회원 정보 수정", "성공!")
-            prefs.edit().remove("nickname").apply()
-            prefs.edit().remove("nickname2").apply()
+            prefs.edit().remove("nickname").commit()
+            prefs.edit().remove("nickname2").commit()
 
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)

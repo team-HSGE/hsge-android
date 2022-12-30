@@ -46,7 +46,6 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             val reason = binding.tvChatReportSelectReason.text
             ReportService(this).tryPostReport(ReportRequest(reason.toString(), 10))
 
-            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
             visibleBtmNav()
         }
     }
