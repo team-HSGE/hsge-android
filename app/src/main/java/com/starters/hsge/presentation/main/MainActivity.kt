@@ -57,12 +57,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                         val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                         NavigationUI.onNavDestinationSelected(item, naviController)
                     }
-
                 }
                 "chatRoomFragment" -> {
                     val item = binding.navigationMain.menu.findItem(R.id.chatFragment)
                     NavigationUI.onNavDestinationSelected(item, naviController)
 
+                    val navHostFragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fcv_main)
+                    val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
                     if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
                         return
                     }else {

@@ -25,17 +25,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-//        likedPeopleList.clear()
-//        chatList.clear()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("lifecycle", "onStart")
-
     }
 
     override fun onResume() {
