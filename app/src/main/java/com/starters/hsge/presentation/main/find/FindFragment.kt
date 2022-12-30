@@ -233,6 +233,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     // Tracking 상태
     private fun startTracking() {
         startInfinite()
+        startCircle()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
         binding.trackingBtn.text = "탐색 종료"
         status = false
@@ -296,7 +297,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             super.handleMessage(msg)
             if(msg.what == 0){
                 startLocationUpdates()
-                setCircle("tracking")
                 binding.kakaoMapView.removeAllPOIItems()
                 ShakeHandService(this@FindFragment).tryGetHandShake()
             }
@@ -315,9 +315,12 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
         trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
         trackingHandler.postDelayed(::startInfinite, 15000) // 한 번 돌고 지연시간
+    }
+
+    private fun startCircle() {
         trackingCircle.removeMessages(0)
         trackingCircle.sendEmptyMessageDelayed(0, 500)
-        trackingCircle.postDelayed(::startInfinite, 500)
+        trackingCircle.postDelayed(::startCircle, 500)
     }
 
     private fun endInfinite() {
