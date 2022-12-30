@@ -144,7 +144,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 naviController?.let {
                     when (moveTo) {
                         "chatFragment" -> {
-                            findNavController().navigate(R.id.chatFragment)
+                            val item =
+                                (activity as MainActivity).binding.navigationMain.menu.findItem(R.id.chatFragment)
+                            NavigationUI.onNavDestinationSelected(item, naviController)
                         }
                         "chatRoomFragment" -> {
                             val item =
@@ -154,10 +156,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                             //findNavController().navigate(R.id.chatFragment)
                             findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
                             goneBtmNav()
-                            (activity as MainActivity).intent.removeExtra("pushAbout")
                         }
+                        else -> return
                     }
-                    prefs.edit().remove("moveTo").apply()
+                    (activity as MainActivity).intent.removeExtra("pushAbout")
                 }
             }
 
