@@ -120,6 +120,7 @@ class EditLocationFragment :
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
+            visibleBtmNav()
         }
     }
 
