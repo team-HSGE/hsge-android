@@ -95,7 +95,7 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
-            findNavController().navigateUp()
+            //findNavController().navigateUp()
             Log.d("ChatExit_매칭 취소 / 나가기", "성공")
         }else{
             Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
