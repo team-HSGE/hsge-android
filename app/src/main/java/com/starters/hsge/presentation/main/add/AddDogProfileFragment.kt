@@ -105,6 +105,8 @@ class AddDogProfileFragment :
                                 .fitCenter()
                                 .circleCrop()
                                 .into(binding.ivDogPhoto)
+
+                            binding.ivDogPhotoEdit.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -312,7 +314,7 @@ class AddDogProfileFragment :
         for (i in tagList) {
             val textView = TextView(requireContext())
             textView.text = i
-            textView.background = resources.getDrawable(R.drawable.bg_g200_r14, null)
+            textView.background = resources.getDrawable(R.drawable.bg_g200_r16, null)
             textView.setPadding(34, 22, 34, 22)
             container.addView(textView)
             textView.layoutParams = layoutParams

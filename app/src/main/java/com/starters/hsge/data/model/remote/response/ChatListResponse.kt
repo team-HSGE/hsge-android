@@ -14,7 +14,7 @@ data class ChatListResponse(
     @SerialName("latestMessage") val message: String,
     @SerialName("checked") val checked: Boolean, // 메세지 확인 여부
     @SerialName("active") val active: Boolean, // 대화 시작된 채팅방(하단 목록)
-    @SerialName("date") val date: String
+    @SerialName("date") val firstDate: String
 
     // val date: Int
 ): Parcelable
