@@ -222,7 +222,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             "tracking" -> {
                 binding.kakaoMapView.removeAllCircles()
                 binding.kakaoMapView.addCircle(circle1)
-                Toast.makeText(context, "나오고 있나?", Toast.LENGTH_SHORT).show()
             }
             "end" -> {
                 binding.kakaoMapView.removeAllCircles()
