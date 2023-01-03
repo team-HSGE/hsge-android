@@ -187,15 +187,17 @@ class ChatRoomFragment : Fragment() {
 
 
         // 채팅 대화 목록 호출
-        chatRoomViewModel.getChatInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
-            binding.messageInfo = it
-            chatRoomViewModel.messages = it.messageList
-            chatRoomViewModel.partnerId = it.userInfo.otherUserId
-            chatRoomViewModel.myId = it.userInfo.userId
-            adapter = MessageListAdapter(it.userInfo.userId)
-            adapter.registerAdapterDataObserver(listAdapterObserver)
-            binding.rvMessages.adapter = adapter
-            adapter.submitList(it.messageList)
+        chatRoomViewModel.getMessageInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
+            it?.let {
+                binding.messageInfo = it
+                chatRoomViewModel.messages = it.messageList
+                chatRoomViewModel.partnerId = it.userInfo.otherUserId
+                chatRoomViewModel.myId = it.userInfo.userId
+                adapter = MessageListAdapter(it.userInfo.userId)
+                adapter.registerAdapterDataObserver(listAdapterObserver)
+                binding.rvMessages.adapter = adapter
+                adapter.submitList(it.messageList)
+            }
         }
     }
 

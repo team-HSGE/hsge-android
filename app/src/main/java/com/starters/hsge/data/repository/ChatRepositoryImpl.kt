@@ -10,7 +10,7 @@ class ChatRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: ChatApi
 ) : ChatRepository {
 
-    override suspend fun getChatList(roomId: Long): MessageInfo {
+    override suspend fun getMessageList(roomId: Long): MessageInfo {
         return api.getChatRecord(roomId)
     }
 
