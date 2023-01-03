@@ -126,7 +126,6 @@ class AddDogProfileFragment :
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
@@ -168,7 +167,6 @@ class AddDogProfileFragment :
     }
 
     private fun initListener() {
-
         // 강아지 사진
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()

@@ -39,7 +39,6 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
         initImageLauncher()
         initPermissionLauncher()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

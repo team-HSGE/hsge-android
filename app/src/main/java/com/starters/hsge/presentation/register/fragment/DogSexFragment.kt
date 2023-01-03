@@ -31,11 +31,9 @@ class DogSexFragment : BaseFragment<FragmentDogSexBinding>(R.layout.fragment_dog
         updateNeuterCheckBox()
         initListener()
         setNavigation()
-
     }
 
     private fun initListener() {
-
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId) {
                 R.id.rbtn_male -> {

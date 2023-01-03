@@ -68,8 +68,6 @@ class UserLocationFragment :
 
     }
 
-
-
     private fun initPermissionLauncher() {
         locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
@@ -79,9 +77,7 @@ class UserLocationFragment :
         binding.btnNext.isEnabled = !binding.tvMyLocation.text.isNullOrEmpty()
     }
 
-
     private fun initListener() {
-
         // 사용자 위치 정보 받기
         binding.btnSearch.setOnClickListener {
             // GPS check & checkPermission
@@ -93,12 +89,10 @@ class UserLocationFragment :
         }
 
         binding.btnNext.setOnClickListener {
-
             // 홈 화면으로 이동
             Log.d("from?", "register")
 
             lifecycleScope.launch {
-
                 // 저장된 이미지 타입 변환: String -> Uri -> File
                 val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
@@ -131,7 +125,6 @@ class UserLocationFragment :
                 delay(500)
                 val intent = Intent(context, MainActivity::class.java)
                 startActivity(intent)
-
                 activity?.finish() //RegisterActivity 종료
             }
         }
@@ -168,7 +161,6 @@ class UserLocationFragment :
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
@@ -256,7 +248,6 @@ class UserLocationFragment :
     // 위도, 경도 -> geocoder
     private fun convertToAddress(geocoder: Geocoder, it: Location) {
         val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-
         val addressLine = address?.get(0)?.getAddressLine(0)
         val addressList = addressLine?.split(" ") as ArrayList<String>
         addressList.removeAt(0)

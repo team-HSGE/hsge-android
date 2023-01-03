@@ -213,7 +213,6 @@ class DogProfileEditFragment :
     }
 
     private fun initListener() {
-
         // 반려견 프로필 사진
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()
@@ -348,7 +347,7 @@ class DogProfileEditFragment :
 
         binding.tvDeleteBtn.setOnClickListener {
             val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
-            dialog.setButtonClickListener(object: BaseDialogFragment.OnButtonClickListener {
+            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
@@ -401,17 +400,20 @@ class DogProfileEditFragment :
         }
     }
 
-    private fun goneBtmNav(){
+    private fun goneBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
     }
 
-    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+    private fun visibleBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+    }
 
     private fun showCancelDialog() {
         val dialog = BaseDialogFragment("수정을 취소하시겠습니까?")
         dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
             override fun onCancelBtnClicked() {
             }
+
             override fun onOkBtnClicked() {
                 findNavController().navigateUp()
             }

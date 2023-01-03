@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layout.fragment_dog_dislike_tag) {
+class DogDislikeTagFragment :
+    BaseFragment<FragmentDogDislikeTagBinding>(R.layout.fragment_dog_dislike_tag) {
 
     private val registerViewModel: RegisterViewModel by viewModels()
 
@@ -26,13 +27,13 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
         val list = listOf(
             "#남자사람", "#여자사람", "#아이", "#사람", "#암컷", "#대형견", "#중형견",
             "#소형견", "#옷입기", "#사진찍기", "#수영", "#뽀뽀", "#발만지기", "#꼬리만지기",
-            "#스킨십", "#큰소리", "#향수")
+            "#스킨십", "#큰소리", "#향수"
+        )
 
         setUpChipGroupDynamically(list)
         updateCheckedChip()
         initListener()
         setNavigation()
-
     }
 
     private fun setUpChipGroupDynamically(chipList: List<String>) {
@@ -70,7 +71,8 @@ class DogDislikeTagFragment : BaseFragment<FragmentDogDislikeTagBinding>(R.layou
     private fun updateCheckedChip() {
         lifecycleScope.launch {
             if (registerViewModel.fetchDogDislikeTag().first().isNotEmpty()) {
-                val tagList: List<String> = registerViewModel.fetchDogDislikeTag().first().split(",")
+                val tagList: List<String> =
+                    registerViewModel.fetchDogDislikeTag().first().split(",")
 
                 for (index in 0 until binding.chipGroupDislike.childCount) {
                     val chip = binding.chipGroupDislike.getChildAt(index) as Chip

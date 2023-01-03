@@ -52,7 +52,8 @@ class ChatRoomFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_room, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_chat_room, container, false)
         return binding.root
     }
 
@@ -151,13 +152,12 @@ class ChatRoomFragment : Fragment() {
     }
 
     private fun setupListAdapter() {
-
         // adapter의 데이터 변화 감지
         listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
                 chatRoomViewModel.messages.forEach {
-                    if(it.senderId == chatRoomViewModel.myId) {
+                    if (it.senderId == chatRoomViewModel.myId) {
                         // active 변경
                         lifecycleScope.launch(Dispatchers.IO) {
                             chatRoomViewModel.postChatRoomState(chatRoomViewModel.roomId)
@@ -219,7 +219,10 @@ class ChatRoomFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
-                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(chatRoomViewModel.roomId, chatRoomViewModel.partnerId)
+                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(
+                        chatRoomViewModel.roomId,
+                        chatRoomViewModel.partnerId
+                    )
                     chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
                     true
                 }

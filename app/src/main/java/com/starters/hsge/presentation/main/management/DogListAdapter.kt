@@ -12,15 +12,12 @@ class DogListAdapter(private var dogList: List<UserDogResponse>) : RecyclerView.
     inner class DogListViewHolder(private val binding: ItemDogListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: UserDogResponse) {
-
             binding.myDogList = data
             binding.executePendingBindings()
-
             itemView.setOnClickListener { view ->
                 val action =
                     ManagementFragmentDirections.actionManagementFragmentToDogProfileEditFragment(data)
                 view.findNavController().navigate(action)
-
             }
         }
     }

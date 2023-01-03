@@ -29,7 +29,6 @@ class DogAgeFragment @Inject constructor(
         initListener()
         setNavigation()
         upDateDogAgeText()
-
     }
 
     private fun initListener() {
