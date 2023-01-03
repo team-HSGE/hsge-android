@@ -1,6 +1,6 @@
 package com.starters.hsge.data.repository
 
-import com.starters.hsge.data.api.EditDogApi
+import com.starters.hsge.data.api.UserDogApi
 import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.FormDataUtil
@@ -14,7 +14,7 @@ import javax.inject.Inject
 const val CONTENT_KEY = "content"
 
 class EditDogProfileRepositoryImpl @Inject constructor(
-    @RetrofitHSGE private val api: EditDogApi
+    @RetrofitHSGE private val api: UserDogApi
 ) : EditDogProfileRepository {
     override suspend fun putDogData(
         petId: Int,

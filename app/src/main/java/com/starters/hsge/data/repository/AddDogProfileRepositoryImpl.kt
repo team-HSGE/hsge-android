@@ -1,6 +1,6 @@
 package com.starters.hsge.data.repository
 
-import com.starters.hsge.data.api.AddDogApi
+import com.starters.hsge.data.api.UserDogApi
 import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.FormDataUtil
@@ -15,7 +15,7 @@ const val SIGN_UP_DTO_KEY = "signupDto"
 const val IMAGE_FILE_KEY = "imgFile"
 
 class AddDogProfileRepositoryImpl @Inject constructor(
-    @RetrofitHSGE private val api: AddDogApi
+    @RetrofitHSGE private val api: UserDogApi
 ) : AddDogProfileRepository {
     override suspend fun postDogData(img: File, data: AddDogRequest) {
         val formJson = Json.encodeToString(data)
