@@ -24,19 +24,17 @@ class SpecificDogFragment :
         binding.tvPartnerSpecificDogTitle.text = args.partnerNickName
 
         setNavigation()
-        setupToolbar()
         createLikeTagTextView(binding.likeChipsContainer, args.partnerDogDetail.tag.tagLike)
-        createDislikeTagTextView(binding.dislikeChipsContainer, args.partnerDogDetail.tag.tagDisLike)
+        createDislikeTagTextView(
+            binding.dislikeChipsContainer,
+            args.partnerDogDetail.tag.tagDisLike
+        )
     }
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    private fun setupToolbar() {
-        //binding.tvPartnerSpecificDogTitle.text = requireArguments().getString("nickname")
     }
 
     private fun createLikeTagTextView(container: LinearLayout, tagList: List<String>) {
@@ -49,9 +47,17 @@ class SpecificDogFragment :
             val textView = TextView(requireContext())
             textView.text = i
             textView.setTextColor(Color.parseColor("#222222"))
-            context?.resources?.let { textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon) }
-            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_chip_like, 0, 0, 0)
-            textView.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_light_yellow_r16, null)
+            context?.resources?.let {
+                textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon)
+            }
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.drawable.ic_chip_like,
+                0,
+                0,
+                0
+            )
+            textView.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.bg_light_yellow_r16, null)
             textView.setPadding(34, 18, 34, 18)
             container.addView(textView)
             textView.layoutParams = layoutParams
@@ -68,9 +74,17 @@ class SpecificDogFragment :
             val textView = TextView(requireContext())
             textView.text = i
             textView.setTextColor(Color.parseColor("#222222"))
-            context?.resources?.let { textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon) }
-            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_chip_dislike, 0, 0, 0)
-            textView.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_g200_r16, null)
+            context?.resources?.let {
+                textView.compoundDrawablePadding = it.getDimensionPixelSize(R.dimen.textIcon)
+            }
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.drawable.ic_chip_dislike,
+                0,
+                0,
+                0
+            )
+            textView.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.bg_g200_r16, null)
             textView.setPadding(34, 18, 34, 18)
             container.addView(textView)
             textView.layoutParams = layoutParams

@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.NicknameApi
+import com.starters.hsge.data.api.SignUpApi
 import com.starters.hsge.data.interfaces.NicknameInterface
 import com.starters.hsge.data.model.remote.request.NicknameRequest
 import com.starters.hsge.data.model.remote.response.NicknameResponse
@@ -12,7 +12,7 @@ import retrofit2.Response
 class NicknameService(val nicknameInterface: NicknameInterface) {
 
     fun tryPostNickname(nickname: NicknameRequest) {
-        val nicknameApi = RetrofitClient.sRetrofit.create(NicknameApi::class.java)
+        val nicknameApi = RetrofitClient.sRetrofit.create(SignUpApi::class.java)
         nicknameApi.postNickname(nickname).enqueue(object :
             Callback<NicknameResponse> {
             override fun onResponse(

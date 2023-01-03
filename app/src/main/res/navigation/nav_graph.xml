@@ -107,7 +107,7 @@
         tools:layout="@layout/fragment_dog_profile_edit">
         <argument
             android:name="dogDetailInfo"
-            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            app:argType="com.starters.hsge.data.model.remote.response.UserDogResponse" />
         <action
             android:id="@+id/action_dogProfileEditFragment_to_myPageFragment"
             app:destination="@id/myPageFragment"
@@ -204,7 +204,7 @@
         tools:layout="@layout/fragment_chat_partner_specific_dog">
         <argument
             android:name="partnerDogDetail"
-            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            app:argType="com.starters.hsge.data.model.remote.response.UserDogResponse" />
         <argument
             android:name="partnerNickName"
             app:argType="string" />

@@ -20,7 +20,8 @@ class PartnerDogsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        partnerDogsViewModel.partnerNickName = requireArguments().getString("partnerNickName").toString()
+        partnerDogsViewModel.partnerNickName =
+            requireArguments().getString("partnerNickName").toString()
 
         initRecyclerView()
         setUpToolbar()
@@ -34,13 +35,13 @@ class PartnerDogsFragment :
     }
 
     private fun initRecyclerView() {
-
         val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
         binding.rvChatPartnerDogsList.addItemDecoration(customDecoration)
 
         partnerDogsViewModel.getPartnerDogs(requireArguments().getLong("partnerId"))
             .observe(viewLifecycleOwner) {
-                val adapter = it?.let { it1 -> PartnerDogsAdapter(it1, partnerDogsViewModel.partnerNickName) }
+                val adapter =
+                    it?.let { it1 -> PartnerDogsAdapter(it1, partnerDogsViewModel.partnerNickName) }
                 binding.rvChatPartnerDogsList.adapter = adapter
             }
     }

@@ -33,7 +33,6 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
         updateCheckedChip()
         initListener()
         setNavigation()
-
     }
 
     private fun setUpChipGroupDynamically(chipList: List<String>) {
@@ -73,9 +72,9 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_dogLikeTagFragment_to_dogDislikeTagFragment)
 
-           lifecycleScope.launch {
-               registerViewModel.saveDogLikeTag(getChipsText())
-           }
+            lifecycleScope.launch {
+                registerViewModel.saveDogLikeTag(getChipsText())
+            }
         }
     }
 
@@ -92,7 +91,7 @@ class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.frag
                 binding.btnNext.isEnabled = true
             }
         }
-   }
+    }
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {

@@ -6,11 +6,11 @@
 
         <variable
             name="messageInfo"
-            type="com.starters.hsge.presentation.main.chatroom.MessageInfo" />
+            type="com.starters.hsge.data.model.remote.response.MessageInfoResponse" />
 
         <variable
             name="messageList"
-            type="com.starters.hsge.presentation.main.chatroom.Message" />
+            type="com.starters.hsge.data.model.remote.response.Message" />
 
     </data>
 

@@ -29,11 +29,9 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
         initRecyclerView()
         initListener()
         setNavigation()
-
     }
 
     private fun initRecyclerView() {
-
         val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
         binding.rvDogList.addItemDecoration(customDecoration)
 
@@ -74,7 +72,7 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
         }
     }
 
-    private fun visibleBtmNav(){
+    private fun visibleBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }

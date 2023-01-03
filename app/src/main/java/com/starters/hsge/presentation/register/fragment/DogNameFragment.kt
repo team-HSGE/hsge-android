@@ -28,7 +28,6 @@ class DogNameFragment : BaseFragment<FragmentDogNameBinding>(R.layout.fragment_d
         initListener()
         showDogNameText()
         setNavigation()
-
     }
 
     private fun setTextWatcher() {

@@ -18,7 +18,6 @@ class UserProfileIconAdapter(private var userIconList: List<Int>)
             itemView.setOnClickListener {
                 itemClickListener.onClick(it, resId)
             }
-
         }
     }
 

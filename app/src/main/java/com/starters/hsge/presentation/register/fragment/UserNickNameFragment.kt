@@ -24,7 +24,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.fragment_user_nick_name), NicknameInterface {
+class UserNickNameFragment :
+    BaseFragment<FragmentUserNickNameBinding>(R.layout.fragment_user_nick_name), NicknameInterface {
 
     private var nickNameFlag = false
     private val registerViewModel: RegisterViewModel by viewModels()
@@ -39,7 +40,7 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
     }
 
     private fun setTextWatcher() {
-        binding.edtUserNickName.addTextChangedListener(object: TextWatcher {
+        binding.edtUserNickName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -86,9 +87,12 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         }
     }
 
-    private fun flagCheck() { binding.btnNext.isEnabled = nickNameFlag }
+    private fun flagCheck() {
+        binding.btnNext.isEnabled = nickNameFlag
+    }
 
-    private fun  verifyNickname(nickname: String): Boolean = nickname.matches(Regex("^[가-힣a-zA-Z0-9]{2,13}$"))
+    private fun verifyNickname(nickname: String): Boolean =
+        nickname.matches(Regex("^[가-힣a-zA-Z0-9]{2,13}$"))
 
     private fun showUserNickName() {
         lifecycleScope.launch {
@@ -98,12 +102,17 @@ class UserNickNameFragment : BaseFragment<FragmentUserNickNameBinding>(R.layout.
         }
     }
 
-    override fun onPostUserNicknameSuccess(nicknameResponse: NicknameResponse, isSuccess: Boolean, code: Int, nicknameRequest:NicknameRequest) {
+    override fun onPostUserNicknameSuccess(
+        nicknameResponse: NicknameResponse,
+        isSuccess: Boolean,
+        code: Int,
+        nicknameRequest: NicknameRequest
+    ) {
         if (isSuccess) {
             val availability = nicknameResponse.data
             Log.d("닉네임 설정 가능", "설정 가능 : $availability")
 
-            if (availability==true) {
+            if (availability == true) {
                 // ds에 저장하기
                 lifecycleScope.launch {
                     registerViewModel.saveUserNickname(nicknameRequest.nickname)
