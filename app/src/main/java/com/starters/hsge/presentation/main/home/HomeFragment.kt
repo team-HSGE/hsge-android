@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         super.onViewCreated(view, savedInstanceState)
 
         CoroutineScope(Dispatchers.IO).launch {
-                HomeDogService(this@HomeFragment).tryGetHomeDog()
+            HomeDogService(this@HomeFragment).tryGetHomeDog()
 
         }
 
@@ -143,7 +143,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 val roomId = intent.getLong("roomId")
                 val nickname = intent.getString("nickname")
 
-                val naviController = (activity as MainActivity).supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
+                val naviController =
+                    (activity as MainActivity).supportFragmentManager.findFragmentById(R.id.fcv_main)
+                        ?.findNavController()
                 naviController?.let {
                     when (moveTo) {
                         "chatFragment" -> {
@@ -151,8 +153,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                         }
                         "chatRoomFragment" -> {
                             (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
-                            val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chatInfo = ChatListResponse(roomId!!, nickname!!, 1, "안녕하세요", false, true, "2023-01-03"))
-                                                        findNavController().navigate(action)
+                            val action =
+                                ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
+                                    chatInfo = ChatListResponse(
+                                        roomId,
+                                        nickname!!,
+                                        MainActivity.DEFAULT_USER_ICON,
+                                        MainActivity.DEFAULT_MESSAGE,
+                                        MainActivity.DEFAULT_CHECKED,
+                                        MainActivity.DEFAULT_ACTIVE,
+                                        MainActivity.DEFAULT_DATE
+                                    )
+                                )
+                            findNavController().navigate(action)
                             goneBtmNav()
                         }
                         else -> return
@@ -184,6 +197,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         Log.d("IsLike 오류", "오류: $message")
     }
 
-    private fun goneBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
+    private fun goneBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
+    }
 
 }

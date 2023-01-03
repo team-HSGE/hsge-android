@@ -3,7 +3,6 @@ package com.starters.hsge.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
@@ -55,11 +54,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
             when (moveTo) {
                 "chatFragment" -> {
-                    if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
+                    if (currentFragment is ChatRoomFragment) { // 현재 화면이 chatRoomFragment -> 화면 이동 x
                         supportFragmentManager.popBackStack()
                         visibleBtmNav()
-                    }else {
-                        if (binding.navigationMain.selectedItemId == R.id.myPageFragment){
+                    } else {
+                        if (binding.navigationMain.selectedItemId == R.id.myPageFragment) {
                             naviController.popBackStack(R.id.myPageFragment, false)
                             visibleBtmNav()
                             binding.navigationMain.selectedItemId = R.id.chatFragment
@@ -70,13 +69,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
                 "chatRoomFragment" -> {
                     binding.navigationMain.selectedItemId = R.id.chatFragment
-                    val navHostFragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fcv_main)
+                    val navHostFragment: Fragment? =
+                        supportFragmentManager.findFragmentById(R.id.fcv_main)
                     val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-                    if(currentFragment is ChatRoomFragment){ // 현재 화면이 chatRoomFragment -> 화면 이동 x
+                    if (currentFragment is ChatRoomFragment) { // 현재 화면이 chatRoomFragment -> 화면 이동 x
                         return
-                    }else {
+                    } else {
                         val action =
-                            ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chatInfo = ChatListResponse(roomId!!, nickname!!, 1, "안녕하세요", false, true, "2023-01-03"))
+                            ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
+                                chatInfo = ChatListResponse(
+                                    roomId!!,
+                                    nickname!!,
+                                    DEFAULT_USER_ICON,
+                                    DEFAULT_MESSAGE,
+                                    DEFAULT_CHECKED,
+                                    DEFAULT_ACTIVE,
+                                    DEFAULT_DATE
+                                )
+                            )
                         findNavController(binding.fcvMain).navigate(action)
                     }
                     goneBtmNav()
@@ -92,5 +102,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun visibleBtmNav() {
         binding.navigationMain.visibility = View.VISIBLE
+    }
+
+    companion object {
+        const val DEFAULT_USER_ICON = 2131165412
+        const val DEFAULT_MESSAGE = "안녕하세요"
+        const val DEFAULT_CHECKED = false
+        const val DEFAULT_ACTIVE = true
+        const val DEFAULT_DATE = "2023-01-10"
+
+
     }
 }
