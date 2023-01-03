@@ -45,7 +45,12 @@ class FirebaseService : FirebaseMessagingService() {
         if (message.data.isNotEmpty()) {
             val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
-            sendNotification(message, "match", img)
+            val roomId = message.data["roomId"]?.toLong()
+            val nickname = message.data["title"]
+
+            Log.d("확인", roomId.toString())
+
+            sendNotification(message, "chat", img, roomId, nickname)
             Log.d("fcm_service_data", message.data["body"].toString())
 
             Log.d("fcm_service_data", message.data["pushID"].toString())
@@ -56,7 +61,7 @@ class FirebaseService : FirebaseMessagingService() {
         wakeLock.release()
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage, about: String?, img: Int?) {
+    private fun sendNotification(remoteMessage: RemoteMessage, about: String?, img: Int?, roomId: Long?, nickname: String?) {
 
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -67,7 +72,11 @@ class FirebaseService : FirebaseMessagingService() {
             }
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "chatRoomFragment")
-                //intent.putExtra("roomId", roomId)
+                intent.putExtra("roomId", roomId)
+                Log.d("확인", roomId.toString())
+
+                intent.putExtra("nickname", nickname)
+
             }
             else -> return
         }
