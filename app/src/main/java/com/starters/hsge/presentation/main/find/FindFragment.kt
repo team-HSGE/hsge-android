@@ -101,10 +101,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             if (location != null) {
                 mCurrentLat = location.latitude
                 mCurrentLng = location.longitude
-                Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
+                Log.d("손흔들기", "위도경도: ${mCurrentLat}, ${mCurrentLng}")
 
-                val location = CurrentLocationPostRequest(mCurrentLat.toString(), mCurrentLng.toString())
-                ShakeHandService(this).tryPostCurrentLocation(location)
                 setCurrentLocation()
             }
         }
@@ -187,8 +185,11 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         binding.trackingBtn.setOnClickListener {
             if (status) {
                 if (checkLocationService()) {
+                    val location = CurrentLocationPostRequest(mCurrentLat.toString(), mCurrentLng.toString())
+                    ShakeHandService(this).tryPostCurrentLocation(location)
                     setCircle("start")
                     startTracking()
+
                 } else {
                     setAutoLocation()
                 }
@@ -222,6 +223,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             "tracking" -> {
                 binding.kakaoMapView.removeAllCircles()
                 binding.kakaoMapView.addCircle(circle1)
+                Log.d("손흔들기", "반원나오냐?")
             }
             "end" -> {
                 binding.kakaoMapView.removeAllCircles()
@@ -313,7 +315,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
 
     private fun startInfinite() {
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
-        trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
+        trackingHandler.sendEmptyMessageDelayed(0, 1000) // intervalTime만큼 반복해서 핸들러 실행
         trackingHandler.postDelayed(::startInfinite, 15000) // 한 번 돌고 지연시간
     }
 
@@ -351,7 +353,10 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
 
     // 서버 통신
     override fun onPostCurrentLocationSuccess(isSuccess: Boolean) {
-        if (isSuccess) { Log.d("PostCurrentLocation", "성공!") }
+        if (isSuccess) {
+            Log.d("PostCurrentLocation", "성공!")
+            Log.d("손흔들기", "내 위치 보내기 성공!")
+        }
     }
 
     override fun onPostCurrentLocationFailure(message: String) {
@@ -365,6 +370,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
                 uCurrentLng = user.longitude
                 uNickname = user.nickname
                 createMarker(uCurrentLat!!, uCurrentLng!!, uNickname!!)
+                Log.d("손흔들기", "사용자정보 불러와지냐?")
             }
         }
     }
