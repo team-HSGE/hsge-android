@@ -1,4 +1,4 @@
-package com.starters.hsge.domain
+package com.starters.hsge.domain.util
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody

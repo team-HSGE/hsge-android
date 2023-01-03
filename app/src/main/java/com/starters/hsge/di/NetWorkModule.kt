@@ -3,7 +3,7 @@ package com.starters.hsge.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.starters.hsge.App
 import com.starters.hsge.data.api.*
-import com.starters.hsge.presentation.common.BASE_URL
+import com.starters.hsge.presentation.common.constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

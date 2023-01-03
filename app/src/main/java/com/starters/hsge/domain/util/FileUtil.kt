@@ -1,4 +1,4 @@
-package com.starters.hsge.domain
+package com.starters.hsge.domain.util
 
 import android.content.Context
 import android.net.Uri
