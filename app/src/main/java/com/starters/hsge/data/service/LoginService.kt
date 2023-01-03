@@ -1,6 +1,5 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.FcmPostApi
 import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
@@ -31,7 +30,7 @@ class LoginService(val loginInterface: LoginInterface) {
     }
 
     fun tryPostFcmToken(fcmToken: FcmPostRequest) {
-        val fcmPostApi = RetrofitClient.sRetrofit.create(FcmPostApi::class.java)
+        val fcmPostApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
         fcmPostApi.postFcmToken(fcmToken).enqueue(object :
         Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

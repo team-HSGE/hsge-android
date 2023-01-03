@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.DistanceApi
+import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.data.interfaces.distanceInterface
 import com.starters.hsge.data.model.remote.request.DistanceRequest
 import com.starters.hsge.network.RetrofitClient
@@ -11,7 +11,7 @@ import retrofit2.Response
 class DistanceService(val distanceInterface: distanceInterface) {
 
     fun tryPostDistance(distance: Double){
-        val distanceApi= RetrofitClient.sRetrofit.create(DistanceApi::class.java)
+        val distanceApi= RetrofitClient.sRetrofit.create(UserApi::class.java)
         val radius = distance / 100
 
         distanceApi.putDistanceData(DistanceRequest(radius)).enqueue(object : retrofit2.Callback<Void> {

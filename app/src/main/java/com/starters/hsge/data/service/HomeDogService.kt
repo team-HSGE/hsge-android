@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.HomeDogApi
+import com.starters.hsge.data.api.HomeApi
 import com.starters.hsge.data.interfaces.HomeDogInterface
 import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.network.RetrofitClient
@@ -11,7 +11,7 @@ import retrofit2.Response
 class HomeDogService(val homeDogInterface: HomeDogInterface) {
 
      fun tryGetHomeDog() {
-        val dogCardApi = RetrofitClient.sRetrofit.create(HomeDogApi::class.java)
+        val dogCardApi = RetrofitClient.sRetrofit.create(HomeApi::class.java)
         dogCardApi.getDogData().enqueue(object : Callback<List<DogCard>> {
             override fun onResponse(
                 call: Call<List<DogCard>>,

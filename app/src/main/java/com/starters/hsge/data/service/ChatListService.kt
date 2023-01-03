@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.ChatListApi
+import com.starters.hsge.data.api.ChatApi
 import com.starters.hsge.data.interfaces.chatListInterface
 import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.network.RetrofitClient
@@ -10,7 +10,7 @@ import retrofit2.Response
 
 class ChatListService(val chatListInterface: chatListInterface) {
     fun tryGetChatList(){
-        val chatListApi = RetrofitClient.sRetrofit.create(ChatListApi::class.java)
+        val chatListApi = RetrofitClient.sRetrofit.create(ChatApi::class.java)
 
         chatListApi.getChatList().enqueue(object : Callback<List<ChatListResponse?>?>{
             override fun onResponse(

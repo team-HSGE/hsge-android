@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.FcmDeleteApi
+import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.SettingsInterface
 import com.starters.hsge.network.RetrofitClient
 import retrofit2.Call
@@ -10,7 +10,7 @@ import retrofit2.Response
 class SettingsService(val settingsInterface: SettingsInterface) {
 
     fun tryDeleteFcmToken(){
-        val fcmDeleteApi = RetrofitClient.sRetrofit.create(FcmDeleteApi::class.java)
+        val fcmDeleteApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
         fcmDeleteApi.deleteFcmToken().enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

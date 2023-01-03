@@ -7,7 +7,7 @@
 
         <variable
             name="dogDetailInfo"
-            type="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            type="com.starters.hsge.data.model.remote.response.UserDogResponse" />
 
     </data>
 

@@ -44,7 +44,7 @@ class EditLocationFragment :
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
     private val editLocationViewModel: EditLocationViewModel by viewModels()
-    private val args : EditLocationFragmentArgs by navArgs()
+    private val args: EditLocationFragmentArgs by navArgs()
     private lateinit var callback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,7 +155,6 @@ class EditLocationFragment :
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
@@ -258,5 +257,7 @@ class EditLocationFragment :
         dismissLoadingDialog()
     }
 
-    private fun visibleBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+    private fun visibleBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+    }
 }

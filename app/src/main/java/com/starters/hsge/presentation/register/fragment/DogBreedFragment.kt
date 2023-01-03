@@ -27,7 +27,6 @@ class DogBreedFragment : BaseFragment<FragmentDogBreedBinding>(R.layout.fragment
         upDateDogAgeText()
         initListener()
         setNavigation()
-
     }
 
     private fun initListener() {

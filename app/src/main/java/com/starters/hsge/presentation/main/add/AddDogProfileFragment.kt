@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
-import com.starters.hsge.domain.UriUtil
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
@@ -126,7 +126,6 @@ class AddDogProfileFragment :
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
@@ -168,7 +167,6 @@ class AddDogProfileFragment :
     }
 
     private fun initListener() {
-
         // 강아지 사진
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()

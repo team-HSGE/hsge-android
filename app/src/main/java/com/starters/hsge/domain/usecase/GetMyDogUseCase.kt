@@ -1,10 +1,10 @@
 package com.starters.hsge.domain.usecase
 
-import com.starters.hsge.domain.repository.MyDogRepository
+import com.starters.hsge.domain.repository.UserDogRepository
 import javax.inject.Inject
 
 class GetMyDogUseCase @Inject constructor(
-    private val myDogRepository: MyDogRepository
+    private val userDogRepository: UserDogRepository
 ) {
-    suspend operator fun invoke() =  myDogRepository.getMyDog()
+    suspend operator fun invoke() =  userDogRepository.getMyDog()
 }

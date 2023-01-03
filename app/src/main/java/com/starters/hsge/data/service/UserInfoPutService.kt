@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.UserInfoPutApi
+import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.data.interfaces.UserInfoPutInterface
 import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
 import com.starters.hsge.network.RetrofitClient
@@ -11,7 +11,7 @@ import retrofit2.Response
 class UserInfoPutService(val userInfoPutInterface: UserInfoPutInterface) {
 
     fun tryPutUserInfo(userInfo: UserInfoPutRequest) {
-        val userInfoPutApi = RetrofitClient.sRetrofit.create(UserInfoPutApi::class.java)
+        val userInfoPutApi = RetrofitClient.sRetrofit.create(UserApi::class.java)
         userInfoPutApi.putUserInfo(userInfo).enqueue(object :
             Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

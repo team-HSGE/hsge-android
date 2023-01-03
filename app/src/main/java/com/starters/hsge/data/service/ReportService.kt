@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.ReportApi
+import com.starters.hsge.data.api.ChatApi
 import com.starters.hsge.data.interfaces.ReportInterface
 import com.starters.hsge.data.model.remote.request.ReportRequest
 import com.starters.hsge.network.RetrofitClient
@@ -11,7 +11,7 @@ import retrofit2.Response
 class ReportService(val reportInterface: ReportInterface) {
 
     fun tryPostReport(reportRequest: ReportRequest){
-        val reportApi = RetrofitClient.sRetrofit.create(ReportApi::class.java)
+        val reportApi = RetrofitClient.sRetrofit.create(ChatApi::class.java)
 
         reportApi.postReport(reportRequest).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
