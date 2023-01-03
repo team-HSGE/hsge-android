@@ -1,6 +1,6 @@
 package com.starters.hsge.data.api
 
-import com.starters.hsge.data.model.remote.response.MyDogResponse
+import com.starters.hsge.data.model.remote.response.UserDogResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface UserDogApi {
     // 유저 반려견 리스트 불러오기
     @GET("/api/pets")
-    suspend fun getMyDog(): List<MyDogResponse>
+    suspend fun getMyDog(): List<UserDogResponse>
 
     // 유저 반려견 정보 수정
     @Multipart

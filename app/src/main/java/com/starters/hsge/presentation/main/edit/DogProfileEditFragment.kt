@@ -26,9 +26,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
+import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
-import com.starters.hsge.domain.UriUtil
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
@@ -322,7 +322,7 @@ class DogProfileEditFragment :
             val imgFile = dogProfileEditViewModel.dogPhoto?.toUri()
                 ?.let { uri -> UriUtil.toFile(requireContext(), uri) }
 
-            val dogProfileInfo = EditDogProfileRequest(
+            val dogProfileInfo = EditDogRequest(
                 petName = dogProfileEditViewModel.dogName,
                 gender = dogProfileEditViewModel.dogSex,
                 age = dogProfileEditViewModel.dogAge,

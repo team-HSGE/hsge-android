@@ -4,7 +4,7 @@ import com.starters.hsge.ApiResult
 import com.starters.hsge.data.api.SignUpApi
 import com.starters.hsge.data.model.remote.response.SignUpResponse
 import com.starters.hsge.di.RetrofitHSGE
-import com.starters.hsge.domain.FormDataUtil
+import com.starters.hsge.domain.util.FormDataUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.RegisterRepository
 import com.starters.hsge.safeFlow

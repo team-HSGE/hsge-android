@@ -3,7 +3,7 @@ package com.starters.hsge.presentation.main.chatroom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.starters.hsge.domain.repository.ChatListRepository
+import com.starters.hsge.domain.repository.ChatRepository
 import com.starters.hsge.domain.usecase.PostChatRoomStateUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
-    private val chatListRepository: ChatListRepository,
+    private val chatRepository: ChatRepository,
     private val postChatRoomStateUseCase: PostChatRoomStateUseCase
 ) : BaseViewModel() {
 
@@ -29,7 +29,7 @@ class ChatRoomViewModel @Inject constructor(
 
     fun getChatInfo(roomId: Long): LiveData<MessageInfo> {
         viewModelScope.launch {
-            _chatList.value = chatListRepository.getChatList(roomId)
+            _chatList.value = chatRepository.getChatList(roomId)
         }
         return chatList
     }

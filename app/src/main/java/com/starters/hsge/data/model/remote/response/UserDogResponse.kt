@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Parcelize
-data class MyDogResponse(
+data class UserDogResponse(
     @SerialName("age")
     val age: String? = null,
     @SerialName("breed")
@@ -25,7 +25,7 @@ data class MyDogResponse(
     @SerialName("petImg")
     val picture: List<String>,
     @SerialName("tag")
-    val tag: MyDogTag,
+    val tag: UserDogTag,
     @SerialName("ageDto")
     val ageDto: AgeDto,
     @SerialName("breedDto")
@@ -34,7 +34,7 @@ data class MyDogResponse(
 
 @Serializable
 @Parcelize
-data class MyDogTag(
+data class UserDogTag(
     @SerialName("tagDisLike")
     val tagDisLike: List<String>,
     @SerialName("tagLike")

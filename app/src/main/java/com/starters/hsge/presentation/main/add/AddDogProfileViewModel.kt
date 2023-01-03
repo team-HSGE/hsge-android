@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddDogProfileViewModel @Inject constructor(
-    private val addDogUseCase: PostAddDogUseCase
+    private val postAddDogUseCase: PostAddDogUseCase
 ) : BaseViewModel() {
 
     var dogPhoto = ""
@@ -25,7 +25,7 @@ class AddDogProfileViewModel @Inject constructor(
 
     fun postDogProfile(img: File, data: AddDogRequest) {
         viewModelScope.launch {
-            addDogUseCase(img, data)
+            postAddDogUseCase(img, data)
         }
     }
 }

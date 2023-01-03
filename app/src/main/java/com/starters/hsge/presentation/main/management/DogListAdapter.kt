@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.starters.hsge.data.model.remote.response.MyDogResponse
+import com.starters.hsge.data.model.remote.response.UserDogResponse
 import com.starters.hsge.databinding.ItemDogListBinding
 
-class DogListAdapter(private var dogList: List<MyDogResponse>) : RecyclerView.Adapter<DogListAdapter.DogListViewHolder>() {
+class DogListAdapter(private var dogList: List<UserDogResponse>) : RecyclerView.Adapter<DogListAdapter.DogListViewHolder>() {
 
     inner class DogListViewHolder(private val binding: ItemDogListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: MyDogResponse) {
+        fun bind(data: UserDogResponse) {
 
             binding.myDogList = data
             binding.executePendingBindings()

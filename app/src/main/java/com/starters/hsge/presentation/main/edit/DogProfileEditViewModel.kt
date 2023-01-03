@@ -1,7 +1,7 @@
 package com.starters.hsge.presentation.main.edit
 
 import androidx.lifecycle.viewModelScope
-import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
+import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.domain.usecase.DeleteDogUseCase
 import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
 import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
@@ -36,7 +36,7 @@ class DogProfileEditViewModel @Inject constructor(
 
     fun getDislikeTags() = getDislikeTagsUseCase()
 
-    fun putEditDogProfile(petId: Int, img: File?, data: EditDogProfileRequest ) {
+    fun putEditDogProfile(petId: Int, img: File?, data: EditDogRequest ) {
         viewModelScope.launch {
             putEditDogProfileUseCase(petId, img, data)
         }

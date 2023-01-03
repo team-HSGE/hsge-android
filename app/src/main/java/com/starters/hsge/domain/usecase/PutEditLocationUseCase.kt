@@ -1,12 +1,12 @@
 package com.starters.hsge.domain.usecase
 
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
-import com.starters.hsge.domain.repository.EditLocationRepository
+import com.starters.hsge.domain.repository.UserRepository
 import javax.inject.Inject
 
 class PutEditLocationUseCase @Inject constructor(
-    private val editLocationRepository: EditLocationRepository
+    private val userRepository: UserRepository
 ) {
     suspend operator fun invoke(location: UserLocationRequest) =
-        editLocationRepository.putLocation(location)
+        userRepository.putLocation(location)
 }
