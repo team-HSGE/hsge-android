@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
@@ -139,25 +137,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             Log.d("TAG", "성공")
 
             // 앱이 죽어있는 경우
-            val notificationPayload = (activity as MainActivity).intent?.extras
-            notificationPayload?.let {
-                val moveTo = notificationPayload.getString("pushAbout")
+            val intent = (activity as MainActivity).intent?.extras
+            intent?.let {
+                val moveTo = intent.getString("pushAbout")
+                val roomId = intent.getLong("roomId")
+                val nickname = intent.getString("nickname")
 
                 val naviController = (activity as MainActivity).supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
                 naviController?.let {
                     when (moveTo) {
                         "chatFragment" -> {
-                            val item =
-                                (activity as MainActivity).binding.navigationMain.menu.findItem(R.id.chatFragment)
-                            NavigationUI.onNavDestinationSelected(item, naviController)
+                            (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
                         }
                         "chatRoomFragment" -> {
-                            val item =
-                                (activity as MainActivity).binding.navigationMain.menu.findItem(R.id.chatFragment)
-                            NavigationUI.onNavDestinationSelected(item, naviController)
+                            (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
+                            val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chatInfo = ChatListResponse(roomId!!, nickname!!, 1, "안녕하세요", false, true, "2023-01-03"))
+                                                        findNavController().navigate(action)
 
-                            //findNavController().navigate(R.id.chatFragment)
-                            findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
+                            //findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
                             goneBtmNav()
                         }
                         else -> return

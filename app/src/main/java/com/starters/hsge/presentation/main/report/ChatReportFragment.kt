@@ -42,9 +42,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
         selectReason(reasonList)
         initListener()
 
-//        val partnerId = requireArguments().getLong("partnerId")
-//        val roomId = requireArguments().getLong("roomId")
-//        Log.d("방 정보", "$roomId $partnerId")
+        val partnerId = requireArguments().getLong("partnerId")
+        val roomId = requireArguments().getLong("roomId")
+        Log.d("방 정보", "$roomId $partnerId")
     }
 
     private fun initListener(){
