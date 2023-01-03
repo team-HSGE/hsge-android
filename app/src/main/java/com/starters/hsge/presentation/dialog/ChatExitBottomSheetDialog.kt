@@ -60,7 +60,6 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
                 }
                 override fun onOkBtnClicked() {
-                    //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
                     findNavController().navigateUp()
                     visibleBtmNav()
@@ -78,10 +77,7 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
                 }
                 override fun onOkBtnClicked() {
-                    //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
-                    //findNavController().navigateUp()
-
                     visibleBtmNav()
                 }
             })

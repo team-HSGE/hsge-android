@@ -153,8 +153,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                             (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
                             val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chatInfo = ChatListResponse(roomId!!, nickname!!, 1, "안녕하세요", false, true, "2023-01-03"))
                                                         findNavController().navigate(action)
-
-                            //findNavController().navigate(R.id.action_chatFragment_to_chatRoomFragment)
                             goneBtmNav()
                         }
                         else -> return

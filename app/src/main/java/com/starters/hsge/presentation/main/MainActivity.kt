@@ -41,7 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val moveTo = intent?.extras!!.getString("pushAbout")
         val roomId = intent.extras!!.getLong("roomId")
         val nickname = intent.extras!!.getString("nickname")
-        Log.d("들어옴?", "${roomId}${nickname}")
         moveFragment(moveTo, roomId, nickname)
     }
 

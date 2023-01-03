@@ -51,14 +51,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
         binding.btnReport.setOnClickListener {
             val partnerId = requireArguments().getLong("partnerId")
             val roomId = requireArguments().getLong("roomId")
-
-            // TODO : 피신고자 reportee에 넣기
             val reason = binding.tvChatReportSelectReason.text
             ReportService(this).tryPostReport(ReportRequest(reason.toString(), partnerId))
-
-            //TODO : 채팅방 나가기 통신 - roomID 넣기, 사유 넣기, 상대방ID 넣기
             ChatExitService(this).tryPostChatExit(roomId, ChatExitRequest("REPORT", partnerId))
-
             visibleBtmNav()
         }
     }

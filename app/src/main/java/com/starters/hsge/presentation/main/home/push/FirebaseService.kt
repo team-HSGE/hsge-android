@@ -48,13 +48,7 @@ class FirebaseService : FirebaseMessagingService() {
             val roomId = message.data["roomId"]?.toLong()
             val nickname = message.data["title"]
 
-            Log.d("확인", roomId.toString())
-
             sendNotification(message, "chat", img, roomId, nickname)
-            Log.d("fcm_service_data", message.data["body"].toString())
-
-            Log.d("fcm_service_data", message.data["pushID"].toString())
-
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
@@ -73,8 +67,6 @@ class FirebaseService : FirebaseMessagingService() {
             "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "chatRoomFragment")
                 intent.putExtra("roomId", roomId)
-                Log.d("확인", roomId.toString())
-
                 intent.putExtra("nickname", nickname)
 
             }
