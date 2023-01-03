@@ -1,6 +1,5 @@
 package com.starters.hsge.presentation.main
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -15,7 +14,6 @@ import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
