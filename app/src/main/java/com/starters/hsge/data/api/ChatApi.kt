@@ -3,7 +3,7 @@ package com.starters.hsge.data.api
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.model.remote.request.ReportRequest
 import com.starters.hsge.data.model.remote.response.ChatListResponse
-import com.starters.hsge.presentation.main.chatroom.MessageInfo
+import com.starters.hsge.data.model.remote.response.MessageInfoResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -20,7 +20,7 @@ interface ChatApi {
     @GET("/api/chats/{roomId}")
     suspend fun getChatRecord(
         @Path("roomId") roomId: Long
-    ): MessageInfo
+    ): MessageInfoResponse
 
     // 채팅방 활성화
     @POST("/api/chats/{roomId}/active")

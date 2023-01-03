@@ -1,10 +1,10 @@
 package com.starters.hsge.domain.repository
 
-import com.starters.hsge.presentation.main.chatroom.MessageInfo
+import com.starters.hsge.data.model.remote.response.MessageInfoResponse
 
 interface ChatRepository {
 
-    suspend fun getMessageList(roomId: Long): MessageInfo
+    suspend fun getMessageList(roomId: Long): MessageInfoResponse
 
     suspend fun postChatState(roomId: Long)
 }

@@ -1,16 +1,16 @@
 package com.starters.hsge.data.repository
 
 import com.starters.hsge.data.api.ChatApi
+import com.starters.hsge.data.model.remote.response.MessageInfoResponse
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.repository.ChatRepository
-import com.starters.hsge.presentation.main.chatroom.MessageInfo
 import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: ChatApi
 ) : ChatRepository {
 
-    override suspend fun getMessageList(roomId: Long): MessageInfo {
+    override suspend fun getMessageList(roomId: Long): MessageInfoResponse {
         return api.getChatRecord(roomId)
     }
 

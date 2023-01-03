@@ -1,10 +1,10 @@
-package com.starters.hsge.presentation.main.chatroom
+package com.starters.hsge.data.model.remote.response
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 
 @Serializable
-data class MessageInfo(
+data class MessageInfoResponse(
     @SerialName("userInfo")
     val userInfo: UserInfo,
     @SerialName("messageList")

@@ -3,6 +3,8 @@ package com.starters.hsge.presentation.main.chatroom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.starters.hsge.data.model.remote.response.Message
+import com.starters.hsge.data.model.remote.response.MessageInfoResponse
 import com.starters.hsge.domain.usecase.GetMessageListUseCase
 import com.starters.hsge.domain.usecase.PostChatRoomStateUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
@@ -16,8 +18,8 @@ class ChatRoomViewModel @Inject constructor(
     private val postChatRoomStateUseCase: PostChatRoomStateUseCase
 ) : BaseViewModel() {
 
-    private val _chatList = MutableLiveData<MessageInfo?>()
-    var chatList: LiveData<MessageInfo?> = _chatList
+    private val _chatList = MutableLiveData<MessageInfoResponse?>()
+    var chatList: LiveData<MessageInfoResponse?> = _chatList
 
     var roomId: Long = 0
     var active: Boolean = false
@@ -27,7 +29,7 @@ class ChatRoomViewModel @Inject constructor(
     var messages = mutableListOf<Message>()
 
 
-    fun getMessageInfo(roomId: Long): LiveData<MessageInfo?> {
+    fun getMessageInfo(roomId: Long): LiveData<MessageInfoResponse?> {
         viewModelScope.launch {
             _chatList.value = getMessageListUseCase(roomId)
         }

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.starters.hsge.data.model.remote.response.Message
 import com.starters.hsge.databinding.ItemMessageReceivedBinding
 import com.starters.hsge.databinding.ItemMessageSentBinding
 
