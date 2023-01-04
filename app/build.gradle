@@ -130,6 +130,6 @@ dependencies {
     implementation "com.github.NaikSoftware:StompProtocolAndroid:$stomp_version"
 
     // Lottie
-    implementation "com.airbnb.android:lottie:3.4.0"
+    implementation "com.airbnb.android:lottie:$lottie_version"
 }
 apply plugin: 'com.google.gms.google-services'
