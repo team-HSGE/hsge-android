@@ -20,7 +20,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
@@ -31,7 +30,6 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
-import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.edit.ViewType
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -292,12 +290,13 @@ class AddDogProfileFragment :
                         description = binding.edtComment.text.toString()
                     ))
 
-                visibleBtmNav()
-                Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
 
-                // 마이페이지로 이동
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_addDogProfileFragment_to_myPageFragment)
+                addDogProfileViewModel.mResponse.observe(viewLifecycleOwner) {
+                    if (it.isSuccessful) {
+                        Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    }
+                }
             }
         }
     }
@@ -347,8 +346,6 @@ class AddDogProfileFragment :
             showCancelDialog()
         }
     }
-
-    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     private fun showCancelDialog() {
         val dialog = BaseDialogFragment("추가를 취소하시겠습니까?")

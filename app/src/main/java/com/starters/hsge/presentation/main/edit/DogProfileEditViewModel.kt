@@ -1,5 +1,6 @@
 package com.starters.hsge.presentation.main.edit
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.domain.usecase.DeleteDogUseCase
@@ -9,6 +10,7 @@ import com.starters.hsge.domain.usecase.PutEditDogProfileUseCase
 import com.starters.hsge.presentation.common.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
 
@@ -32,19 +34,24 @@ class DogProfileEditViewModel @Inject constructor(
     var description = ""
     var dogPhoto: String? = null
 
+    val editResponse: MutableLiveData<Response<Void>> = MutableLiveData()
+    val deleteResponse: MutableLiveData<Response<Void>> = MutableLiveData()
+
     fun getLikeTags() = getLikeTagsUseCase()
 
     fun getDislikeTags() = getDislikeTagsUseCase()
 
     fun putEditDogProfile(petId: Int, img: File?, data: EditDogRequest ) {
         viewModelScope.launch {
-            putEditDogProfileUseCase(petId, img, data)
+            val response = putEditDogProfileUseCase(petId, img, data)
+            editResponse.value = response
         }
     }
 
     fun deleteDog(petId: Int) {
         viewModelScope.launch {
-            deleteDogUseCase(petId)
+            val response = deleteDogUseCase(petId)
+            deleteResponse.value = response
         }
     }
 }
