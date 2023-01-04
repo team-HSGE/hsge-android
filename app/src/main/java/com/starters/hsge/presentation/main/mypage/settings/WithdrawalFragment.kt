@@ -35,7 +35,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
                     UserApiClient.instance.unlink { error ->
                         if (error != null) {
                             Log.d("회원 탈퇴", "회원 탈퇴 실패 : $error")
-                            Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                            showToast("다시 시도해주세요.")
                         }else {
                             WithdrawalService(this@WithdrawalFragment).tryDeleteUserInfo()
 
@@ -79,7 +79,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
             prefs.edit().clear().apply()
 
             moveToLoginActivity()
-            Toast.makeText(context, "회원탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("회원탈퇴 되었습니다.")
         }
     }
 

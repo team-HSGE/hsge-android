@@ -16,6 +16,7 @@ import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.data.service.ReportService
 import com.starters.hsge.databinding.FragmentChatReportBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
@@ -54,6 +55,7 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
             val reason = binding.tvChatReportSelectReason.text
             ReportService(this).tryPostReport(ReportRequest(reason.toString(), partnerId))
             ChatExitService(this).tryPostChatExit(roomId, ChatExitRequest("REPORT", partnerId))
+            LoadingDialog.showDogLoadingDialog(requireContext())
             visibleBtmNav()
         }
     }
@@ -122,26 +124,37 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
     override fun onPostReportSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
             Log.d("Report", "성공")
+            LoadingDialog.dismissDogLoadingDialog()
         }else{
             Log.d("Report 오류", "Error code : ${code}")
-        }    }
+            LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
+        }
+    }
 
     override fun onPostReportFailure(message: String) {
         Log.d("Report 오류", "오류: $message")
+        LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
+            showToast("신고가 완료되었습니다.")
+            LoadingDialog.dismissDogLoadingDialog()
             findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
-            Toast.makeText(context, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
             Log.d("ChatExit_신고", "성공")
         }else{
             Log.d("ChatExit_신고 오류", "Error code : ${code}")
+            LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
         Log.d("ChatExit_신고 오류", "오류: $message")
+        LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun visibleBtmNav(){

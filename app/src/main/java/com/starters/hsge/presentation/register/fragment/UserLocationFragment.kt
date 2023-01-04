@@ -34,6 +34,7 @@ import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,7 +83,7 @@ class UserLocationFragment :
             if (isEnableLocationSystem(requireContext())) {
                 checkPermissionForLocation()
             } else {
-                Toast.makeText(context, "위치를 켜주세요", Toast.LENGTH_SHORT).show()
+                showToast("위치를 켜주세요")
             }
         }
 
@@ -166,7 +167,7 @@ class UserLocationFragment :
                 ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 startLocationUpdates()
-                showLoadingDialog(requireContext())
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
@@ -243,8 +244,7 @@ class UserLocationFragment :
             })
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
-                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
-                        .show()
+                    showToast("Cannot get location.")
                 else {
                     lifecycleScope.launch {
                         registerViewModel.saveUserLatitude(location.latitude)
@@ -279,7 +279,7 @@ class UserLocationFragment :
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
-        dismissLoadingDialog()
+        LoadingDialog.dismissLocationLoadingDialog()
         changeDoneButton()
     }
 

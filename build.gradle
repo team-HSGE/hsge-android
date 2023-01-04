@@ -21,6 +21,7 @@ buildscript {
         cardstackview_version = "2.3.4"
         timber_version = "5.0.1"
         stomp_version = "1.6.6"
+        lottie_version = "3.4.0"
     }
 }
 

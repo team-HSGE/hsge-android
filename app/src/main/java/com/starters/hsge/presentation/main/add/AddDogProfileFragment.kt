@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
@@ -30,6 +31,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
+import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.edit.ViewType
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -260,19 +262,19 @@ class AddDogProfileFragment :
         // 완료 버튼
         binding.btnFinish.setOnClickListener {
             if (addDogProfileViewModel.dogPhoto.isEmpty()) {
-                Toast.makeText(context, "사진을 등록해주세요", Toast.LENGTH_SHORT).show()
+                showToast("사진을 등록해주세요")
             } else if (binding.edtDogNameInput.text.isNullOrEmpty()) {
-                Toast.makeText(context, "이름을 적어주세요", Toast.LENGTH_SHORT).show()
+                showToast("이름을 적어주세요")
             } else if (addDogProfileViewModel.dogSex.isEmpty()) {
-                Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("성별을 선택해주세요")
             } else if (addDogProfileViewModel.dogAge.isEmpty()) {
-                Toast.makeText(context, "나이를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("나이를 선택해주세요")
             } else if (addDogProfileViewModel.dogBreed.isEmpty()) {
-                Toast.makeText(context, "품종을 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("품종을 선택해주세요")
             } else if (addDogProfileViewModel.dogLikeTag.isEmpty()) {
-                Toast.makeText(context, "like 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("like 태그를 선택해주세요")
             } else if (addDogProfileViewModel.dogDislikeTag.isEmpty()) {
-                Toast.makeText(context, "dislike 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("dislike 태그를 선택해주세요")
             } else {
                 val imgUri = addDogProfileViewModel.dogPhoto.toUri()
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
@@ -289,7 +291,6 @@ class AddDogProfileFragment :
                         dislikeTag = addDogProfileViewModel.dogDislikeTagStr,
                         description = binding.edtComment.text.toString()
                     ))
-
 
                 addDogProfileViewModel.mResponse.observe(viewLifecycleOwner) {
                     if (it.isSuccessful) {

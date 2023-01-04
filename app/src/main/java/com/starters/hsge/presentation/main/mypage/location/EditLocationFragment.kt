@@ -31,6 +31,7 @@ import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentEditLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.location.EditLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,7 +95,7 @@ class EditLocationFragment :
             if (isEnableLocationSystem(requireContext())) {
                 checkPermissionForLocation()
             } else {
-                Toast.makeText(context, "위치를 켜주세요", Toast.LENGTH_SHORT).show()
+                showToast("위치를 켜주세요")
             }
         }
 
@@ -151,7 +152,7 @@ class EditLocationFragment :
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 startLocationUpdates()
-                showLoadingDialog(requireContext())
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -228,8 +229,7 @@ class EditLocationFragment :
             })
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
-                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
-                        .show()
+                    showToast("Cannot get location.")
                 else {
                     editLocationViewModel.latitude = location.latitude
                     editLocationViewModel.longitude = location.longitude
@@ -256,7 +256,7 @@ class EditLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         editLocationViewModel.town = locationAddress.toString()
-        dismissLoadingDialog()
+        LoadingDialog.dismissLocationLoadingDialog()
     }
 
     private fun visibleBtmNav() {

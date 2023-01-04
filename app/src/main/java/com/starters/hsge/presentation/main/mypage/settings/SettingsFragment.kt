@@ -45,7 +45,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                     UserApiClient.instance.logout { error ->
                         if (error != null) {
                             Log.d("로그아웃", "로그아웃 실패 : ${error}")
-                            Toast.makeText(context, "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                            showToast("다시 시도해주세요.")
                         }else {
                             // access token & fcm token 날리기
                             SettingsService(this@SettingsFragment).tryDeleteFcmToken()
@@ -96,7 +96,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
             prefs.edit().clear().apply()
 
             moveToLoginActivity()
-            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("로그아웃 되었습니다.")
         }
     }
 

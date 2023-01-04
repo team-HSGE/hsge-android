@@ -163,8 +163,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
-
-                Toast.makeText(applicationContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                showToast("로그인에 성공하였습니다.")
 
             } else if (loginResponse.message == "NEED_SIGNUP") {
                 Log.d("소셜로그인", "${loginResponse.message}")
@@ -180,12 +179,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 400 -> {
                     when (msg) {
                         "REPORT LIMIT EXCEED" -> {
-                            Toast.makeText(applicationContext, "서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                            showToast("서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
                             Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
                         }
                         "Access Token is not valid" -> {
                             // 카카오톡 accessToken 유효기간 끝났을 때
-                            Toast.makeText(applicationContext, "유효하지 않은 토큰값입니다.", Toast.LENGTH_SHORT).show()
+                            showToast("유효하지 않은 토큰값입니다.")
                         }
                     }
                 }
