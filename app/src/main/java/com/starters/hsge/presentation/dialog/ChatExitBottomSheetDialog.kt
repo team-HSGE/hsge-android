@@ -63,8 +63,6 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                 override fun onOkBtnClicked() {
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
                     LoadingLottieDialog.showDogLoadingDialog(requireContext())
-                    findNavController().navigateUp()
-                    visibleBtmNav()
                 }
             })
             exitDialog.show(childFragmentManager, "CustomDialog")
@@ -81,7 +79,6 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                 override fun onOkBtnClicked() {
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
                     LoadingLottieDialog.showDogLoadingDialog(requireContext())
-                    visibleBtmNav()
                 }
             })
             unMatchDialog.show(childFragmentManager, "CustomDialog")
@@ -97,6 +94,8 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
             //findNavController().navigateUp()
             Log.d("ChatExit_매칭 취소 / 나가기", "성공")
             LoadingLottieDialog.dismissDogLoadingDialog()
+            findNavController().navigateUp()
+            visibleBtmNav()
         }else{
             Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
             LoadingLottieDialog.dismissDogLoadingDialog()

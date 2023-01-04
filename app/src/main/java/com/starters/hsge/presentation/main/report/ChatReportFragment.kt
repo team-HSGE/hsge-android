@@ -139,9 +139,9 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
-            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
             Toast.makeText(context, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
             LoadingLottieDialog.dismissDogLoadingDialog()
+            findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
             Log.d("ChatExit_신고", "성공")
         }else{
             Log.d("ChatExit_신고 오류", "Error code : ${code}")

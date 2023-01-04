@@ -76,8 +76,6 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         // 완료 버튼
         binding.btnNext.setOnClickListener {
             // post로 api 통신하면 됨
-            findNavController().navigate(R.id.action_userDistanceFragment_to_myPageFragment)
-            (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
 
             DistanceService(this).tryPostDistance(distance.toDouble())
             LoadingLottieDialog.showDogLoadingDialog(requireContext())
@@ -99,6 +97,8 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         if(isSuccess){
             Log.d("Distance", "성공")
             LoadingLottieDialog.dismissDogLoadingDialog()
+            findNavController().navigate(R.id.action_userDistanceFragment_to_myPageFragment)
+            (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
         }else{
             Log.d("Distance 오류", "Error code : ${code}")
             LoadingLottieDialog.dismissDogLoadingDialog()
