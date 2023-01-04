@@ -19,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -109,11 +108,14 @@ class EditLocationFragment :
                 )
             )
 
-            visibleBtmNav()
-
-            //마이페이지로 이동
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_editLocationFragment_to_myPageFragment)
+            editLocationViewModel.mResponse.observe(viewLifecycleOwner) {
+                if (it.isSuccessful) {
+                    findNavController().navigateUp()
+                    visibleBtmNav()
+                } else {
+                    //TODO: 프로그래스바 해제
+                }
+            }
         }
     }
 

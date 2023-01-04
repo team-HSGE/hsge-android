@@ -5,6 +5,7 @@ import com.starters.hsge.data.model.remote.request.UserInfoPutRequest
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.data.model.remote.response.UserInfoGetResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -22,7 +23,7 @@ interface UserApi {
     @PUT("/api/users/geolocation")
     suspend fun putLocationData(
         @Body location: UserLocationRequest
-    )
+    ): Response<Void>
 
     // 유저 반경 설정
     @PUT("/api/users/radius")
