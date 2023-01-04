@@ -34,7 +34,7 @@ object LoadingLottieDialog {
         locationLoadingDialog.let {
             it.show()
             it.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
-            it.setContentView(R.layout.dialog_loading_dog)
+            it.setContentView(R.layout.dialog_loading_location)
             it.setCancelable(false)
             it.setCanceledOnTouchOutside(false)
             return it
