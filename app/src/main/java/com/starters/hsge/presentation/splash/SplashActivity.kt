@@ -19,7 +19,6 @@ import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.common.constants.showToast
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity

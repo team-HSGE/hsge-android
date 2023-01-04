@@ -14,7 +14,7 @@ import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
-import com.starters.hsge.presentation.common.constants.showToast
+import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 

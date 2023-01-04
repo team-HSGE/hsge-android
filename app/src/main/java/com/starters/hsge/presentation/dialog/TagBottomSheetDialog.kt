@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTagBottomSheetDialogBinding
-import com.starters.hsge.presentation.common.constants.showToast
+import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.main.edit.ViewType
 
 class TagBottomSheetDialog(
