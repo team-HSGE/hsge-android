@@ -14,6 +14,7 @@ import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.common.util.LoadingLottieDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
 
@@ -61,6 +62,7 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                 }
                 override fun onOkBtnClicked() {
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
+                    LoadingLottieDialog.showDogLoadingDialog(requireContext())
                     findNavController().navigateUp()
                     visibleBtmNav()
                 }
@@ -78,6 +80,7 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
                 }
                 override fun onOkBtnClicked() {
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
+                    LoadingLottieDialog.showDogLoadingDialog(requireContext())
                     visibleBtmNav()
                 }
             })
@@ -93,13 +96,16 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
         if(isSuccess){
             //findNavController().navigateUp()
             Log.d("ChatExit_매칭 취소 / 나가기", "성공")
+            LoadingLottieDialog.dismissDogLoadingDialog()
         }else{
             Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
+            LoadingLottieDialog.dismissDogLoadingDialog()
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
         Log.d("ChatExit_매칭 취소 / 나가기 오류", "오류: $message")
+        LoadingLottieDialog.dismissDogLoadingDialog()
     }
 
     private fun visibleBtmNav(){

@@ -255,7 +255,7 @@ class EditLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         editLocationViewModel.town = locationAddress.toString()
-        LoadingLottieDialog.dismissLocationLoadingDialog(requireContext())
+        LoadingLottieDialog.dismissLocationLoadingDialog()
     }
 
     private fun visibleBtmNav() {

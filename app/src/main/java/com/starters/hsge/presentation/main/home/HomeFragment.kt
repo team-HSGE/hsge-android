@@ -89,6 +89,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         Log.d("isLike?", isLike.toString())
         Log.d("isLike?", card.petId.toString())
         IsLikeService(this).tryPostIsLike(card.petId, IsLikeRequest(isLike))
+        LoadingLottieDialog.showDogLoadingDialog(requireContext())
+
     }
 
     // HomeDog 통신
@@ -136,7 +138,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
-            LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
+            LoadingLottieDialog.dismissDogLoadingDialog()
 
             // 앱이 죽어있는 경우
             val intent = (activity as MainActivity).intent?.extras
@@ -180,26 +182,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")
-            LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
+            LoadingLottieDialog.dismissDogLoadingDialog()
         }
     }
 
     override fun onGetHomeDogFailure(message: String) {
         Log.d("HomeDog 오류", "오류: $message")
-        LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
+        LoadingLottieDialog.dismissDogLoadingDialog()
     }
 
     // isLike 통신
     override fun onPostIsLikeSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess) {
             Log.d("IsLike", "성공")
+            LoadingLottieDialog.dismissDogLoadingDialog()
         } else {
             Log.d("IsLike 오류", "Error code : ${code}")
+            LoadingLottieDialog.dismissDogLoadingDialog()
         }
     }
 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("IsLike 오류", "오류: $message")
+        LoadingLottieDialog.dismissDogLoadingDialog()
     }
 
     private fun goneBtmNav() {

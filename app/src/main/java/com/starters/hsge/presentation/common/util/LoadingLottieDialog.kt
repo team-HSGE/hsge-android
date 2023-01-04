@@ -23,7 +23,7 @@ object LoadingLottieDialog {
         }
     }
 
-    fun dismissDogLoadingDialog(context: Context){
+    fun dismissDogLoadingDialog(){
         if(dogLoadingDialog.isShowing){
             dogLoadingDialog.dismiss()
         }
@@ -41,7 +41,7 @@ object LoadingLottieDialog {
         }
     }
 
-    fun dismissLocationLoadingDialog(context: Context){
+    fun dismissLocationLoadingDialog(){
         if(locationLoadingDialog.isShowing){
             locationLoadingDialog.dismiss()
         }

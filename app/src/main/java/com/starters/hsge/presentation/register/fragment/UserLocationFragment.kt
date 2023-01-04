@@ -269,7 +269,7 @@ class UserLocationFragment :
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
-        LoadingLottieDialog.dismissLocationLoadingDialog(requireContext())
+        LoadingLottieDialog.dismissLocationLoadingDialog()
         changeDoneButton()
     }
 
