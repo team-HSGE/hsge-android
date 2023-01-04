@@ -350,7 +350,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         // TODO: userId 넘겨야 함
         ShakeHandService(this).tryPostHandShake(22)
         LoadingDialog.showLocationLoadingDialog(requireContext())
-        Toast.makeText(context, "${p1?.itemName}님에게 손을 흔들었어요!", Toast.LENGTH_SHORT).show()
+        showToast("${p1?.itemName}님에게 손을 흔들었어요!")
     }
 
     // 서버 통신
@@ -384,10 +384,12 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         } else {
             Log.d(" PostShakeHand 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostShakeHandFailure(message: String) {
         Log.d(" PostShakeHand 오류", "오류: $message")
+       showToast("잠시 후 다시 시도해주세요")
     }
 }

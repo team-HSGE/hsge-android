@@ -14,6 +14,7 @@ import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.common.constants.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 
@@ -98,12 +99,14 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
         }else{
             Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            requireContext().showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
         Log.d("ChatExit_매칭 취소 / 나가기 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        requireContext().showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun visibleBtmNav(){

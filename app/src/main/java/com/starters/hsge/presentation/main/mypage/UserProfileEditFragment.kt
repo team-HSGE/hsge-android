@@ -183,7 +183,7 @@ class UserProfileEditFragment:BaseFragment<FragmentUserProfileEditBinding>(R.lay
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_userProfileEditFragment_to_myPageFragment)
 
-            Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("수정이 완료되었습니다.")
             visibleBtmNav()
         }
     }

@@ -19,6 +19,7 @@ import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.common.constants.showToast
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
@@ -189,7 +190,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 400 -> {
                     when (msg) {
                         "REPORT LIMIT EXCEED" -> {
-                            Toast.makeText(applicationContext, "서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.", Toast.LENGTH_SHORT).show()
+                            showToast("다중의 신고가 접수되어 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
                             Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
                         }
                     }
@@ -199,7 +200,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                         "NO_ACCESS" -> { Log.d("토큰 상태", "access, refresh 토큰이 없습니다.") }
                         "TOKEN type Bearer" -> { Log.d("토큰 상태", "접두사 Bearer가 없습니다.") }
                         "NEED_NEW_LOGIN" -> {
-                            Toast.makeText(applicationContext, "세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                            showToast("세션이 만료되었습니다. 다시 로그인해주세요.")
                             Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다. / ${checkTokenResponse.time}")
                         }
                     }

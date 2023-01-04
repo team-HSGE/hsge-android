@@ -89,12 +89,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
         } else {
             Log.d("ChatList 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onGetChatListFailure(message: String) {
         Log.d("ChatList 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun moveToHome() {

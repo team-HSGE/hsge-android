@@ -128,30 +128,33 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
         }else{
             Log.d("Report 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
-
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostReportFailure(message: String) {
         Log.d("Report 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     override fun onPostChatExitSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
-            Toast.makeText(context, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("신고가 완료되었습니다.")
             LoadingDialog.dismissDogLoadingDialog()
             findNavController().navigate(R.id.action_chatReportFragment_to_chatFragment)
             Log.d("ChatExit_신고", "성공")
         }else{
             Log.d("ChatExit_신고 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
         Log.d("ChatExit_신고 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun visibleBtmNav(){
