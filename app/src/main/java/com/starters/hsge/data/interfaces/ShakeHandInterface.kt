@@ -1,14 +1,19 @@
 package com.starters.hsge.data.interfaces
 
-import com.starters.hsge.data.model.remote.response.ShakeHandResponse
+import com.starters.hsge.data.model.remote.response.CurrentLocationPostResponse
+import com.starters.hsge.data.model.remote.response.UsersLocationNearbyGetResponse
 
 interface ShakeHandInterface {
 
-    fun onPostCurrentLocationSuccess(isSuccess: Boolean)
+    fun onPostCurrentLocationSuccess(currentLocationPostResponse: CurrentLocationPostResponse, isSuccess: Boolean)
 
     fun onPostCurrentLocationFailure(message: String)
 
-    fun onGetShakeHandSuccess(shakeHandResponse: List<ShakeHandResponse>, isSuccess: Boolean)
+    fun onGetShakeHandSuccess(usersLocationNearbyGetResponse: List<UsersLocationNearbyGetResponse>, isSuccess: Boolean)
 
     fun onGetShakeHandFailure(message: String)
+
+    fun onDeleteUsersLocationSuccess(isSuccess: Boolean)
+
+    fun onDeleteUsersLocationFailure(message: String)
 }
