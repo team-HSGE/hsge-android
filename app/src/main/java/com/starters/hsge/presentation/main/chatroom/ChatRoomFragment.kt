@@ -137,9 +137,7 @@ class ChatRoomFragment : Fragment() {
     private fun setChatView() {
         when (chatRoomViewModel.active) {
             false -> {
-                //TODO: 첫 번째 메세지를 보낼 때 visible 처리
-
-                //binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
+                binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
             }
             true -> {
                 binding.ivPartnerProfileLarge.visibility = View.GONE
@@ -167,9 +165,9 @@ class ChatRoomFragment : Fragment() {
                         binding.tvPartnerNickname.visibility = View.GONE
                         binding.tvChatroomExplanation.visibility = View.GONE
                         binding.tvChatroomTime.visibility = View.GONE
+                        binding.toolBar.menu.findItem(R.id.menu_report).isVisible = true
                     }
                 }
-
             }
         })
 
