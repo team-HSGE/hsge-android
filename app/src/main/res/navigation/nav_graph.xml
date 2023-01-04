@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_editLocationFragment"
             app:destination="@id/editLocationFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_inquiryFragment"
+            app:destination="@id/inquiryFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -222,4 +225,9 @@
             android:id="@+id/action_partnerDogsFragment_to_specificDogFragment"
             app:destination="@id/specificDogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/inquiryFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
+        android:label="InquiryFragment"
+        tools:layout="@layout/fragment_inquiry"/>
 </navigation>

@@ -298,8 +298,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             if(msg.what == 0){
                 startLocationUpdates()
                 binding.kakaoMapView.removeAllPOIItems()
-                //ShakeHandService(this@FindFragment).tryGetHandShake()
-                //LoadingDialog.showLocationLoadingDialog(requireContext())
+                ShakeHandService(this@FindFragment).tryGetHandShake()
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
         }
     }
@@ -349,7 +349,6 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
         // TODO: userId 넘겨야 함
         ShakeHandService(this).tryPostHandShake(22)
-        LoadingDialog.showLocationLoadingDialog(requireContext())
         showToast("${p1?.itemName}님에게 손을 흔들었어요!")
     }
 
@@ -380,17 +379,14 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     override fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess){
             Log.d(" PostShakeHand", "성공")
-            LoadingDialog.dismissDogLoadingDialog()
         } else {
             Log.d(" PostShakeHand 오류", "Error code : ${code}")
-            LoadingDialog.dismissDogLoadingDialog()
             showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostShakeHandFailure(message: String) {
         Log.d(" PostShakeHand 오류", "오류: $message")
-        LoadingDialog.dismissDogLoadingDialog()
         showToast("잠시 후 다시 시도해주세요")
     }
 }
