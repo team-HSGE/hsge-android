@@ -12,7 +12,6 @@ import android.provider.Settings
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -297,7 +296,7 @@ class AddDogProfileFragment :
                 addDogProfileViewModel.mResponse.observe(viewLifecycleOwner) {
                     if (it.isSuccessful) {
                         LoadingDialog.dismissDogLoadingDialog()
-                        Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
+                        showToast("반려견이 추가되었습니다")
                         findNavController().navigateUp()
                     } else {
                         LoadingDialog.dismissDogLoadingDialog()

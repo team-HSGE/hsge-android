@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -343,7 +342,7 @@ class DogProfileEditFragment :
             dogProfileEditViewModel.editResponse.observe(viewLifecycleOwner) {
                 if (it.isSuccessful) {
                     LoadingDialog.dismissDogLoadingDialog()
-                    Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    showToast("수정이 완료되었습니다.")
                     findNavController().navigateUp()
                 } else {
                     LoadingDialog.dismissDogLoadingDialog()
@@ -366,6 +365,7 @@ class DogProfileEditFragment :
                     dogProfileEditViewModel.deleteResponse.observe(viewLifecycleOwner) {
                         if (it.isSuccessful) {
                             LoadingDialog.dismissDogLoadingDialog()
+                            showToast("삭제가 완료되었습니다.")
                             findNavController().navigateUp()
                         } else {
                             LoadingDialog.dismissDogLoadingDialog()
