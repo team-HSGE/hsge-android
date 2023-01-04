@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.json.JSONObject
+import timber.log.Timber
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 
@@ -85,7 +85,7 @@ class ChatRoomFragment : Fragment() {
         stompClient.lifecycle().subscribe { lifecycleEvent ->
             when (lifecycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> {
-                    Log.i("OPEND", "!!")
+                    Timber.i("OPEN!!")
 
                     // subscribe 채널 구독, 내가 보내는 메세지와 상대가 보내는 메세지를 구독할 수 있음
                     stompClient.topic("/sub/chat/room/${chatRoomViewModel.roomId}")
@@ -93,13 +93,13 @@ class ChatRoomFragment : Fragment() {
                             // 메세지 디코딩
                             val messageFromJson =
                                 Json.decodeFromString<Message>(topicMessage.payload)
-                            Log.d("메세지 구독", "$messageFromJson")
+                            Timber.d("메세지 구독 $messageFromJson")
 
                             // 리사이클러뷰에 데이터 추가
                             lifecycleScope.launch(Dispatchers.Main) {
                                 chatRoomViewModel.chatList.value?.let {
                                     it.messageList.add(messageFromJson)
-                                    Log.d("메세지 리스트 데이터", "${it.messageList}")
+                                    Timber.d("메세지 리스트 ${it.messageList}")
                                     adapter.notifyDataSetChanged()
                                     binding.rvMessages.smoothScrollToPosition(it.messageList.size - 1)
                                 }
@@ -108,27 +108,28 @@ class ChatRoomFragment : Fragment() {
 
                     //메세지 보내기
                     binding.btnSend.setOnClickListener {
-                        if (binding.edtMessage.text.isNotEmpty() && binding.edtMessage.text.isNotBlank()) {
-                            val data = JSONObject()
-                            data.put("senderId", chatRoomViewModel.myId)
-                            data.put("message", binding.edtMessage.text)
-                            data.put("roomId", chatRoomViewModel.roomId)
+                        if (stompClient.isConnected) {
+                            if (binding.edtMessage.text.isNotEmpty() && binding.edtMessage.text.isNotBlank()) {
+                                val data = JSONObject()
+                                data.put("senderId", chatRoomViewModel.myId)
+                                data.put("message", binding.edtMessage.text)
+                                data.put("roomId", chatRoomViewModel.roomId)
 
-                            stompClient.send("/pub/chat/message", data.toString()).subscribe()
-                            binding.edtMessage.text.clear()
+                                stompClient.send("/pub/chat/message", data.toString()).subscribe()
+                                binding.edtMessage.text.clear()
+                            }
                         }
                     }
                 }
                 LifecycleEvent.Type.CLOSED -> {
-                    //Log.i("CLOSED", "!!")
+                    Timber.i("CLOSED!!")
 
                 }
                 LifecycleEvent.Type.ERROR -> {
-                    //Log.i("ERROR", "!!")
-                    //Log.e("CONNECT ERROR", lifecycleEvent.exception.toString())
+                    Timber.tag("ERROR!!").e(lifecycleEvent.exception)
                 }
                 else -> {
-                    Log.i("ELSE", lifecycleEvent.message)
+                    Timber.i("ELSE!!")
                 }
             }
         }
@@ -291,6 +292,5 @@ class ChatRoomFragment : Fragment() {
     companion object {
         const val PARTNER_ID = "partnerId"
         const val PARTNER_NICKNAME = "partnerNickName"
-        const val ROOM_ID = "roomId"
     }
 }

@@ -87,9 +87,10 @@ class UserLocationFragment :
             }
         }
 
+        // 회원가입 완료 버튼
         binding.btnNext.setOnClickListener {
-            // 홈 화면으로 이동
-            Log.d("from?", "register")
+            // 로딩 다이얼로그
+            LoadingDialog.showDogLoadingDialog(requireContext())
 
             lifecycleScope.launch {
                 // 저장된 이미지 타입 변환: String -> Uri -> File
@@ -129,6 +130,9 @@ class UserLocationFragment :
                             prefs.edit().remove("resId").apply()
                         }
 
+                        // 로딩 다이얼로그 해제
+                        LoadingDialog.dismissDogLoadingDialog()
+
                         // 액티비티 이동
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
@@ -136,6 +140,8 @@ class UserLocationFragment :
 
                     } else {
                         // TODO: 유저 닉네임 설정 화면으로 이동
+                        // 로딩 다이얼로그 해제
+                        LoadingDialog.dismissDogLoadingDialog()
                     }
                 }
             }
