@@ -63,7 +63,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.personalInquireSection.setOnClickListener {
-            showToast("아직 구현되지 않은 기능입니다🥲")
+            findNavController().navigate(R.id.action_myPageFragment_to_inquiryFragment)
+            goneBtmNav()
         }
     }
 
