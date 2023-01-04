@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -30,6 +29,7 @@ import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.EditNameDialogFragment
@@ -317,6 +317,9 @@ class DogProfileEditFragment :
 
         // 수정하기
         binding.btnEdit.setOnClickListener {
+            // loading progress
+            LoadingDialog.showDogLoadingDialog(requireContext())
+
             val imgFile = dogProfileEditViewModel.dogPhoto?.toUri()
                 ?.let { uri -> UriUtil.toFile(requireContext(), uri) }
 
@@ -339,11 +342,11 @@ class DogProfileEditFragment :
 
             dogProfileEditViewModel.editResponse.observe(viewLifecycleOwner) {
                 if (it.isSuccessful) {
+                    LoadingDialog.dismissDogLoadingDialog()
                     Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     findNavController().navigateUp()
                 } else {
-                    //TODO: 프로그래스바 처리
-                    Log.d("실패", "${it.code()}")
+                    LoadingDialog.dismissDogLoadingDialog()
                 }
             }
         }
@@ -356,10 +359,16 @@ class DogProfileEditFragment :
                     // 취소 버튼 클릭했을 때 처리
                 }
                 override fun onOkBtnClicked() {
+                    // loading progress
+                    LoadingDialog.showDogLoadingDialog(requireContext())
+
                     dogProfileEditViewModel.deleteDog(args.dogDetailInfo.id)
                     dogProfileEditViewModel.deleteResponse.observe(viewLifecycleOwner) {
                         if (it.isSuccessful) {
+                            LoadingDialog.dismissDogLoadingDialog()
                             findNavController().navigateUp()
+                        } else {
+                            LoadingDialog.dismissDogLoadingDialog()
                         }
                     }
                 }
