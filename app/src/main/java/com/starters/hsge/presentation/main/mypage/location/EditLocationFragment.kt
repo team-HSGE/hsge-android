@@ -32,6 +32,7 @@ import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.databinding.FragmentEditLocationBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingLottieDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.location.EditLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -149,7 +150,7 @@ class EditLocationFragment :
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 startLocationUpdates()
-                showLoadingDialog(requireContext())
+                LoadingLottieDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -254,7 +255,7 @@ class EditLocationFragment :
         }
         binding.tvMyLocation.text = locationAddress
         editLocationViewModel.town = locationAddress.toString()
-        dismissLoadingDialog()
+        LoadingLottieDialog.dismissLocationLoadingDialog(requireContext())
     }
 
     private fun visibleBtmNav() {
