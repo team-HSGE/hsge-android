@@ -46,6 +46,7 @@ import net.daum.mf.map.api.MapPoint.GeoCoordinate
 import net.daum.mf.map.api.MapView.CurrentLocationEventListener
 import net.daum.mf.map.api.MapView.setMapTilePersistentCacheEnabled
 import net.daum.mf.map.n.api.internal.NativeMapLocationManager.*
+import kotlin.concurrent.thread
 
 class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEventListener, ShakeHandInterface {
     lateinit var binding: FragmentFindBinding
@@ -100,10 +101,12 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         super.onResume()
 
         setAutoLocation()
-        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
-            // progressBar
-        }
         binding.kakaoMapView.setCurrentLocationRadius(0)
+
+        // progressBar
+//        LoadingDialog.showLocationLoadingDialog(requireContext())
+//        LoadingDialog.dismissLocationLoadingDialog()
+
     }
 
     override fun onPause() {
@@ -131,6 +134,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
             && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
+
         setCurrentLocation()
     }
 
@@ -194,6 +198,12 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private fun checkLocationService(): Boolean {
         val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun showProgress(isShow: Boolean) {
+        if(isShow) LoadingDialog.showLocationLoadingDialog(requireContext())
+        else LoadingDialog.dismissLocationLoadingDialog()
+
     }
 
     // 초기 화면 위치 + 커스텀 마커 설정 (지도 중심 이동)
@@ -334,7 +344,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                 binding.kakaoMapView.removeAllPOIItems()
                 ShakeHandService(this@FindFragment).tryGetHandShake()
-                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
         }
     }
