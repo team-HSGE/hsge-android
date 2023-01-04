@@ -11,6 +11,7 @@ import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.data.service.ChatListService
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
 
@@ -33,6 +34,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
         likedPeopleList.clear()
         chatList.clear()
         ChatListService(this).tryGetChatList()
+        LoadingDialog.showDogLoadingDialog(requireContext())
     }
 
     private fun goneBtmNav() {
@@ -83,14 +85,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
             binding.chatRvChatList.adapter = chatListAdapter
             Log.d("ChatList", "성공, $chatList")
             Log.d("ChatList_all", "성공, $chatListResponse")
-
+            LoadingDialog.dismissDogLoadingDialog()
         } else {
             Log.d("ChatList 오류", "Error code : ${code}")
+            LoadingDialog.dismissDogLoadingDialog()
         }
     }
 
     override fun onGetChatListFailure(message: String) {
         Log.d("ChatList 오류", "오류: $message")
+        LoadingDialog.dismissDogLoadingDialog()
     }
 
     private fun moveToHome() {
