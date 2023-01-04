@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,103 +16,131 @@ import android.os.Looper
 import android.os.Message
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.gms.tasks.Task
+import com.starters.hsge.App.Companion.prefs
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.ShakeHandInterface
 import com.starters.hsge.data.model.remote.request.CurrentLocationPostRequest
-import com.starters.hsge.data.model.remote.response.ShakeHandResponse
+import com.starters.hsge.data.model.remote.request.UsersLocationDeleteRequest
+import com.starters.hsge.data.model.remote.response.CurrentLocationPostResponse
+import com.starters.hsge.data.model.remote.response.UsersLocationNearbyGetResponse
 import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
-import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
+import net.daum.mf.map.api.MapPoint.GeoCoordinate
+import net.daum.mf.map.api.MapView.CurrentLocationEventListener
+import net.daum.mf.map.api.MapView.setMapTilePersistentCacheEnabled
+import net.daum.mf.map.n.api.internal.NativeMapLocationManager.*
+import kotlin.concurrent.thread
 
-class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener, ShakeHandInterface {
+class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEventListener, ShakeHandInterface {
+    lateinit var binding: FragmentFindBinding
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
-    private var fusedLocationClient: FusedLocationProviderClient? = null
     private val trackingHandler by lazy { TrackingHandler() }
     private val trackingCircle by lazy { TrackingCircle() }
 
-    private var mCurrentLat: Double? = 0.0
-    private var mCurrentLng: Double? = 0.0
+    private var mp = MapPoint.mapPointWithGeoCoord(0.0, 0.0)
+    private var mCurrentLat: Double = 0.0
+    private var mCurrentLng: Double = 0.0
 
     private var uCurrentLat: Double? = 0.0
     private var uCurrentLng: Double? = 0.0
     private var uNickname: String? = null
+    private var uUserId: Long? = 0L
+
+    private var myNickName: String? = ""
+    private var userId: Long? = 0L
     private var status: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPermissionLauncher()
+        setMapTilePersistentCacheEnabled(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_find, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.kakaoMapView.setCurrentLocationRadius(0)
+        binding.kakaoMapView.setCurrentLocationEventListener(this) // 현재 위치 잡는 리스너 등록
+        binding.kakaoMapView.setPOIItemEventListener(this)  // 마커 클릭 이벤트 리스너 등록
+        binding.kakaoMapView.setCalloutBalloonAdapter(CustomBalloonAdapter(layoutInflater))  // 커스텀 말풍선 등록
+
         startLocationUpdates()
         setZoomLevel()
         setTrackingBtn()
         catchCurrentLocation()
-
-        binding.kakaoMapView.setCalloutBalloonAdapter(CustomBalloonAdapter(layoutInflater))  // 커스텀 말풍선 등록
-        binding.kakaoMapView.setPOIItemEventListener(this)  // 마커 클릭 이벤트 리스너 등록
     }
 
     override fun onResume() {
         super.onResume()
+
         setAutoLocation()
+        binding.kakaoMapView.setCurrentLocationRadius(0)
+
+        // progressBar
+//        LoadingDialog.showLocationLoadingDialog(requireContext())
+//        LoadingDialog.dismissLocationLoadingDialog()
+
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
+
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
+        mCurrentLat = 0.0
+        mCurrentLng = 0.0
+        stopTracking()
         endInfinite()
+
+        // 내 위치 정보 삭제
+        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        ShakeHandService(this).tryDeleteUsersLocation(nickname)
     }
 
     private fun initPermissionLauncher() {
-        locationPermissionRequest =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
+        locationPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
     }
 
     // 사용자 위치 받기
     private fun startLocationUpdates() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
 
-        fusedLocationClient!!.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-            override fun isCancellationRequested() = false
-        }).addOnSuccessListener { location: Location? ->
-            if (location != null) {
-                mCurrentLat = location.latitude
-                mCurrentLng = location.longitude
-                Log.d("위도경도", "${mCurrentLat}, ${mCurrentLng}")
-
-                val location = CurrentLocationPostRequest(mCurrentLat.toString(), mCurrentLng.toString())
-                ShakeHandService(this).tryPostCurrentLocation(location)
-                setCurrentLocation()
-            }
-        }
+        setCurrentLocation()
     }
 
     // 권한 체크
     private fun checkPermissionForLocation() {
         val isFirstCheck = prefs.getBoolean("isFistLocationPermissionCheck", true)
-
         when {
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED -> {
@@ -173,7 +200,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
-    // 초기 화면 위치 + 커스텀 마커 설정
+    private fun showProgress(isShow: Boolean) {
+        if(isShow) LoadingDialog.showLocationLoadingDialog(requireContext())
+        else LoadingDialog.dismissLocationLoadingDialog()
+
+    }
+
+    // 초기 화면 위치 + 커스텀 마커 설정 (지도 중심 이동)
     private fun setCurrentLocation() {
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
         binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20, 20))
@@ -187,8 +220,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         binding.trackingBtn.setOnClickListener {
             if (status) {
                 if (checkLocationService()) {
-                    setCircle("start")
+                    val location = CurrentLocationPostRequest(lng = mCurrentLng.toString(), lat = mCurrentLat.toString())
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
+                    }
+                    setCameraCircle("start")
                     startTracking()
+
                 } else {
                     setAutoLocation()
                 }
@@ -199,33 +237,34 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         }
     }
 
-    // 현재 위치 반경 세팅
-    private fun setCircle(circleName: String) {
-        val circle1 = MapCircle(
-            MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!),  // center
-            3000,  // radius
-            Color.argb(30, 37, 114, 209),  // strokeColor
-            Color.argb(30, 37, 114, 209) // fillColor
-        )
+    // 반경 세팅
+    private fun addCircle() {
+        binding.kakaoMapView.setCurrentLocationRadius(2000)
+        binding.kakaoMapView.setCurrentLocationRadiusStrokeColor(Color.argb(30, 37, 114, 209))
+        binding.kakaoMapView.setCurrentLocationRadiusFillColor(Color.argb(30, 37, 114, 209))
+    }
 
-        // 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정.
+    // 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정
+    private fun setCameraCircle(circleName: String) {
+        val circle1 = MapCircle(mp, 3000, 0,0)
         val mapPointBoundsArray = arrayOf(circle1.bound)
         val mapPointBounds = MapPointBounds(mapPointBoundsArray)
         val padding = 50 // px
 
         when (circleName) {
             "start" -> {
-                binding.kakaoMapView.removeAllCircles()
-                binding.kakaoMapView.addCircle(circle1)
+                binding.kakaoMapView.setCurrentLocationRadius(0)
+                addCircle()
                 binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
             }
             "tracking" -> {
-                binding.kakaoMapView.removeAllCircles()
-                binding.kakaoMapView.addCircle(circle1)
+                binding.kakaoMapView.setCurrentLocationRadius(0)
+                addCircle()
+                Log.d("손흔들기", "반원나오냐?")
             }
             "end" -> {
-                binding.kakaoMapView.removeAllCircles()
-                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!)))
+                binding.kakaoMapView.setCurrentLocationRadius(0)
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(mp))
             }
         }
     }
@@ -241,11 +280,15 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     }
 
     private fun stopTracking() {
-        setCircle("end")
+        setCameraCircle("end")
         endInfinite()
         binding.kakaoMapView.removeAllPOIItems()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_yellow_r12)
         binding.trackingBtn.text = "내 주변 탐색"
+
+        // 내 위치 정보 삭제
+        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        ShakeHandService(this).tryDeleteUsersLocation(nickname)
         status = true
         Log.d("추적", "멈춤")
     }
@@ -254,7 +297,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     private fun catchCurrentLocation() {
         binding.fabCurrentLocation.setOnClickListener {
             if (checkLocationService()) {
-                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(mCurrentLat!!, mCurrentLng!!)))
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(mp))
             } else {
                 setAutoLocation()
             }
@@ -276,6 +319,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             // GPS가 꺼져있을 경우
             binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
             binding.kakaoMapView.setShowCurrentLocationMarker(false)
+            binding.trackingBtn.setBackgroundResource(R.drawable.bg_light_gray_r12)
 
             if (exception is ResolvableApiException) {
                 Log.d("locationRequest", "OnFailure")
@@ -296,10 +340,10 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             if(msg.what == 0){
-                startLocationUpdates()
+                val location = CurrentLocationPostRequest(lng = mCurrentLng.toString(), lat = mCurrentLat.toString())
+                ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                 binding.kakaoMapView.removeAllPOIItems()
                 ShakeHandService(this@FindFragment).tryGetHandShake()
-                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
         }
     }
@@ -308,13 +352,13 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     private inner class TrackingCircle: Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if(msg.what == 0){ setCircle("tracking") }
+            if(msg.what == 0){ setCameraCircle("tracking") }
         }
     }
 
     private fun startInfinite() {
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
-        trackingHandler.sendEmptyMessageDelayed(0, 3000) // intervalTime만큼 반복해서 핸들러 실행
+        trackingHandler.sendEmptyMessageDelayed(0, 500) // intervalTime만큼 반복해서 핸들러 실행
         trackingHandler.postDelayed(::startInfinite, 15000) // 한 번 돌고 지연시간
     }
 
@@ -330,44 +374,66 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     }
 
     // 새로운 마커 생성
-    private fun createMarker(uCurrentLat: Double, uCurrentLng: Double, uNickname: String) {
+    private fun createMarker(uCurrentLat: Double, uCurrentLng: Double, uNickname: String, uUserId: Long) {
         val marker = MapPOIItem()
         marker.apply {
             itemName = uNickname
             mapPoint = MapPoint.mapPointWithGeoCoord(uCurrentLat, uCurrentLng)
+            Log.d("다른 유저 위경도", "${uCurrentLat}, ${uCurrentLng}")
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_map_marker
             setCustomImageAnchor(0.5f, 0.5f)
         }
+        userId = uUserId
         binding.kakaoMapView.addPOIItem(marker)
     }
 
+    // 말풍선 클릭
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
-
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
         // TODO: userId 넘겨야 함
         ShakeHandService(this).tryPostHandShake(22)
-        showToast("${p1?.itemName}님에게 손을 흔들었어요!")
+        requireContext().showToast("${p1?.itemName}님에게 손을 흔들었어요!")
     }
 
+    // 내 현재 위치 갱신
+    override fun onCurrentLocationUpdate(p0: MapView?, p1: MapPoint?, p2: Float) {
+        val mapPointGeo: GeoCoordinate = p1!!.mapPointGeoCoord
+        mCurrentLat = mapPointGeo.latitude
+        mCurrentLng = mapPointGeo.longitude
+        Log.d("내 위치", "${mCurrentLat}, ${mCurrentLng}")
+        mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
+        binding.kakaoMapView.setMapCenterPoint(mp, true)
+    }
+    override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {}
+    override fun onCurrentLocationUpdateFailed(p0: MapView?) {}
+    override fun onCurrentLocationUpdateCancelled(p0: MapView?) {}
+
     // 서버 통신
-    override fun onPostCurrentLocationSuccess(isSuccess: Boolean) {
-        if (isSuccess) { Log.d("PostCurrentLocation", "성공!") }
+    override fun onPostCurrentLocationSuccess(currentUserLocation: CurrentLocationPostResponse, isSuccess: Boolean) {
+        if (isSuccess) {
+            myNickName = currentUserLocation.name
+            Log.d("PostCurrentLocation", "${myNickName}")
+        }
     }
 
     override fun onPostCurrentLocationFailure(message: String) {
         Log.d("PostCurrentLocation 오류", "오류: $message")
     }
 
-    override fun onGetShakeHandSuccess(shakeHandResponse: List<ShakeHandResponse>, isSuccess: Boolean) {
+    override fun onGetShakeHandSuccess(usersLocationNearbyGetResponse: List<UsersLocationNearbyGetResponse>, isSuccess: Boolean) {
         if (isSuccess) {
-            for (user in shakeHandResponse) {
-                uCurrentLat = user.latitude
-                uCurrentLng = user.longitude
-                uNickname = user.nickname
-                createMarker(uCurrentLat!!, uCurrentLng!!, uNickname!!)
+            for (user in usersLocationNearbyGetResponse) {
+                uCurrentLat = user.lat
+                uCurrentLng = user.lng
+                uNickname = user.name
+                uUserId = user.userId
+                Log.d("주변 사람들 정보", "${uCurrentLat}, ${uCurrentLng}, ${uNickname}, ${uUserId}")
+
+                // lng -> lat, lat -> lng
+                createMarker(uCurrentLng!!, uCurrentLat!!, uNickname!!, uUserId!!)
             }
         }
     }
@@ -376,17 +442,27 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
         Log.d(" GetShakeHand 오류", "오류: $message")
     }
 
+    override fun onDeleteUsersLocationSuccess(isSuccess: Boolean) {
+        if (isSuccess) {
+            Log.d("DeleteUsersLocation", "성공!")
+        }
+    }
+
+    override fun onDeleteUsersLocationFailure(message: String) {
+        Log.d(" DeleteUsersLocation 오류", "오류: $message")
+    }
+
     override fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess){
             Log.d(" PostShakeHand", "성공")
         } else {
             Log.d(" PostShakeHand 오류", "Error code : ${code}")
-            showToast("잠시 후 다시 시도해주세요")
+            requireContext().showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostShakeHandFailure(message: String) {
         Log.d(" PostShakeHand 오류", "오류: $message")
-        showToast("잠시 후 다시 시도해주세요")
+        requireContext().showToast("잠시 후 다시 시도해주세요")
     }
 }

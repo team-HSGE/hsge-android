@@ -65,8 +65,7 @@
         <argument
             android:name="userInfoData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
             app:destination="@id/userProfileEditIconFragment" />
