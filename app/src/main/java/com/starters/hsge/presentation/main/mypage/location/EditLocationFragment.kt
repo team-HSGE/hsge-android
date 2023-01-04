@@ -12,7 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -100,6 +99,9 @@ class EditLocationFragment :
         }
 
         binding.btnFinish.setOnClickListener {
+            // loading progress
+            LoadingDialog.showDogLoadingDialog(requireContext())
+
             //위치 전송
             editLocationViewModel.putLocation(
                 UserLocationRequest(
@@ -111,10 +113,11 @@ class EditLocationFragment :
 
             editLocationViewModel.mResponse.observe(viewLifecycleOwner) {
                 if (it.isSuccessful) {
+                    LoadingDialog.dismissDogLoadingDialog()
                     findNavController().navigateUp()
                     visibleBtmNav()
                 } else {
-                    //TODO: 프로그래스바 해제
+                    LoadingDialog.dismissDogLoadingDialog()
                 }
             }
         }
