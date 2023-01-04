@@ -96,7 +96,7 @@ class EditLocationFragment :
             if (isEnableLocationSystem(requireContext())) {
                 checkPermissionForLocation()
             } else {
-                Toast.makeText(context, "위치를 켜주세요", Toast.LENGTH_SHORT).show()
+                showToast("위치를 켜주세요")
             }
         }
 
@@ -227,8 +227,7 @@ class EditLocationFragment :
             })
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
-                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
-                        .show()
+                    showToast("Cannot get location.")
                 else {
                     editLocationViewModel.latitude = location.latitude
                     editLocationViewModel.longitude = location.longitude

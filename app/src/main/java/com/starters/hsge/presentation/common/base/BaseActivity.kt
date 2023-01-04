@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.common.base
 import android.app.Application
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,5 +29,9 @@ abstract class BaseActivity<T : ViewDataBinding>(
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    fun showToast(msg: String){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

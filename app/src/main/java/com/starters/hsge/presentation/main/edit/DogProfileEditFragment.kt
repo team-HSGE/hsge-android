@@ -338,7 +338,7 @@ class DogProfileEditFragment :
             )
 
             visibleBtmNav()
-            Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("수정이 완료되었습니다.")
 
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)

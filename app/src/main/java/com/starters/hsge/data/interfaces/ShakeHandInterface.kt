@@ -11,4 +11,8 @@ interface ShakeHandInterface {
     fun onGetShakeHandSuccess(shakeHandResponse: List<ShakeHandResponse>, isSuccess: Boolean)
 
     fun onGetShakeHandFailure(message: String)
+
+    fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int)
+
+    fun onPostShakeHandFailure(message: String)
 }

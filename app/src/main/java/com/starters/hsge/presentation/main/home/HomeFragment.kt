@@ -182,12 +182,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onGetHomeDogFailure(message: String) {
         Log.d("HomeDog 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     // isLike 통신
@@ -198,16 +200,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         } else {
             Log.d("IsLike 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("IsLike 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun goneBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
     }
-
 }

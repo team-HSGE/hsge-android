@@ -102,11 +102,13 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
         }else{
             Log.d("Distance 오류", "Error code : ${code}")
             LoadingDialog.dismissDogLoadingDialog()
+            showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("Distance 오류", "오류: $message")
         LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 }

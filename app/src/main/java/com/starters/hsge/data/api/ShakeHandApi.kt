@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ShakeHandApi {
     @POST("api/users/currentLocation")
@@ -15,4 +16,8 @@ interface ShakeHandApi {
 
     @GET("api/users/handShake")
     fun getShakeHand(): Call<List<ShakeHandResponse>>
+
+    @POST("api/user/{userId}/wave")
+    fun postShakeHand(@Path ("userId") userId: Long
+    ): Call<Void>
 }
