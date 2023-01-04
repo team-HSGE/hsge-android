@@ -17,7 +17,7 @@ interface ShakeHandApi {
     @GET("api/users/handShake")
     fun getShakeHand(): Call<List<ShakeHandResponse>>
 
-    @POST("api/user/{userId}/wave")
+    @POST("api/waves/to/{userId}")
     fun postShakeHand(@Path ("userId") userId: Long
     ): Call<Void>
 }
