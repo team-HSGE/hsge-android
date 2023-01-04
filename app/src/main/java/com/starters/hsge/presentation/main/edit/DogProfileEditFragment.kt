@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -21,7 +22,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -317,7 +317,6 @@ class DogProfileEditFragment :
 
         // 수정하기
         binding.btnEdit.setOnClickListener {
-
             val imgFile = dogProfileEditViewModel.dogPhoto?.toUri()
                 ?.let { uri -> UriUtil.toFile(requireContext(), uri) }
 
@@ -331,31 +330,38 @@ class DogProfileEditFragment :
                 likeTag = dogProfileEditViewModel.dogLikeTagStr,
                 dislikeTag = dogProfileEditViewModel.dogDislikeTagStr
             )
+
             dogProfileEditViewModel.putEditDogProfile(
                 args.dogDetailInfo.id,
                 imgFile,
                 dogProfileInfo
             )
 
-            visibleBtmNav()
-            showToast("수정이 완료되었습니다.")
-
-            // 마이페이지로 이동
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+            dogProfileEditViewModel.editResponse.observe(viewLifecycleOwner) {
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                } else {
+                    //TODO: 프로그래스바 처리
+                    Log.d("실패", "${it.code()}")
+                }
+            }
         }
 
+        // 삭제하기
         binding.tvDeleteBtn.setOnClickListener {
             val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
             dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
-
                 override fun onOkBtnClicked() {
                     dogProfileEditViewModel.deleteDog(args.dogDetailInfo.id)
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_dogProfileEditFragment_to_myPageFragment)
+                    dogProfileEditViewModel.deleteResponse.observe(viewLifecycleOwner) {
+                        if (it.isSuccessful) {
+                            findNavController().navigateUp()
+                        }
+                    }
                 }
             })
             dialog.show(childFragmentManager, "CustomDialog")
@@ -402,10 +408,6 @@ class DogProfileEditFragment :
 
     private fun goneBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
-    }
-
-    private fun visibleBtmNav() {
-        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 
     private fun showCancelDialog() {

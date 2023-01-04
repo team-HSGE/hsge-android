@@ -292,12 +292,12 @@ class AddDogProfileFragment :
                         description = binding.edtComment.text.toString()
                     ))
 
-                visibleBtmNav()
-                showToast("반려견이 추가되었습니다")
-
-                // 마이페이지로 이동
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_addDogProfileFragment_to_myPageFragment)
+                addDogProfileViewModel.mResponse.observe(viewLifecycleOwner) {
+                    if (it.isSuccessful) {
+                        Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    }
+                }
             }
         }
     }
@@ -347,8 +347,6 @@ class AddDogProfileFragment :
             showCancelDialog()
         }
     }
-
-    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
 
     private fun showCancelDialog() {
         val dialog = BaseDialogFragment("추가를 취소하시겠습니까?")

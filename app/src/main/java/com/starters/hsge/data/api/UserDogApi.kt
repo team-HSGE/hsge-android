@@ -3,6 +3,7 @@ package com.starters.hsge.data.api
 import com.starters.hsge.data.model.remote.response.UserDogResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface UserDogApi {
@@ -17,7 +18,7 @@ interface UserDogApi {
         @Path("petId") petId: Int,
         @Part dogPhoto: MultipartBody.Part?,
         @PartMap editData: HashMap<String, RequestBody>
-    )
+    ): Response<Void>
 
     // 유저 반려견 추가
     @Multipart
@@ -25,11 +26,11 @@ interface UserDogApi {
     suspend fun postDogProfile(
         @Part dogPhoto: MultipartBody.Part,
         @PartMap dogProfile: HashMap<String, RequestBody>
-    )
+    ): Response<Void>
 
     // 유저 반려견 삭제
     @DELETE("/api/pets/{petId}")
     suspend fun deleteDog(
         @Path("petId") petId: Int
-    )
+    ): Response<Void>
 }
