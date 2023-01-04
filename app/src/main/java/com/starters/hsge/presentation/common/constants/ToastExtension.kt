@@ -1,4 +1,4 @@
-package com.starters.hsge.presentation.common.extension
+package com.starters.hsge.presentation.common.constants
 
 import android.content.Context
 import android.widget.Toast
