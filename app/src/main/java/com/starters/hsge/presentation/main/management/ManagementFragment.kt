@@ -6,15 +6,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentManagementBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.CustomDecoration
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.fragment_management) {
@@ -26,19 +30,42 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
+        // initRecyclerView()
+        getMyDogList()
         initListener()
         setNavigation()
+        observeMyDogList()
+
     }
 
-    private fun initRecyclerView() {
-        val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
-        binding.rvDogList.addItemDecoration(customDecoration)
+    private fun getMyDogList() {
+        managementViewModel.getMyDogList()
+    }
 
-        managementViewModel.myDogList.observe(viewLifecycleOwner) {
-            val adapter = it?.let { it1 -> DogListAdapter(it1) }
-            binding.rvDogList.layoutManager = LinearLayoutManager(context)
-            binding.rvDogList.adapter = adapter
+    private fun observeMyDogList() {
+        Timber.d("observing")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                managementViewModel.myDogList.collect { state ->
+                    when (state) {
+                        is ManagementState.Loading -> {
+                            //TODO: 로딩 다이얼로그 띄우기
+                        }
+                        is ManagementState.Failure -> {
+                            //TODO: 로딩 다이얼로그 해제
+                        }
+                        is ManagementState.Success -> {
+                            val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
+                            binding.rvDogList.addItemDecoration(customDecoration)
+                            val adapter = DogListAdapter(state.data)
+                            Timber.d("!!반려견리스트 ${state.data}")
+                            binding.rvDogList.adapter = adapter
+                        }
+                        is ManagementState.Initial -> {
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -76,3 +103,4 @@ class ManagementFragment : BaseFragment<FragmentManagementBinding>(R.layout.frag
         (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
     }
 }
+
