@@ -14,7 +14,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.data.interfaces.distanceInterface
 import com.starters.hsge.data.service.DistanceService
-import com.starters.hsge.presentation.common.util.LoadingLottieDialog
+import com.starters.hsge.presentation.common.util.LoadingDialog
 
 class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.fragment_user_distance), distanceInterface {
 
@@ -78,7 +78,7 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
             // post로 api 통신하면 됨
 
             DistanceService(this).tryPostDistance(distance.toDouble())
-            LoadingLottieDialog.showDogLoadingDialog(requireContext())
+            LoadingDialog.showDogLoadingDialog(requireContext())
         }
     }
 
@@ -96,17 +96,17 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     override fun onPostDistanceSuccess(isSuccess: Boolean, code: Int) {
         if(isSuccess){
             Log.d("Distance", "성공")
-            LoadingLottieDialog.dismissDogLoadingDialog()
+            LoadingDialog.dismissDogLoadingDialog()
             findNavController().navigate(R.id.action_userDistanceFragment_to_myPageFragment)
             (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
         }else{
             Log.d("Distance 오류", "Error code : ${code}")
-            LoadingLottieDialog.dismissDogLoadingDialog()
+            LoadingDialog.dismissDogLoadingDialog()
         }
     }
 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("Distance 오류", "오류: $message")
-        LoadingLottieDialog.dismissDogLoadingDialog()
+        LoadingDialog.dismissDogLoadingDialog()
     }
 }

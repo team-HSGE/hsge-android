@@ -6,7 +6,7 @@ import android.graphics.Color
 import androidx.core.graphics.drawable.toDrawable
 import com.starters.hsge.R
 
-object LoadingLottieDialog {
+object LoadingDialog {
 
     private lateinit var dogLoadingDialog: Dialog
     private lateinit var locationLoadingDialog: Dialog

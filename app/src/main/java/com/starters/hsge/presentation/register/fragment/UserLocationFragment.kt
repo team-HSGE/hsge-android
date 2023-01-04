@@ -34,7 +34,7 @@ import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.common.util.LoadingLottieDialog
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -156,7 +156,7 @@ class UserLocationFragment :
                 ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 startLocationUpdates()
-                LoadingLottieDialog.showLocationLoadingDialog(requireContext())
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
@@ -269,7 +269,7 @@ class UserLocationFragment :
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
-        LoadingLottieDialog.dismissLocationLoadingDialog()
+        LoadingDialog.dismissLocationLoadingDialog()
         changeDoneButton()
     }
 
