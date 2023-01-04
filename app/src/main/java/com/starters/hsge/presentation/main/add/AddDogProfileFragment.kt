@@ -20,7 +20,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
@@ -28,10 +27,10 @@ import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
-import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.edit.ViewType
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -276,6 +275,9 @@ class AddDogProfileFragment :
             } else if (addDogProfileViewModel.dogDislikeTag.isEmpty()) {
                 showToast("dislike 태그를 선택해주세요")
             } else {
+                // loading progress
+                LoadingDialog.showDogLoadingDialog(requireContext())
+
                 val imgUri = addDogProfileViewModel.dogPhoto.toUri()
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
 
@@ -294,8 +296,11 @@ class AddDogProfileFragment :
 
                 addDogProfileViewModel.mResponse.observe(viewLifecycleOwner) {
                     if (it.isSuccessful) {
+                        LoadingDialog.dismissDogLoadingDialog()
                         Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
                         findNavController().navigateUp()
+                    } else {
+                        LoadingDialog.dismissDogLoadingDialog()
                     }
                 }
             }
