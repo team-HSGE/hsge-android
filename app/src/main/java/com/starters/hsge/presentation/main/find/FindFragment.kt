@@ -35,6 +35,7 @@ import com.starters.hsge.data.model.remote.response.ShakeHandResponse
 import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import net.daum.mf.map.api.*
 
 class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), MapView.POIItemEventListener, ShakeHandInterface {
@@ -346,6 +347,9 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
 
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
+        // TODO: userId 넘겨야 함
+        ShakeHandService(this).tryPostHandShake(22)
+        LoadingDialog.showLocationLoadingDialog(requireContext())
         Toast.makeText(context, "${p1?.itemName}님에게 손을 흔들었어요!", Toast.LENGTH_SHORT).show()
     }
 
@@ -371,5 +375,19 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
 
     override fun onGetShakeHandFailure(message: String) {
         Log.d(" GetShakeHand 오류", "오류: $message")
+    }
+
+    override fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int) {
+        if (isSuccess){
+            Log.d(" PostShakeHand", "성공")
+            LoadingDialog.dismissDogLoadingDialog()
+        } else {
+            Log.d(" PostShakeHand 오류", "Error code : ${code}")
+            LoadingDialog.dismissDogLoadingDialog()
+        }
+    }
+
+    override fun onPostShakeHandFailure(message: String) {
+        Log.d(" PostShakeHand 오류", "오류: $message")
     }
 }
