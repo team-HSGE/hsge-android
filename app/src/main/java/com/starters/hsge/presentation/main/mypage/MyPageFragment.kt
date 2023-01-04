@@ -83,7 +83,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             }
 
             // 사용자 정보 적용
-            binding.ivUserProfile.setImageResource(profileImage)
+            binding.ivUserProfile.setBackgroundResource(profileImage)
             binding.tvUserNickname.text = nickname
             binding.tvUserLocation.text = splitTown
         }
