@@ -18,7 +18,6 @@ import android.os.Message
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -299,7 +298,8 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
             if(msg.what == 0){
                 startLocationUpdates()
                 binding.kakaoMapView.removeAllPOIItems()
-                ShakeHandService(this@FindFragment).tryGetHandShake()
+                //ShakeHandService(this@FindFragment).tryGetHandShake()
+                //LoadingDialog.showLocationLoadingDialog(requireContext())
             }
         }
     }
@@ -390,6 +390,7 @@ class FindFragment : BaseFragment<FragmentFindBinding>(R.layout.fragment_find), 
 
     override fun onPostShakeHandFailure(message: String) {
         Log.d(" PostShakeHand 오류", "오류: $message")
-       showToast("잠시 후 다시 시도해주세요")
+        LoadingDialog.dismissDogLoadingDialog()
+        showToast("잠시 후 다시 시도해주세요")
     }
 }
