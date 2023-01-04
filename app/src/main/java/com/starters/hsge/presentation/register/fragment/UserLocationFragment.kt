@@ -31,14 +31,12 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
-import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -117,15 +115,28 @@ class UserLocationFragment :
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
                 Log.d("회원가입 때 작성한 내용", "${registerInfo}")
 
-                registerViewModel.deleteAllInfo()
-                prefs.edit().remove("resId").apply()
-            }
+                registerViewModel.mResponse.observe(viewLifecycleOwner) {
+                    if (it.isSuccessful) {
+                        prefs.edit().putString("BearerAccessToken", "Bearer ${it.body()?.accessToken}").apply()
+                        prefs.edit().putString("BearerRefreshToken", "Bearer ${it.body()?.refreshToken}").apply()
+                        prefs.edit().putString("NormalAccessToken", it.body()?.accessToken).apply()
+                        prefs.edit().putString("NormalRefreshToken", it.body()?.refreshToken).apply()
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                delay(500)
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                activity?.finish() //RegisterActivity 종료
+                        // 데이터 지우기
+                        lifecycleScope.launch {
+                            registerViewModel.deleteAllInfo()
+                            prefs.edit().remove("resId").apply()
+                        }
+
+                        // 액티비티 이동
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                        activity?.finish()
+
+                    } else {
+                        // TODO: 유저 닉네임 설정 화면으로 이동
+                    }
+                }
             }
         }
     }

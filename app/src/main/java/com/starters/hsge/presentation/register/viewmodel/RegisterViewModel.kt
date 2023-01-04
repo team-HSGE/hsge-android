@@ -4,16 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.starters.hsge.ApiResult
-import com.starters.hsge.App.Companion.prefs
+import com.starters.hsge.data.model.remote.response.SignUpResponse
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.RegisterPreferencesRepository
 import com.starters.hsge.domain.usecase.GetDogAgeUseCase
 import com.starters.hsge.domain.usecase.GetDogBreedUseCase
 import com.starters.hsge.domain.usecase.PostRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
 
@@ -33,31 +32,40 @@ class RegisterViewModel @Inject constructor(
     private val _ageMap = MutableLiveData<Map<String,String>?>()
     val ageMap: LiveData<Map<String,String>?> = _ageMap
 
+    val mResponse: MutableLiveData<Response<SignUpResponse>> = MutableLiveData()
+
     init {
         getDogBreed()
         getDogAge()
     }
 
+//    fun postRegisterInfo(img: File, data: RegisterInfo){
+//        viewModelScope.launch {
+//            postRegisterUseCase(img, data).collectLatest { result ->
+//                when (result) {
+//                    is ApiResult.Success -> {
+//                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.value.accessToken}").apply()
+//                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.value.refreshToken}").apply()
+//                        prefs.edit().putString("NormalAccessToken", result.value.accessToken).apply()
+//                        prefs.edit().putString("NormalRefreshToken", result.value.refreshToken).apply()
+//                    }
+//                    is ApiResult.Empty -> {
+//
+//                    }
+//                    is ApiResult.Error -> {
+//                        // 이동
+//
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
+
     fun postRegisterInfo(img: File, data: RegisterInfo){
         viewModelScope.launch {
-            postRegisterUseCase(img, data).collectLatest { result ->
-                when (result) {
-                    is ApiResult.Success -> {
-                        prefs.edit().putString("BearerAccessToken", "Bearer ${result.value.accessToken}").apply()
-                        prefs.edit().putString("BearerRefreshToken", "Bearer ${result.value.refreshToken}").apply()
-                        prefs.edit().putString("NormalAccessToken", result.value.accessToken).apply()
-                        prefs.edit().putString("NormalRefreshToken", result.value.refreshToken).apply()
-                    }
-                    is ApiResult.Empty -> {
-
-                    }
-                    is ApiResult.Error -> {
-                        // 이동
-
-                    }
-
-                }
-            }
+            val response = postRegisterUseCase(img, data)
+            mResponse.value = response
         }
     }
 
