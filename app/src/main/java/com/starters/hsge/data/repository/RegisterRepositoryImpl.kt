@@ -1,10 +1,10 @@
 package com.starters.hsge.data.repository
 
 import com.starters.hsge.ApiResult
-import com.starters.hsge.data.api.UserApi
+import com.starters.hsge.data.api.SignUpApi
 import com.starters.hsge.data.model.remote.response.SignUpResponse
 import com.starters.hsge.di.RetrofitHSGE
-import com.starters.hsge.domain.FormDataUtil
+import com.starters.hsge.domain.util.FormDataUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.repository.RegisterRepository
 import com.starters.hsge.safeFlow
@@ -16,7 +16,7 @@ import java.io.File
 import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(
-    @RetrofitHSGE private val userApi: UserApi
+    @RetrofitHSGE private val signUpApi: SignUpApi
 ) : RegisterRepository {
     override suspend fun postUserData(img: File, data: RegisterInfo): Flow<ApiResult<SignUpResponse>> =
         safeFlow {
@@ -25,6 +25,6 @@ class RegisterRepositoryImpl @Inject constructor(
         val formRequestBody = FormDataUtil.getJsonBody(formJson)
         val registerInfoHashMap = hashMapOf<String, RequestBody>()
         registerInfoHashMap["signupDto"] = formRequestBody
-        userApi.postSignUp(formMultipart, registerInfoHashMap)
+        signUpApi.postSignUp(formMultipart, registerInfoHashMap)
     }
 }

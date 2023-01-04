@@ -31,43 +31,27 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindsMyDogRepository(
-        myDogRepositoryImpl: MyDogRepositoryImpl
-    ): MyDogRepository
+    abstract fun bindsUserDogRepository(
+        userDogRepositoryImpl: UserDogRepositoryImpl
+    ): UserDogRepository
+
 
     @Binds
     @Singleton
-    abstract fun bindsEditDogRepository(
-        editDogProfileRepositoryImpl: EditDogProfileRepositoryImpl
-    ): EditDogProfileRepository
+    abstract fun bindsUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ): UserRepository
+
 
     @Binds
     @Singleton
-    abstract fun bindsEditLocationRepository(
-        editLocationRepositoryImpl: EditLocationRepositoryImpl
-    ): EditLocationRepository
+    abstract fun bindsChatRepository(
+        chatRepositoryImpl: ChatRepositoryImpl
+    ): ChatRepository
 
     @Binds
     @Singleton
-    abstract fun bindsAddDogProfileRepository(
-        addDogProfileRepositoryImpl: AddDogProfileRepositoryImpl
-    ): AddDogProfileRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindsDeleteDogRepository(
-        deleteDogRepositoryImpl: DeleteDogRepositoryImpl
-    ): DeleteDogRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindsChatListRepository(
-        chatListRepositoryImpl: ChatListRepositoryImpl
-    ) : ChatListRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindsPartnerInfoRepository(
-        partnerInfoRepositoryImpl: PartnerInfoRepositoryImpl
-    ) : PartnerInfoRepository
+    abstract fun bindsPartnerRepository(
+        partnerInfoRepositoryImpl: PartnerRepositoryImpl
+    ): PartnerRepository
 }

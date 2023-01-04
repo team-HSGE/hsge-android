@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTagBottomSheetDialogBinding
+import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.main.edit.ViewType
 
 class TagBottomSheetDialog(
@@ -62,7 +63,7 @@ class TagBottomSheetDialog(
                         chip.isChecked = false
                     } else if (ids.isEmpty()) {
                         binding.tvOkBtn.isEnabled = false
-                        Toast.makeText(requireContext(), "태그를 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+                        requireContext().showToast("태그를 하나 이상 선택해주세요")
                     } else {
                         binding.tvOkBtn.isEnabled = true
                     }
@@ -80,7 +81,7 @@ class TagBottomSheetDialog(
                         chip.isChecked = false
                     } else if (ids.isEmpty()) {
                         binding.tvOkBtn.isEnabled = false
-                        Toast.makeText(requireContext(), "태그를 하나 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+                        requireContext().showToast("태그를 하나 이상 선택해주세요")
                     } else {
                         binding.tvOkBtn.isEnabled = true
                     }

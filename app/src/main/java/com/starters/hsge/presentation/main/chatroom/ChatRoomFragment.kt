@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.starters.hsge.R
+import com.starters.hsge.data.model.remote.response.Message
 import com.starters.hsge.databinding.FragmentChatRoomBinding
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
@@ -51,7 +52,8 @@ class ChatRoomFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_room, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_chat_room, container, false)
         return binding.root
     }
 
@@ -135,9 +137,7 @@ class ChatRoomFragment : Fragment() {
     private fun setChatView() {
         when (chatRoomViewModel.active) {
             false -> {
-                //TODO: 첫 번째 메세지를 보낼 때 visible 처리
-
-                //binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
+                binding.toolBar.menu.findItem(R.id.menu_report).isVisible = false
             }
             true -> {
                 binding.ivPartnerProfileLarge.visibility = View.GONE
@@ -150,13 +150,12 @@ class ChatRoomFragment : Fragment() {
     }
 
     private fun setupListAdapter() {
-
         // adapter의 데이터 변화 감지
         listAdapterObserver = (object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 super.onChanged()
                 chatRoomViewModel.messages.forEach {
-                    if(it.senderId == chatRoomViewModel.myId) {
+                    if (it.senderId == chatRoomViewModel.myId) {
                         // active 변경
                         lifecycleScope.launch(Dispatchers.IO) {
                             chatRoomViewModel.postChatRoomState(chatRoomViewModel.roomId)
@@ -166,9 +165,9 @@ class ChatRoomFragment : Fragment() {
                         binding.tvPartnerNickname.visibility = View.GONE
                         binding.tvChatroomExplanation.visibility = View.GONE
                         binding.tvChatroomTime.visibility = View.GONE
+                        binding.toolBar.menu.findItem(R.id.menu_report).isVisible = true
                     }
                 }
-
             }
         })
 
@@ -187,15 +186,17 @@ class ChatRoomFragment : Fragment() {
 
 
         // 채팅 대화 목록 호출
-        chatRoomViewModel.getChatInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
-            binding.messageInfo = it
-            chatRoomViewModel.messages = it.messageList
-            chatRoomViewModel.partnerId = it.userInfo.otherUserId
-            chatRoomViewModel.myId = it.userInfo.userId
-            adapter = MessageListAdapter(it.userInfo.userId)
-            adapter.registerAdapterDataObserver(listAdapterObserver)
-            binding.rvMessages.adapter = adapter
-            adapter.submitList(it.messageList)
+        chatRoomViewModel.getMessageInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
+            it?.let {
+                binding.messageInfo = it
+                chatRoomViewModel.messages = it.messageList
+                chatRoomViewModel.partnerId = it.userInfo.otherUserId
+                chatRoomViewModel.myId = it.userInfo.userId
+                adapter = MessageListAdapter(it.userInfo.userId)
+                adapter.registerAdapterDataObserver(listAdapterObserver)
+                binding.rvMessages.adapter = adapter
+                adapter.submitList(it.messageList)
+            }
         }
     }
 
@@ -216,7 +217,10 @@ class ChatRoomFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
-                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(chatRoomViewModel.roomId, chatRoomViewModel.partnerId)
+                    chatExitBottomSheetDialog = ChatExitBottomSheetDialog(
+                        chatRoomViewModel.roomId,
+                        chatRoomViewModel.partnerId
+                    )
                     chatExitBottomSheetDialog.show(childFragmentManager, BottomSheetDialog.TAG)
                     true
                 }

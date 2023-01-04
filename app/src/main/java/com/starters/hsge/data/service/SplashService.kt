@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.CheckTokenApi
+import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.SplashInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
@@ -12,7 +12,7 @@ import retrofit2.Response
 class SplashService(val splashInterface: SplashInterface) {
 
     fun tryPostCheckToken(checkToken: CheckTokenRequest) {
-        val checkTokenApi = RetrofitClient.sRetrofit.create(CheckTokenApi::class.java)
+        val checkTokenApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
         checkTokenApi.postToken(checkToken).enqueue(object :
             Callback<CheckTokenResponse?> {
             override fun onResponse(

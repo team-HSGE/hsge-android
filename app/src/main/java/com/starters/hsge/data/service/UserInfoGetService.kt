@@ -1,6 +1,6 @@
 package com.starters.hsge.data.service
 
-import com.starters.hsge.data.api.UserInfoGetApi
+import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.data.interfaces.UserInfoGetInterface
 import com.starters.hsge.data.model.remote.response.UserInfoGetResponse
 import com.starters.hsge.network.RetrofitClient
@@ -11,7 +11,7 @@ import retrofit2.Response
 class UserInfoGetService(val userInfoGetInterface: UserInfoGetInterface) {
 
     fun tryGetUserInfo() {
-        val userInfoGetApi = RetrofitClient.sRetrofit.create(UserInfoGetApi::class.java)
+        val userInfoGetApi = RetrofitClient.sRetrofit.create(UserApi::class.java)
         userInfoGetApi.getUserInfo().enqueue(object :
             Callback<UserInfoGetResponse> {
             override fun onResponse(

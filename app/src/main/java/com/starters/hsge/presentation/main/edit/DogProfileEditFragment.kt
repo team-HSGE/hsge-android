@@ -26,9 +26,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.request.EditDogProfileRequest
+import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
-import com.starters.hsge.domain.UriUtil
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
@@ -213,7 +213,6 @@ class DogProfileEditFragment :
     }
 
     private fun initListener() {
-
         // 반려견 프로필 사진
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()
@@ -322,7 +321,7 @@ class DogProfileEditFragment :
             val imgFile = dogProfileEditViewModel.dogPhoto?.toUri()
                 ?.let { uri -> UriUtil.toFile(requireContext(), uri) }
 
-            val dogProfileInfo = EditDogProfileRequest(
+            val dogProfileInfo = EditDogRequest(
                 petName = dogProfileEditViewModel.dogName,
                 gender = dogProfileEditViewModel.dogSex,
                 age = dogProfileEditViewModel.dogAge,
@@ -339,7 +338,7 @@ class DogProfileEditFragment :
             )
 
             visibleBtmNav()
-            Toast.makeText(context, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            showToast("수정이 완료되었습니다.")
 
             // 마이페이지로 이동
             Navigation.findNavController(binding.root)
@@ -348,7 +347,7 @@ class DogProfileEditFragment :
 
         binding.tvDeleteBtn.setOnClickListener {
             val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
-            dialog.setButtonClickListener(object: BaseDialogFragment.OnButtonClickListener {
+            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
@@ -401,17 +400,20 @@ class DogProfileEditFragment :
         }
     }
 
-    private fun goneBtmNav(){
+    private fun goneBtmNav() {
         (activity as MainActivity).binding.navigationMain.visibility = View.GONE
     }
 
-    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+    private fun visibleBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
+    }
 
     private fun showCancelDialog() {
         val dialog = BaseDialogFragment("수정을 취소하시겠습니까?")
         dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
             override fun onCancelBtnClicked() {
             }
+
             override fun onOkBtnClicked() {
                 findNavController().navigateUp()
             }

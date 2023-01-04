@@ -16,8 +16,8 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
-            android:scaleType="centerCrop"
             android:background="@drawable/ic_user_icon_test"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,19 +47,23 @@
             app:layout_constraintBottom_toBottomOf="@id/chat_list_tv_person_name"
             app:layout_constraintStart_toEndOf="@id/chat_list_tv_person_name"
             app:layout_constraintTop_toTopOf="@id/chat_list_tv_person_name"
-            tools:text="4일 전"/>
+            tools:text="4일 전" />
 
         <TextView
             android:id="@+id/chat_list_tv_message"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/chat_list_iv_person_icon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/chat_list_tv_person_name"
             app:layout_constraintTop_toBottomOf="@id/chat_list_tv_person_name"
-            tools:text="안녕하세요~강아지 귀여워요."/>
+            tools:text="안녕하세요~강아지 귀여워요." />
 
         <View
             android:layout_width="match_parent"

@@ -14,8 +14,9 @@ import com.starters.hsge.data.interfaces.ChatExitInterface
 import com.starters.hsge.data.model.remote.request.ChatExitRequest
 import com.starters.hsge.data.service.ChatExitService
 import com.starters.hsge.databinding.FragmentChatExitBottomSheetDialogBinding
+import com.starters.hsge.presentation.common.extension.showToast
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
 
 class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId: Long): BottomSheetDialogFragment(), ChatExitInterface {
 
@@ -60,10 +61,8 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
                 }
                 override fun onOkBtnClicked() {
-                    //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
-                    findNavController().navigateUp()
-                    visibleBtmNav()
+                    LoadingDialog.showDogLoadingDialog(requireContext())
                 }
             })
             exitDialog.show(childFragmentManager, "CustomDialog")
@@ -78,11 +77,8 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
                 }
                 override fun onOkBtnClicked() {
-                    //TODO : 채팅방 나가기 통신
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("UNMATCH", partnerId))
-                    //findNavController().navigateUp()
-
-                    visibleBtmNav()
+                    LoadingDialog.showDogLoadingDialog(requireContext())
                 }
             })
             unMatchDialog.show(childFragmentManager, "CustomDialog")
@@ -97,13 +93,20 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
         if(isSuccess){
             //findNavController().navigateUp()
             Log.d("ChatExit_매칭 취소 / 나가기", "성공")
+            LoadingDialog.dismissDogLoadingDialog()
+            findNavController().navigateUp()
+            visibleBtmNav()
         }else{
             Log.d("ChatExit_매칭 취소 / 나가기 오류", "Error code : ${code}")
+            LoadingDialog.dismissDogLoadingDialog()
+            requireContext().showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostChatExitFailure(message: String) {
         Log.d("ChatExit_매칭 취소 / 나가기 오류", "오류: $message")
+        LoadingDialog.dismissDogLoadingDialog()
+        requireContext().showToast("잠시 후 다시 시도해주세요")
     }
 
     private fun visibleBtmNav(){

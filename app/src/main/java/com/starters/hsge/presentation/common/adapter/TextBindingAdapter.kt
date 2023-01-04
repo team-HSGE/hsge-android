@@ -27,3 +27,12 @@ fun TextView.firstDateFormat(date: String) {
     val newFormat = oldFormatList[0] + "년 " + oldFormatList[1] + "월 " + oldFormatList[2] + "일"
     this.text = newFormat
 }
+
+@BindingAdapter("dogBreedFormat")
+fun TextView.dogBreedFormat(breed: String) {
+    var newFormatBreed = breed
+    if (breed.length > 5) {
+        newFormatBreed = breed.replace(" ", "\n")
+    }
+    this.text = newFormatBreed
+}

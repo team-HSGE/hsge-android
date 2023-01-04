@@ -55,7 +55,6 @@ class UserProfileIconFragment : BaseFragment<FragmentUserProfileIconBinding>(R.l
                     prefs.edit().putInt("resId", resId).apply()
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_userProfileIconFragment_to_userImageFragment)
-
                 } else if (args.checkLayout == 2) {
                     // 회원 정보 수정
                     action = UserProfileIconFragmentDirections.actionUserProfileEditIconFragmentToUserProfileEditFragment(null, resId)

@@ -7,7 +7,7 @@
 
         <variable
             name="messageList"
-            type="com.starters.hsge.presentation.main.chatroom.Message" />
+            type="com.starters.hsge.data.model.remote.response.Message" />
 
     </data>
 
@@ -24,8 +24,8 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:textSize="12sp"
-            tools:text="11:40"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:text="11:40" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,28 +38,28 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/bg_light_yellow_r50"
+                android:background="@drawable/bg_light_yellow_r10"
                 android:maxWidth="240dp"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="12dp"
                 android:paddingVertical="10dp"
                 android:text="@{messageList.message}"
                 android:textColor="@color/G900"
                 android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="반갑습니다" />
 
             <TextView
                 android:id="@+id/tv_time_stamp"
+                timeFormat="@{messageList.timeStamp}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="2dp"
                 android:textSize="10sp"
-                timeFormat="@{messageList.timeStamp}"
-                app:layout_constraintEnd_toStartOf="@id/tv_message_sent"
                 app:layout_constraintBottom_toBottomOf="@id/tv_message_sent"
+                app:layout_constraintEnd_toStartOf="@id/tv_message_sent"
                 tools:text="10:12" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,10 +24,14 @@
         android:name="com.starters.hsge.presentation.main.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
-
         <action
             android:id="@+id/action_chatFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"
@@ -49,6 +53,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_editLocationFragment"
             app:destination="@id/editLocationFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_inquiryFragment"
+            app:destination="@id/inquiryFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -58,8 +65,7 @@
         <argument
             android:name="userInfoData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
             app:destination="@id/userProfileEditIconFragment" />
@@ -107,7 +113,7 @@
         tools:layout="@layout/fragment_dog_profile_edit">
         <argument
             android:name="dogDetailInfo"
-            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            app:argType="com.starters.hsge.data.model.remote.response.UserDogResponse" />
         <action
             android:id="@+id/action_dogProfileEditFragment_to_myPageFragment"
             app:destination="@id/myPageFragment"
@@ -204,7 +210,7 @@
         tools:layout="@layout/fragment_chat_partner_specific_dog">
         <argument
             android:name="partnerDogDetail"
-            app:argType="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            app:argType="com.starters.hsge.data.model.remote.response.UserDogResponse" />
         <argument
             android:name="partnerNickName"
             app:argType="string" />
@@ -218,4 +224,9 @@
             android:id="@+id/action_partnerDogsFragment_to_specificDogFragment"
             app:destination="@id/specificDogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/inquiryFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
+        android:label="InquiryFragment"
+        tools:layout="@layout/fragment_inquiry"/>
 </navigation>

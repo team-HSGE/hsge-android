@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide
 import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
-import com.starters.hsge.domain.UriUtil
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
@@ -126,7 +126,6 @@ class AddDogProfileFragment :
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistImgPermissionCheck", false).apply()
@@ -168,7 +167,6 @@ class AddDogProfileFragment :
     }
 
     private fun initListener() {
-
         // 강아지 사진
         binding.ivDogPhoto.setOnClickListener {
             checkPermission()
@@ -264,19 +262,19 @@ class AddDogProfileFragment :
         // 완료 버튼
         binding.btnFinish.setOnClickListener {
             if (addDogProfileViewModel.dogPhoto.isEmpty()) {
-                Toast.makeText(context, "사진을 등록해주세요", Toast.LENGTH_SHORT).show()
+                showToast("사진을 등록해주세요")
             } else if (binding.edtDogNameInput.text.isNullOrEmpty()) {
-                Toast.makeText(context, "이름을 적어주세요", Toast.LENGTH_SHORT).show()
+                showToast("이름을 적어주세요")
             } else if (addDogProfileViewModel.dogSex.isEmpty()) {
-                Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("성별을 선택해주세요")
             } else if (addDogProfileViewModel.dogAge.isEmpty()) {
-                Toast.makeText(context, "나이를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("나이를 선택해주세요")
             } else if (addDogProfileViewModel.dogBreed.isEmpty()) {
-                Toast.makeText(context, "품종을 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("품종을 선택해주세요")
             } else if (addDogProfileViewModel.dogLikeTag.isEmpty()) {
-                Toast.makeText(context, "like 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("like 태그를 선택해주세요")
             } else if (addDogProfileViewModel.dogDislikeTag.isEmpty()) {
-                Toast.makeText(context, "dislike 태그를 선택해주세요", Toast.LENGTH_SHORT).show()
+                showToast("dislike 태그를 선택해주세요")
             } else {
                 val imgUri = addDogProfileViewModel.dogPhoto.toUri()
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
@@ -295,7 +293,7 @@ class AddDogProfileFragment :
                     ))
 
                 visibleBtmNav()
-                Toast.makeText(context, "반려견이 추가되었습니다", Toast.LENGTH_SHORT).show()
+                showToast("반려견이 추가되었습니다")
 
                 // 마이페이지로 이동
                 Navigation.findNavController(binding.root)

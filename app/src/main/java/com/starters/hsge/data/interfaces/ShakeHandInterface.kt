@@ -16,4 +16,8 @@ interface ShakeHandInterface {
     fun onDeleteUsersLocationSuccess(isSuccess: Boolean)
 
     fun onDeleteUsersLocationFailure(message: String)
+
+    fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int)
+
+    fun onPostShakeHandFailure(message: String)
 }

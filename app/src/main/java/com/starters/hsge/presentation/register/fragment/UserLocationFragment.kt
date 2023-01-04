@@ -31,9 +31,10 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
-import com.starters.hsge.domain.UriUtil
+import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,8 +69,6 @@ class UserLocationFragment :
 
     }
 
-
-
     private fun initPermissionLauncher() {
         locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
@@ -79,26 +78,22 @@ class UserLocationFragment :
         binding.btnNext.isEnabled = !binding.tvMyLocation.text.isNullOrEmpty()
     }
 
-
     private fun initListener() {
-
         // 사용자 위치 정보 받기
         binding.btnSearch.setOnClickListener {
             // GPS check & checkPermission
             if (isEnableLocationSystem(requireContext())) {
                 checkPermissionForLocation()
             } else {
-                Toast.makeText(context, "위치를 켜주세요", Toast.LENGTH_SHORT).show()
+                showToast("위치를 켜주세요")
             }
         }
 
         binding.btnNext.setOnClickListener {
-
             // 홈 화면으로 이동
             Log.d("from?", "register")
 
             lifecycleScope.launch {
-
                 // 저장된 이미지 타입 변환: String -> Uri -> File
                 val imgUri = registerViewModel.fetchDogPhoto().first().toUri()
                 val imgFile = UriUtil.toFile(requireContext(), imgUri)
@@ -131,7 +126,6 @@ class UserLocationFragment :
                 delay(500)
                 val intent = Intent(context, MainActivity::class.java)
                 startActivity(intent)
-
                 activity?.finish() //RegisterActivity 종료
             }
         }
@@ -162,13 +156,12 @@ class UserLocationFragment :
                 ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 startLocationUpdates()
-                showLoadingDialog(requireContext())
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
                 showFirstPermissionDialog()
             }
-
             else -> {
                 if (isFirstCheck) {
                     prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
@@ -240,8 +233,7 @@ class UserLocationFragment :
             })
             .addOnSuccessListener { location: Location? ->
                 if (location == null)
-                    Toast.makeText(requireContext(), "Cannot get location.", Toast.LENGTH_SHORT)
-                        .show()
+                    showToast("Cannot get location.")
                 else {
                     lifecycleScope.launch {
                         registerViewModel.saveUserLatitude(location.latitude)
@@ -256,7 +248,6 @@ class UserLocationFragment :
     // 위도, 경도 -> geocoder
     private fun convertToAddress(geocoder: Geocoder, it: Location) {
         val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-
         val addressLine = address?.get(0)?.getAddressLine(0)
         val addressList = addressLine?.split(" ") as ArrayList<String>
         addressList.removeAt(0)
@@ -277,7 +268,7 @@ class UserLocationFragment :
             registerViewModel.saveUserLocation(locationAddress.toString()).apply { }
         }
 
-        dismissLoadingDialog()
+        LoadingDialog.dismissLocationLoadingDialog()
         changeDoneButton()
     }
 

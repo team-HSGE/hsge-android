@@ -20,4 +20,8 @@ interface ShakeHandApi {
     fun deleteUsersLocation(
         @Body deleteUsersLocation: UsersLocationDeleteRequest
     ) : Call<Void>
+
+    @POST("api/waves/to/{userId}")
+    fun postShakeHand(@Path ("userId") userId: Long
+    ): Call<Void>
 }

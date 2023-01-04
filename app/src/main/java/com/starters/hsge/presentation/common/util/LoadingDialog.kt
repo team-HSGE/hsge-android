@@ -3,24 +3,47 @@ package com.starters.hsge.presentation.common.util
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.Window
+import androidx.core.graphics.drawable.toDrawable
 import com.starters.hsge.R
 
-class LoadingDialog(context: Context) : Dialog(context) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.fragment_loading_dialog)
-        setCanceledOnTouchOutside(false)
-        setCancelable(false)
-        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        window!!.setDimAmount(0.2f)
+object LoadingDialog {
+
+    private lateinit var dogLoadingDialog: Dialog
+    private lateinit var locationLoadingDialog: Dialog
+
+    fun showDogLoadingDialog(context: Context): Dialog{
+        dogLoadingDialog = Dialog(context)
+        dogLoadingDialog.let {
+            it.show()
+            it.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            it.setContentView(R.layout.dialog_loading_dog)
+            it.setCancelable(false)
+            it.setCanceledOnTouchOutside(false)
+            return it
+        }
     }
 
-    override fun show(){
-        if(!this.isShowing) super.show()
+    fun dismissDogLoadingDialog(){
+        if(dogLoadingDialog.isShowing){
+            dogLoadingDialog.dismiss()
+        }
     }
 
+    fun showLocationLoadingDialog(context: Context): Dialog{
+        locationLoadingDialog = Dialog(context)
+        locationLoadingDialog.let {
+            it.show()
+            it.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            it.setContentView(R.layout.dialog_loading_location)
+            it.setCancelable(false)
+            it.setCanceledOnTouchOutside(false)
+            return it
+        }
+    }
+
+    fun dismissLocationLoadingDialog(){
+        if(locationLoadingDialog.isShowing){
+            locationLoadingDialog.dismiss()
+        }
+    }
 }

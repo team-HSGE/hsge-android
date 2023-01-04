@@ -7,7 +7,7 @@
 
         <variable
             name="dogDetailInfo"
-            type="com.starters.hsge.data.model.remote.response.MyDogResponse" />
+            type="com.starters.hsge.data.model.remote.response.UserDogResponse" />
 
     </data>
 
@@ -214,7 +214,7 @@
                         android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:text="@{dogDetailInfo.breedDto.value}"
+                        dogBreedFormat="@{dogDetailInfo.breedDto.value}"
                         android:textColor="@color/black"
                         app:drawableRightCompat="@drawable/ic_arrow_drop_down"
                         tools:text="이탈리안\n그레이하운드" />

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.starters.hsge.data.model.remote.response.Message
 import com.starters.hsge.databinding.ItemMessageReceivedBinding
 import com.starters.hsge.databinding.ItemMessageSentBinding
 
@@ -32,7 +33,6 @@ class MessageListAdapter(private val userId: Long) :
             binding.messageList = msg
             binding.executePendingBindings()
         }
-
     }
 
     // 뷰타입 설정해준대로 동작
@@ -63,7 +63,7 @@ class MessageListAdapter(private val userId: Long) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder.itemViewType) {
+        when (holder.itemViewType) {
             VIEW_TYPE_MESSAGE_SENT -> (holder as SentViewHolder).bind(
                 getItem(position)
             )

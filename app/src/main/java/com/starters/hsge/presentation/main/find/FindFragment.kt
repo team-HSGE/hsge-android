@@ -19,7 +19,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -38,6 +37,8 @@ import com.starters.hsge.data.model.remote.response.CurrentLocationPostResponse
 import com.starters.hsge.data.model.remote.response.UsersLocationNearbyGetResponse
 import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
+import com.starters.hsge.presentation.common.extension.showToast
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
@@ -333,6 +334,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                 binding.kakaoMapView.removeAllPOIItems()
                 ShakeHandService(this@FindFragment).tryGetHandShake()
+                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
         }
     }
@@ -382,7 +384,9 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
-        Toast.makeText(context, "${p1?.itemName}님에게 손을 흔들었어요!", Toast.LENGTH_SHORT).show()
+        // TODO: userId 넘겨야 함
+        ShakeHandService(this).tryPostHandShake(22)
+        requireContext().showToast("${p1?.itemName}님에게 손을 흔들었어요!")
     }
 
     // 내 현재 위치 갱신
@@ -437,5 +441,19 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     override fun onDeleteUsersLocationFailure(message: String) {
         Log.d(" DeleteUsersLocation 오류", "오류: $message")
+    }
+
+    override fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int) {
+        if (isSuccess){
+            Log.d(" PostShakeHand", "성공")
+        } else {
+            Log.d(" PostShakeHand 오류", "Error code : ${code}")
+            requireContext().showToast("잠시 후 다시 시도해주세요")
+        }
+    }
+
+    override fun onPostShakeHandFailure(message: String) {
+        Log.d(" PostShakeHand 오류", "오류: $message")
+        requireContext().showToast("잠시 후 다시 시도해주세요")
     }
 }

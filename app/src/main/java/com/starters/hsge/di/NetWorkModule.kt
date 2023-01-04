@@ -3,7 +3,7 @@ package com.starters.hsge.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.starters.hsge.App
 import com.starters.hsge.data.api.*
-import com.starters.hsge.presentation.common.BASE_URL
+import com.starters.hsge.presentation.common.constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -89,54 +89,34 @@ object NetworkModule {
     fun providesDogOptionApi(@RetrofitHSGE retrofit: Retrofit): DogOptionApi =
         retrofit.create(DogOptionApi::class.java)
 
-    // User Api
+    // SignUp Api
+    @Provides
+    @Singleton
+    @RetrofitHSGE
+    fun providesSignUpApi(@RetrofitHSGE retrofit: Retrofit): SignUpApi =
+        retrofit.create(SignUpApi::class.java)
+
+    // UserApi
     @Provides
     @Singleton
     @RetrofitHSGE
     fun providesUserApi(@RetrofitHSGE retrofit: Retrofit): UserApi =
         retrofit.create(UserApi::class.java)
 
-    // MyDog Api
+    // UserDog Api
     @Provides
     @Singleton
     @RetrofitHSGE
-    fun providesMyDogApi(@RetrofitHSGE retrofit: Retrofit): MyDogApi =
-        retrofit.create(MyDogApi::class.java)
+    fun providesMyDogApi(@RetrofitHSGE retrofit: Retrofit): UserDogApi =
+        retrofit.create(UserDogApi::class.java)
 
-    // EditDog Api
-    @Provides
-    @Singleton
-    @RetrofitHSGE
-    fun providesEditDogApi(@RetrofitHSGE retrofit: Retrofit): EditDogApi =
-        retrofit.create(EditDogApi::class.java)
-
-    // EditLocation Api
-    @Provides
-    @Singleton
-    @RetrofitHSGE
-    fun providesEditLocationApi(@RetrofitHSGE retrofit: Retrofit): EditLocationApi =
-        retrofit.create(EditLocationApi::class.java)
-
-    // AddDogProfile Api
-    @Provides
-    @Singleton
-    @RetrofitHSGE
-    fun providesAddDogApi(@RetrofitHSGE retrofit: Retrofit): AddDogApi =
-        retrofit.create(AddDogApi::class.java)
-
-    // DeleteDogProfile Api
-    @Provides
-    @Singleton
-    @RetrofitHSGE
-    fun providesDeleteDogApi(@RetrofitHSGE retrofit: Retrofit): DeleteDogApi =
-        retrofit.create(DeleteDogApi::class.java)
 
     // Chat Api
     @Provides
     @Singleton
     @RetrofitHSGE
-    fun provideChatRecordApi(@RetrofitHSGE retrofit: Retrofit): ChatRecordApi =
-        retrofit.create(ChatRecordApi::class.java)
+    fun provideChatRecordApi(@RetrofitHSGE retrofit: Retrofit): ChatApi =
+        retrofit.create(ChatApi::class.java)
 
     // Partner Api
     @Provides
