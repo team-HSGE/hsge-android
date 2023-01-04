@@ -211,9 +211,8 @@ class ChatRoomFragment : Fragment() {
                 )
             )
         }
-    }
 
-    private fun initListener() {
+        // 메뉴 클릭
         binding.toolBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_report -> {
@@ -227,7 +226,9 @@ class ChatRoomFragment : Fragment() {
                 else -> false
             }
         }
+    }
 
+    private fun initListener() {
         // 파트너 아이콘 click
         binding.ivPartnerProfileLarge.setOnClickListener {
             findNavController().navigate(

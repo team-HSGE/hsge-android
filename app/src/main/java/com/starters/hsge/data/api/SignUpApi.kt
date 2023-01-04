@@ -6,6 +6,7 @@ import com.starters.hsge.data.model.remote.response.SignUpResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface SignUpApi {
@@ -15,7 +16,7 @@ interface SignUpApi {
     suspend fun postSignUp(
         @Part dogPhoto: MultipartBody.Part,
         @PartMap registerData: HashMap<String, RequestBody>
-    ): SignUpResponse
+    ): Response<SignUpResponse>
 
     // 닉네임 중복체크
     @POST("api/auth/duplicate-nickname")
