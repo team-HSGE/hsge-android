@@ -9,6 +9,7 @@ import com.starters.hsge.R
 object LoadingLottieDialog {
 
     private lateinit var dogLoadingDialog: Dialog
+    private lateinit var locationLoadingDialog: Dialog
 
     fun showDogLoadingDialog(context: Context): Dialog{
         dogLoadingDialog = Dialog(context)
@@ -25,6 +26,24 @@ object LoadingLottieDialog {
     fun dismissDogLoadingDialog(context: Context){
         if(dogLoadingDialog.isShowing){
             dogLoadingDialog.dismiss()
+        }
+    }
+
+    fun showLocationLoadingDialog(context: Context): Dialog{
+        locationLoadingDialog = Dialog(context)
+        locationLoadingDialog.let {
+            it.show()
+            it.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            it.setContentView(R.layout.dialog_loading_dog)
+            it.setCancelable(false)
+            it.setCanceledOnTouchOutside(false)
+            return it
+        }
+    }
+
+    fun dismissLocationLoadingDialog(context: Context){
+        if(locationLoadingDialog.isShowing){
+            locationLoadingDialog.dismiss()
         }
     }
 }
