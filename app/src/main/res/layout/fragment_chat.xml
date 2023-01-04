@@ -51,6 +51,17 @@
                     app:spanCount="5"
                     tools:listitem="@layout/item_liked_people" />
 
+                <ImageView
+                    android:id="@+id/iv_liked_list_empty"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ic_liked_empty_with_heart"
+                    app:layout_constraintBottom_toTopOf="@id/tv_chat_chat_list"
+                    app:layout_constraintStart_toStartOf="@id/chat_rv_liked_people"
+                    app:layout_constraintTop_toTopOf="@id/chat_rv_liked_people"
+                    android:visibility="invisible"/>
+
                 <TextView
                     android:id="@+id/tv_chat_chat_list"
                     android:layout_width="wrap_content"
@@ -63,6 +74,50 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_chat_liked_people_title" />
+
+                <ImageView
+                    android:id="@+id/iv_chat_list_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_chat_card_stack"
+                    android:maxWidth="10dip"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_chat_chat_list"
+                    app:layout_constraintVertical_bias="0.4"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/tv_chat_list_empty_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/chat_empty_view_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_chat_list_empty"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/tv_chat_list_empty_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.1"
+                    android:text="@string/chat_empty_view_subtitle"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_chat_list_empty_title"
+                    android:visibility="invisible"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chat_rv_chat_list"

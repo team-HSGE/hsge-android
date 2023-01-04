@@ -179,4 +179,6 @@
     <string name="add_dog_age_label">나이</string>
     <string name="add_tag"># 태그 추가</string>
     <string name="toolbar_add_dog_title">반려견 추가</string>
+    <string name="chat_empty_view_title">지금 하트를 보내보세요</string>
+    <string name="chat_empty_view_subtitle">다른 사람들과 매치되면 이곳에 표시되고, 메세지를 보낼 수 있습니다.</string>
 </resources>

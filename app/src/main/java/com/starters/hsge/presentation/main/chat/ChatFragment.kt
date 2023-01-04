@@ -3,6 +3,7 @@ package com.starters.hsge.presentation.main.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.chatListInterface
@@ -12,9 +13,6 @@ import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.adapter.ChatListAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), chatListInterface {
 
@@ -25,6 +23,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        moveToHome()
     }
 
     override fun onResume() {
@@ -51,6 +51,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
                 } else { // inactive
                     likedPeopleList.add(element)
                 }
+            }
+
+            if (chatList.isEmpty()) {
+                binding.ivChatListEmpty.visibility = View.VISIBLE
+                binding.tvChatListEmptyTitle.visibility = View.VISIBLE
+                binding.tvChatListEmptySubtitle.visibility = View.VISIBLE
+            }
+
+            if (likedPeopleList.isEmpty()) {
+                binding.ivLikedListEmpty.visibility = View.VISIBLE
             }
 
             // inactive_좋아요
@@ -81,5 +91,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
 
     override fun onGetChatListFailure(message: String) {
         Log.d("ChatList 오류", "오류: $message")
+    }
+
+    private fun moveToHome() {
+        binding.ivLikedListEmpty.setOnClickListener {
+            findNavController().navigate(R.id.action_chatFragment_to_homeFragment)
+        }
     }
 }
