@@ -17,6 +17,7 @@ import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
 import com.starters.hsge.databinding.FragmentHomeBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingLottieDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
@@ -33,10 +34,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            HomeDogService(this@HomeFragment).tryGetHomeDog()
 
-        }
+        HomeDogService(this).tryGetHomeDog()
+        LoadingLottieDialog.showDogLoadingDialog(requireContext())
+
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -135,6 +136,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
+            LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
 
             // 앱이 죽어있는 경우
             val intent = (activity as MainActivity).intent?.extras
@@ -149,10 +151,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 naviController?.let {
                     when (moveTo) {
                         "chatFragment" -> {
-                            (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
+                            (activity as MainActivity).binding.navigationMain.selectedItemId =
+                                R.id.chatFragment
                         }
                         "chatRoomFragment" -> {
-                            (activity as MainActivity).binding.navigationMain.selectedItemId = R.id.chatFragment
+                            (activity as MainActivity).binding.navigationMain.selectedItemId =
+                                R.id.chatFragment
                             val action =
                                 ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
                                     chatInfo = ChatListResponse(
@@ -176,12 +180,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         } else {
             Log.d("HomeDog 오류", "Error code : ${code}")
-
+            LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
         }
     }
 
     override fun onGetHomeDogFailure(message: String) {
         Log.d("HomeDog 오류", "오류: $message")
+        LoadingLottieDialog.dismissDogLoadingDialog(requireContext())
     }
 
     // isLike 통신
