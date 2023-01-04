@@ -30,7 +30,8 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="상대방 닉네임" />
+                android:text="1:1 문의"
+                />
 
         </androidx.appcompat.widget.Toolbar>
 
