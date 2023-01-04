@@ -21,6 +21,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_white_r12"
+            android:drawableStart="@drawable/ic_map_notice_speaker"
+            android:drawablePadding="12dp"
+            android:elevation="12dp"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:text="반경 3km 이내에 산책하고 있는 강아지를 찾아보세요!"
+            android:textColor="@color/G800"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_current_location"
             android:layout_width="wrap_content"
@@ -28,7 +51,6 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/white"
-            android:enabled="false"
             android:src="@drawable/ic_current_location"
             app:borderWidth="0dp"
             app:fabCustomSize="48dp"
@@ -42,8 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_light_gray_r12"
-            android:enabled="false"
+            android:background="@drawable/bg_yellow_r12"
             android:paddingVertical="8dp"
             android:text="내 주변 탐색"
             android:textColor="@color/white"
