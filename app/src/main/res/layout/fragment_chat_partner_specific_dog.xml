@@ -115,7 +115,7 @@
                         android:layout_width="2dp"
                         android:layout_height="12dp"
                         android:layout_marginHorizontal="6dp"
-                        android:background="@color/G600" />
+                        android:background="@color/G400" />
 
                     <TextView
                         android:id="@+id/tv_partner_specific_dog_age"
@@ -131,7 +131,7 @@
                         android:layout_width="2dp"
                         android:layout_height="12dp"
                         android:layout_marginHorizontal="6dp"
-                        android:background="@color/G600" />
+                        android:background="@color/G400" />
 
                     <TextView
                         android:id="@+id/tv_partner_specific_dog_neutered"
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="자기소개"
+                    android:text="@string/partner_introduction_title"
                     android:textColor="@color/G900"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -187,7 +187,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_g100_r12"
-                    android:hint="자기소개를 적어보세요."
+                    android:hint="자기소개가 없어요 😥"
                     android:padding="16dp"
                     android:text="@{dogDetail.description}"
                     android:textColor="@color/G900"

@@ -27,8 +27,8 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:textSize="12sp"
-            tools:text="11:40"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:text="11:40" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,24 +41,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:background="@drawable/bg_g100_r50"
+                android:background="@drawable/bg_g100_r10"
                 android:maxWidth="240dp"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="12dp"
                 android:paddingVertical="10dp"
+                android:text="@{messageList.message}"
                 android:textColor="@color/G900"
                 android:textSize="15sp"
-                android:text="@{messageList.message}"
                 tools:text="This is a message" />
 
             <TextView
                 android:id="@+id/tv_time_stamp"
+                timeFormat="@{messageList.timeStamp}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginStart="2dp"
                 android:layout_marginBottom="2dp"
                 android:textSize="10sp"
-                timeFormat="@{messageList.timeStamp}"
                 tools:text="10:10" />
 
         </LinearLayout>
