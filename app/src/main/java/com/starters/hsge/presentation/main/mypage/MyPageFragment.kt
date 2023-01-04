@@ -61,6 +61,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             findNavController().navigate(R.id.action_myPageFragment_to_managementFragment)
             goneBtmNav()
         }
+
+        binding.personalInquireSection.setOnClickListener {
+            showToast("아직 구현되지 않은 기능입니다🥲")
+        }
     }
 
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
