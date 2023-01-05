@@ -56,6 +56,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private val trackingCircle by lazy { TrackingCircle() }
 
     private val dialog = FindNoticeDialogFragment()
+    private var flag : Boolean = true
 
     private var mp = MapPoint.mapPointWithGeoCoord(0.0, 0.0)
     private var mCurrentLat: Double = 0.0
@@ -114,7 +115,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onPause() {
         super.onPause()
 
-        dialog.dismiss()
+        if (!flag) {
+            dialog.dismiss()
+        }
+
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
         mCurrentLat = 0.0
@@ -222,6 +226,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 }
             })
             dialog.show(childFragmentManager, "CustomDialog")
+            flag = false
         }
     }
 
