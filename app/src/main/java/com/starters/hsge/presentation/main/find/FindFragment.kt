@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -39,6 +41,8 @@ import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
+import com.starters.hsge.presentation.dialog.FindNoticeDialogFragment
+import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
@@ -95,6 +99,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         setZoomLevel()
         setTrackingBtn()
         catchCurrentLocation()
+        setNoticeDialog()
     }
 
     override fun onResume() {
@@ -200,10 +205,24 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
+    // 프로그래스바
     private fun showProgress(isShow: Boolean) {
         if(isShow) LoadingDialog.showLocationLoadingDialog(requireContext())
         else LoadingDialog.dismissLocationLoadingDialog()
 
+    }
+
+    // 공지 다이얼로그
+    private fun setNoticeDialog() {
+        val dialog = FindNoticeDialogFragment()
+
+        binding.tvNotice.setOnClickListener {
+            dialog.setButtonClickListener(object: FindNoticeDialogFragment.OnButtonClickListener {
+                override fun onOkBtnClicked() {
+                }
+            })
+            dialog.show(childFragmentManager, "CustomDialog")
+        }
     }
 
     // 초기 화면 위치 + 커스텀 마커 설정 (지도 중심 이동)

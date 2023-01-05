@@ -43,12 +43,12 @@ class FirebaseService : FirebaseMessagingService() {
 
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
-            val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
+            val about = message.data["pushId"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
             val roomId = message.data["roomId"]?.toLong()
             val nickname = message.data["title"]
 
-            sendNotification(message, "chat", img, roomId, nickname)
+            sendNotification(message, about, img, roomId, nickname)
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
@@ -69,6 +69,9 @@ class FirebaseService : FirebaseMessagingService() {
                 intent.putExtra("roomId", roomId)
                 intent.putExtra("nickname", nickname)
 
+            }
+            "waving" -> {
+                intent.putExtra("pushAbout", "homeFragment")
             }
             else -> return
         }
