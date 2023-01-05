@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.media.RingtoneManager
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -43,10 +44,14 @@ class FirebaseService : FirebaseMessagingService() {
 
         // Data message를 수신함
         if (message.data.isNotEmpty()) {
-            val about = message.data["pushId"].toString() // 서버로 받아온 푸시 구분값
+            val title = message.data["title"].toString()
+            val body = message.data["body"].toString()
+
+            val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
-            val roomId = message.data["roomId"]?.toLong()
+            val roomId = message.data["id"]?.toLong()
             val nickname = message.data["title"]
+            Log.d("data_service", "\ntitle : ${title}\n body : ${body}\n pushId : ${about}\n roomId: ${roomId}\n nickname : ${nickname}\n image : ${img}")
 
             sendNotification(message, about, img, roomId, nickname)
         } else {
@@ -64,11 +69,10 @@ class FirebaseService : FirebaseMessagingService() {
             "match" -> { // 좋아요 -> 채팅 탭으로 이동
                 intent.putExtra("pushAbout", "chatFragment")
             }
-            "chat" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
+            "message" -> { // 채팅 -> 대화방으로 이동 (현재 마이페이지. 수정 필요)
                 intent.putExtra("pushAbout", "chatRoomFragment")
                 intent.putExtra("roomId", roomId)
                 intent.putExtra("nickname", nickname)
-
             }
             "waving" -> {
                 intent.putExtra("pushAbout", "homeFragment")
@@ -84,7 +88,6 @@ class FirebaseService : FirebaseMessagingService() {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT // 일회용 펜딩 인텐트
         )
-
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -101,7 +104,6 @@ class FirebaseService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
             }
         }
-
         val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent
         ).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
@@ -162,6 +164,7 @@ class FirebaseService : FirebaseMessagingService() {
             .setContentText(content)
             .setContentIntent(pendingIntent)
             .setGroupSummary(true)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)

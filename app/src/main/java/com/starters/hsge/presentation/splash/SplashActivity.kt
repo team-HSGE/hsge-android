@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.SplashInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
@@ -40,6 +42,18 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         initSplashScreen()
         createNotificationChannel(this)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("firebase", token.toString())
+
+        })
     }
 
     //알림 권한
