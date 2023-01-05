@@ -104,6 +104,7 @@ class FirebaseService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
             }
         }
+
         val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent
         ).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)

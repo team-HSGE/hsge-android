@@ -39,6 +39,7 @@ import com.starters.hsge.data.service.ShakeHandService
 import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
+import com.starters.hsge.presentation.dialog.FindNoticeDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
@@ -46,7 +47,6 @@ import net.daum.mf.map.api.MapPoint.GeoCoordinate
 import net.daum.mf.map.api.MapView.CurrentLocationEventListener
 import net.daum.mf.map.api.MapView.setMapTilePersistentCacheEnabled
 import net.daum.mf.map.n.api.internal.NativeMapLocationManager.*
-import kotlin.concurrent.thread
 
 class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEventListener, ShakeHandInterface {
     lateinit var binding: FragmentFindBinding
@@ -54,6 +54,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private val trackingHandler by lazy { TrackingHandler() }
     private val trackingCircle by lazy { TrackingCircle() }
+
+    private val dialog = FindNoticeDialogFragment()
 
     private var mp = MapPoint.mapPointWithGeoCoord(0.0, 0.0)
     private var mCurrentLat: Double = 0.0
@@ -95,6 +97,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         setZoomLevel()
         setTrackingBtn()
         catchCurrentLocation()
+        setNoticeDialog()
     }
 
     override fun onResume() {
@@ -103,15 +106,15 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         setAutoLocation()
         binding.kakaoMapView.setCurrentLocationRadius(0)
 
-        // progressBar
-//        LoadingDialog.showLocationLoadingDialog(requireContext())
-//        LoadingDialog.dismissLocationLoadingDialog()
-
+        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
+            showProgress(true)
+        }
     }
 
     override fun onPause() {
         super.onPause()
 
+        dialog.dismiss()
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
         mCurrentLat = 0.0
@@ -122,6 +125,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         // 내 위치 정보 삭제
         var nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
+
+        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
+            showProgress(false)
+        }
     }
 
     private fun initPermissionLauncher() {
@@ -200,10 +207,22 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
+    // 프로그래스바
     private fun showProgress(isShow: Boolean) {
         if(isShow) LoadingDialog.showLocationLoadingDialog(requireContext())
         else LoadingDialog.dismissLocationLoadingDialog()
 
+    }
+
+    // 공지 다이얼로그
+    private fun setNoticeDialog() {
+        binding.tvNotice.setOnClickListener {
+            dialog.setButtonClickListener(object: FindNoticeDialogFragment.OnButtonClickListener {
+                override fun onOkBtnClicked() {
+                }
+            })
+            dialog.show(childFragmentManager, "CustomDialog")
+        }
     }
 
     // 초기 화면 위치 + 커스텀 마커 설정 (지도 중심 이동)
@@ -406,6 +425,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         Log.d("내 위치", "${mCurrentLat}, ${mCurrentLng}")
         mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
         binding.kakaoMapView.setMapCenterPoint(mp, true)
+
+        if (mCurrentLat != 0.0 && mCurrentLng != 0.0) {
+            showProgress(false)
+        }
     }
     override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {}
     override fun onCurrentLocationUpdateFailed(p0: MapView?) {}
