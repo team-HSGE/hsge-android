@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/termsFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -65,7 +65,8 @@
         <argument
             android:name="userInfoData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
             app:destination="@id/userProfileEditIconFragment" />
@@ -213,4 +214,8 @@
         android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
         android:label="InquiryFragment"
         tools:layout="@layout/fragment_inquiry"/>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.starters.hsge.presentation.main.terms.TermsFragment"
+        android:label="TermsFragment" />
 </navigation>

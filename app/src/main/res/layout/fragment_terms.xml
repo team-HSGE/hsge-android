@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:bufferType="spannable"
             android:text="@string/terms_title_second_line"
             android:textColor="@color/G900"
             android:textSize="26sp"
