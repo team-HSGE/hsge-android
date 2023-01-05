@@ -52,17 +52,6 @@
                     app:spanCount="5"
                     tools:listitem="@layout/item_liked_people" />
 
-                <ImageView
-                    android:id="@+id/iv_liked_list_empty"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/ic_liked_empty_with_heart"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@id/tv_chat_chat_list_title"
-                    app:layout_constraintStart_toStartOf="@id/chat_rv_liked_people"
-                    app:layout_constraintTop_toTopOf="@id/chat_rv_liked_people" />
-
                 <TextView
                     android:id="@+id/tv_chat_chat_list_title"
                     android:layout_width="wrap_content"
