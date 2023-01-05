@@ -75,7 +75,9 @@ class ChatRoomFragment : Fragment() {
         setupListAdapter()
         setupToolbar()
 
-        val url = "wss://dev.hsge.site/ws/websocket"
+        //val url = "wss://dev.hsge.site/ws/websocket"
+        val url = "ws://192.168.0.153:8080/ws/websocket" // 김인님 채팅 테스트 서버
+
         //val url = "ws://192.168.0.8:8081/ws/websocket" // 채팅 테스트 서버
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
@@ -114,6 +116,7 @@ class ChatRoomFragment : Fragment() {
                                 data.put("senderId", chatRoomViewModel.myId)
                                 data.put("message", binding.edtMessage.text)
                                 data.put("roomId", chatRoomViewModel.roomId)
+                                data.put("receiverId", chatRoomViewModel.partnerId)
 
                                 stompClient.send("/pub/chat/message", data.toString()).subscribe()
                                 binding.edtMessage.text.clear()
