@@ -54,15 +54,29 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat), 
                 }
             }
 
-            if (chatList.isEmpty()) {
-                binding.ivChatListEmpty.visibility = View.VISIBLE
-                binding.tvChatListEmptyTitle.visibility = View.VISIBLE
-                binding.tvChatListEmptySubtitle.visibility = View.VISIBLE
+            if (chatList.isEmpty() && likedPeopleList.isEmpty()) {
+                with(binding) {
+                    ivChatEmpty.visibility = View.VISIBLE
+                    tvChatEmptyTitle.visibility = View.VISIBLE
+                    tvChatEmptySubtitle.visibility = View.VISIBLE
+                }
+            } else {
+                with(binding) {
+                    tvChatLikedPeopleTitle.visibility = View.VISIBLE
+                    tvChatChatListTitle.visibility = View.VISIBLE
+                }
             }
 
-            if (likedPeopleList.isEmpty()) {
-                binding.ivLikedListEmpty.visibility = View.VISIBLE
+            if (chatList.isEmpty() && likedPeopleList.isNotEmpty()) {
+                with(binding) {
+                    ivChatListEmpty.visibility = View.VISIBLE
+                    tvChatListEmptyTitle.visibility = View.VISIBLE
+                }
             }
+
+//            if (likedPeopleList.isEmpty()) {
+//                binding.ivLikedListEmpty.visibility = View.VISIBLE
+//            }
 
             // inactive_좋아요
             chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
