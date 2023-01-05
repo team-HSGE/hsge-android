@@ -108,10 +108,9 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         setAutoLocation()
         binding.kakaoMapView.setCurrentLocationRadius(0)
 
-        // progressBar
-//        LoadingDialog.showLocationLoadingDialog(requireContext())
-//        LoadingDialog.dismissLocationLoadingDialog()
-
+        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
+            showProgress(true)
+        }
     }
 
     override fun onPause() {
@@ -127,6 +126,11 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         // 내 위치 정보 삭제
         var nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
+
+        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
+            showProgress(false)
+        }
+
     }
 
     private fun initPermissionLauncher() {
@@ -425,6 +429,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         Log.d("내 위치", "${mCurrentLat}, ${mCurrentLng}")
         mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
         binding.kakaoMapView.setMapCenterPoint(mp, true)
+
+        if (mCurrentLat != 0.0 && mCurrentLng != 0.0) {
+            showProgress(false)
+        }
     }
     override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {}
     override fun onCurrentLocationUpdateFailed(p0: MapView?) {}
