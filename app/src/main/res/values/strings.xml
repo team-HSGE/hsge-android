@@ -182,4 +182,10 @@
     <string name="chat_empty_view_title">지금 하트를 보내보세요</string>
     <string name="chat_empty_view_subtitle">다른 사람들과 매치되면 이곳에 표시되고, 메세지를 보낼 수 있습니다.</string>
     <string name="partner_introduction_title">자기소개</string>
+    <string name="terms_title_first_line">환승견애</string>
+    <string name="terms_title_second_line">약관내용에 동의해주세요</string>
+    <string name="terms_total_agree">전체동의</string>
+    <string name="terms_first_agree">(필수) 이용약관 동의</string>
+    <string name="terms_second_agree">(필수) 개인정보 수집 및 이용동의</string>
+    <string name="button_agree">동의하기</string>
 </resources>
