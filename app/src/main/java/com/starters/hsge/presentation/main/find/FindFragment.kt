@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +19,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -42,7 +40,6 @@ import com.starters.hsge.databinding.FragmentFindBinding
 import com.starters.hsge.presentation.common.extension.showToast
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.FindNoticeDialogFragment
-import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.*
@@ -50,7 +47,6 @@ import net.daum.mf.map.api.MapPoint.GeoCoordinate
 import net.daum.mf.map.api.MapView.CurrentLocationEventListener
 import net.daum.mf.map.api.MapView.setMapTilePersistentCacheEnabled
 import net.daum.mf.map.n.api.internal.NativeMapLocationManager.*
-import kotlin.concurrent.thread
 
 class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEventListener, ShakeHandInterface {
     lateinit var binding: FragmentFindBinding
@@ -58,6 +54,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private val trackingHandler by lazy { TrackingHandler() }
     private val trackingCircle by lazy { TrackingCircle() }
+
+    private val dialog = FindNoticeDialogFragment()
 
     private var mp = MapPoint.mapPointWithGeoCoord(0.0, 0.0)
     private var mCurrentLat: Double = 0.0
@@ -116,6 +114,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onPause() {
         super.onPause()
 
+        dialog.dismiss()
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
         mCurrentLat = 0.0
@@ -130,7 +129,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
             showProgress(false)
         }
-
     }
 
     private fun initPermissionLauncher() {
@@ -218,8 +216,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     // 공지 다이얼로그
     private fun setNoticeDialog() {
-        val dialog = FindNoticeDialogFragment()
-
         binding.tvNotice.setOnClickListener {
             dialog.setButtonClickListener(object: FindNoticeDialogFragment.OnButtonClickListener {
                 override fun onOkBtnClicked() {

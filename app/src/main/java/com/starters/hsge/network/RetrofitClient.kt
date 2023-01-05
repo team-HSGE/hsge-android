@@ -14,6 +14,9 @@ object RetrofitClient {
     val sRetrofit = initRetrofit()
     //private const val AccessToken_URL = "http://192.168.0.8:8081/" // 채팅용
     private const val AccessToken_URL = "https://dev.hsge.site/"
+    //private const val AccessToken_URL = "http://192.168.0.153:8080/" // 김인님
+
+
     //private const val AccessToken_URL = "http://192.168.0.148:8080/" // 나가기
 
 

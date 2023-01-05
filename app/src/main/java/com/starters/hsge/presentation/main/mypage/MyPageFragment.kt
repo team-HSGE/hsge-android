@@ -97,5 +97,4 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     override fun onGetUserInfoFailure(message: String) {
         Log.d("UserInfoGet 오류", "오류: $message")
     }
-
 }
