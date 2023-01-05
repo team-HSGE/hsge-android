@@ -2,8 +2,12 @@ package com.starters.hsge.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -13,10 +17,17 @@ import com.starters.hsge.databinding.ActivityMainBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
+import com.starters.hsge.presentation.main.chatroom.ChatRoomViewModel
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+
+    private val registerViewModel: RegisterViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -71,6 +82,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                         supportFragmentManager.findFragmentById(R.id.fcv_main)
                     val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
                     if (currentFragment is ChatRoomFragment) { // 현재 화면이 chatRoomFragment -> 화면 이동 x
+
+
+
+
                         return
                     } else {
                         val action =

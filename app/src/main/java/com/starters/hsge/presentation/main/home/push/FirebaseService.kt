@@ -11,13 +11,24 @@ import android.media.RingtoneManager
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.starters.hsge.R
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.*
 
 class FirebaseService : FirebaseMessagingService() {
+
+    //private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -46,12 +57,17 @@ class FirebaseService : FirebaseMessagingService() {
         if (message.data.isNotEmpty()) {
             val title = message.data["title"].toString()
             val body = message.data["body"].toString()
-
             val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
             val img = message.data["image"]?.toInt()
             val roomId = message.data["id"]?.toLong()
             val nickname = message.data["title"]
             Log.d("data_service", "\ntitle : ${title}\n body : ${body}\n pushId : ${about}\n roomId: ${roomId}\n nickname : ${nickname}\n image : ${img}")
+
+//            CoroutineScope(Dispatchers.Main).launch {
+//                val isChatRoom = registerViewModel.fetchIsChatRoom().first()
+//            }
+//
+//            if()
 
             sendNotification(message, about, img, roomId, nickname)
         } else {

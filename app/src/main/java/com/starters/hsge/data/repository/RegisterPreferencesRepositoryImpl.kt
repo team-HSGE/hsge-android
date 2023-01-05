@@ -91,6 +91,16 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
             it[LOCATION] ?: ""
         }
 
+    override val currentRoomId: Flow<Long>
+        get() = registerDataStore.data.map {
+            it[ROOM_ID] ?: 1
+        }
+
+    override val isChatRoom: Flow<Boolean>
+        get() = registerDataStore.data.map {
+            it[IS_CHAT_ROOM] ?: false
+        }
+
     override suspend fun deleteAllData() {
         registerDataStore.edit {
             it.clear()
@@ -199,6 +209,18 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun setCurrentRoomId(roomId: Long) {
+        registerDataStore.edit {
+            it[ROOM_ID] = roomId
+        }
+    }
+
+    override suspend fun setIsChatRoom(chatRoom: Boolean) {
+        registerDataStore.edit {
+            it[IS_CHAT_ROOM] = chatRoom
+        }
+    }
+
 //    override suspend fun getUserEmail(): String {
 //        return runBlocking(Dispatchers.IO) {
 //            registerDataStore.data
@@ -233,5 +255,7 @@ class RegisterPreferencesRepositoryImpl @Inject constructor(
         val LONGITUDE = doublePreferencesKey("longitude")
         val TOWN = stringPreferencesKey("town")
         val LOCATION = stringPreferencesKey("location")
+        val ROOM_ID = longPreferencesKey("roomId")
+        val IS_CHAT_ROOM = booleanPreferencesKey("isChatRoom")
     }
 }

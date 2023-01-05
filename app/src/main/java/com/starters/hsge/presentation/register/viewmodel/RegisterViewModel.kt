@@ -122,6 +122,12 @@ class RegisterViewModel @Inject constructor(
 
     fun fetchUserLocation() = registerPreferencesRepository.userLocation
 
+    fun fetchCurrentRoomId() = registerPreferencesRepository.currentRoomId
+
+    fun fetchIsChatRoom() = registerPreferencesRepository.isChatRoom
+
+
+
     // datastore에 값 저장하기
     fun saveUserEmail(email: String) {
         viewModelScope.launch {
@@ -195,6 +201,14 @@ class RegisterViewModel @Inject constructor(
 
     suspend fun saveUserLocation(location: String){
         registerPreferencesRepository.setUserLocation(location)
+    }
+
+    suspend fun saveCurrentRoomId(roomId: Long){
+        registerPreferencesRepository.setCurrentRoomId(roomId)
+    }
+
+    suspend fun saveIsChatRoom(chatRoom: Boolean){
+        registerPreferencesRepository.setIsChatRoom(chatRoom)
     }
 
 }

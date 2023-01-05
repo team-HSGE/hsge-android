@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,10 @@ import com.starters.hsge.databinding.FragmentChatRoomBinding
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -46,6 +49,8 @@ class ChatRoomFragment : Fragment() {
     private var isOpen = false
 
     private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val registerViewModel: RegisterViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,9 +80,7 @@ class ChatRoomFragment : Fragment() {
         setupListAdapter()
         setupToolbar()
 
-        //val url = "wss://dev.hsge.site/ws/websocket"
-        val url = "ws://192.168.0.153:8080/ws/websocket" // 김인님 채팅 테스트 서버
-
+        val url = "wss://dev.hsge.site/ws/websocket"
         //val url = "ws://192.168.0.8:8081/ws/websocket" // 채팅 테스트 서버
         val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
 
@@ -202,6 +205,12 @@ class ChatRoomFragment : Fragment() {
                 adapter.submitList(it.messageList)
             }
         }
+
+        lifecycleScope.launch {
+            registerViewModel.saveCurrentRoomId(chatRoomViewModel.roomId)
+            registerViewModel.saveIsChatRoom(true)
+            Log.d("너 갱신됨?", registerViewModel.fetchCurrentRoomId().first().toString())
+        }
     }
 
     private fun setupToolbar() {
@@ -250,6 +259,9 @@ class ChatRoomFragment : Fragment() {
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigateUp()
+                lifecycleScope.launch {
+                    registerViewModel.saveIsChatRoom(false)
+                }
                 visibleBtmNav()
             }
         }
@@ -264,6 +276,9 @@ class ChatRoomFragment : Fragment() {
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
+            lifecycleScope.launch {
+                registerViewModel.saveIsChatRoom(false)
+            }
             visibleBtmNav()
         }
     }
