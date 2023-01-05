@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="탐색 서비스 이용 가이드"
                 android:textColor="@color/dark_yellow"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="내 주변 탐색 버튼을 누르면 시작할 수 있어요"
-                        android:textColor="@color/G900"
+                        android:textColor="@color/G800"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -102,7 +102,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="반경 3km 이내의 친구 강아지를 찾아보세요"
-                        android:textColor="@color/G900"
+                        android:textColor="@color/G800"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -134,7 +134,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="같이 탐색 중인 친구들만 지도에 표시돼요"
-                        android:textColor="@color/G900"
+                        android:textColor="@color/G800"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -166,7 +166,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="손 흔들기를 하면 푸시 알림을 보낼 수 있어요"
-                        android:textColor="@color/G900"
+                        android:textColor="@color/G800"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -198,7 +198,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="탐색 종료 시 내 위치는 노출되지 않아요"
-                        android:textColor="@color/G900"
+                        android:textColor="@color/G800"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
