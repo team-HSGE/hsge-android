@@ -114,6 +114,7 @@ class ChatRoomFragment : Fragment() {
                                 data.put("senderId", chatRoomViewModel.myId)
                                 data.put("message", binding.edtMessage.text)
                                 data.put("roomId", chatRoomViewModel.roomId)
+                                data.put("receiverId", chatRoomViewModel.partnerId)
 
                                 stompClient.send("/pub/chat/message", data.toString()).subscribe()
                                 binding.edtMessage.text.clear()

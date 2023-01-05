@@ -125,25 +125,39 @@
                     android:id="@+id/iv_chat_list_empty"
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:background="@drawable/ic_chat_list_empty"
+                    android:background="@drawable/ic_chat_list_empty_bold"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_chat_chat_list_title"
-                    app:layout_constraintVertical_bias="0.24" />
+                    app:layout_constraintVertical_bias="0.5" />
 
                 <TextView
                     android:id="@+id/tv_chat_list_empty_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/chat_empty_chat_list"
-                    android:textSize="16sp"
+                    android:text="@string/chat_list_empty_view_title"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_chat_list_empty" />
+
+                <TextView
+                    android:id="@+id/tv_chat_list_empty_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="60dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.1"
+                    android:text="@string/chat_list_empty_view_subtitle"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_chat_list_empty_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/chat_rv_chat_list"
