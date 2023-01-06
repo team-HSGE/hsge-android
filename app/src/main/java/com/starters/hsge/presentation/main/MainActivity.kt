@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -17,11 +15,8 @@ import com.starters.hsge.databinding.ActivityMainBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
-import com.starters.hsge.presentation.main.chatroom.ChatRoomViewModel
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -77,17 +72,46 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     }
                 }
                 "chatRoomFragment" -> {
-                    binding.navigationMain.selectedItemId = R.id.chatFragment
                     val navHostFragment: Fragment? =
                         supportFragmentManager.findFragmentById(R.id.fcv_main)
-                    val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-                    if (currentFragment is ChatRoomFragment) { // 현재 화면이 chatRoomFragment -> 화면 이동 x
+                    var currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
 
+                    if (currentFragment is ChatRoomFragment) { // 현재 화면이 chatRoomFragment
+                        binding.navigationMain.selectedItemId = R.id.chatFragment
 
+                        val currentRoomId = prefs.getString("roomId", null).toString()
+                        Log.d("현재 룸 아이디", currentRoomId)
 
-
+                        if (currentRoomId == roomId.toString()) { // 룸아이디 같음 -> 화면 이동 x (사실 이 경우 푸시가 안 오게 함)
+                            Log.d("현재 룸 == 푸시 룸", "같아")
+                            return
+                        } else { // 룸아이디 다름 -> 화면 이동
+                            Log.d("현재 룸 == 푸시 룸", "달라")
+                            naviController.popBackStack()
+                            val action =
+                                ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
+                                    chatInfo = ChatListResponse(
+                                        roomId!!,
+                                        nickname!!,
+                                        DEFAULT_USER_ICON,
+                                        DEFAULT_MESSAGE,
+                                        DEFAULT_CHECKED,
+                                        DEFAULT_ACTIVE,
+                                        DEFAULT_DATE
+                                    )
+                                )
+                            findNavController(binding.fcvMain).navigate(action)
+                        }
                         return
                     } else {
+                        if (binding.navigationMain.selectedItemId == R.id.myPageFragment) {
+                            naviController.popBackStack(R.id.myPageFragment, false)
+                            visibleBtmNav()
+                            binding.navigationMain.selectedItemId = R.id.chatFragment
+                        } else {
+                            binding.navigationMain.selectedItemId = R.id.chatFragment
+                        }
+
                         val action =
                             ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
                                 chatInfo = ChatListResponse(
