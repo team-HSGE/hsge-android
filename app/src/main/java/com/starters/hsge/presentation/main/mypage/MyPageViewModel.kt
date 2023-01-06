@@ -16,6 +16,13 @@ class MyPageViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
 ) : BaseViewModel() {
 
+    var nickName = ""
+    var userIcon = 0
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var town: String = ""
+    var radius: Double = 0.0
+
     private val _userInfo: MutableStateFlow<MyPageState> =
         MutableStateFlow(MyPageState.Initial)
     val userInfo: StateFlow<MyPageState>

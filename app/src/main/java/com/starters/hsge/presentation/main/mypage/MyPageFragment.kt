@@ -9,6 +9,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentMyPageBinding
+import com.starters.hsge.domain.model.LocationInfo
+import com.starters.hsge.domain.model.UserProfileInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +52,14 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         is MyPageState.Success -> {
                             Timber.d("!!Success")
                             binding.userInfo = state.data
+                            with(myPageViewModel) {
+                                nickName = state.data.nickname
+                                userIcon = state.data.profilePath.resId
+                                latitude = state.data.latitude
+                                longitude = state.data.longtitude
+                                town = state.data.town
+                                radius = state.data.radius
+                            }
                         }
                         is MyPageState.Initial -> {
                             Timber.d("!!Initial")
@@ -68,7 +78,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         binding.userProfileEditSection.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageFragmentToUserProfileEditFragment(
-                UserInfoData(profileImage, nickname)
+                UserProfileInfo(
+                    nickName = myPageViewModel.nickName,
+                    userIcon = myPageViewModel.userIcon
+                )
             )
             findNavController().navigate(action)
             goneBtmNav()
@@ -76,7 +89,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         binding.locationSettingSection.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageFragmentToEditLocationFragment(
-                UserLocationData(town, latitude, longitude, radius)
+                LocationInfo(
+                    latitude = myPageViewModel.latitude,
+                    longitude = myPageViewModel.longitude,
+                    town = myPageViewModel.town,
+                    radius = myPageViewModel.radius
+                )
             )
             findNavController().navigate(action)
             goneBtmNav()
@@ -84,7 +102,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         binding.radiusSettingSection.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageFragmentToUserDistanceFragment(
-                UserLocationData(town, latitude, longitude, radius)
+                LocationInfo(
+                    latitude = myPageViewModel.latitude,
+                    longitude = myPageViewModel.longitude,
+                    town = myPageViewModel.town,
+                    radius = myPageViewModel.radius
+                )
             )
             findNavController().navigate(action)
             goneBtmNav()

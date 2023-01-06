@@ -63,17 +63,12 @@
         android:label="fragment_user_profile_edit"
         tools:layout="@layout/fragment_user_profile_edit" >
         <argument
-            android:name="userInfoData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="userProfileInfo"
+            app:argType="com.starters.hsge.domain.model.UserProfileInfo"
+            app:nullable="true" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
             app:destination="@id/userProfileEditIconFragment" />
-        <argument
-            android:name="resId"
-            app:argType="integer"
-            android:defaultValue="0" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_myPageFragment"
             app:destination="@id/myPageFragment"
@@ -127,8 +122,8 @@
             app:popUpTo="@id/myPageFragment"
             app:popUpToInclusive="true" />
         <argument
-            android:name="userLocationData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
+            android:name="locationInfo"
+            app:argType="com.starters.hsge.domain.model.LocationInfo"
              />
     </fragment>
     <fragment
@@ -137,8 +132,8 @@
         android:label="EditLocationFragment"
         tools:layout="@layout/fragment_edit_location">
         <argument
-            android:name="userLocationData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
+            android:name="locationInfo"
+            app:argType="com.starters.hsge.domain.model.LocationInfo"
              />
     </fragment>
     <fragment
