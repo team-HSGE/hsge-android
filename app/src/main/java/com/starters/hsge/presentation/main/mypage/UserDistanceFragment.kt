@@ -25,10 +25,12 @@ class UserDistanceFragment : BaseFragment<FragmentUserDistanceBinding>(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val radius = args.userLocationData?.radius ?: 0.0
+        val radius = args.locationInfo?.radius
         Log.d("사용자정보받아온거", "$radius")
 
-        seekbar((radius*100).toInt())
+        if (radius != null) {
+            seekbar((radius*100).toInt())
+        }
         setNavigation()
 
     }
