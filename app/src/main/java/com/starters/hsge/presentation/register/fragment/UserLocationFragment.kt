@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -40,6 +39,7 @@ import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class UserLocationFragment :
@@ -115,7 +115,7 @@ class UserLocationFragment :
                 )
 
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
-                Log.d("회원가입 때 작성한 내용", "${registerInfo}")
+                Timber.d("회원가입 때 작성한 내용 $registerInfo")
 
                 registerViewModel.mResponse.observe(viewLifecycleOwner) {
                     if (it.isSuccessful) {
@@ -128,6 +128,7 @@ class UserLocationFragment :
                         lifecycleScope.launch {
                             registerViewModel.deleteAllInfo()
                             prefs.edit().remove("resId").apply()
+                            prefs.edit().remove("resIdForView").apply()
                         }
 
                         // 로딩 다이얼로그 해제
