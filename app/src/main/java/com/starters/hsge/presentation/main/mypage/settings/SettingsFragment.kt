@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentSettingsBinding
 import com.starters.hsge.data.interfaces.SettingsInterface
+import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.service.SettingsService
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
@@ -48,7 +48,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                             showToast("다시 시도해주세요.")
                         }else {
                             // access token & fcm token 날리기
-                            SettingsService(this@SettingsFragment).tryDeleteFcmToken()
+                            val fcmToken = FcmPostRequest(prefs.getString("fcmToken", ""))
+                            Log.d("확인", "$fcmToken")
+
+                            SettingsService(this@SettingsFragment).tryDeleteFcmToken(token = fcmToken)
                         }
                     }
                 }

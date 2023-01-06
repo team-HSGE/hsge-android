@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.WithdrawalInterface
+import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.service.WithdrawalService
 import com.starters.hsge.databinding.FragmentWithdrawalBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -62,10 +62,12 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
     override fun onDeleteUserSuccess(isSuccess: Boolean) {
         if (isSuccess) {
-            Log.d("회원탈퇴", "회원탈퇴 성공")
-
             // access token & fcm token 날리기
-            WithdrawalService(this).tryDeleteFcmToken()
+            val fcmToken = FcmPostRequest(prefs.getString("fcmToken", ""))
+            Log.d("확인", "$fcmToken")
+
+            WithdrawalService(this).tryDeleteFcmToken(fcmToken)
+            Log.d("회원탈퇴", "회원탈퇴 성공")
         }
     }
 
