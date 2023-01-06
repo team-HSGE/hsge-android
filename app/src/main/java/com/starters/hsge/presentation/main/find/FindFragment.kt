@@ -56,6 +56,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private val trackingCircle by lazy { TrackingCircle() }
 
     private val dialog = FindNoticeDialogFragment()
+    private var flag : Boolean = true
 
     private var mp = MapPoint.mapPointWithGeoCoord(0.0, 0.0)
     private var mCurrentLat: Double = 0.0
@@ -80,7 +81,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_find, container, false)
         return binding.root
     }
@@ -114,7 +115,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onPause() {
         super.onPause()
 
-        dialog.dismiss()
+        if (!flag) {
+            dialog.dismiss()
+        }
+
         binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
         binding.kakaoMapView.setShowCurrentLocationMarker(false)
         mCurrentLat = 0.0
@@ -123,7 +127,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         endInfinite()
 
         // 내 위치 정보 삭제
-        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
 
         if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
@@ -222,6 +226,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 }
             })
             dialog.show(childFragmentManager, "CustomDialog")
+            flag = false
         }
     }
 
@@ -306,7 +311,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         binding.trackingBtn.text = "내 주변 탐색"
 
         // 내 위치 정보 삭제
-        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
         status = true
         Log.d("추적", "멈춤")
