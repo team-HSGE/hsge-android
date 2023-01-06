@@ -82,9 +82,9 @@
     <string name="mypage_app_info_select">앱 정보 선택</string>
 
     <string name="settings_title">설정</string>
-    <string name="settings_alarm_title">알림 설정</string>
+    <string name="settings_alarm_title">푸시 알림</string>
     <string name="settings_push_alarm_title">푸쉬 알림</string>
-    <string name="settings_push_alarm_detail">알림을 해제하면 모든 알림을 받을 수 없어요.</string>
+    <string name="settings_push_alarm_detail">내 강아지가 좋아요를 받았을 때 알림이 오지 않아요</string>
     <string name="settings_push_alarm_switch">푸쉬 알림 스위치</string>
     <string name="settings_logout">로그아웃</string>
     <string name="settings_withdrawal">회원 탈퇴</string>
