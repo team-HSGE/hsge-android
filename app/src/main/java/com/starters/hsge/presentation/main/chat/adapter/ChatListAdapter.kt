@@ -62,7 +62,7 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
    inner class ChatListViewHolder(private val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatListResponse) {
             with(binding) {
-//                chat.userIcon.let { chatListIvPersonIcon.setBackgroundResource(it) }
+                chat.userIcon.let { chatListIvPersonIcon.setBackgroundResource(it) }
                 chatListTvPersonName.text = chat.nickname
                 // TODO : date 연결
                 //chatListTvDateBefore.text = "${chat.date}일 전"
@@ -79,7 +79,7 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
     inner class LikedPeopleViewHolder(private val binding: ItemLikedPeopleBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatListResponse) {
             with(binding) {
-  //              chat.userIcon.let { likedPeopleIvIcon.setBackgroundResource(it) }
+                chat.userIcon.let { likedPeopleIvIcon.setBackgroundResource(it) }
                 likedPeopleTvNickName.text = chat.nickname
             }
 
