@@ -2,7 +2,7 @@ package com.starters.hsge.common.constants
 
 import com.starters.hsge.R
 
-enum class UserIcon (val resId: Int) {
+enum class UserIcon(val resId: Int) {
     ICON_FIRST(R.drawable.ic_dog_profile_1),
     ICON_SECOND(R.drawable.ic_dog_profile_2),
     ICON_THIRD(R.drawable.ic_dog_profile_3),
