@@ -65,10 +65,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private var uCurrentLng: Double? = 0.0
     private var uNickname: String? = null
     private var uUserId: Long? = 0L
-    private var uList = mutableListOf<List<UsersLocationNearbyGetResponse>>()
 
     private var myNickName: String? = ""
-    private var userId: Long? = 0L
     private var status: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
