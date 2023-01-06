@@ -1,34 +1,67 @@
 package com.starters.hsge.presentation.main.mypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
-import com.starters.hsge.data.interfaces.UserInfoGetInterface
-import com.starters.hsge.data.model.remote.response.UserInfoGetResponse
-import com.starters.hsge.data.service.UserInfoGetService
 import com.starters.hsge.databinding.FragmentMyPageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page), UserInfoGetInterface {
+@AndroidEntryPoint
+class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    var profileImage : Int = 0
-    var nickname : String = ""
-    var town : String = ""
-    var latitude : Double = 0.0
-    var longitude : Double = 0.0
-    var splitTown : String = ""
-    var radius : Double = 0.0
+    private val myPageViewModel: MyPageViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 사용자 정보 조회
-        UserInfoGetService(this).tryGetUserInfo()
+        getUserInfo()
+        observeUserInfo()
+        initListener()
+    }
 
-        binding.ivSettings.setOnClickListener{
+    private fun getUserInfo() {
+        myPageViewModel.getUserInfo()
+    }
+
+    private fun observeUserInfo() {
+        Timber.d("옵저빙")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                myPageViewModel.userInfo.collectLatest { state ->
+                    when (state) {
+                        is MyPageState.Loading -> {
+                            //TODO: 로딩 다이얼로그 띄우기
+                            Timber.d("!!Loading")
+                        }
+                        is MyPageState.Failure -> {
+                            //TODO: 로딩 다이얼로그 해제
+                            Timber.d("!!Failure")
+                        }
+                        is MyPageState.Success -> {
+                            Timber.d("!!Success")
+                            binding.userInfo = state.data
+                        }
+                        is MyPageState.Initial -> {
+                            Timber.d("!!Initial")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initListener() {
+        binding.ivSettings.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_settingsFragment)
             goneBtmNav()
         }
@@ -68,33 +101,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
-    private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
-
-    override fun onGetUserInfoSuccess(userInfoGetResponse: UserInfoGetResponse, isSuccess: Boolean, code: Int) {
-        if (isSuccess) {
-            // 사용자 정보 가져오기
-            profileImage = userInfoGetResponse.profilePath
-            nickname = userInfoGetResponse.nickname
-            town = userInfoGetResponse.town
-            latitude = userInfoGetResponse.latitude
-            longitude = userInfoGetResponse.longtitude
-            radius = userInfoGetResponse.radius
-
-            var townStrList =  town.split(" ")
-            if (townStrList.size == 3) {
-                splitTown = townStrList[1] + " " + townStrList[2]
-            } else if (townStrList.size > 3) {
-                splitTown = townStrList[1] + " " + townStrList[2] + " " + townStrList[3]
-            }
-
-            // 사용자 정보 적용
-            binding.ivUserProfile.setBackgroundResource(profileImage)
-            binding.tvUserNickname.text = nickname
-            binding.tvUserLocation.text = splitTown
-        }
-    }
-
-    override fun onGetUserInfoFailure(message: String) {
-        Log.d("UserInfoGet 오류", "오류: $message")
+    private fun goneBtmNav() {
+        (activity as MainActivity).binding.navigationMain.visibility = View.GONE
     }
 }
