@@ -19,6 +19,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -65,6 +66,9 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private var uCurrentLng: Double? = 0.0
     private var uNickname: String? = null
     private var uUserId: Long? = 0L
+
+    private var waveUserId: Long? = 0L
+    private var waveUserName: String? = ""
 
     private var myNickName: String? = ""
     private var status: Boolean = true
@@ -388,11 +392,13 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
-        // TODO: userId 넘겨야 함
+        waveUserId = p1?.tag?.toLong()
+        waveUserName = p1?.itemName
         Log.d("상대방 아이디", "${p1?.itemName} : ${p1?.tag}")
-        ShakeHandService(this).tryPostHandShake(22)
-        requireContext().showToast("${p1?.itemName}님에게 손을 흔들었어요!")
 
+        ShakeHandService(this).tryPostHandShake(userId = waveUserId)
+        // TODO: 서버 통신 성공 후로 옮길 것
+        requireContext().showToast("${waveUserName}님에게 손을 흔들었어요!")
     }
 
     // 내 현재 위치 갱신
@@ -456,10 +462,11 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     override fun onPostShakeHandSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess){
-            Log.d(" PostShakeHand", "성공")
+            Log.d("PostShakeHand", "성공")
+//            requireContext().showToast("${waveUserName}님에게 손을 흔들었어요!")
         } else {
-            Log.d(" PostShakeHand 오류", "Error code : ${code}")
-            requireContext().showToast("잠시 후 다시 시도해주세요")
+            Log.d("PostShakeHand 오류", "Error code : ${code}")
+//            requireContext().showToast("잠시 후 다시 시도해주세요")
         }
     }
 
