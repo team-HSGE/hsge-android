@@ -36,6 +36,10 @@ interface RegisterPreferencesRepository {
 
     val userLocation: Flow<String>
 
+    val currentRoomId: Flow<Long>
+
+    val isChatRoom: Flow<Boolean>
+
     suspend fun setUserEmail(email: String)
 
     suspend fun setUserNickName(nickName: String)
@@ -67,6 +71,10 @@ interface RegisterPreferencesRepository {
     suspend fun setUserLongitude(longitude: Double)
 
     suspend fun setUserLocation(location: String)
+
+    suspend fun setCurrentRoomId(roomId: Long)
+
+    suspend fun setIsChatRoom(chatRoom: Boolean)
 
     suspend fun deleteUserLocation()
 

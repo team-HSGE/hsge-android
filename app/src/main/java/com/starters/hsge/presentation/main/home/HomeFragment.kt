@@ -37,7 +37,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         HomeDogService(this).tryGetHomeDog()
         LoadingDialog.showDogLoadingDialog(requireContext())
 
-
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("firebaseToken", "Fetching FCM registration token failed", task.exception)
