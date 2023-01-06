@@ -11,19 +11,11 @@ import android.media.RingtoneManager
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.starters.hsge.App
 import com.starters.hsge.R
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
-import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.util.*
 
 class FirebaseService : FirebaseMessagingService() {
@@ -63,13 +55,24 @@ class FirebaseService : FirebaseMessagingService() {
             val nickname = message.data["title"]
             Log.d("data_service", "\ntitle : ${title}\n body : ${body}\n pushId : ${about}\n roomId: ${roomId}\n nickname : ${nickname}\n image : ${img}")
 
-//            CoroutineScope(Dispatchers.Main).launch {
-//                val isChatRoom = registerViewModel.fetchIsChatRoom().first()
-//            }
-//
-//            if()
+            val isChatRoom = App.prefs.getBoolean("isChatRoom", false)
+            val currentRoomId = App.prefs.getString("roomId", null)
+            Log.d("채팅룸?", isChatRoom.toString())
+            Log.d("채팅룸 아이디?", currentRoomId.toString())
+            Log.d("채팅룸 아이디_푸시 ?", roomId.toString())
 
-            sendNotification(message, about, img, roomId, nickname)
+            if (currentRoomId != null && about == "message") { // 현재 룸아이디가 null이 아니면서, 푸시 타입이 메세지
+                if (isChatRoom && roomId != currentRoomId.toLong()){ // 현재 채티방에 있으면서, 푸시 룸아이디와 현재 룸아이디가 다른 경우 (푸시 알림 필요)
+                    sendNotification(message, about, img, roomId, nickname)
+                } else if(isChatRoom && roomId == currentRoomId.toLong()){ // 현재 채팅방에 있지만, 푸시 룸아이디와 현재 룸아이디가 동일한 경우 (푸시 알림 오면 안 됨)
+                    return
+                } else{
+                    sendNotification(message, about, img, roomId, nickname)
+                }
+            } else { // 푸시 타입이 메세지가 아닌 경우, 현재 채팅방이 있지 않은데 푸시 타입이 채팅인 경우 => 푸시 와야함
+                sendNotification(message, about, img, roomId, nickname)
+            }
+
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
