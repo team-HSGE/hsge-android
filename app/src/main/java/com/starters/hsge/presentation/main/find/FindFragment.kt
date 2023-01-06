@@ -53,7 +53,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     private val trackingHandler by lazy { TrackingHandler() }
-    private val trackingCircle by lazy { TrackingCircle() }
 
     private val dialog = FindNoticeDialogFragment()
     private var flag : Boolean = true
@@ -66,6 +65,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     private var uCurrentLng: Double? = 0.0
     private var uNickname: String? = null
     private var uUserId: Long? = 0L
+    private var uList = mutableListOf<List<UsersLocationNearbyGetResponse>>()
 
     private var myNickName: String? = ""
     private var userId: Long? = 0L
@@ -248,7 +248,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                     lifecycleScope.launch(Dispatchers.IO) {
                         ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                     }
-                    setCameraCircle("start")
                     startTracking()
 
                 } else {
@@ -270,21 +269,11 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     // 지도뷰의 중심좌표와 줌레벨을 Circle이 모두 나오도록 조정
     private fun setCameraCircle(circleName: String) {
-        val circle1 = MapCircle(mp, 3000, 0,0)
-        val mapPointBoundsArray = arrayOf(circle1.bound)
-        val mapPointBounds = MapPointBounds(mapPointBoundsArray)
-        val padding = 50 // px
-
         when (circleName) {
             "start" -> {
                 binding.kakaoMapView.setCurrentLocationRadius(0)
                 addCircle()
-                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding))
-            }
-            "tracking" -> {
-                binding.kakaoMapView.setCurrentLocationRadius(0)
-                addCircle()
-                Log.d("손흔들기", "반원나오냐?")
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(mp, 5F))
             }
             "end" -> {
                 binding.kakaoMapView.setCurrentLocationRadius(0)
@@ -295,8 +284,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     // Tracking 상태
     private fun startTracking() {
+        setCameraCircle("start")
         startInfinite()
-        startCircle()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_dark_yellow_r12)
         binding.trackingBtn.text = "탐색 종료"
         status = false
@@ -309,11 +298,11 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         binding.kakaoMapView.removeAllPOIItems()
         binding.trackingBtn.setBackgroundResource(R.drawable.bg_yellow_r12)
         binding.trackingBtn.text = "내 주변 탐색"
+        status = true
 
         // 내 위치 정보 삭제
         val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
-        status = true
         Log.d("추적", "멈춤")
     }
 
@@ -372,43 +361,27 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         }
     }
 
-    @SuppressLint("HandlerLeak")
-    private inner class TrackingCircle: Handler(Looper.getMainLooper()){
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            if(msg.what == 0){ setCameraCircle("tracking") }
-        }
-    }
-
     private fun startInfinite() {
         trackingHandler.removeMessages(0) // 이거 안하면 핸들러가 여러개로 계속 늘어남
         trackingHandler.sendEmptyMessageDelayed(0, 500) // intervalTime만큼 반복해서 핸들러 실행
-        trackingHandler.postDelayed(::startInfinite, 15000) // 한 번 돌고 지연시간
-    }
-
-    private fun startCircle() {
-        trackingCircle.removeMessages(0)
-        trackingCircle.sendEmptyMessageDelayed(0, 500)
-        trackingCircle.postDelayed(::startCircle, 500)
+        trackingHandler.postDelayed(::startInfinite, 12000) // 한 번 돌고 지연시간
     }
 
     private fun endInfinite() {
         trackingHandler.removeCallbacksAndMessages(null)
-        trackingCircle.removeCallbacksAndMessages(null)
     }
 
     // 새로운 마커 생성
     private fun createMarker(uCurrentLat: Double, uCurrentLng: Double, uNickname: String, uUserId: Long) {
         val marker = MapPOIItem()
         marker.apply {
+            tag = uUserId.toInt()
             itemName = uNickname
             mapPoint = MapPoint.mapPointWithGeoCoord(uCurrentLat, uCurrentLng)
-            Log.d("다른 유저 위경도", "${uCurrentLat}, ${uCurrentLng}")
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_map_marker
             setCustomImageAnchor(0.5f, 0.5f)
         }
-        userId = uUserId
         binding.kakaoMapView.addPOIItem(marker)
     }
 
@@ -418,8 +391,10 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
         // TODO: userId 넘겨야 함
+        Log.d("상대방 아이디", "${p1?.itemName} : ${p1?.tag}")
         ShakeHandService(this).tryPostHandShake(22)
         requireContext().showToast("${p1?.itemName}님에게 손을 흔들었어요!")
+
     }
 
     // 내 현재 위치 갱신
@@ -453,6 +428,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     override fun onGetShakeHandSuccess(usersLocationNearbyGetResponse: List<UsersLocationNearbyGetResponse>, isSuccess: Boolean) {
         if (isSuccess) {
+
             for (user in usersLocationNearbyGetResponse) {
                 uCurrentLat = user.lat
                 uCurrentLng = user.lng
