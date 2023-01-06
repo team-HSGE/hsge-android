@@ -61,7 +61,7 @@ class ShakeHandService(val shakeHandInterface: ShakeHandInterface) {
         })
     }
 
-    fun tryPostHandShake(userId: Long) {
+    fun tryPostHandShake(userId: Long?) {
         val shakeHandApi = RetrofitClient.sRetrofit.create(ShakeHandApi::class.java)
         shakeHandApi.postShakeHand(userId).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
