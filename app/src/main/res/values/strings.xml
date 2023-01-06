@@ -77,9 +77,9 @@
     <string name="mypage_inquire_icon">1:1 문의 아이콘</string>
     <string name="mypage_inquire">1:1 문의</string>
     <string name="mypage_inquire_select">1:1 문의 선택</string>
-    <string name="mypage_faq_icon">FAQ 아이콘</string>
-    <string name="mypage_faq">FAQ</string>
-    <string name="mypage_faq_select">FAQ 선택</string>
+    <string name="mypage_app_info_icon">앱 정보 아이콘</string>
+    <string name="mypage_app_info">앱 정보</string>
+    <string name="mypage_app_info_select">앱 정보 선택</string>
 
     <string name="settings_title">설정</string>
     <string name="settings_alarm_title">알림 설정</string>
