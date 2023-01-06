@@ -81,7 +81,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_find, container, false)
         return binding.root
     }
@@ -127,7 +127,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         endInfinite()
 
         // 내 위치 정보 삭제
-        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
 
         if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
@@ -311,7 +311,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         binding.trackingBtn.text = "내 주변 탐색"
 
         // 내 위치 정보 삭제
-        var nickname = UsersLocationDeleteRequest(myNickName!!)
+        val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
         status = true
         Log.d("추적", "멈춤")
