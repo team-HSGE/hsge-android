@@ -26,8 +26,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         setNavigation()
         initListener()
         checkNotification()
@@ -105,7 +103,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         val spChat = prefs.getBoolean("chatCheck", true)
         val spLike = prefs.getBoolean("likeCheck", true)
         val spWave = prefs.getBoolean("waveCheck", true)
-        Timber.d("isCheck $spAll $spLike $spChat $spWave")
 
         if (spAll){
             binding.swPushAlarmAll.isChecked = true
@@ -167,8 +164,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
             prefs.edit().putBoolean("waveCheck", waveCheck.isChecked).apply()
         }
     }
-
-
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {

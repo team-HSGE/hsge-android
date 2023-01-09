@@ -211,18 +211,14 @@ class ChatRoomFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        prefs.edit().putBoolean("isChatRoom", false).apply()
-        val isChatRoom = prefs.getBoolean("isChatRoom", false).toString()
-        Timber.d("!!챗룸 맞?: ${isChatRoom}")
         prefs.edit().remove("roomId").apply()
+        Timber.d("룸 아이디: ${prefs.getString("roomId", null)}")
     }
 
     private fun checkIsChatRoom(){
-        prefs.edit().putBoolean("isChatRoom", true).apply()
         prefs.edit().putString("roomId", chatRoomViewModel.roomId.toString()).apply()
-        val isChatRoom = prefs.getBoolean("isChatRoom", false).toString()
         val roomId = prefs.getString("roomId", null).toString()
-        Timber.d("!!챗룸 맞?, 룸 아이디 : ${isChatRoom} $roomId")
+        Timber.d("룸 아이디 : $roomId")
     }
 
     private fun setupToolbar() {

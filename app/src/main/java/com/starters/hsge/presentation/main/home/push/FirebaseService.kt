@@ -21,8 +21,6 @@ import java.util.*
 
 class FirebaseService : FirebaseMessagingService() {
 
-    //private val registerViewModel: RegisterViewModel by viewModels()
-
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FirebaseService", "refreshed FCM token: $token")
@@ -50,22 +48,22 @@ class FirebaseService : FirebaseMessagingService() {
         if (message.data.isNotEmpty()) {
             val title = message.data["title"].toString()
             val body = message.data["body"].toString()
-            val about = message.data["pushID"].toString() // 서버로 받아온 푸시 구분값
+            val about = message.data["pushID"].toString()
             val img = message.data["image"]?.toInt()
             val roomId = message.data["id"]?.toLong()
             val nickname = message.data["title"]
+
+            val currentRoomId = App.prefs.getString("roomId", null)
             Timber.d(
                 "data_service" +
                         "\ntitle : ${title}" +
                         "\n body : ${body}" +
                         "\n pushId : ${about}" +
                         "\n roomId: ${roomId}" +
+                        "\n currentRoomId: ${currentRoomId}" +
                         "\n nickname : ${nickname}" +
                         "\n image : ${img}"
             )
-
-            val isChatRoom = App.prefs.getBoolean("isChatRoom", false)
-            val currentRoomId = App.prefs.getString("roomId", null)
 
             val spAll = App.prefs.getBoolean("checkAll", true)
             val spChat = App.prefs.getBoolean("chatCheck", true)
@@ -84,15 +82,13 @@ class FirebaseService : FirebaseMessagingService() {
                     }
                 }
                 "message" -> {
-                    if (currentRoomId != null) { // 현재 룸아이디가 null이 아니면서, 푸시 타입이 메세지
-                        if (isChatRoom && roomId != currentRoomId.toLong()) { // 현재 채티방에 있으면서, 푸시 룸아이디와 현재 룸아이디가 다른 경우 (푸시 알림 필요)
-                            sendNotification(message, about, img, roomId, nickname)
-                        } else if (isChatRoom && roomId == currentRoomId.toLong()) { // 현재 채팅방에 있지만, 푸시 룸아이디와 현재 룸아이디가 동일한 경우 (푸시 알림 오면 안 됨)
+                    if (currentRoomId != null) {
+                        if (currentRoomId.toLong() == roomId) {
                             return
                         } else {
                             sendNotification(message, about, img, roomId, nickname)
                         }
-                    } else { // 푸시 타입이 메세지가 아닌 경우, 현재 채팅방이 있지 않은데 푸시 타입이 채팅인 경우 => 푸시 와야함
+                    } else {
                         sendNotification(message, about, img, roomId, nickname)
                     }
                 }
@@ -102,9 +98,6 @@ class FirebaseService : FirebaseMessagingService() {
                     }
                 }
             }
-
-//
-
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }
@@ -233,6 +226,5 @@ class FirebaseService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
             .setLargeIcon(bitmap)
-
     }
 }
