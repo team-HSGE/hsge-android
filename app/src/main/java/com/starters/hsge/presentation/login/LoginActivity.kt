@@ -179,8 +179,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 400 -> {
                     when (msg) {
                         "REPORT LIMIT EXCEED" -> {
-                            showToast("서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
-                            Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
+                            showToast("다중의 신고가 접수되어 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
+                            Log.d("신고횟수", "신고 횟수가 7회 이상입니다. ")
                         }
                         "Access Token is not valid" -> {
                             // 카카오톡 accessToken 유효기간 끝났을 때

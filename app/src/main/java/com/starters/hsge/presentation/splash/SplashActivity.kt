@@ -17,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.SplashInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
+import com.starters.hsge.data.model.remote.response.CheckTokenErrorResponse
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
@@ -60,6 +61,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     // 스플래시 초기화
     private fun initSplashScreen() {
         initData()
+        //test
+        prefs.edit().putString("NormalRefreshToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMyNDUxMTQsImlhdCI6MTY3MzI0NTExNCwiZW1haWwiOiJzeWI4MjAwQG5hdmVyLmNvbSJ9.9JJcJOYh4f9w9YXaSyf-STrHzIFe2jEEt1ufX-_5PlI").apply()
         getSharedPreference()
 
         // 31 버전일 떄와 아닐 때의 분기 처리
@@ -171,7 +174,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    override fun onPostCheckTokenSuccess(checkTokenResponse: CheckTokenResponse, isSuccess: Boolean, code: Int) {
+    override fun onPostCheckTokenSuccess(checkTokenResponse: CheckTokenResponse?, isSuccess: Boolean, code: Int, error: String?) {
         if (isSuccess) {
             // sp에 access랑 refresh 저장 (갱신)
             prefs.edit().putString("NormalAccessToken", "${checkTokenResponse?.accessToken}").apply()
@@ -185,14 +188,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             startMainActivity()
 
         } else  {
-            val msg = checkTokenResponse.message
+            val msg = error
 
             when(code) {
                 400 -> {
                     when (msg) {
                         "REPORT LIMIT EXCEED" -> {
                             showToast("다중의 신고가 접수되어 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
-                            Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
+                            Log.d("신고횟수", "신고 횟수가 7회 이상입니다. ")
                         }
                     }
                 }
@@ -200,9 +203,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                     when (msg) {
                         "NO_ACCESS" -> { Log.d("토큰 상태", "access, refresh 토큰이 없습니다.") }
                         "TOKEN type Bearer" -> { Log.d("토큰 상태", "접두사 Bearer가 없습니다.") }
-                        "NEED_NEW_LOGIN" -> {
+                        "NEED_RE_LOGIN" -> {
                             showToast("세션이 만료되었습니다. 다시 로그인해주세요.")
-                            Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다. / ${checkTokenResponse.time}")
+                            Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다.}")
                         }
                     }
                 }
