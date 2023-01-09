@@ -61,8 +61,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     // 스플래시 초기화
     private fun initSplashScreen() {
         initData()
-        //test
-        prefs.edit().putString("NormalRefreshToken", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzMyNDUxMTQsImlhdCI6MTY3MzI0NTExNCwiZW1haWwiOiJzeWI4MjAwQG5hdmVyLmNvbSJ9.9JJcJOYh4f9w9YXaSyf-STrHzIFe2jEEt1ufX-_5PlI").apply()
         getSharedPreference()
 
         // 31 버전일 떄와 아닐 때의 분기 처리
@@ -205,7 +203,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                         "TOKEN type Bearer" -> { Log.d("토큰 상태", "접두사 Bearer가 없습니다.") }
                         "NEED_RE_LOGIN" -> {
                             showToast("세션이 만료되었습니다. 다시 로그인해주세요.")
-                            Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다.}")
+                            Log.d("토큰 상태", "Refresh 토큰이 만료되었습니다.")
                         }
                     }
                 }

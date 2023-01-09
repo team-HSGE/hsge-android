@@ -20,9 +20,14 @@ class SplashService(val splashInterface: SplashInterface) {
                 call: Call<CheckTokenResponse?>,
                 response: Response<CheckTokenResponse?>
             ) {
-                val errorBody = ErrorConvertUtil.getErrorResponse(response.errorBody()!!)
-                splashInterface.onPostCheckTokenSuccess(response.body() as CheckTokenResponse?, response.isSuccessful,
-                    response.code(), errorBody.message)
+                if (response.isSuccessful) {
+                    splashInterface.onPostCheckTokenSuccess(response.body() as CheckTokenResponse?, response.isSuccessful,
+                        response.code(), error = null)
+                } else {
+                    val errorBody = ErrorConvertUtil.getErrorResponse(response.errorBody()!!)
+                    splashInterface.onPostCheckTokenSuccess(response.body() as CheckTokenResponse?, response.isSuccessful,
+                        response.code(), errorBody.message)
+                }
             }
 
             override fun onFailure(call: Call<CheckTokenResponse?>, t: Throwable) {
