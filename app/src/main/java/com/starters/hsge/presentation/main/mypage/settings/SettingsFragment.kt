@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.user.UserApiClient
@@ -18,6 +17,7 @@ import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
+import timber.log.Timber
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings), SettingsInterface {
 
@@ -26,8 +26,51 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setNavigation()
 
+
+        setNavigation()
+        initListener()
+        checkNotification()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+                visibleBtmNav()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
+    private fun moveToLoginActivity() {
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        ActivityCompat.finishAffinity(requireActivity())
+        startActivity(intent)
+    }
+
+    override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
+        if (isSuccess) {
+            Log.d("FCM토큰 삭제", "성공!")
+
+            prefs.edit().clear().apply()
+
+            moveToLoginActivity()
+            showToast("로그아웃 되었습니다.")
+        }
+    }
+
+    override fun onDeleteFcmTokenFailure(message: String) {
+        Log.d("FCM토큰 삭제 오류", "오류: $message")
+    }
+
+    private fun initListener(){
         binding.settingWithdrawalSection.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_withdrawalFragment)
         }
@@ -53,26 +96,79 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                     }
                 }
             })
-
             dialog.show(childFragmentManager, "CustomDialog")
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigateUp()
-                visibleBtmNav()
-            }
+    private fun checkNotification() {
+        val spAll = prefs.getBoolean("checkAll", true)
+        val spChat = prefs.getBoolean("chatCheck", true)
+        val spLike = prefs.getBoolean("likeCheck", true)
+        val spWave = prefs.getBoolean("waveCheck", true)
+        Timber.d("isCheck $spAll $spLike $spChat $spWave")
+
+        if (spAll){
+            binding.swPushAlarmAll.isChecked = true
+            binding.swPushAlarmLike.isChecked = true
+            binding.swPushAlarmChat.isChecked = true
+            binding.swPushAlarmWave.isChecked = true
+        } else if (!spLike || !spWave || !spChat){
+            binding.swPushAlarmAll.isChecked = false
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+        if (spLike){
+            binding.swPushAlarmLike.isChecked = true
+        }
+        if (spChat){
+            binding.swPushAlarmChat.isChecked = true
+        }
+        if (spWave){
+            binding.swPushAlarmWave.isChecked = true
+        }
+
+        binding.swPushAlarmAll.setOnClickListener(SwitchListener())
+        binding.swPushAlarmLike.setOnClickListener(SwitchListener())
+        binding.swPushAlarmChat.setOnClickListener(SwitchListener())
+        binding.swPushAlarmWave.setOnClickListener(SwitchListener())
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
+    inner class SwitchListener : View.OnClickListener{
+        override fun onClick(v: View?) {
+
+            val likeCheck = binding.swPushAlarmLike
+            val waveCheck = binding.swPushAlarmWave
+            val chatCheck = binding.swPushAlarmChat
+            val checkAll = binding.swPushAlarmAll
+
+            when (v?.id){
+                R.id.sw_push_alarm_all -> {
+                    if (checkAll.isChecked){
+                        likeCheck.isChecked = true
+                        chatCheck.isChecked = true
+                        waveCheck.isChecked = true
+                    } else {
+                        likeCheck.isChecked = false
+                        chatCheck.isChecked = false
+                        waveCheck.isChecked = false
+                    }
+                }
+                R.id.sw_push_alarm_like, R.id.sw_push_alarm_chat, R.id.sw_push_alarm_wave -> {
+                    checkAll.isChecked = likeCheck.isChecked && chatCheck.isChecked && waveCheck.isChecked
+                }
+            }
+            Timber.d("isCheck\n all : ${checkAll.isChecked}\n" +
+                    " like : ${likeCheck.isChecked}\n" +
+                    " chat : ${chatCheck.isChecked}\n" +
+                    " wave : ${waveCheck.isChecked} ")
+
+            prefs.edit().putBoolean("checkAll", checkAll.isChecked).apply()
+            prefs.edit().putBoolean("chatCheck", chatCheck.isChecked).apply()
+            prefs.edit().putBoolean("likeCheck", likeCheck.isChecked).apply()
+            prefs.edit().putBoolean("waveCheck", waveCheck.isChecked).apply()
+        }
     }
+
+
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
@@ -82,27 +178,4 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     }
 
     private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
-
-    private fun moveToLoginActivity() {
-        val intent = Intent(requireActivity(), LoginActivity::class.java)
-        ActivityCompat.finishAffinity(requireActivity())
-        startActivity(intent)
-    }
-
-    override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
-        if (isSuccess) {
-            Log.d("FCM토큰 삭제", "성공!")
-
-            prefs.edit().clear().apply()
-
-            moveToLoginActivity()
-            showToast("로그아웃 되었습니다.")
-        }
-    }
-
-    override fun onDeleteFcmTokenFailure(message: String) {
-        Log.d("FCM토큰 삭제 오류", "오류: $message")
-    }
-
-
 }

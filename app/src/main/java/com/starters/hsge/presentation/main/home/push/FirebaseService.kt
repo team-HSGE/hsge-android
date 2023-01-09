@@ -16,6 +16,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.starters.hsge.App
 import com.starters.hsge.R
 import com.starters.hsge.presentation.main.MainActivity
+import timber.log.Timber
 import java.util.*
 
 class FirebaseService : FirebaseMessagingService() {
@@ -53,25 +54,56 @@ class FirebaseService : FirebaseMessagingService() {
             val img = message.data["image"]?.toInt()
             val roomId = message.data["id"]?.toLong()
             val nickname = message.data["title"]
-            Log.d("data_service", "\ntitle : ${title}\n body : ${body}\n pushId : ${about}\n roomId: ${roomId}\n nickname : ${nickname}\n image : ${img}")
+            Timber.d(
+                "data_service" +
+                        "\ntitle : ${title}" +
+                        "\n body : ${body}" +
+                        "\n pushId : ${about}" +
+                        "\n roomId: ${roomId}" +
+                        "\n nickname : ${nickname}" +
+                        "\n image : ${img}"
+            )
 
             val isChatRoom = App.prefs.getBoolean("isChatRoom", false)
             val currentRoomId = App.prefs.getString("roomId", null)
-            Log.d("채팅룸?", isChatRoom.toString())
-            Log.d("채팅룸 아이디?", currentRoomId.toString())
-            Log.d("채팅룸 아이디_푸시 ?", roomId.toString())
 
-            if (currentRoomId != null && about == "message") { // 현재 룸아이디가 null이 아니면서, 푸시 타입이 메세지
-                if (isChatRoom && roomId != currentRoomId.toLong()){ // 현재 채티방에 있으면서, 푸시 룸아이디와 현재 룸아이디가 다른 경우 (푸시 알림 필요)
-                    sendNotification(message, about, img, roomId, nickname)
-                } else if(isChatRoom && roomId == currentRoomId.toLong()){ // 현재 채팅방에 있지만, 푸시 룸아이디와 현재 룸아이디가 동일한 경우 (푸시 알림 오면 안 됨)
-                    return
-                } else{
-                    sendNotification(message, about, img, roomId, nickname)
-                }
-            } else { // 푸시 타입이 메세지가 아닌 경우, 현재 채팅방이 있지 않은데 푸시 타입이 채팅인 경우 => 푸시 와야함
+            val spAll = App.prefs.getBoolean("checkAll", true)
+            val spChat = App.prefs.getBoolean("chatCheck", true)
+            val spLike = App.prefs.getBoolean("likeCheck", true)
+            val spWave = App.prefs.getBoolean("waveCheck", true)
+            Timber.d("isCheck $spAll $spLike $spChat $spWave")
+
+            if (spAll) { // all = true
                 sendNotification(message, about, img, roomId, nickname)
             }
+
+            when (about) {
+                "match" -> {
+                    if (spLike) {
+                        sendNotification(message, about, img, roomId, nickname)
+                    }
+                }
+                "message" -> {
+                    if (currentRoomId != null) { // 현재 룸아이디가 null이 아니면서, 푸시 타입이 메세지
+                        if (isChatRoom && roomId != currentRoomId.toLong()) { // 현재 채티방에 있으면서, 푸시 룸아이디와 현재 룸아이디가 다른 경우 (푸시 알림 필요)
+                            sendNotification(message, about, img, roomId, nickname)
+                        } else if (isChatRoom && roomId == currentRoomId.toLong()) { // 현재 채팅방에 있지만, 푸시 룸아이디와 현재 룸아이디가 동일한 경우 (푸시 알림 오면 안 됨)
+                            return
+                        } else {
+                            sendNotification(message, about, img, roomId, nickname)
+                        }
+                    } else { // 푸시 타입이 메세지가 아닌 경우, 현재 채팅방이 있지 않은데 푸시 타입이 채팅인 경우 => 푸시 와야함
+                        sendNotification(message, about, img, roomId, nickname)
+                    }
+                }
+                "waving" -> {
+                    if (spWave) {
+                        sendNotification(message, about, img, roomId, nickname)
+                    }
+                }
+            }
+
+//
 
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
@@ -79,7 +111,13 @@ class FirebaseService : FirebaseMessagingService() {
         wakeLock.release()
     }
 
-    private fun sendNotification(remoteMessage: RemoteMessage, about: String?, img: Int?, roomId: Long?, nickname: String?) {
+    private fun sendNotification(
+        remoteMessage: RemoteMessage,
+        about: String?,
+        img: Int?,
+        roomId: Long?,
+        nickname: String?
+    ) {
 
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -124,12 +162,18 @@ class FirebaseService : FirebaseMessagingService() {
             }
         }
 
-        val notification = getNotificationBuilder(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent
+        val notification = getNotificationBuilder(
+            remoteMessage.data["title"]!!, remoteMessage.data["body"]!!, img, pendingIntent
         ).build()
         notificationManager.notify((System.currentTimeMillis()).toInt(), notification)
     }
 
-    private fun getNotificationBuilder(title: String, content: String, img: Int?, pendingIntent: PendingIntent): NotificationCompat.Builder {
+    private fun getNotificationBuilder(
+        title: String,
+        content: String,
+        img: Int?,
+        pendingIntent: PendingIntent
+    ): NotificationCompat.Builder {
         val bitmap = when (img) {
             1 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_1)
