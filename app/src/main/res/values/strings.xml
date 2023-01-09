@@ -82,7 +82,7 @@
     <string name="mypage_app_info_select">앱 정보 선택</string>
 
     <string name="settings_title">설정</string>
-    <string name="settings_alarm_title">푸시 알림</string>
+    <string name="settings_alarm_title">알림 전체</string>
     <string name="settings_push_alarm_title">푸쉬 알림</string>
     <string name="settings_push_alarm_detail">내 강아지가 좋아요를 받았을 때 알림이 오지 않아요</string>
     <string name="settings_push_alarm_switch">푸쉬 알림 스위치</string>
@@ -184,4 +184,13 @@
     <string name="partner_introduction_title">자기소개</string>
     <string name="chat_list_empty_view_title">채팅방이 없어요</string>
     <string name="chat_list_empty_view_subtitle">내 강아지를 좋아요 한 사람들과 대화를 시작해보세요</string>
+    <string name="setting_alarm_title">푸시 알림</string>
+    <string name="setting_alarm_all">알림 전체</string>
+    <string name="setting_alarm_all_sub">모든 알림이 오지 않아요</string>
+    <string name="setting_alarm_like">좋아요 알림</string>
+    <string name="setting_alarm_chat">채팅 알림</string>
+    <string name="setting_alarm_chat_sub">채팅 알림이 오지 않아요</string>
+    <string name="setting_alarm_wave">손 흔들기 알림</string>
+    <string name="setting_alarm_wave_sub">나에게 손을 흔들었을 때 알림이 오지 않아요</string>
+    <string name="setting_service_terms">서비스 약관</string>
 </resources>

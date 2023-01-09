@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -47,29 +46,63 @@
             app:layout_constraintTop_toBottomOf="@+id/tool_bar">
 
             <TextView
-                android:id="@+id/tv_alarm_title"
+                android:id="@+id/tv_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/settings_alarm_title"
-                android:text="@string/settings_alarm_title"
+                android:text="@string/setting_alarm_title"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tv_alarm_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/sw_push_alarm_all"
-                android:contentDescription="@string/settings_push_alarm_switch"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_alarm_title"
-                app:layout_constraintBottom_toBottomOf="@id/tv_alarm_title"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alarm">
+
+                <TextView
+                    android:id="@+id/tv_push_alarm_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_alarm_all"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_push_alarm_detail_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/setting_alarm_all_sub"
+                    android:textColor="@color/G400"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_push_alarm_all" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sw_push_alarm_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/settings_push_alarm_switch"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/alarm_switch_section_like"
-                android:layout_marginStart="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -82,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/settings_push_alarm_title"
-                    android:text="좋아요 알림"
+                    android:text="@string/setting_alarm_like"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -90,7 +123,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_push_alarm_detail_all"
+                    android:id="@+id/tv_push_alarm_detail_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -114,7 +147,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginStart="12dp"
                 android:id="@+id/alarm_switch_section_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/settings_push_alarm_title"
-                    android:text="채팅 알림"
+                    android:text="@string/setting_alarm_chat"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -141,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:contentDescription="@string/settings_push_alarm_detail"
-                    android:text="채팅 알림이 오지 않아요"
+                    android:text="@string/setting_alarm_chat_sub"
                     android:textColor="@color/G400"
                     android:textSize="12sp"
                     android:textStyle="normal"
@@ -161,7 +193,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/alarm_switch_section_wave"
-                android:layout_marginStart="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -174,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/settings_push_alarm_title"
-                    android:text="손 흔들기 알림"
+                    android:text="@string/setting_alarm_wave"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -187,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:contentDescription="@string/settings_push_alarm_detail"
-                    android:text="나에게 손을 흔들었을 때 알림이 오지 않아요"
+                    android:text="@string/setting_alarm_wave_sub"
                     android:textColor="@color/G400"
                     android:textSize="12sp"
                     android:textStyle="normal"
@@ -204,7 +235,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -225,7 +255,7 @@
                 android:id="@+id/tv_service_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="서비스 약관"
+                android:text="@string/setting_service_terms"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal"
