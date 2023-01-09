@@ -23,7 +23,7 @@ interface LoginApi {
     @POST("api/auth/refresh-token")
     fun postToken(
         @Body checkToken: CheckTokenRequest
-    ): Call<CheckTokenResponse?>
+    ): Call<CheckTokenResponse>
 
     // fcm token 전송
     @POST("api/auth/fcm/token")
