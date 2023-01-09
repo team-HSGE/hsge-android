@@ -143,10 +143,11 @@ class FirebaseService : FirebaseMessagingService() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 resources.getString(R.string.default_notification_channel_id), //채널 ID
-                "CHATTING", //채널명
+                "환승견애", //채널명
                 NotificationManager.IMPORTANCE_HIGH// 알림음이 울리며 헤드업 알림 표시
             )
             channel.apply {
+                setShowBadge(true)
                 enableLights(true)
                 lightColor = Color.BLUE
                 enableVibration(true)
@@ -226,5 +227,6 @@ class FirebaseService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_paw)
             .setShowWhen(true)
             .setLargeIcon(bitmap)
+            .setNumber(1)
     }
 }

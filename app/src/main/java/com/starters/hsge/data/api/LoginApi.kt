@@ -8,6 +8,7 @@ import com.starters.hsge.data.model.remote.response.LoginResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 
 interface LoginApi {
@@ -30,8 +31,10 @@ interface LoginApi {
     ): Call<Void>
 
     // fcm token 삭제
-    @DELETE("api/auth/fcm/token")
-    fun deleteFcmToken(): Call<Void>
+    @HTTP(method = "DELETE", path = "api/auth/fcm/token", hasBody = true)
+    fun deleteFcmToken(
+        @Body deleteToken: FcmPostRequest
+    ): Call<Void>
 
     // 회원 탈퇴
     @DELETE("api/users/withdrawal")
