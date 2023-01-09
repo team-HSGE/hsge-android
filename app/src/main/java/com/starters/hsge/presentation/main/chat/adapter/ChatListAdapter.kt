@@ -4,22 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.databinding.ItemChatListBinding
 import com.starters.hsge.databinding.ItemLikedPeopleBinding
+import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 
-class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
-                      private val itemClickListener: () -> Unit
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatListAdapter(
+    private var chatList: List<ChatListInfo?>?,
+    private val itemClickListener: () -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
         return when (viewType) {
             1 -> { // chat active
                 val bind =
-                    ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemChatListBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 ChatListViewHolder(bind)
 
             }
@@ -36,38 +39,35 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (chatListResponse?.get(position)?.active) {
-            true -> {
-                chatListResponse?.get(position)?.let { (holder as ChatListViewHolder).bind(it) }
+        chatList?.let { chatList ->
+            when (chatList[position]?.active) {
+                true -> {
+                    chatList[position]?.let { (holder as ChatListViewHolder).bind(it) }
+                }
+                false -> {
+                    chatList[position]?.let { (holder as LikedPeopleViewHolder).bind(it) }
+                }
+                else -> return
             }
-            false -> {
-                chatListResponse?.get(position)?.let { (holder as LikedPeopleViewHolder).bind(it) }
-            }
-            else -> return
         }
     }
 
     override fun getItemCount(): Int {
-        return chatListResponse?.size ?: 0
+        return chatList?.size ?: 0
     }
 
     override fun getItemViewType(position: Int): Int {
         var active = 0
-        if (!chatListResponse.isNullOrEmpty()) {
-            active = if (chatListResponse?.get(position)?.active == true) 1 else 0
+        if (!chatList.isNullOrEmpty()) {
+            active = if (chatList?.get(position)?.active == true) 1 else 0
         }
         return active
     }
 
-   inner class ChatListViewHolder(private val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chat: ChatListResponse) {
-            with(binding) {
-//                chat.userIcon.let { chatListIvPersonIcon.setBackgroundResource(it) }
-                chatListTvPersonName.text = chat.nickname
-                // TODO : date 연결
-                //chatListTvDateBefore.text = "${chat.date}일 전"
-                chatListTvMessage.text = chat.message
-            }
+    inner class ChatListViewHolder(private val binding: ItemChatListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chat: ChatListInfo) {
+            binding.chatListInfo = chat
             itemView.setOnClickListener {
                 val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chat)
                 it.findNavController().navigate(action)
@@ -76,13 +76,10 @@ class ChatListAdapter(private var chatListResponse: List<ChatListResponse?>?,
         }
     }
 
-    inner class LikedPeopleViewHolder(private val binding: ItemLikedPeopleBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chat: ChatListResponse) {
-            with(binding) {
-  //              chat.userIcon.let { likedPeopleIvIcon.setBackgroundResource(it) }
-                likedPeopleTvNickName.text = chat.nickname
-            }
-
+    inner class LikedPeopleViewHolder(private val binding: ItemLikedPeopleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chat: ChatListInfo) {
+            binding.chatListInfo = chat
             itemView.setOnClickListener {
                 val action = ChatFragmentDirections.actionChatFragmentToChatRoomFragment(chat)
                 it.findNavController().navigate(action)
