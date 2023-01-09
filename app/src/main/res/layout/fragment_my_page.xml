@@ -52,7 +52,7 @@
 
             <ImageView
                 android:id="@+id/iv_user_profile"
-                bindProfileIcon="@{userInfo.profilePath.resId}"
+                bindProfileIcon="@{userInfo.profilePath}"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="24dp"
