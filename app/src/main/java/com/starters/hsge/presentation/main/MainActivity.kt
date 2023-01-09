@@ -8,8 +8,8 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.starters.hsge.R
-import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.databinding.ActivityMainBinding
+import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     } else {
                         val action =
                             ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
-                                chatInfo = ChatListResponse(
+                                chatInfo = ChatListInfo(
                                     roomId!!,
                                     nickname!!,
                                     DEFAULT_USER_ICON,
