@@ -2,12 +2,12 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserImageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
+import com.starters.hsge.presentation.common.constants.SAVE_RESID_FOR_VIEW
+import com.starters.hsge.presentation.common.constants.SAVE_RESID_ORDER
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -16,8 +16,6 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
 
     var resId: Int? = null
     var resIdForView: Int? = null
-
-    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +28,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
     }
 
     private fun changeButtonState() {
-        if (prefs.contains("resId")) {
+        if (prefs.contains(SAVE_RESID_ORDER)) {
             binding.btnNext.isEnabled = true
         }
     }
@@ -48,14 +46,14 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
 
         binding.ivUserImage.setOnClickListener {
             val action =
-                UserImageFragmentDirections.actionUserImageFragmentToUserProfileIconFragment(1)
+                UserImageFragmentDirections.actionUserImageFragmentToProfileIconFragment(1)
             findNavController().navigate(action)
         }
     }
 
     private fun getSharedPreferences() {
-        resId = prefs.getInt("resId", R.drawable.ic_profile_photo_bg)
-        resIdForView = prefs.getInt("resIdForView", 0)
+        resId = prefs.getInt(SAVE_RESID_ORDER, R.drawable.ic_profile_photo_bg)
+        resIdForView = prefs.getInt(SAVE_RESID_FOR_VIEW, 0)
         Timber.d("선택한 이미지: ${resIdForView}, 매핑: $resId")
     }
 
