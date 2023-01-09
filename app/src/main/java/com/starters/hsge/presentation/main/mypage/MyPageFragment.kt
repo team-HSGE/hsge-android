@@ -54,7 +54,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                             binding.userInfo = state.data
                             with(myPageViewModel) {
                                 nickName = state.data.nickname
-                                userIcon = state.data.profilePath.resId
+                                userIcon = state.data.profilePath
                                 latitude = state.data.latitude
                                 longitude = state.data.longtitude
                                 town = state.data.town
