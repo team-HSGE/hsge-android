@@ -14,7 +14,7 @@ import retrofit2.http.Path
 interface ChatApi {
     // 채팅방 리스트 불러오기
     @GET("/api/chats")
-    fun getChatList(): Call<List<ChatListResponse?>>
+    suspend fun getChatList(): List<ChatListResponse>?
 
     // 메세지 리스트 불러오기
     @GET("/api/chats/{roomId}")
