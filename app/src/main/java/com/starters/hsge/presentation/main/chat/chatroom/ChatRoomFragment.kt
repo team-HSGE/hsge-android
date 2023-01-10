@@ -69,6 +69,7 @@ class ChatRoomFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chatInfo = args.chatInfo
+        Timber.d("!!chat safe args ${args.chatInfo}")
 
         val chatInfo = args.chatInfo
         chatRoomViewModel.roomId = chatInfo.roomId
@@ -197,6 +198,7 @@ class ChatRoomFragment : Fragment() {
         // 채팅 대화 목록 호출
         chatRoomViewModel.getMessageInfo(chatRoomViewModel.roomId).observe(viewLifecycleOwner) {
             it?.let {
+                Timber.d("!!채팅 리스트 정보 $it")
                 binding.messageInfo = it
                 chatRoomViewModel.messages = it.messageList
                 chatRoomViewModel.partnerId = it.userInfo.otherUserId

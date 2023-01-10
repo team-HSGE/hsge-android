@@ -8,6 +8,7 @@ import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.domain.repository.ChatRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
@@ -16,8 +17,10 @@ class ChatRepositoryImpl @Inject constructor(
 
     override suspend fun getChatList(): Flow<List<ChatListInfo>?> = flow {
         emit(api.getChatList()?.map {
+            Timber.d("!!맵핑 시작")
             it.mapToChatListInfo()
         })
+        Timber.d("!!맵핑 끝")
     }
 
     override suspend fun getMessageList(roomId: Long): MessageInfoResponse {
