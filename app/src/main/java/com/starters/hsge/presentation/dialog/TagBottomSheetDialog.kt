@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTagBottomSheetDialogBinding
 import com.starters.hsge.presentation.common.extension.showToast
-import com.starters.hsge.presentation.main.mypage.edit.ViewType
+import com.starters.hsge.common.constants.TagViewType
 
 class TagBottomSheetDialog(
     private val list: List<String>,
-    private val type: ViewType,
+    private val type: TagViewType,
     private val checkedList: List<String>,
     private val okBtnClickListener: (List<String>) -> Unit
 ) : BottomSheetDialogFragment() {
@@ -34,8 +33,6 @@ class TagBottomSheetDialog(
             false
         )
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,56 +42,38 @@ class TagBottomSheetDialog(
         initListener()
     }
 
-    private fun setUpChipGroupDynamically(chipList: List<String>, type: ViewType) {
+    private fun setUpChipGroupDynamically(chipList: List<String>, type: TagViewType) {
         for (i in chipList) {
             binding.chipGroup.addView(createChip(i, type))
         }
     }
 
-    private fun createChip(label: String, type: ViewType): Chip {
-        when (type) {
-            ViewType.LIKE -> {
-                val chip = Chip(context, null, R.attr.CustomLikeChipChoiceStyle)
-                chip.text = label
+    private fun createChip(label: String, type: TagViewType): Chip {
+        val chip = Chip(context, null, type.attrId)
+        chip.text = label
 
-                chip.setOnClickListener {
-                    val ids: List<Int> = binding.chipGroup.checkedChipIds
-                    if (ids.size > 3) {
-                        chip.isChecked = false
-                    } else if (ids.isEmpty()) {
-                        binding.tvOkBtn.isEnabled = false
-                        requireContext().showToast("태그를 하나 이상 선택해주세요")
-                    } else {
-                        binding.tvOkBtn.isEnabled = true
-                    }
-
-                }
-                return chip
-            }
-            ViewType.DISLIKE -> {
-                val chip = Chip(context, null, R.attr.CustomDislikeChipChoiceStyle)
-                chip.text = label
-
-                chip.setOnClickListener {
-                    val ids: List<Int> = binding.chipGroup.checkedChipIds
-                    if (ids.size > 3) {
-                        chip.isChecked = false
-                    } else if (ids.isEmpty()) {
-                        binding.tvOkBtn.isEnabled = false
-                        requireContext().showToast("태그를 하나 이상 선택해주세요")
-                    } else {
-                        binding.tvOkBtn.isEnabled = true
-                    }
-                }
-                return chip
+        chip.setOnClickListener {
+            val ids: List<Int> = binding.chipGroup.checkedChipIds
+            if (ids.size > 3) {
+                chip.isChecked = false
+            } else if (ids.isEmpty()) {
+                binding.tvOkBtn.isEnabled = false
+                requireContext().showToast("태그를 하나 이상 선택해주세요")
+            } else {
+                binding.tvOkBtn.isEnabled = true
             }
         }
+        return chip
     }
 
     private fun initListener() {
         binding.tvOkBtn.setOnClickListener {
-            okBtnClickListener.invoke(getCheckedChipsText())
-            dismiss()
+            if (binding.chipGroup.checkedChipIds.isEmpty()) {
+                requireContext().showToast("태그를 하나 이상 선택해주세요")
+            } else {
+                okBtnClickListener.invoke(getCheckedChipsText())
+                dismiss()
+            }
         }
     }
 
