@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.main.add.AddDogProfileFragment">
+        tools:context=".presentation.main.mypage.add.AddDogProfileFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"

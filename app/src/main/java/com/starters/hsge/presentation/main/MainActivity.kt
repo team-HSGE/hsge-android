@@ -11,8 +11,8 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.ActivityMainBinding
 import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
-import com.starters.hsge.presentation.main.chatroom.ChatRoomFragment
+import com.starters.hsge.presentation.main.chat.chat.ChatFragmentDirections
+import com.starters.hsge.presentation.main.chat.chatroom.ChatRoomFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -108,7 +108,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         const val DEFAULT_CHECKED = false
         const val DEFAULT_ACTIVE = true
         const val DEFAULT_DATE = "2023-01-10"
-
-
     }
 }

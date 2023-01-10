@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_find" />
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.starters.hsge.presentation.main.chat.ChatFragment"
+        android:name="com.starters.hsge.presentation.main.chat.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.MyPageFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.mypage.MyPageFragment"
         android:label="fragment_my_page"
         tools:layout="@layout/fragment_my_page">
         <action
@@ -73,7 +73,7 @@
         tools:layout="@layout/fragment_withdrawal" />
     <fragment
         android:id="@+id/managementFragment"
-        android:name="com.starters.hsge.presentation.main.management.ManagementFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.management.ManagementFragment"
         android:label="ManagementFragment"
         tools:layout="@layout/fragment_management">
         <action
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
-        android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.edit.DogProfileEditFragment"
         android:label="DogProfileEditFragment"
         tools:layout="@layout/fragment_dog_profile_edit">
         <argument
@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.distance.UserDistanceFragment"
         android:label="UserDistanceFragment"
         tools:layout="@layout/fragment_user_distance">
         <action
@@ -120,12 +120,12 @@
     </fragment>
     <fragment
         android:id="@+id/addDogProfileFragment"
-        android:name="com.starters.hsge.presentation.main.add.AddDogProfileFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.add.AddDogProfileFragment"
         android:label="fragment_add_dog_profile"
         tools:layout="@layout/fragment_add_dog_profile" />
     <fragment
         android:id="@+id/chatRoomFragment"
-        android:name="com.starters.hsge.presentation.main.chatroom.ChatRoomFragment"
+        android:name="com.starters.hsge.presentation.main.chat.chatroom.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" >
         <action
@@ -140,7 +140,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatReportFragment"
-        android:name="com.starters.hsge.presentation.main.report.ChatReportFragment"
+        android:name="com.starters.hsge.presentation.main.chat.report.ChatReportFragment"
         android:label="ChatReportFragment"
         tools:layout="@layout/fragment_chat_report"
         >
@@ -152,7 +152,7 @@
     </fragment>
     <fragment
         android:id="@+id/specificDogFragment"
-        android:name="com.starters.hsge.presentation.main.detail.SpecificDogFragment"
+        android:name="com.starters.hsge.presentation.main.chat.detail.SpecificDogFragment"
         android:label="SpecificDogFragment"
         tools:layout="@layout/fragment_chat_partner_specific_dog">
         <argument
@@ -164,7 +164,7 @@
     </fragment>
     <fragment
         android:id="@+id/partnerDogsFragment"
-        android:name="com.starters.hsge.presentation.main.partner.PartnerDogsFragment"
+        android:name="com.starters.hsge.presentation.main.chat.partner.PartnerDogsFragment"
         android:label="PartnerDogsFragment"
         tools:layout="@layout/fragment_chat_partner_dogs">
         <action
@@ -173,12 +173,12 @@
     </fragment>
     <fragment
         android:id="@+id/inquiryFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.inquiry.InquiryFragment"
         android:label="InquiryFragment"
         tools:layout="@layout/fragment_inquiry"/>
     <fragment
         android:id="@+id/userProfileEditFragment"
-        android:name="com.starters.hsge.presentation.main.user.UserProfileEditFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.user.UserProfileEditFragment"
         android:label="UserProfileEditFragment" >
         <action
             android:id="@+id/action_userProfileEditFragment_to_profileIconFragment2"

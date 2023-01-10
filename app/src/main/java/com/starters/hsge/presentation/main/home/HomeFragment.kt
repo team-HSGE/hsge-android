@@ -19,7 +19,7 @@ import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
+import com.starters.hsge.presentation.main.chat.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 

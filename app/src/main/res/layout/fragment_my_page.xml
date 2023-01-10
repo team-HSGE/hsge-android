@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/G100"
-        tools:context=".presentation.main.mypage.MyPageFragment">
+        tools:context=".presentation.main.mypage.mypage.MyPageFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/my_page_toolbar"
