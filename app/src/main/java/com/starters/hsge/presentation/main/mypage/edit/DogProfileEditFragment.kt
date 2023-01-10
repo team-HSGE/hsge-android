@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
+import com.starters.hsge.common.constants.TagViewType
 import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
 import com.starters.hsge.domain.util.UriUtil
@@ -282,7 +283,7 @@ class DogProfileEditFragment :
         binding.dogLikeTagEditSection.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
                 likeTagList,
-                ViewType.LIKE,
+                TagViewType.LIKE,
                 dogProfileEditViewModel.dogLikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
@@ -300,7 +301,7 @@ class DogProfileEditFragment :
         binding.dogDislikeTagEditSection.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
                 dislikeTagList,
-                ViewType.DISLIKE,
+                TagViewType.DISLIKE,
                 dogProfileEditViewModel.dogDislikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제

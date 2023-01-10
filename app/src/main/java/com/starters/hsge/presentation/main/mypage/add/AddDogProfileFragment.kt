@@ -30,7 +30,7 @@ import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
-import com.starters.hsge.presentation.main.mypage.edit.ViewType
+import com.starters.hsge.common.constants.TagViewType
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -182,7 +182,6 @@ class AddDogProfileFragment :
             }
         }
 
-
         // 나이 선택
         binding.tvDogAgeInput.setOnClickListener {
             registerViewModel.ageMap.observe(viewLifecycleOwner) { age ->
@@ -225,7 +224,7 @@ class AddDogProfileFragment :
         binding.likeChipsContainer.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
                 likeTagList,
-                ViewType.LIKE,
+                TagViewType.LIKE,
                 addDogProfileViewModel.dogLikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
@@ -243,7 +242,7 @@ class AddDogProfileFragment :
         binding.dislikeChipsContainer.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
                 dislikeTagList,
-                ViewType.DISLIKE,
+                TagViewType.DISLIKE,
                 addDogProfileViewModel.dogDislikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
