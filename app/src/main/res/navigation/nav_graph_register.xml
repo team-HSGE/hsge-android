@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_register"
-    app:startDestination="@id/userNickNameFragment">
+    app:startDestination="@id/termsFragment">
 
     <fragment
         android:id="@+id/dogPhotoFragment"
@@ -108,10 +108,24 @@
     </fragment>
     <fragment
         android:id="@+id/termsFragment"
-        android:name="com.starters.hsge.presentation.main.terms.TermsFragment"
-        android:label="TermsFragment" >
+        android:name="com.starters.hsge.presentation.register.fragment.TermsFragment"
+        android:label="TermsFragment"
+        tools:layout="@layout/fragment_terms">
         <action
             android:id="@+id/action_termsFragment_to_userNickNameFragment"
             app:destination="@id/userNickNameFragment" />
+        <action
+            android:id="@+id/action_termsFragment_to_termWebViewFragment"
+            app:destination="@id/termWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termWebViewFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.TermWebViewFragment"
+        android:label="TermWebViewFragment"
+        tools:layout="@layout/fragment_term_web_view"
+        >
+        <argument
+            android:name="termUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

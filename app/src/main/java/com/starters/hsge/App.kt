@@ -2,6 +2,7 @@ package com.starters.hsge
 
 import android.app.Application
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -15,9 +16,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         Timber.plant(Timber.DebugTree())
         KakaoSdk.init(this, "e9ee5f6eb7b2679f8f67b4938252e566")
-        prefs = applicationContext.getSharedPreferences("HSGE", Application.MODE_PRIVATE)
+        prefs = applicationContext.getSharedPreferences("HSGE", MODE_PRIVATE)
     }
 }

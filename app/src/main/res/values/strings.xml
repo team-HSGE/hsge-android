@@ -185,8 +185,9 @@
     <string name="terms_title_first_line">환승견애</string>
     <string name="terms_title_second_line">약관내용에 동의해주세요</string>
     <string name="terms_total_agree">전체동의</string>
-    <string name="terms_first_agree">(필수) 이용약관 동의</string>
-    <string name="terms_second_agree">(필수) 개인정보 수집 및 이용동의</string>
+    <string name="terms_first_agree">(필수) 서비스 이용약관 동의</string>
+    <string name="terms_second_agree">(필수) 개인정보 처리방침</string>
+    <string name="terms_third_agree">(필수) 위치기반서비스 이용약관</string>
     <string name="button_agree">동의하기</string>
     <string name="chat_list_empty_view_title">채팅방이 없어요</string>
     <string name="chat_list_empty_view_subtitle">내 강아지를 좋아요 한 사람들과 대화를 시작해보세요</string>
@@ -199,4 +200,5 @@
     <string name="setting_alarm_wave">손 흔들기 알림</string>
     <string name="setting_alarm_wave_sub">나에게 손을 흔들었을 때 알림이 오지 않아요</string>
     <string name="setting_service_terms">서비스 약관</string>
+    <string name="inquiry_title">1:1 문의</string>
 </resources>

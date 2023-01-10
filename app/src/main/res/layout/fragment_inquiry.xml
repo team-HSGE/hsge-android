@@ -30,7 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="1:1 문의"
+                android:text="@string/inquiry_title"
                 />
 
         </androidx.appcompat.widget.Toolbar>

@@ -1,15 +1,14 @@
 package com.starters.hsge.presentation.register.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.NicknameInterface
 import com.starters.hsge.data.model.remote.request.NicknameRequest
@@ -17,7 +16,6 @@ import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.databinding.FragmentUserNickNameBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
@@ -81,9 +79,7 @@ class UserNickNameFragment :
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
-            finishAffinity(requireActivity())
-            startActivity(intent)
+            findNavController().navigateUp()
         }
     }
 

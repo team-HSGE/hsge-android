@@ -4,7 +4,6 @@ import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.model.remote.request.LoginRequest
-import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import com.starters.hsge.domain.util.ErrorConvertUtil
 import com.starters.hsge.network.RetrofitClient
