@@ -1,31 +1,47 @@
 package com.starters.hsge.presentation.register.fragment
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTermsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TermsFragment : BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms) {
 
     private var url = ""
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
+        setNavigation()
         changeTextColor()
         checkTerms()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(binding.cbTotalAgree.isChecked){
+            changeAgreeBtn()
+        }
+    }
+
     private fun initListener(){
+
 
         binding.ivFirstTerm.setOnClickListener {
             url = "https://sites.google.com/view/apphsge/%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9D%B4%EC%9A%A9%EC%95%BD%EA%B4%80?authuser=0"
@@ -40,6 +56,18 @@ class TermsFragment : BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms
         binding.ivThirdTerm.setOnClickListener {
             url = "https://sites.google.com/view/apphsge/%EC%9C%84%EC%B9%98%EA%B8%B0%EB%B0%98%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9D%B4%EC%9A%A9%EC%95%BD%EA%B4%80?authuser=0"
             setNavAction(it, url)
+        }
+
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(R.id.action_termsFragment_to_userNickNameFragment)
+        }
+    }
+
+    private fun setNavigation() {
+        binding.toolBar.setNavigationOnClickListener {
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            ActivityCompat.finishAffinity(requireActivity())
+            startActivity(intent)
         }
     }
 
@@ -96,5 +124,15 @@ class TermsFragment : BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms
 
     private fun changeAgreeBtn(){
             binding.btnNext.isEnabled = binding.cbTotalAgree.isChecked
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigateUp()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 }
