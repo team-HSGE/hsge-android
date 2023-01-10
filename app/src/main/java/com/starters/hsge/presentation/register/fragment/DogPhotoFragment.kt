@@ -160,7 +160,7 @@ class DogPhotoFragment : BaseFragment<FragmentDogPhotoBinding>(R.layout.fragment
 
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_dogPhotoFragment_to_dogNameFragment)
+                .navigate(R.id.action_dogPhotoFragment_to_dogSexFragment)
         }
     }
 

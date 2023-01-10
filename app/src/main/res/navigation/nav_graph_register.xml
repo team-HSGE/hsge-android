@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_register"
-    app:startDestination="@id/userNickNameFragment">
+    app:startDestination="@id/termsFragment">
 
     <fragment
         android:id="@+id/dogPhotoFragment"
@@ -11,8 +11,8 @@
         android:label="DogPhotoFragment"
         tools:layout="@layout/fragment_dog_photo">
         <action
-            android:id="@+id/action_dogPhotoFragment_to_dogNameFragment"
-            app:destination="@id/dogNameFragment" />
+            android:id="@+id/action_dogPhotoFragment_to_dogSexFragment"
+            app:destination="@id/dogSexFragment" />
     </fragment>
     <fragment
         android:id="@+id/userLocationFragment"
@@ -26,11 +26,11 @@
         android:label="UserImageFragment"
         tools:layout="@layout/fragment_user_image">
         <action
-            android:id="@+id/action_userImageFragment_to_dogPhotoFragment"
-            app:destination="@id/dogPhotoFragment" />
-        <action
             android:id="@+id/action_userImageFragment_to_userProfileIconFragment"
             app:destination="@id/userProfileIconFragment" />
+        <action
+            android:id="@+id/action_userImageFragment_to_dogNameFragment"
+            app:destination="@id/dogNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/userNickNameFragment"
@@ -62,8 +62,8 @@
         android:label="DogNameFragment"
         tools:layout="@layout/fragment_dog_name">
         <action
-            android:id="@+id/action_dogNameFragment_to_dogSexFragment"
-            app:destination="@id/dogSexFragment" />
+            android:id="@+id/action_dogNameFragment_to_dogPhotoFragment"
+            app:destination="@id/dogPhotoFragment" />
     </fragment>
     <fragment
         android:id="@+id/dogSexFragment"
@@ -109,6 +109,14 @@
         <action
             android:id="@+id/action_dogDislikeTagFragment_to_userLocationFragment"
             app:destination="@id/userLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.starters.hsge.presentation.main.terms.TermsFragment"
+        android:label="TermsFragment" >
+        <action
+            android:id="@+id/action_termsFragment_to_userNickNameFragment"
+            app:destination="@id/userNickNameFragment" />
     </fragment>
 
 </navigation>
