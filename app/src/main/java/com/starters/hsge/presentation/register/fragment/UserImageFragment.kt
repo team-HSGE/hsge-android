@@ -1,51 +1,60 @@
 package com.starters.hsge.presentation.register.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserImageBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.SAVE_RESID_FOR_VIEW
+import com.starters.hsge.presentation.common.constants.SAVE_RESID_ORDER
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
+@AndroidEntryPoint
 class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragment_user_image) {
 
-    var resId : Int? = null
+    var resId: Int? = null
+    var resIdForView: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
-        setNavigation()
         getSharedPreferences()
-        if (prefs.contains("resId")){
+        updateUserIcon()
+        setNavigation()
+        changeButtonState()
+    }
+
+    private fun changeButtonState() {
+        if (prefs.contains(SAVE_RESID_ORDER)) {
             binding.btnNext.isEnabled = true
-            binding.ivUserImage.setImageResource(resId!!)
-        } else {
-            return
+        }
+    }
+
+    private fun updateUserIcon() {
+        if (resIdForView != 0) {
+            resIdForView?.let { binding.ivUserImage.setImageResource(it) }
         }
     }
 
     private fun initListener() {
         binding.btnNext.setOnClickListener {
-            if(prefs.contains("resId")) {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_userImageFragment_to_dogNameFragment)
-            } else {
-                return@setOnClickListener
-            }
+            findNavController().navigate(R.id.action_userImageFragment_to_dogNameFragment)
         }
 
         binding.ivUserImage.setOnClickListener {
-            val action = UserImageFragmentDirections.actionUserImageFragmentToUserProfileIconFragment(1)
+            val action =
+                UserImageFragmentDirections.actionUserImageFragmentToProfileIconFragment(1, "")
             findNavController().navigate(action)
         }
     }
 
     private fun getSharedPreferences() {
-        resId = prefs.getInt("resId", R.drawable.ic_profile_photo_bg)
-        Log.d("sp", "${resId}")
+        resId = prefs.getInt(SAVE_RESID_ORDER, R.drawable.ic_profile_photo_bg)
+        resIdForView = prefs.getInt(SAVE_RESID_FOR_VIEW, 0)
+        Timber.d("선택한 이미지: ${resIdForView}, 매핑: $resId")
     }
 
     private fun setNavigation() {
@@ -53,5 +62,4 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
             findNavController().navigateUp()
         }
     }
-
 }

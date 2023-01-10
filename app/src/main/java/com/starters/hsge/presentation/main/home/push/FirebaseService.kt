@@ -123,6 +123,7 @@ class FirebaseService : FirebaseMessagingService() {
                 intent.putExtra("pushAbout", "chatRoomFragment")
                 intent.putExtra("roomId", roomId)
                 intent.putExtra("nickname", nickname)
+                intent.putExtra("userIcon", img)
             }
             "waving" -> {
                 intent.putExtra("pushAbout", "homeFragment")
@@ -211,8 +212,11 @@ class FirebaseService : FirebaseMessagingService() {
             14 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_14)
             }
-            else -> {
+            15 -> {
                 BitmapFactory.decodeResource(resources, R.drawable.dog_profile_15)
+            }
+            else -> {
+                BitmapFactory.decodeResource(resources, R.drawable.dog_profile_1)
             }
         }
 

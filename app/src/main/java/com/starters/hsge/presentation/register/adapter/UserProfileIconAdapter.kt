@@ -1,22 +1,24 @@
 package com.starters.hsge.presentation.register.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.starters.hsge.common.constants.UserIcon
 import com.starters.hsge.databinding.ItemProfileIconBinding
 
-class UserProfileIconAdapter(private var userIconList: List<Int>)
-    : RecyclerView.Adapter<UserProfileIconAdapter.UserProfileIconViewHolder>() {
+class UserProfileIconAdapter(
+    private var userIconList: List<UserIcon>,
+    private val itemClickListener: (UserIcon) -> Unit
+) : RecyclerView.Adapter<UserProfileIconAdapter.UserProfileIconViewHolder>() {
 
     inner class UserProfileIconViewHolder(private val binding: ItemProfileIconBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(resId: Int) {
+        fun bind(resId: UserIcon) {
             binding.icon = resId
             binding.executePendingBindings()
 
             itemView.setOnClickListener {
-                itemClickListener.onClick(it, resId)
+                itemClickListener.invoke(resId)
             }
         }
     }
@@ -36,15 +38,4 @@ class UserProfileIconAdapter(private var userIconList: List<Int>)
     override fun getItemCount(): Int {
         return userIconList.size
     }
-
-    interface OnItemClickListener{
-        fun onClick(v: View, resId: Int)
-    }
-
-    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.itemClickListener = onItemClickListener
-    }
-
-    private lateinit var itemClickListener: OnItemClickListener
-
 }

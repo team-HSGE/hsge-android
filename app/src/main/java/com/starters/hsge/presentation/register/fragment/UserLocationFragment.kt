@@ -12,9 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -34,12 +32,14 @@ import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.model.RegisterInfo
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.*
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class UserLocationFragment :
@@ -100,7 +100,7 @@ class UserLocationFragment :
                 val registerInfo = RegisterInfo(
                     email = prefs.getString("email", ""),
                     userNickName = registerViewModel.fetchUserNickname().first(),
-                    userIcon = prefs.getInt("resId", 0),
+                    userIcon = prefs.getInt(SAVE_RESID_ORDER, 0),
                     dogName = registerViewModel.fetchDogName().first(),
                     dogAge = registerViewModel.fetchDogAge().first(),
                     dogBreed = registerViewModel.fetchDogBreed().first(),
@@ -115,19 +115,20 @@ class UserLocationFragment :
                 )
 
                 registerViewModel.postRegisterInfo(imgFile, registerInfo)
-                Log.d("회원가입 때 작성한 내용", "${registerInfo}")
+                Timber.d("회원가입 때 작성한 내용 $registerInfo")
 
                 registerViewModel.mResponse.observe(viewLifecycleOwner) {
                     if (it.isSuccessful) {
-                        prefs.edit().putString("BearerAccessToken", "Bearer ${it.body()?.accessToken}").apply()
-                        prefs.edit().putString("BearerRefreshToken", "Bearer ${it.body()?.refreshToken}").apply()
-                        prefs.edit().putString("NormalAccessToken", it.body()?.accessToken).apply()
-                        prefs.edit().putString("NormalRefreshToken", it.body()?.refreshToken).apply()
+                        prefs.edit().putString(BEARER_ACCESS_TOKEN, "Bearer ${it.body()?.accessToken}").apply()
+                        prefs.edit().putString(BEARER_REFRESH_TOKEN, "Bearer ${it.body()?.refreshToken}").apply()
+                        prefs.edit().putString(NORMAL_ACCESS_TOKEN, it.body()?.accessToken).apply()
+                        prefs.edit().putString(NORMAL_REFRESH_TOKEN, it.body()?.refreshToken).apply()
 
                         // 데이터 지우기
                         lifecycleScope.launch {
                             registerViewModel.deleteAllInfo()
-                            prefs.edit().remove("resId").apply()
+                            prefs.edit().remove(SAVE_RESID_ORDER).apply()
+                            prefs.edit().remove(SAVE_RESID_FOR_VIEW).apply()
                         }
 
                         // 로딩 다이얼로그 해제
@@ -277,7 +278,6 @@ class UserLocationFragment :
             locationAddress.append(" ")
         }
         val town = locationAddress.dropLast(1).toString()
-        Log.d("확인", "${town}")
         binding.tvMyLocation.text = town
 
         lifecycleScope.launch {

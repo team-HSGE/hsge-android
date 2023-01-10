@@ -11,7 +11,7 @@ import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTagBottomSheetDialogBinding
 import com.starters.hsge.presentation.common.extension.showToast
-import com.starters.hsge.presentation.main.edit.ViewType
+import com.starters.hsge.presentation.main.mypage.edit.ViewType
 
 class TagBottomSheetDialog(
     private val list: List<String>,

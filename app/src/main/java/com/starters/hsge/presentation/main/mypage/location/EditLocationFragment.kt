@@ -56,7 +56,7 @@ class EditLocationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.userLocation = args.userLocationData
+        binding.userLocation = args.locationInfo
         initListener()
         setNavigation()
     }
@@ -83,9 +83,11 @@ class EditLocationFragment :
     }
 
     private fun initValue() {
-        editLocationViewModel.latitude = args.userLocationData?.latitude ?: 0.0
-        editLocationViewModel.longitude = args.userLocationData?.longitude ?: 0.0
-        editLocationViewModel.town = args.userLocationData?.town ?: ""
+        args.locationInfo.let {
+            editLocationViewModel.latitude = args.locationInfo.latitude
+            editLocationViewModel.longitude = args.locationInfo.longitude
+            editLocationViewModel.town = args.locationInfo.town
+        }
     }
 
     private fun initListener() {

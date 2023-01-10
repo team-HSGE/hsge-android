@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_find" />
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.starters.hsge.presentation.main.chat.ChatFragment"
+        android:name="com.starters.hsge.presentation.main.chat.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -35,12 +35,9 @@
     </fragment>
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.MyPageFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.mypage.MyPageFragment"
         android:label="fragment_my_page"
         tools:layout="@layout/fragment_my_page">
-        <action
-            android:id="@+id/action_myPageFragment_to_userProfileEditFragment"
-            app:destination="@id/userProfileEditFragment" />
         <action
             android:id="@+id/action_myPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -57,31 +54,11 @@
             android:id="@+id/action_myPageFragment_to_inquiryFragment"
             app:destination="@id/inquiryFragment" />
         <action
+            android:id="@+id/action_myPageFragment_to_userProfileEditFragment"
+            app:destination="@id/userProfileEditFragment" />
+        <action
             android:id="@+id/action_myPageFragment_to_appInfoFragment"
             app:destination="@id/appInfoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/userProfileEditFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.UserProfileEditFragment"
-        android:label="fragment_user_profile_edit"
-        tools:layout="@layout/fragment_user_profile_edit" >
-        <argument
-            android:name="userInfoData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <action
-            android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
-            app:destination="@id/userProfileEditIconFragment" />
-        <argument
-            android:name="resId"
-            app:argType="integer"
-            android:defaultValue="0" />
-        <action
-            android:id="@+id/action_userProfileEditFragment_to_myPageFragment"
-            app:destination="@id/myPageFragment"
-            app:popUpTo="@id/myPageFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -99,7 +76,7 @@
         tools:layout="@layout/fragment_withdrawal" />
     <fragment
         android:id="@+id/managementFragment"
-        android:name="com.starters.hsge.presentation.main.management.ManagementFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.management.ManagementFragment"
         android:label="ManagementFragment"
         tools:layout="@layout/fragment_management">
         <action
@@ -112,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/dogProfileEditFragment"
-        android:name="com.starters.hsge.presentation.main.edit.DogProfileEditFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.edit.DogProfileEditFragment"
         android:label="DogProfileEditFragment"
         tools:layout="@layout/fragment_dog_profile_edit">
         <argument
@@ -121,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/userDistanceFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.UserDistanceFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.distance.UserDistanceFragment"
         android:label="UserDistanceFragment"
         tools:layout="@layout/fragment_user_distance">
         <action
@@ -130,8 +107,8 @@
             app:popUpTo="@id/myPageFragment"
             app:popUpToInclusive="true" />
         <argument
-            android:name="userLocationData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
+            android:name="locationInfo"
+            app:argType="com.starters.hsge.domain.model.LocationInfo"
              />
     </fragment>
     <fragment
@@ -140,33 +117,18 @@
         android:label="EditLocationFragment"
         tools:layout="@layout/fragment_edit_location">
         <argument
-            android:name="userLocationData"
-            app:argType="com.starters.hsge.presentation.main.mypage.UserLocationData"
+            android:name="locationInfo"
+            app:argType="com.starters.hsge.domain.model.LocationInfo"
              />
     </fragment>
     <fragment
-        android:id="@+id/userProfileEditIconFragment"
-        android:name="com.starters.hsge.presentation.register.fragment.UserProfileIconFragment"
-        android:label="UserProfileEditIconFragment"
-        tools:layout="@layout/fragment_user_profile_icon">
-        <action
-            android:id="@+id/action_userProfileEditIconFragment_to_userProfileEditFragment"
-            app:destination="@id/userProfileEditFragment"
-            app:popUpTo="@id/userProfileEditFragment"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="checkLayout"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
-    <fragment
         android:id="@+id/addDogProfileFragment"
-        android:name="com.starters.hsge.presentation.main.add.AddDogProfileFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.add.AddDogProfileFragment"
         android:label="fragment_add_dog_profile"
         tools:layout="@layout/fragment_add_dog_profile" />
     <fragment
         android:id="@+id/chatRoomFragment"
-        android:name="com.starters.hsge.presentation.main.chatroom.ChatRoomFragment"
+        android:name="com.starters.hsge.presentation.main.chat.chatroom.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" >
         <action
@@ -177,11 +139,11 @@
             app:destination="@id/partnerDogsFragment" />
         <argument
             android:name="chatInfo"
-            app:argType="com.starters.hsge.data.model.remote.response.ChatListResponse" />
+            app:argType="com.starters.hsge.domain.model.ChatListInfo" />
     </fragment>
     <fragment
         android:id="@+id/chatReportFragment"
-        android:name="com.starters.hsge.presentation.main.report.ChatReportFragment"
+        android:name="com.starters.hsge.presentation.main.chat.report.ChatReportFragment"
         android:label="ChatReportFragment"
         tools:layout="@layout/fragment_chat_report"
         >
@@ -193,7 +155,7 @@
     </fragment>
     <fragment
         android:id="@+id/specificDogFragment"
-        android:name="com.starters.hsge.presentation.main.detail.SpecificDogFragment"
+        android:name="com.starters.hsge.presentation.main.chat.detail.SpecificDogFragment"
         android:label="SpecificDogFragment"
         tools:layout="@layout/fragment_chat_partner_specific_dog">
         <argument
@@ -205,7 +167,7 @@
     </fragment>
     <fragment
         android:id="@+id/partnerDogsFragment"
-        android:name="com.starters.hsge.presentation.main.partner.PartnerDogsFragment"
+        android:name="com.starters.hsge.presentation.main.chat.partner.PartnerDogsFragment"
         android:label="PartnerDogsFragment"
         tools:layout="@layout/fragment_chat_partner_dogs">
         <action
@@ -214,12 +176,40 @@
     </fragment>
     <fragment
         android:id="@+id/inquiryFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.inquiry.InquiryFragment"
         android:label="InquiryFragment"
         tools:layout="@layout/fragment_inquiry"/>
     <fragment
         android:id="@+id/appInfoFragment"
-        android:name="com.starters.hsge.presentation.main.mypage.AppInfoFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.appInfo.AppInfoFragment"
         android:label="AppInfoFragment"
         tools:layout="@layout/fragment_app_info"/>
+    <fragment
+        android:id="@+id/userProfileEditFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.user.UserProfileEditFragment"
+        android:label="UserProfileEditFragment" >
+        <action
+            android:id="@+id/action_userProfileEditFragment_to_profileIconFragment2"
+            app:destination="@id/profileIconFragment2" />
+        <argument
+            android:name="userProfileInfo"
+            app:argType="com.starters.hsge.domain.model.UserProfileInfo"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileIconFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.ProfileIconFragment"
+        android:label="ProfileIconFragment" >
+        <argument
+            android:name="checkLayout"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_profileIconFragment2_to_userProfileEditFragment"
+            app:destination="@id/userProfileEditFragment"
+            app:popUpTo="@id/userProfileEditFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="nickName"
+            app:argType="string" />
+    </fragment>
 </navigation>
