@@ -7,6 +7,9 @@ import com.starters.hsge.data.model.remote.response.UserDogResponse
 import com.starters.hsge.di.RetrofitHSGE
 import com.starters.hsge.domain.util.FormDataUtil
 import com.starters.hsge.domain.repository.UserDogRepository
+import com.starters.hsge.presentation.common.constants.CONTENT_KEY
+import com.starters.hsge.presentation.common.constants.IMAGE_FILE_KEY
+import com.starters.hsge.presentation.common.constants.SIGN_UP_DTO_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.encodeToString
@@ -15,10 +18,6 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
-
-const val SIGN_UP_DTO_KEY = "signupDto"
-const val IMAGE_FILE_KEY = "imgFile"
-const val CONTENT_KEY = "content"
 
 class UserDogRepositoryImpl @Inject constructor(
     @RetrofitHSGE private val api: UserDogApi

@@ -8,6 +8,10 @@ const val BASE_URL = "https://dev.hsge.site/"
 const val SAVE_RESID_ORDER = "resIdOrder"
 const val SAVE_RESID_FOR_VIEW = "resIdForView"
 
+const val SIGN_UP_DTO_KEY = "signupDto"
+const val IMAGE_FILE_KEY = "imgFile"
+const val CONTENT_KEY = "content"
+
 const val BEARER_ACCESS_TOKEN = "BearerAccessToken"
 const val BEARER_REFRESH_TOKEN = "BearerRefreshToken"
 const val NORMAL_ACCESS_TOKEN = "NormalAccessToken"
