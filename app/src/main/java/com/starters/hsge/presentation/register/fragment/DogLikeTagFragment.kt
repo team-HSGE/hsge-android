@@ -9,27 +9,26 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogLikeTagBinding
+import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DogLikeTagFragment : BaseFragment<FragmentDogLikeTagBinding>(R.layout.fragment_dog_like_tag) {
 
-    private val registerViewModel: RegisterViewModel by viewModels()
+    @Inject
+    lateinit var getLikeTagsUseCase: GetLikeTagsUseCase
 
-    val list = listOf(
-        "#남자사람", "#여자사람", "#아이", "#사람", "#암컷", "#수컷", "#공놀이", "#터그놀이",
-        "#산책", "#수영", "#대형견", "#중형견", "#소형견", "#옷입기", "#사진찍기", "#잠자기",
-        "#간식", "#고구마", "#닭가슴살", "#야채", "#과일", "#단호박", "#개껌", "#인형"
-    )
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpChipGroupDynamically(list)
+        setUpChipGroupDynamically(getLikeTagsUseCase.invoke())
         updateCheckedChip()
         initListener()
         setNavigation()

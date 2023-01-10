@@ -9,28 +9,27 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentDogDislikeTagBinding
+import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DogDislikeTagFragment :
     BaseFragment<FragmentDogDislikeTagBinding>(R.layout.fragment_dog_dislike_tag) {
+
+    @Inject
+    lateinit var getDislikeTagsUseCase: GetDislikeTagsUseCase
 
     private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val list = listOf(
-            "#남자사람", "#여자사람", "#아이", "#사람", "#암컷", "#대형견", "#중형견",
-            "#소형견", "#옷입기", "#사진찍기", "#수영", "#뽀뽀", "#발만지기", "#꼬리만지기",
-            "#스킨십", "#큰소리", "#향수"
-        )
-
-        setUpChipGroupDynamically(list)
+        setUpChipGroupDynamically(getDislikeTagsUseCase.invoke())
         updateCheckedChip()
         initListener()
         setNavigation()
