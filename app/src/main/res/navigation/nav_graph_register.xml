@@ -113,10 +113,24 @@
     <fragment
         android:id="@+id/termsFragment"
         android:name="com.starters.hsge.presentation.register.fragment.TermsFragment"
-        android:label="TermsFragment" >
+        android:label="TermsFragment"
+        tools:layout="@layout/fragment_terms">
         <action
             android:id="@+id/action_termsFragment_to_userNickNameFragment"
             app:destination="@id/userNickNameFragment" />
+        <action
+            android:id="@+id/action_termsFragment_to_termWebViewFragment"
+            app:destination="@id/termWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termWebViewFragment"
+        android:name="com.starters.hsge.presentation.register.fragment.TermWebViewFragment"
+        android:label="TermWebViewFragment"
+        tools:layout="@layout/fragment_term_web_view"
+        >
+        <argument
+            android:name="termUrl"
+            app:argType="string" />
     </fragment>
 
 </navigation>

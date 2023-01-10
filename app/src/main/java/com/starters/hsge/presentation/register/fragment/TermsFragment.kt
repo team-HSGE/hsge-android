@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.navigation.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTermsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
@@ -14,11 +15,37 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class TermsFragment : BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms) {
 
+    private var url = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initListener()
         changeTextColor()
         checkTerms()
+    }
+
+    private fun initListener(){
+
+        binding.ivFirstTerm.setOnClickListener {
+            url = "https://sites.google.com/view/apphsge/%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9D%B4%EC%9A%A9%EC%95%BD%EA%B4%80?authuser=0"
+            setNavAction(it, url)
+        }
+
+        binding.ivSecondTerm.setOnClickListener {
+            url = "https://sites.google.com/view/apphsge/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4-%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8?authuser=0"
+            setNavAction(it, url)
+        }
+
+        binding.ivThirdTerm.setOnClickListener {
+            url = "https://sites.google.com/view/apphsge/%EC%9C%84%EC%B9%98%EA%B8%B0%EB%B0%98%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9D%B4%EC%9A%A9%EC%95%BD%EA%B4%80?authuser=0"
+            setNavAction(it, url)
+        }
+    }
+
+    private fun setNavAction(view: View, termUrl: String){
+        val action = TermsFragmentDirections.actionTermsFragmentToTermWebViewFragment(termUrl)
+        view.findNavController().navigate(action)
     }
 
     private fun changeTextColor() {
