@@ -48,7 +48,7 @@ class DogNameFragment : BaseFragment<FragmentDogNameBinding>(R.layout.fragment_d
     private fun initListener() {
         binding.btnNext.setOnClickListener {
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_dogNameFragment_to_dogSexFragment)
+                .navigate(R.id.action_dogNameFragment_to_dogPhotoFragment)
 
             lifecycleScope.launch {
                 // datastore에 저장
