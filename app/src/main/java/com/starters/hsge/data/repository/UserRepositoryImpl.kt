@@ -1,5 +1,6 @@
 package com.starters.hsge.data.repository
 
+import com.starters.hsge.common.constants.UserIcon
 import com.starters.hsge.data.api.UserApi
 import com.starters.hsge.data.model.remote.request.EditUserRequest
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
@@ -27,4 +28,22 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun putLocation(location: UserLocationRequest): Response<Void> {
         return api.putLocationData(location)
     }
+
+    override fun getIcons(): List<UserIcon> = listOf( // 색깔 순서 맞추기
+        UserIcon.ICON_FIRST,
+        UserIcon.ICON_SIXTH,
+        UserIcon.ICON_ELEVENTH,
+        UserIcon.ICON_SECOND,
+        UserIcon.ICON_SEVENTH,
+        UserIcon.ICON_TWELFTH,
+        UserIcon.ICON_THIRD,
+        UserIcon.ICON_EIGHTH,
+        UserIcon.ICON_THIRTEENTH,
+        UserIcon.ICON_FORTH,
+        UserIcon.ICON_NINTH,
+        UserIcon.ICON_FOURTEENTH,
+        UserIcon.ICON_FIFTH,
+        UserIcon.ICON_TENTH,
+        UserIcon.ICON_FIFTEENTH
+    )
 }

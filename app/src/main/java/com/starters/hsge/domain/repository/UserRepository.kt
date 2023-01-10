@@ -1,5 +1,6 @@
 package com.starters.hsge.domain.repository
 
+import com.starters.hsge.common.constants.UserIcon
 import com.starters.hsge.data.model.remote.request.EditUserRequest
 import com.starters.hsge.data.model.remote.request.UserLocationRequest
 import com.starters.hsge.domain.model.UserInfo
@@ -13,4 +14,6 @@ interface UserRepository {
     suspend fun putUserInfo(userInfo: EditUserRequest): Response<Void>
 
     suspend fun putLocation(location: UserLocationRequest): Response<Void>
+
+    fun getIcons(): List<UserIcon>
 }
