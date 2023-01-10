@@ -72,32 +72,45 @@ class FirebaseService : FirebaseMessagingService() {
             Timber.d("isCheck $spAll $spLike $spChat $spWave")
 
             if (spAll) { // all = true
-                sendNotification(message, about, img, roomId, nickname)
-            }
-
-            when (about) {
-                "match" -> {
-                    if (spLike) {
-                        sendNotification(message, about, img, roomId, nickname)
-                    }
-                }
-                "message" -> {
-                    if (currentRoomId != null) {
-                        if (currentRoomId.toLong() == roomId) {
-                            return
-                        } else {
-                            sendNotification(message, about, img, roomId, nickname)
-                        }
+                if (currentRoomId != null) {
+                    if (currentRoomId.toLong() == roomId) {
+                        return
                     } else {
                         sendNotification(message, about, img, roomId, nickname)
                     }
+                } else {
+                    sendNotification(message, about, img, roomId, nickname)
                 }
-                "waving" -> {
-                    if (spWave) {
-                        sendNotification(message, about, img, roomId, nickname)
+            } else {
+                when (about) {
+                    "match" -> {
+                        if (spLike) {
+                            sendNotification(message, about, img, roomId, nickname)
+                        }
+                    }
+                    "message" -> {
+                        if (spChat) {
+                            if (currentRoomId != null) {
+                                if (currentRoomId.toLong() == roomId) {
+                                    return
+                                } else {
+                                    sendNotification(message, about, img, roomId, nickname)
+                                }
+                            } else {
+                                sendNotification(message, about, img, roomId, nickname)
+                            }
+                        }
+
+                    }
+                    "waving" -> {
+                        if (spWave) {
+                            sendNotification(message, about, img, roomId, nickname)
+                        }
                     }
                 }
+
             }
+
         } else {
             Log.d("fcm push", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
         }

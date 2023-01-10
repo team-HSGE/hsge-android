@@ -95,7 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                     chatInfo = ChatListInfo(
                                         roomId!!,
                                         nickname!!,
-                                        DEFAULT_USER_ICON,
+                                        userIcon.orderToIcon(),
                                         DEFAULT_MESSAGE,
                                         DEFAULT_CHECKED,
                                         DEFAULT_ACTIVE,
