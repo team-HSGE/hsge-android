@@ -7,6 +7,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import retrofit2.Retrofit
 import java.io.IOException
 import com.starters.hsge.App.Companion.prefs
+import com.starters.hsge.presentation.common.constants.AUTHORIZATION
+import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
 
 object RetrofitClient {
 
@@ -38,10 +40,10 @@ object RetrofitClient {
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
 
-            val bearerJwt: String? = prefs.getString("BearerAccessToken", "")
+            val bearerJwt: String? = prefs.getString(BEARER_ACCESS_TOKEN, "")
 
             if (bearerJwt != null) {
-                builder.addHeader("Authorization", bearerJwt)
+                builder.addHeader(AUTHORIZATION, bearerJwt)
             }
             return chain.proceed(builder.build())
         }

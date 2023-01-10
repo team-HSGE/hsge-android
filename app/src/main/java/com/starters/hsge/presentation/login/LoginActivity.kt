@@ -17,6 +17,10 @@ import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.service.LoginService
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.presentation.common.base.BaseActivity
+import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
+import com.starters.hsge.presentation.common.constants.BEARER_REFRESH_TOKEN
+import com.starters.hsge.presentation.common.constants.NORMAL_ACCESS_TOKEN
+import com.starters.hsge.presentation.common.constants.NORMAL_REFRESH_TOKEN
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,10 +151,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 Log.d("소셜로그인", "${loginResponse.message}")
 
                 // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
-                prefs.edit().putString("BearerAccessToken", "Bearer ${loginResponse.accessToken}").apply()
-                prefs.edit().putString("BearerRefreshToken", "Bearer ${loginResponse.refreshToken}").apply()
-                prefs.edit().putString("NormalAccessToken", "${loginResponse.accessToken}").apply()
-                prefs.edit().putString("NormalRefreshToken", "${loginResponse.refreshToken}").apply()
+                prefs.edit().putString(BEARER_ACCESS_TOKEN, "Bearer ${loginResponse.accessToken}").apply()
+                prefs.edit().putString(BEARER_REFRESH_TOKEN, "Bearer ${loginResponse.refreshToken}").apply()
+                prefs.edit().putString(NORMAL_ACCESS_TOKEN, "${loginResponse.accessToken}").apply()
+                prefs.edit().putString(NORMAL_REFRESH_TOKEN, "${loginResponse.refreshToken}").apply()
 
                 Log.d("Bearer토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
                 Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")

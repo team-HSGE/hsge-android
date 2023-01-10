@@ -7,9 +7,11 @@ const val BASE_URL = "https://dev.hsge.site/"
 
 const val SAVE_RESID_ORDER = "resIdOrder"
 const val SAVE_RESID_FOR_VIEW = "resIdForView"
-const val RESID = "resId"
 
 const val BEARER_ACCESS_TOKEN = "BearerAccessToken"
 const val BEARER_REFRESH_TOKEN = "BearerRefreshToken"
 const val NORMAL_ACCESS_TOKEN = "NormalAccessToken"
 const val NORMAL_REFRESH_TOKEN = "NormalRefreshToken"
+const val AUTHORIZATION = "Authorization"
+
+const val OLD_NICKNAME = "oldNickName"
