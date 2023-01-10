@@ -26,7 +26,7 @@ class SplashService(val splashInterface: SplashInterface) {
                 } else {
                     val errorBody = ErrorConvertUtil.getErrorResponse(response.errorBody()!!)
                     splashInterface.onPostCheckTokenSuccess(response.body() as CheckTokenResponse?, response.isSuccessful,
-                        response.code(), errorBody.message)
+                        response.code(), errorBody?.message)
                 }
             }
 
