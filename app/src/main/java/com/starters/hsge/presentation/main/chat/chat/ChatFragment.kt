@@ -11,6 +11,7 @@ import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatBinding
 import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.chat.adapter.ChatListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,8 +31,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getChatInfo()
         observeChatList()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getChatInfo()
     }
 
     private fun getChatInfo() {
@@ -46,14 +51,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                 chatViewModel.chatListInfo.collect { state ->
                     when(state) {
                         is ChatState.Loading -> {
-                            //TODO: 로딩 다이얼로그 띄우기
+                            LoadingDialog.showDogLoadingDialog(requireContext())
                         }
                         is ChatState.Failure -> {
-                            //TODO: 로딩 다이얼로그 해제하기
+                            LoadingDialog.dismissDogLoadingDialog()
                             showToast("잠시 후 다시 시도해주세요")
                             Timber.d("!!실패")
                         }
                         is ChatState.Success -> {
+                            LoadingDialog.dismissDogLoadingDialog()
                             Timber.d("!!성공")
                             for (element in state.data) {
                                 if (element.active) { // active
