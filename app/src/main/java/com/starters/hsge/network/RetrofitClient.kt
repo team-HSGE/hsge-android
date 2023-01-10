@@ -7,6 +7,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import retrofit2.Retrofit
 import java.io.IOException
 import com.starters.hsge.App.Companion.prefs
+import com.starters.hsge.presentation.common.constants.AUTHORIZATION
+import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
 
 object RetrofitClient {
 
@@ -14,9 +16,7 @@ object RetrofitClient {
     val sRetrofit = initRetrofit()
     //private const val AccessToken_URL = "http://192.168.0.8:8081/" // 채팅용
     private const val AccessToken_URL = "https://dev.hsge.site/"
-
     //private const val AccessToken_URL = "http://192.168.0.148:8080/" // 나가기
-
 
     private fun initRetrofit() : Retrofit =
         Retrofit.Builder()
@@ -36,10 +36,10 @@ object RetrofitClient {
         override fun intercept(chain: Interceptor.Chain): Response {
             val builder: Request.Builder = chain.request().newBuilder()
 
-            val bearerJwt: String? = prefs.getString("BearerAccessToken", "")
+            val bearerJwt: String? = prefs.getString(BEARER_ACCESS_TOKEN, "")
 
             if (bearerJwt != null) {
-                builder.addHeader("Authorization", bearerJwt)
+                builder.addHeader(AUTHORIZATION, bearerJwt)
             }
             return chain.proceed(builder.build())
         }

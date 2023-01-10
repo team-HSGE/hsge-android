@@ -6,7 +6,7 @@
     <data>
         <variable
             name="userLocation"
-            type="com.starters.hsge.presentation.main.mypage.UserLocationData" />
+            type="com.starters.hsge.domain.model.LocationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

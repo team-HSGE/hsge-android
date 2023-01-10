@@ -3,7 +3,6 @@ package com.starters.hsge.data.api
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.model.remote.request.LoginRequest
-import com.starters.hsge.data.model.remote.request.UsersLocationDeleteRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import retrofit2.Call
@@ -17,13 +16,13 @@ interface LoginApi {
     @POST("api/auth/login")
     fun postLogin(
         @Body accessToken: LoginRequest
-    ): Call<LoginResponse>
+    ): Call<LoginResponse?>
 
     // access token 체크
     @POST("api/auth/refresh-token")
     fun postToken(
         @Body checkToken: CheckTokenRequest
-    ): Call<CheckTokenResponse?>
+    ): Call<CheckTokenResponse>
 
     // fcm token 전송
     @POST("api/auth/fcm/token")

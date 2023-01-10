@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.main.mypage.InquiryFragment">
+        tools:context=".presentation.main.mypage.inquiry.InquiryFragment">
 
         <androidx.appcompat.widget.Toolbar
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="1:1 문의"
+                android:text="@string/inquiry_title"
                 />
 
         </androidx.appcompat.widget.Toolbar>

@@ -200,4 +200,5 @@
     <string name="setting_alarm_wave">손 흔들기 알림</string>
     <string name="setting_alarm_wave_sub">나에게 손을 흔들었을 때 알림이 오지 않아요</string>
     <string name="setting_service_terms">서비스 약관</string>
+    <string name="inquiry_title">1:1 문의</string>
 </resources>

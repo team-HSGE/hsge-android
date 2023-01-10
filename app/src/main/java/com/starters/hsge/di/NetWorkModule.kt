@@ -3,7 +3,9 @@ package com.starters.hsge.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.starters.hsge.App
 import com.starters.hsge.data.api.*
+import com.starters.hsge.presentation.common.constants.AUTHORIZATION
 import com.starters.hsge.presentation.common.constants.BASE_URL
+import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,11 +37,11 @@ object NetworkModule {
     fun providesHeaderInterceptor() = Interceptor { chain ->
         with(chain) {
             val request = request().newBuilder()
-            val bearerJwt: String? = App.prefs.getString("BearerAccessToken", "")
+            val bearerJwt: String? = App.prefs.getString(BEARER_ACCESS_TOKEN, "")
 
             if (bearerJwt != null) {
                 request
-                    .addHeader("Authorization", bearerJwt)
+                    .addHeader(AUTHORIZATION, bearerJwt)
             }
             proceed(request.build())
         }

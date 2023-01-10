@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentTagBottomSheetDialogBinding
 import com.starters.hsge.presentation.common.extension.showToast
-import com.starters.hsge.presentation.main.edit.ViewType
+import com.starters.hsge.presentation.main.mypage.edit.ViewType
 
 class TagBottomSheetDialog(
     private val list: List<String>,

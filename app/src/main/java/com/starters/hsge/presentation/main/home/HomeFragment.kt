@@ -11,15 +11,15 @@ import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.HomeDogInterface
 import com.starters.hsge.data.interfaces.IsLikeInterface
 import com.starters.hsge.data.model.remote.request.IsLikeRequest
-import com.starters.hsge.data.model.remote.response.ChatListResponse
 import com.starters.hsge.data.model.remote.response.DogCard
 import com.starters.hsge.data.service.HomeDogService
 import com.starters.hsge.data.service.IsLikeService
 import com.starters.hsge.databinding.FragmentHomeBinding
+import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
-import com.starters.hsge.presentation.main.chat.ChatFragmentDirections
+import com.starters.hsge.presentation.main.chat.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
 
@@ -159,7 +159,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                                 R.id.chatFragment
                             val action =
                                 ChatFragmentDirections.actionChatFragmentToChatRoomFragment(
-                                    chatInfo = ChatListResponse(
+                                    chatInfo = ChatListInfo(
                                         roomId,
                                         nickname!!,
                                         MainActivity.DEFAULT_USER_ICON,

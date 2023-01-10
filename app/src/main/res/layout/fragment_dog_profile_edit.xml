@@ -15,7 +15,7 @@
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.main.edit.DogProfileEditFragment">
+        tools:context=".presentation.main.mypage.edit.DogProfileEditFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
