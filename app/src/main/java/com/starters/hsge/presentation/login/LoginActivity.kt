@@ -3,7 +3,6 @@ package com.starters.hsge.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
@@ -141,19 +140,19 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
-    override fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int) {
+    override fun onPostAccessTokenSuccess(loginResponse: LoginResponse?, isSuccess: Boolean, code: Int, error: String?) {
         if (isSuccess) {
-            if (loginResponse.message == "LOGIN") {
-                Log.d("소셜로그인", "${loginResponse.message}")
+            if (loginResponse?.message == "LOGIN") {
+                Log.d("소셜로그인", "${loginResponse?.message}")
 
                 // 로그인 성공 시, 발급받은 JWT + refresh JWT sp에 저장 (bearer 구분)
-                prefs.edit().putString("BearerAccessToken", "Bearer ${loginResponse.accessToken}").apply()
-                prefs.edit().putString("BearerRefreshToken", "Bearer ${loginResponse.refreshToken}").apply()
-                prefs.edit().putString("NormalAccessToken", "${loginResponse.accessToken}").apply()
-                prefs.edit().putString("NormalRefreshToken", "${loginResponse.refreshToken}").apply()
+                prefs.edit().putString("BearerAccessToken", "Bearer ${loginResponse?.accessToken}").apply()
+                prefs.edit().putString("BearerRefreshToken", "Bearer ${loginResponse?.refreshToken}").apply()
+                prefs.edit().putString("NormalAccessToken", "${loginResponse?.accessToken}").apply()
+                prefs.edit().putString("NormalRefreshToken", "${loginResponse?.refreshToken}").apply()
 
-                Log.d("Bearer토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
-                Log.d("Normal토큰", "access 토큰: ${loginResponse.accessToken}\nrefresh 토큰: ${loginResponse.refreshToken}")
+                Log.d("Bearer토큰", "access 토큰: ${loginResponse?.accessToken}\nrefresh 토큰: ${loginResponse?.refreshToken}")
+                Log.d("Normal토큰", "access 토큰: ${loginResponse?.accessToken}\nrefresh 토큰: ${loginResponse?.refreshToken}")
 
                 // FCM토큰 서버에 보내기
                 val fcmToken = FcmPostRequest(fcmToken)
@@ -165,22 +164,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 finish()
                 showToast("로그인에 성공하였습니다.")
 
-            } else if (loginResponse.message == "NEED_SIGNUP") {
-                Log.d("소셜로그인", "${loginResponse.message}")
+            } else if (loginResponse?.message == "NEED_SIGNUP") {
+                Log.d("소셜로그인", "${loginResponse?.message}")
 
                 val intent = Intent(applicationContext, RegisterActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
             }
         } else {
-            val msg = loginResponse.message
+            val msg = error
 
             when(code) {
                 400 -> {
                     when (msg) {
                         "REPORT LIMIT EXCEED" -> {
-                            showToast("서비스 정책에 따라 앱 사용이 제한되었습니다.\n관리자에게 문의하세요.")
-                            Log.d("신고횟수", "신고 횟수가 6회 이상입니다. ")
+                            showToast("다중의 신고가 접수되어 앱 사용이 제한되었습니다. 관리자에게 문의하세요.")
+                            Log.d("신고횟수", "신고 횟수가 7회 이상입니다. ")
                         }
                         "Access Token is not valid" -> {
                             // 카카오톡 accessToken 유효기간 끝났을 때

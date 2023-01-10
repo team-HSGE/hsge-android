@@ -1,9 +1,10 @@
 package com.starters.hsge.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+
 @kotlinx.serialization.Serializable
 data class CheckTokenResponse(
-    val message: String?,
-    val refreshToken: String? = null,
-    val accessToken: String? = null,
-    val time : String? = null
+    @SerialName("message") var message: String? = "",
+    @SerialName("refreshToken") var refreshToken: String? = "",
+    @SerialName("accessToken") var accessToken: String? = ""
 )
