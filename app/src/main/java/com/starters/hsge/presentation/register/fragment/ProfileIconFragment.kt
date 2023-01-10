@@ -14,7 +14,6 @@ import com.starters.hsge.presentation.common.constants.SAVE_RESID_FOR_VIEW
 import com.starters.hsge.presentation.common.constants.SAVE_RESID_ORDER
 import com.starters.hsge.presentation.register.adapter.UserProfileIconAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileIconFragment :
@@ -55,7 +54,6 @@ class ProfileIconFragment :
     }
 
     private fun initRecyclerView(list: List<UserIcon>) {
-        Timber.d("!!!여기 ${args.checkLayout}")
         adapter = UserProfileIconAdapter(list, itemClickListener = { it ->
             if (args.checkLayout == REGISTER_SCREEN) {
                 prefs.edit().putInt(SAVE_RESID_ORDER, it.resId.iconToOrder()).apply()
