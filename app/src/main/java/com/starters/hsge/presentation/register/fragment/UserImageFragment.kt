@@ -46,7 +46,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
 
         binding.ivUserImage.setOnClickListener {
             val action =
-                UserImageFragmentDirections.actionUserImageFragmentToProfileIconFragment(1)
+                UserImageFragmentDirections.actionUserImageFragmentToProfileIconFragment(1, "")
             findNavController().navigate(action)
         }
     }

@@ -102,5 +102,8 @@
         <argument
             android:name="checkLayout"
             app:argType="integer" />
+        <argument
+            android:name="nickName"
+            app:argType="string" />
     </fragment>
 </navigation>
