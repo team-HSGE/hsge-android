@@ -17,7 +17,7 @@ interface LoginApi {
     @POST("api/auth/login")
     fun postLogin(
         @Body accessToken: LoginRequest
-    ): Call<LoginResponse>
+    ): Call<LoginResponse?>
 
     // access token 체크
     @POST("api/auth/refresh-token")

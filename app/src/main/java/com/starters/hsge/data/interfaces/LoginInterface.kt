@@ -4,7 +4,7 @@ import com.starters.hsge.data.model.remote.response.LoginResponse
 
 interface LoginInterface {
 
-    fun onPostAccessTokenSuccess(loginResponse: LoginResponse, isSuccess: Boolean, code: Int)
+    fun onPostAccessTokenSuccess(loginResponse: LoginResponse?, isSuccess: Boolean, code: Int, error: String?)
 
     fun onPostAccessTokenFailure(message: String)
 
