@@ -1,10 +1,10 @@
 package com.starters.hsge.presentation.main.user
 
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -19,6 +19,7 @@ import com.starters.hsge.data.model.remote.response.NicknameResponse
 import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.OLD_NICKNAME
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,8 +48,8 @@ class UserProfileEditFragment :
 
         binding.userProfile = args.userProfileInfo
         setUserData()
-        checkNickname()
         initListener()
+        checkNickname()
         setTextWatcher()
         setNavigation()
     }
@@ -60,33 +61,20 @@ class UserProfileEditFragment :
                 nickName = it.nickName
                 userIcon = it.userIcon
             }
-
-
-            Timber.d("!!최초 닉 ${prefs.getString(OLD_NICKNAME, "")}")
-            Timber.d("!!나중 닉 ${prefs.getString(NEW_NICKNAME, "")}")
-
         }
     }
 
     private fun setUserData() {
-        if (!viewModel.nickNameFlag) {
-            prefs.edit().putString(OLD_NICKNAME, viewModel.nickName).apply()
-        } else {
-            prefs.edit().putString(NEW_NICKNAME, viewModel.nickName).apply()
-        }
         binding.tvEmail.text = viewModel.email
+        binding.tvEmail.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.edtNickname.setText(viewModel.nickName)
         binding.ivUserProfile.setImageResource(viewModel.userIcon)
-
-        Timber.d("!!플래그 ${viewModel.nickNameFlag}")
     }
 
 
     private fun initListener() {
         // 프로필 이미지 클릭
         binding.ivUserProfile.setOnClickListener {
-            viewModel.nickNameFlag = true
-            Timber.d("!!플래그2 ${viewModel.nickNameFlag}")
             val action =
                 UserProfileEditFragmentDirections.actionUserProfileEditFragmentToProfileIconFragment2(
                     2,
@@ -106,8 +94,6 @@ class UserProfileEditFragment :
             viewModel.mResponse.observe(viewLifecycleOwner) {
                 if (it.isSuccessful) {
                     prefs.edit().remove(OLD_NICKNAME).apply()
-                    prefs.edit().remove(NEW_NICKNAME).apply()
-                    viewModel.nickNameFlag = false
                     LoadingDialog.dismissDogLoadingDialog()
                     showToast("수정이 완료되었습니다")
                     visibleBtmNav()
@@ -120,8 +106,6 @@ class UserProfileEditFragment :
     }
 
     private fun checkNickname() {
-        //Timber.d("args ${args.userProfileInfo?.nickName}")
-        //Timber.d("저장 ${prefs.getString(OLD_NICKNAME, "")}")
         if (prefs.getString(OLD_NICKNAME, "") == binding.edtNickname.text.toString()) {
             binding.edtNicknameLayout.error = null
             buttonFlag = true
@@ -129,7 +113,20 @@ class UserProfileEditFragment :
         } else {
             val value = NicknameRequest(binding.edtNickname.text.toString())
             NicknameService(this).tryPostNickname(value)
-            Timber.d("post 되냐?")
+
+            /**
+             * navigation action으로 이동하면
+             * binding.edtNicknameLayout.error가 다시 null로 세팅 됨
+             * 아래의 코드는 action으로 이동한 경우 재검사
+             */
+            if (binding.edtNickname.text!!.isBlank()) {
+                binding.edtNicknameLayout.error = "닉네임을 입력해주세요."
+                buttonFlag = false
+            } else if (!verifyNickname(binding.edtNickname.text.toString())) {
+                binding.edtNicknameLayout.error = "닉네임 양식이 맞지 않습니다."
+                buttonFlag = false
+            }
+            flagCheck()
         }
     }
 
@@ -139,8 +136,8 @@ class UserProfileEditFragment :
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.nickName = binding.edtNickname.text.toString()
-                //prefs.edit().putString(NEW_NICKNAME, p0.toString()).apply()
+                Timber.d("!!setText 호출")
+                viewModel.nickName = p0.toString()
                 checkNickname()
             }
 
@@ -175,6 +172,7 @@ class UserProfileEditFragment :
 
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
+            prefs.edit().remove(OLD_NICKNAME).apply()
             findNavController().navigateUp()
             visibleBtmNav()
         }
@@ -191,7 +189,7 @@ class UserProfileEditFragment :
         nicknameRequest: NicknameRequest
     ) {
         if (isSuccess) {
-            Timber.d("닉네임? 성공")
+            Timber.d("닉네임 성공")
             val availability = nicknameResponse.data
             if (!availability) {
                 // 다시 입력하기
@@ -206,8 +204,7 @@ class UserProfileEditFragment :
     }
 
     override fun onPostUserNicknameFailure(message: String) {
-        Timber.d("닉네임? $message")
-        Log.d("UserNickname 오류", "오류: $message")
+        Timber.d("닉네임 오류 $message")
     }
 
 
@@ -215,6 +212,7 @@ class UserProfileEditFragment :
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                prefs.edit().remove(OLD_NICKNAME).apply()
                 findNavController().navigateUp()
                 visibleBtmNav()
             }
@@ -225,10 +223,5 @@ class UserProfileEditFragment :
     override fun onDetach() {
         super.onDetach()
         callback.remove()
-    }
-
-    companion object {
-        const val OLD_NICKNAME = "oldNickName"
-        const val NEW_NICKNAME = "newNickName"
     }
 }

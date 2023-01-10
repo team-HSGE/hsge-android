@@ -20,7 +20,6 @@ class UserProfileEditViewModel @Inject constructor(
     var email = ""
     var nickName = ""
     var userIcon = 0
-    var nickNameFlag = false
 
     fun putUserInfo(userInfo: EditUserRequest) {
         viewModelScope.launch {

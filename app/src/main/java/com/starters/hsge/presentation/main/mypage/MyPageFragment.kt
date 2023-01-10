@@ -12,6 +12,7 @@ import com.starters.hsge.databinding.FragmentMyPageBinding
 import com.starters.hsge.domain.model.LocationInfo
 import com.starters.hsge.domain.model.UserProfileInfo
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.OLD_NICKNAME
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -77,6 +78,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.userProfileEditSection.setOnClickListener {
+            // SharedPreferences에 닉네임 저장
+            prefs.edit().putString(OLD_NICKNAME, myPageViewModel.nickName).apply()
             val action = MyPageFragmentDirections.actionMyPageFragmentToUserProfileEditFragment(
                 UserProfileInfo(
                     nickName = myPageViewModel.nickName,
