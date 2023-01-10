@@ -56,7 +56,7 @@ class FirebaseService : FirebaseMessagingService() {
             val currentRoomId = App.prefs.getString("roomId", null)
             Timber.d(
                 "data_service" +
-                        "\ntitle : ${title}" +
+                        "\n title : ${title}" +
                         "\n body : ${body}" +
                         "\n pushId : ${about}" +
                         "\n roomId: ${roomId}" +
