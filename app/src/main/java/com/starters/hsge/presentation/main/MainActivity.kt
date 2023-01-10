@@ -10,6 +10,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.starters.hsge.R
+import com.starters.hsge.common.constants.orderToIcon
 import com.starters.hsge.databinding.ActivityMainBinding
 import com.starters.hsge.domain.model.ChatListInfo
 import com.starters.hsge.presentation.common.base.BaseActivity
@@ -44,10 +45,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val moveTo = intent?.extras!!.getString("pushAbout")
         val roomId = intent.extras!!.getLong("roomId")
         val nickname = intent.extras!!.getString("nickname")
-        moveFragment(moveTo, roomId, nickname)
+        val userIcon = intent.extras!!.getInt("userIcon")
+        moveFragment(moveTo, roomId, nickname, userIcon)
     }
 
-    private fun moveFragment(moveTo: String?, roomId: Long?, nickname: String?) {
+    private fun moveFragment(moveTo: String?, roomId: Long?, nickname: String?, userIcon: Int) {
         val naviController =
             supportFragmentManager.findFragmentById(R.id.fcv_main)?.findNavController()
         naviController?.let { // null이 아닐 때만 확인하기 위해 let 사용
@@ -117,7 +119,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 chatInfo = ChatListInfo(
                                     roomId!!,
                                     nickname!!,
-                                    DEFAULT_USER_ICON,
+                                    userIcon.orderToIcon(),
                                     DEFAULT_MESSAGE,
                                     DEFAULT_CHECKED,
                                     DEFAULT_ACTIVE,
@@ -142,7 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     companion object {
-        const val DEFAULT_USER_ICON = 2131165412
+        const val DEFAULT_USER_ICON = 2131165434
         const val DEFAULT_MESSAGE = "안녕하세요"
         const val DEFAULT_CHECKED = false
         const val DEFAULT_ACTIVE = true
