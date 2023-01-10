@@ -6,5 +6,5 @@ sealed class ChatState {
     object Initial : ChatState()
     object Loading : ChatState()
     class Failure(val msg: Throwable) : ChatState()
-    class Success(val data: List<ChatListInfo?>) : ChatState()
+    class Success(val data: List<ChatListInfo>) : ChatState()
 }

@@ -56,7 +56,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                         is ChatState.Success -> {
                             Timber.d("!!성공")
                             for (element in state.data) {
-                                if (element!!.active) { // active
+                                if (element.active) { // active
                                     chatList.add(element)
                                 } else { // inactive
                                     likedPeopleList.add(element)
