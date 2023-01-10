@@ -18,5 +18,6 @@ enum class DislikeTag(val tag: String) {
     TOUCH_TAIL("꼬리만지기"),
     TOUCH("스킨십"),
     LOUD_NOISE("큰소리"),
-    PERFUME("향수")
+    PERFUME("향수"),
+    NOTHING("없음")
 }
