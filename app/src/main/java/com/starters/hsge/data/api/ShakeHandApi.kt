@@ -22,6 +22,6 @@ interface ShakeHandApi {
     ) : Call<Void>
 
     @POST("api/waves/to/{userId}")
-    fun postShakeHand(@Path ("userId") userId: Long
+    fun postShakeHand(@Path ("userId") userId: Long?
     ): Call<Void>
 }

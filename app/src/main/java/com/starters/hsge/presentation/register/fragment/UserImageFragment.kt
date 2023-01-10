@@ -41,7 +41,7 @@ class UserImageFragment : BaseFragment<FragmentUserImageBinding>(R.layout.fragme
 
     private fun initListener() {
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_userImageFragment_to_dogPhotoFragment)
+            findNavController().navigate(R.id.action_userImageFragment_to_dogNameFragment)
         }
 
         binding.ivUserImage.setOnClickListener {

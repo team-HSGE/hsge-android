@@ -3,8 +3,7 @@ package com.starters.hsge.data.model.remote.response
 import kotlinx.serialization.SerialName
 
 @kotlinx.serialization.Serializable
-data class LoginResponse(
+data class CheckTokenErrorResponse(
     @SerialName("message") var message: String? = "",
-    @SerialName("refreshToken") var refreshToken: String? = "",
-    @SerialName("accessToken") var accessToken: String? = ""
+    @SerialName("time") var time : String? = ""
 )
