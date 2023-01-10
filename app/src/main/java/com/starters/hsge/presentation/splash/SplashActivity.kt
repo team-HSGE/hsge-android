@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.SplashInterface
@@ -45,10 +44,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     //알림 권한
     private fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "my-notification-channel"
+            val name = "환승견애"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channelId = "${context.packageName}-$name"
             val channel = NotificationChannel(channelId, name, importance)
+            channel.setShowBadge(true)
             channel.description = "my notification channel description"
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)

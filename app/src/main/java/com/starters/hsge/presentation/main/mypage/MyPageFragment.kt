@@ -66,6 +66,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             findNavController().navigate(R.id.action_myPageFragment_to_inquiryFragment)
             goneBtmNav()
         }
+
+        binding.appInfoSection.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_appInfoFragment)
+            goneBtmNav()
+        }
     }
 
     private fun goneBtmNav(){ (activity as MainActivity).binding.navigationMain.visibility = View.GONE }
@@ -97,5 +102,4 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     override fun onGetUserInfoFailure(message: String) {
         Log.d("UserInfoGet 오류", "오류: $message")
     }
-
 }

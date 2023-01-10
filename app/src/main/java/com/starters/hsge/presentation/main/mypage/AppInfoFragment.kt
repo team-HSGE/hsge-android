@@ -6,11 +6,11 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentInquiryBinding
+import com.starters.hsge.databinding.FragmentAppInfoBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.main.MainActivity
 
-class InquiryFragment : BaseFragment<FragmentInquiryBinding>(R.layout.fragment_inquiry){
+class AppInfoFragment : BaseFragment<FragmentAppInfoBinding>(R.layout.fragment_app_info) {
 
     private lateinit var callback: OnBackPressedCallback
 
@@ -31,6 +31,11 @@ class InquiryFragment : BaseFragment<FragmentInquiryBinding>(R.layout.fragment_i
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
     private fun setNavigation() {
         binding.toolBar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -38,7 +43,6 @@ class InquiryFragment : BaseFragment<FragmentInquiryBinding>(R.layout.fragment_i
         }
     }
 
-    private fun visibleBtmNav() {
-        (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE
-    }
+    private fun visibleBtmNav() { (activity as MainActivity).binding.navigationMain.visibility = View.VISIBLE }
+
 }

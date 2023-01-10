@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_inquiryFragment"
             app:destination="@id/inquiryFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_appInfoFragment"
+            app:destination="@id/appInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileEditFragment"
@@ -65,7 +68,8 @@
         <argument
             android:name="userInfoData"
             app:argType="com.starters.hsge.presentation.main.mypage.UserInfoData"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileEditIconFragment"
             app:destination="@id/userProfileEditIconFragment" />
@@ -213,4 +217,9 @@
         android:name="com.starters.hsge.presentation.main.mypage.InquiryFragment"
         android:label="InquiryFragment"
         tools:layout="@layout/fragment_inquiry"/>
+    <fragment
+        android:id="@+id/appInfoFragment"
+        android:name="com.starters.hsge.presentation.main.mypage.AppInfoFragment"
+        android:label="AppInfoFragment"
+        tools:layout="@layout/fragment_app_info"/>
 </navigation>
