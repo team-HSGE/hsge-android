@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_withdrawalFragment"
             app:destination="@id/withdrawalFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_termWebViewFragment2"
+            app:destination="@id/termWebViewFragment2" />
     </fragment>
     <fragment
         android:id="@+id/withdrawalFragment"
@@ -210,6 +213,16 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="nickName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/termWebViewFragment2"
+        android:name="com.starters.hsge.presentation.register.fragment.TermWebViewFragment"
+        android:label="TermWebViewFragment"
+        tools:layout="@layout/fragment_term_web_view"
+        >
+        <argument
+            android:name="termUrl"
             app:argType="string" />
     </fragment>
 </navigation>

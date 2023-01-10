@@ -199,6 +199,10 @@
     <string name="setting_alarm_chat_sub">채팅 알림이 오지 않아요</string>
     <string name="setting_alarm_wave">손 흔들기 알림</string>
     <string name="setting_alarm_wave_sub">나에게 손을 흔들었을 때 알림이 오지 않아요</string>
-    <string name="setting_service_terms">서비스 약관</string>
+    <string name="setting_service_first_terms">서비스 이용약관</string>
+    <string name="setting_service_second_terms">개인정보 저리방침</string>
+    <string name="setting_service_third_terms">위치기반 서비스 이용약관</string>
     <string name="inquiry_title">1:1 문의</string>
+    <string name="inquiry_explain">문의사항이 있으시면\n환승견애 카카오톡 채널로 문의해주세요!</string>
+    <string name="explain_kakao_channel">환승견애 채널 추가 안내</string>
 </resources>

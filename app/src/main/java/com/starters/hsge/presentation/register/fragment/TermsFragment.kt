@@ -41,8 +41,6 @@ class TermsFragment : BaseFragment<FragmentTermsBinding>(R.layout.fragment_terms
     }
 
     private fun initListener(){
-
-
         binding.ivFirstTerm.setOnClickListener {
             url = "https://sites.google.com/view/apphsge/%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9D%B4%EC%9A%A9%EC%95%BD%EA%B4%80?authuser=0"
             setNavAction(it, url)
