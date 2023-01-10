@@ -125,6 +125,8 @@ class UserProfileEditFragment :
             } else if (!verifyNickname(binding.edtNickname.text.toString())) {
                 binding.edtNicknameLayout.error = "닉네임 양식이 맞지 않습니다."
                 buttonFlag = false
+            } else {
+                buttonFlag = true
             }
             flagCheck()
         }

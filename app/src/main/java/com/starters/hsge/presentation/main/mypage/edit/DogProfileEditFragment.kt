@@ -24,8 +24,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
+import com.starters.hsge.common.constants.TagViewType
 import com.starters.hsge.data.model.remote.request.EditDogRequest
 import com.starters.hsge.databinding.FragmentDogProfileEditBinding
+import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
+import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.LoadingDialog
@@ -36,10 +39,17 @@ import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DogProfileEditFragment :
     BaseFragment<FragmentDogProfileEditBinding>(R.layout.fragment_dog_profile_edit) {
+
+    @Inject
+    lateinit var getLikeTagsUseCase: GetLikeTagsUseCase
+    @Inject
+    lateinit var getDislikeTagsUseCase: GetDislikeTagsUseCase
 
     private val args: DogProfileEditFragmentArgs by navArgs()
     private lateinit var callback: OnBackPressedCallback
@@ -54,19 +64,6 @@ class DogProfileEditFragment :
     private lateinit var imageResult: ActivityResultLauncher<Intent>
 
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
-
-
-    private val likeTagList = listOf(
-        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
-        "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
-        "간식", "고구마", "닭가슴살", "야채", "과일", "단호박", "개껌", "인형"
-    )
-
-    private val dislikeTagList = listOf(
-        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "대형견", "중형견",
-        "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
-        "스킨십", "큰소리", "향수"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,20 +89,22 @@ class DogProfileEditFragment :
         createTagTextView(binding.likeChipsContainer, args.dogDetailInfo.tag.tagLike)
         createTagTextView(binding.dislikeChipsContainer, args.dogDetailInfo.tag.tagDisLike)
         setNavigation()
+        Timber.d("리스트 ${getDislikeTagsUseCase.invoke()}")
     }
 
     private fun initValue() {
-        dogProfileEditViewModel.dogName = args.dogDetailInfo.petName
-        dogProfileEditViewModel.dogSex = args.dogDetailInfo.gender
-        dogProfileEditViewModel.dogNeuter = args.dogDetailInfo.neutralization
-        dogProfileEditViewModel.dogAge = args.dogDetailInfo.ageDto.key
-        dogProfileEditViewModel.dogBreed = args.dogDetailInfo.breedDto.key
-        dogProfileEditViewModel.dogLikeTagStr = changeListToString(args.dogDetailInfo.tag.tagLike)
-        dogProfileEditViewModel.dogDislikeTagStr =
-            changeListToString(args.dogDetailInfo.tag.tagDisLike)
-        dogProfileEditViewModel.dogLikeTag = args.dogDetailInfo.tag.tagLike
-        dogProfileEditViewModel.dogDislikeTag = args.dogDetailInfo.tag.tagDisLike
-        dogProfileEditViewModel.description = args.dogDetailInfo.description.toString()
+        with(dogProfileEditViewModel) {
+            dogName = args.dogDetailInfo.petName
+            dogSex = args.dogDetailInfo.gender
+            dogNeuter = args.dogDetailInfo.neutralization
+            dogAge = args.dogDetailInfo.ageDto.key
+            dogBreed = args.dogDetailInfo.breedDto.key
+            dogLikeTagStr = changeListToString(args.dogDetailInfo.tag.tagLike)
+            dogDislikeTagStr = changeListToString(args.dogDetailInfo.tag.tagDisLike)
+            dogLikeTag = args.dogDetailInfo.tag.tagLike
+            dogDislikeTag = args.dogDetailInfo.tag.tagDisLike
+            description = args.dogDetailInfo.description.toString()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -281,8 +280,8 @@ class DogProfileEditFragment :
         // like tag
         binding.dogLikeTagEditSection.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
-                likeTagList,
-                ViewType.LIKE,
+                getLikeTagsUseCase.invoke(),
+                TagViewType.LIKE,
                 dogProfileEditViewModel.dogLikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
@@ -299,8 +298,8 @@ class DogProfileEditFragment :
         // dislike tag
         binding.dogDislikeTagEditSection.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
-                dislikeTagList,
-                ViewType.DISLIKE,
+                getDislikeTagsUseCase.invoke(),
+                TagViewType.DISLIKE,
                 dogProfileEditViewModel.dogDislikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제

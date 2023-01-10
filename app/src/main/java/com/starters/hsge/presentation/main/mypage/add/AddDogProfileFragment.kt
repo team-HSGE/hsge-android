@@ -30,13 +30,21 @@ import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
-import com.starters.hsge.presentation.main.mypage.edit.ViewType
+import com.starters.hsge.common.constants.TagViewType
+import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
+import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddDogProfileFragment :
     BaseFragment<FragmentAddDogProfileBinding>(R.layout.fragment_add_dog_profile) {
+
+    @Inject
+    lateinit var getLikeTagsUseCase: GetLikeTagsUseCase
+    @Inject
+    lateinit var getDislikeTagsUseCase: GetDislikeTagsUseCase
 
     private lateinit var ageBottomSheet: BottomSheetDialog
     private lateinit var breedBottomSheet: BottomSheetDialog
@@ -50,18 +58,6 @@ class AddDogProfileFragment :
     private lateinit var tagBottomSheetDialog: TagBottomSheetDialog
 
     private lateinit var callback: OnBackPressedCallback
-
-    private val likeTagList = listOf(
-        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "공놀이", "터그놀이",
-        "산책", "수영", "대형견", "중형견", "소형견", "옷입기", "사진찍기", "잠자기",
-        "간식", "고구마", "닭가슴살", "야채", "과일", "단호박", "개껌", "인형"
-    )
-
-    private val dislikeTagList = listOf(
-        "남자사람", "여자사람", "아이", "사람", "암컷", "수컷", "대형견", "중형견",
-        "소형견", "옷입기", "사진찍기", "수영", "뽀뽀", "발만지기", "꼬리만지기",
-        "스킨십", "큰소리", "향수"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,7 +178,6 @@ class AddDogProfileFragment :
             }
         }
 
-
         // 나이 선택
         binding.tvDogAgeInput.setOnClickListener {
             registerViewModel.ageMap.observe(viewLifecycleOwner) { age ->
@@ -224,8 +219,8 @@ class AddDogProfileFragment :
         // like chip 선택
         binding.likeChipsContainer.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
-                likeTagList,
-                ViewType.LIKE,
+                getLikeTagsUseCase.invoke(),
+                TagViewType.LIKE,
                 addDogProfileViewModel.dogLikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
@@ -242,8 +237,8 @@ class AddDogProfileFragment :
         // dislike chip 선택
         binding.dislikeChipsContainer.setOnClickListener {
             tagBottomSheetDialog = TagBottomSheetDialog(
-                dislikeTagList,
-                ViewType.DISLIKE,
+                getDislikeTagsUseCase.invoke(),
+                TagViewType.DISLIKE,
                 addDogProfileViewModel.dogDislikeTag,
                 okBtnClickListener = { tagList ->
                     // 기존 태그 view에서 삭제
