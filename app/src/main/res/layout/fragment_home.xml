@@ -13,15 +13,51 @@
         android:clipChildren="false"
         tools:context=".presentation.main.home.HomeFragment">
 
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_card"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_no_card_title_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앗!"
+                android:textSize="120sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_no_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/no_card"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_no_card_title_large" />
+
+            <TextView
+                android:id="@+id/tv_no_card_explain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/no_card_refresh"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_no_card_title" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linear_fab_container"
@@ -44,9 +80,9 @@
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/dog_dislike"
-                app:elevation="4dp"
                 android:src="@drawable/ic_dislike"
                 app:borderWidth="0dp"
+                app:elevation="4dp"
                 app:fabCustomSize="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/fab_like"
@@ -64,10 +100,10 @@
                 android:layout_toEndOf="@id/fab_dislike"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/dog_like"
-                app:elevation="4dp"
                 android:scaleType="center"
                 android:src="@drawable/ic_like"
                 app:borderWidth="0dp"
+                app:elevation="4dp"
                 app:fabCustomSize="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
