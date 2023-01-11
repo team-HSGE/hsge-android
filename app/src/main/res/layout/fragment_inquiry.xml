@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,16 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.main.mypage.InquiryFragment">
+        tools:context=".presentation.main.mypage.inquiry.InquiryFragment">
 
         <androidx.appcompat.widget.Toolbar
-            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back_btn">
 
             <TextView
@@ -27,23 +27,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:text="@string/inquiry_title"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="1:1 문의"
-                />
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
-        <ImageView
-            android:adjustViewBounds="true"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            app:layout_constraintStart_toStartOf="parent"
+        <TextView
+            android:id="@+id/tv_inquiry_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/inquiry_explain"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:contentDescription="@string/explain_kakao_channel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/search_guide"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_inquiry_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

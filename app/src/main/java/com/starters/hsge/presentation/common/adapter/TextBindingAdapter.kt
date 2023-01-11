@@ -11,7 +11,7 @@ fun timeFormat(textView: TextView, date: String) {
 
 @BindingAdapter("neuterFormat")
 fun neuterFormat(textView: TextView, isNeuter: Boolean) {
-    when(isNeuter) {
+    when (isNeuter) {
         false -> {
             textView.text = ""
         }
@@ -35,4 +35,19 @@ fun TextView.dogBreedFormat(breed: String) {
         newFormatBreed = breed.replace(" ", "\n")
     }
     this.text = newFormatBreed
+}
+
+@BindingAdapter("townFormat")
+fun TextView.townFormat(town: String?) {
+    town?.let {
+        val oldFormatList = town.split(" ")
+        var newFormat = ""
+        if (oldFormatList.size == 3) {
+            newFormat = oldFormatList[1] + " " + oldFormatList[2]
+            this.text = newFormat
+        } else if (oldFormatList.size > 3) {
+            newFormat = oldFormatList[1] + " " + oldFormatList[2] + " " + oldFormatList[3]
+            this.text = newFormat
+        }
+    }
 }

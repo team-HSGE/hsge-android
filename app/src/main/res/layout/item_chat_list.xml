@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="chatListInfo"
+            type="com.starters.hsge.domain.model.ChatListInfo" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,10 +17,11 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/chat_list_iv_person_icon"
+            bindProfileIcon="@{chatListInfo.userIcon}"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="24dp"
-            android:background="@drawable/ic_user_icon_test"
+            android:background="@drawable/bg_gray_circle"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
+            android:text="@{chatListInfo.nickname}"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -57,6 +63,7 @@
             android:layout_marginEnd="24dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="@{chatListInfo.message}"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/chat_list_iv_person_icon"

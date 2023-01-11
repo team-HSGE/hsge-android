@@ -44,6 +44,7 @@
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -83,8 +84,6 @@
             android:name=".presentation.register.RegisterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-
-
 
             <meta-data
                 android:name="android.app.lib_name"

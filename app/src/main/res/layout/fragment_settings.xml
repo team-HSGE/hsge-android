@@ -240,7 +240,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/setting_service_terms_section"
+            android:id="@+id/setting_service_terms_first_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -252,10 +252,10 @@
             app:layout_constraintTop_toBottomOf="@+id/alarm_setting_section">
 
             <TextView
-                android:id="@+id/tv_service_terms"
+                android:id="@+id/tv_service_first_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/setting_service_terms"
+                android:text="@string/setting_service_first_terms"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal"
@@ -264,6 +264,59 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/setting_service_terms_second_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_service_terms_first_section">
+
+            <TextView
+                android:id="@+id/tv_service_second_terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_service_second_terms"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/setting_service_terms_third_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_service_terms_second_section">
+
+            <TextView
+                android:id="@+id/tv_service_third_terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_service_third_terms"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/setting_logout_section"
@@ -275,7 +328,7 @@
             android:paddingVertical="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_service_terms_section">
+            app:layout_constraintTop_toBottomOf="@+id/setting_service_terms_third_section">
 
             <TextView
                 android:id="@+id/tv_logout"

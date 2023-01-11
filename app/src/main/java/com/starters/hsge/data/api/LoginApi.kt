@@ -3,7 +3,6 @@ package com.starters.hsge.data.api
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.model.remote.request.LoginRequest
-import com.starters.hsge.data.model.remote.request.UsersLocationDeleteRequest
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.model.remote.response.LoginResponse
 import retrofit2.Call

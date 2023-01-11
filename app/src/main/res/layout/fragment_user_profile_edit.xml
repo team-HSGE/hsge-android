@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="userProfile"
+            type="com.starters.hsge.domain.model.UserProfileInfo" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".presentation.main.mypage.UserProfileEditFragment">
+        tools:context=".presentation.main.mypage.user.UserProfileEditFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
