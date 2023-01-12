@@ -77,6 +77,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                                 }
                             } else {
                                 with(binding) {
+                                    ivChatEmpty.visibility = View.INVISIBLE
+                                    tvChatEmptyTitle.visibility = View.INVISIBLE
+                                    tvChatEmptySubtitle.visibility = View.INVISIBLE
                                     tvChatLikedPeopleTitle.visibility = View.VISIBLE
                                     tvChatChatListTitle.visibility = View.VISIBLE
                                 }

@@ -23,6 +23,7 @@ import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
+import timber.log.Timber
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface,
@@ -84,11 +85,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun swipeIsLike(dogCardList: List<DogCard>, isLike: Boolean) {
-        val card = dogCardList[manager.topPosition - 1] // 카트스택의 최 상위를 찾은다음에 뺴줘야함
+        val card = dogCardList[manager.topPosition - 1] // 카트스택의 최상위를 찾은다음에 뺴줘야 함
         Log.d("isLike?", isLike.toString())
         Log.d("isLike?", card.petId.toString())
         IsLikeService(this).tryPostIsLike(card.petId, IsLikeRequest(isLike))
         LoadingDialog.showDogLoadingDialog(requireContext())
+
+        val lastCard = dogCardList.size - manager.topPosition
+        Timber.d("몇 $lastCard")
+        if (lastCard == 0){
+            binding.constEmptyView.visibility = View.VISIBLE
+        }
 
     }
 
@@ -101,6 +108,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         if (isSuccess) {
 
             val dogCardResult = DogCardResponse
+            if(dogCardResult.isEmpty()){
+                binding.constEmptyView.visibility = View.VISIBLE
+            }
             cardStackAdapter = CardStackAdapter(requireContext(), dogCardResult)
 
             manager = CardStackLayoutManager(context, object : CardStackListener {
