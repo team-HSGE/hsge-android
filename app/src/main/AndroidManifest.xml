@@ -90,8 +90,7 @@
                 android:value="" />
         </activity>
 
-        <activity
-            android:name=".presentation.onboarding.OnBoardingActivity"
+        <activity android:name=".presentation.onboarding.OnBoardingActivity"
             android:exported="true">
 
             <meta-data

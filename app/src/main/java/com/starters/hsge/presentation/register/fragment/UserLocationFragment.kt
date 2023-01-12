@@ -34,7 +34,7 @@ import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.constants.*
 import com.starters.hsge.presentation.common.util.LoadingDialog
-import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.onboarding.OnBoardingActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
@@ -135,7 +135,7 @@ class UserLocationFragment :
                         LoadingDialog.dismissDogLoadingDialog()
 
                         // 액티비티 이동
-                        val intent = Intent(context, MainActivity::class.java)
+                        val intent = Intent(context, OnBoardingActivity::class.java)
                         startActivity(intent)
                         activity?.finish()
 
