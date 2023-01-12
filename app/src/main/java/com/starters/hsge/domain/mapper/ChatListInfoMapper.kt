@@ -13,5 +13,6 @@ fun ChatListResponse.mapToChatListInfo(): ChatListInfo =
         message = this.message,
         checked = this.checked,
         active = this.active,
-        firstDate = this.firstDate
+        firstDate = this.firstDate,
+        lastDate = this.lastDate
     )
