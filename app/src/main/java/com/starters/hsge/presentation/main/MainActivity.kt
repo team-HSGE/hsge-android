@@ -99,7 +99,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                         DEFAULT_MESSAGE,
                                         DEFAULT_CHECKED,
                                         DEFAULT_ACTIVE,
-                                        DEFAULT_DATE
+                                        DEFAULT_FIRST_DATE,
+                                        DEFAULT_LAST_DATE
                                     )
                                 )
                             findNavController(binding.fcvMain).navigate(action)
@@ -123,7 +124,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                     DEFAULT_MESSAGE,
                                     DEFAULT_CHECKED,
                                     DEFAULT_ACTIVE,
-                                    DEFAULT_DATE
+                                    DEFAULT_FIRST_DATE,
+                                    DEFAULT_LAST_DATE
                                 )
                             )
                         findNavController(binding.fcvMain).navigate(action)
@@ -144,10 +146,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     companion object {
-        const val DEFAULT_USER_ICON = 2131165434
         const val DEFAULT_MESSAGE = "안녕하세요"
         const val DEFAULT_CHECKED = false
         const val DEFAULT_ACTIVE = true
-        const val DEFAULT_DATE = "2023-01-10"
+        const val DEFAULT_FIRST_DATE = "2023.01.10"
+        const val DEFAULT_LAST_DATE = "2023.01.13"
     }
 }

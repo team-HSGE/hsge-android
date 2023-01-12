@@ -11,5 +11,6 @@ data class ChatListInfo(
     val message: String,
     val checked: Boolean,
     val active: Boolean,
-    val firstDate: String
+    val firstDate: String,
+    val lastDate: String?
 ): Parcelable

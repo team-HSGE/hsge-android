@@ -131,11 +131,13 @@
     <string name="dog_dislike">관심 없어요</string>
     <string name="dog_like">관심 있어요</string>
     <string name="dog_location">근처의 강아지를 보여드려요</string>
-    <string name="no_card">카드가 없어요ㅠㅠ</string>
+    <string name="no_card">모든 카드를 넘겼어요</string>
+    <string name="no_card_refresh">4시간 후 카드가 갱신됩니다!</string>
     <string name="register_nick_name_label">사용할 닉네임을 알려주세요</string>
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
     <string name="register_btn_finish">완료</string>
+    <string name="edit_btn_finish">수정</string>
     <string name="item_card_like_overlay">관심 있어요 오버레이 리소스</string>
     <string name="item_card_dislike_overlay">관심 없어요 오버레이 리소스</string>
     <string name="mypage_user_distance_setting">반경 설정</string>

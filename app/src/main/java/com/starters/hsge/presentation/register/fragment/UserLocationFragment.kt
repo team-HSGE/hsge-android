@@ -173,6 +173,7 @@ class UserLocationFragment :
                 requireContext(),
                 ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
+                // TODO 색 바꾸기
                 startLocationUpdates()
                 LoadingDialog.showLocationLoadingDialog(requireContext())
             }
