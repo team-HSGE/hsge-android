@@ -77,6 +77,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                                 }
                             } else {
                                 with(binding) {
+                                    // 화면 밖으로 나갔다가 돌아왔을 때 invisible 처리가 안되는 문제
+                                    ivChatEmpty.visibility = View.INVISIBLE
+                                    tvChatEmptyTitle.visibility = View.INVISIBLE
+                                    tvChatEmptySubtitle.visibility = View.INVISIBLE
                                     tvChatLikedPeopleTitle.visibility = View.VISIBLE
                                     tvChatChatListTitle.visibility = View.VISIBLE
                                 }
