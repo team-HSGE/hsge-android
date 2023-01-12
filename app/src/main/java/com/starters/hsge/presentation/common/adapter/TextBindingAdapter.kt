@@ -88,3 +88,9 @@ fun TextView.lastDateFormat(lastTime: String) {
         diffSec > 0 -> this.text = time
     }
 }
+
+@BindingAdapter("messageDivider")
+fun TextView.messageDivider(date: String) {
+    val dividerDate = date.substring(0, 11)
+    this.text = dividerDate
+}
