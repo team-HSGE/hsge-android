@@ -8,6 +8,6 @@
         android:color="@color/yellow"/>
     <!-- 테두리 -->
     <size
-        android:width="16dp"
-        android:height="16dp"/>
+        android:width="22dp"
+        android:height="22dp"/>
 </shape>
