@@ -9,7 +9,7 @@ import com.starters.hsge.data.model.remote.response.Message
 import com.starters.hsge.databinding.ItemMessageReceivedBinding
 import com.starters.hsge.databinding.ItemMessageSentBinding
 
-class MessageListAdapter(private val userId: Long) :
+class MessageListAdapter(private val userId: Long, private val viewModel: ChatRoomViewModel) :
     ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffCallback()) {
 
     companion object {
@@ -17,20 +17,20 @@ class MessageListAdapter(private val userId: Long) :
         private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
     }
 
-
     class SentViewHolder(private val binding: ItemMessageSentBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(msg: Message) {
-            binding.messageList = msg
+        fun bind(viewModel: ChatRoomViewModel, msg: Message) {
+            binding.messageInfo = msg
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
 
-
     class ReceivedViewHolder(private val binding: ItemMessageReceivedBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(msg: Message) {
-            binding.messageList = msg
+        fun bind(viewModel: ChatRoomViewModel, msg: Message) {
+            binding.messageInfo = msg
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }
@@ -65,9 +65,11 @@ class MessageListAdapter(private val userId: Long) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             VIEW_TYPE_MESSAGE_SENT -> (holder as SentViewHolder).bind(
+                viewModel,
                 getItem(position)
             )
             VIEW_TYPE_MESSAGE_RECEIVED -> (holder as ReceivedViewHolder).bind(
+                viewModel,
                 getItem(position)
             )
         }
