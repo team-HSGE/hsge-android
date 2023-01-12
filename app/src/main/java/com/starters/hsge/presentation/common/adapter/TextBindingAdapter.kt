@@ -1,7 +1,10 @@
 package com.starters.hsge.presentation.common.adapter
 
+import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import java.text.SimpleDateFormat
+import java.util.*
 
 @BindingAdapter("timeFormat")
 fun timeFormat(textView: TextView, date: String) {
@@ -49,5 +52,39 @@ fun TextView.townFormat(town: String?) {
             newFormat = oldFormatList[1] + " " + oldFormatList[2] + " " + oldFormatList[3]
             this.text = newFormat
         }
+    }
+}
+
+@SuppressLint("SimpleDateFormat")
+@BindingAdapter("lastDateFormat")
+fun TextView.lastDateFormat(lastTime: String) {
+    val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
+    val now = dateFormat.format(Date(System.currentTimeMillis()))
+
+    val nowDate = dateFormat.parse(now)
+    val lastMessageDate = dateFormat.parse(lastTime)
+
+    val diff = (nowDate.time - lastMessageDate.time) / 1000
+
+    val fullDate = lastTime.split(" ")[0]
+    val date = lastTime.substring(5, 10)
+    val time = lastTime.split(" ")[1].substring(0, 5)
+
+    val diffSec = diff
+    val diffMin = diff / 60
+    val diffHour = diff / (60 * 60)
+    val diffDay = diff / (60 * 60 * 24)
+    val diffMonth = diff / (60 * 60 * 24 * 30)
+    val diffYears = diff / (60 * 60 * 24 * 30 * 12)
+
+    when {
+        diffMonth > 0 -> this.text = fullDate
+        diffDay > 0 ->
+            if (diffDay < 2L) {
+                this.text = "어제"
+            } else {
+                this.text = date
+            }
+        diffSec > 0 -> this.text = time
     }
 }
