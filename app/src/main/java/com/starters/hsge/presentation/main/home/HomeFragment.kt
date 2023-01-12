@@ -23,8 +23,6 @@ import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.chat.chat.ChatFragmentDirections
 import com.starters.hsge.presentation.main.home.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.*
-import timber.log.Timber
-
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), HomeDogInterface,
     IsLikeInterface {
@@ -92,7 +90,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         LoadingDialog.showDogLoadingDialog(requireContext())
 
         val lastCard = dogCardList.size - manager.topPosition
-        Timber.d("몇 $lastCard")
         if (lastCard == 0){
             binding.constEmptyView.visibility = View.VISIBLE
         }
