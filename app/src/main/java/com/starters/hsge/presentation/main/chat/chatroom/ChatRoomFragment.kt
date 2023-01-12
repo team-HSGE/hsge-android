@@ -20,6 +20,9 @@ import com.starters.hsge.R
 import com.starters.hsge.data.model.remote.response.Message
 import com.starters.hsge.databinding.FragmentChatRoomBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.PARTNER_ID
+import com.starters.hsge.presentation.common.constants.PARTNER_NICKNAME
+import com.starters.hsge.presentation.common.constants.ROOM_ID
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatExitBottomSheetDialog
 import com.starters.hsge.presentation.main.MainActivity
@@ -34,7 +37,10 @@ import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import timber.log.Timber
 import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
+
+val WEBSOCKET_URL = "wss://dev.hsge.site/ws/websocket"
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {
@@ -43,6 +49,7 @@ class ChatRoomFragment : Fragment() {
 
     private val args: ChatRoomFragmentArgs by navArgs()
 
+    private lateinit var stompClient: StompClient
     private lateinit var chatExitBottomSheetDialog: ChatExitBottomSheetDialog
     private lateinit var callback: OnBackPressedCallback
     private lateinit var listAdapterObserver: RecyclerView.AdapterDataObserver
@@ -64,7 +71,6 @@ class ChatRoomFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("CheckResult", "NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -82,14 +88,17 @@ class ChatRoomFragment : Fragment() {
         setNavigation()
         setupListAdapter()
         setupToolbar()
+    }
 
-        val url = "wss://dev.hsge.site/ws/websocket"
-        //val url = "ws://192.168.0.8:8081/ws/websocket" // 채팅 테스트 서버
-        val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+    override fun onResume() {
+        super.onResume()
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL) // 이 시점에 객체 생성
+        stompClient.connect() // 소켓 연결
+        startSubscription()
+    }
 
-        // stomp 연결
-        stompClient.connect()
-
+    @SuppressLint("CheckResult", "NotifyDataSetChanged")
+    private fun startSubscription() {
         stompClient.lifecycle().subscribe { lifecycleEvent ->
             when (lifecycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> {
@@ -107,7 +116,6 @@ class ChatRoomFragment : Fragment() {
                             lifecycleScope.launch(Dispatchers.Main) {
                                 chatRoomViewModel.chatList.value?.let {
                                     it.messageList.add(messageFromJson)
-                                    Timber.d("메세지 리스트 ${it.messageList}")
                                     adapter.notifyDataSetChanged()
                                     binding.rvMessages.smoothScrollToPosition(it.messageList.size - 1)
                                 }
@@ -115,30 +123,33 @@ class ChatRoomFragment : Fragment() {
                         }
 
                     //메세지 보내기
-                    binding.btnSend.setOnClickListener {
-                        if (stompClient.isConnected) {
-                            if (binding.edtMessage.text.isNotEmpty() && binding.edtMessage.text.isNotBlank()) {
-                                val data = JSONObject()
-                                data.put("senderId", chatRoomViewModel.myId)
-                                data.put("message", binding.edtMessage.text)
-                                data.put("roomId", chatRoomViewModel.roomId)
-                                data.put("receiverId", chatRoomViewModel.partnerId)
-
-                                stompClient.send("/pub/chat/message", data.toString()).subscribe()
-                                binding.edtMessage.text.clear()
-                            }
-                        }
-                    }
+                    sendMessage()
                 }
                 LifecycleEvent.Type.CLOSED -> {
                     Timber.i("CLOSED!!")
-
                 }
                 LifecycleEvent.Type.ERROR -> {
                     Timber.tag("ERROR!!").e(lifecycleEvent.exception)
                 }
                 else -> {
                     Timber.i("ELSE!!")
+                }
+            }
+        }
+    }
+
+    private fun sendMessage() {
+        binding.btnSend.setOnClickListener {
+            if (stompClient.isConnected) {
+                if (binding.edtMessage.text.isNotEmpty() && binding.edtMessage.text.isNotBlank()) {
+                    val data = JSONObject()
+                    data.put("senderId", chatRoomViewModel.myId)
+                    data.put("message", binding.edtMessage.text)
+                    data.put("roomId", chatRoomViewModel.roomId)
+                    data.put("receiverId", chatRoomViewModel.partnerId)
+
+                    stompClient.send("/pub/chat/message", data.toString()).subscribe()
+                    binding.edtMessage.text.clear()
                 }
             }
         }
@@ -213,15 +224,9 @@ class ChatRoomFragment : Fragment() {
         checkIsChatRoom()
     }
 
-    override fun onStop() {
-        super.onStop()
-        prefs.edit().remove("roomId").apply()
-        Timber.d("룸 아이디: ${prefs.getString("roomId", null)}")
-    }
-
     private fun checkIsChatRoom(){
-        prefs.edit().putString("roomId", chatRoomViewModel.roomId.toString()).apply()
-        val roomId = prefs.getString("roomId", null).toString()
+        prefs.edit().putString(ROOM_ID, chatRoomViewModel.roomId.toString()).apply()
+        val roomId = prefs.getString(ROOM_ID, null).toString()
         Timber.d("룸 아이디 : $roomId")
     }
 
@@ -311,6 +316,22 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        stompClient.disconnect() // 연결 해제
+    }
+
+    override fun onStop() {
+        super.onStop()
+        prefs.edit().remove(ROOM_ID).apply()
+        Timber.d("룸 아이디: ${prefs.getString(ROOM_ID, null)}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stompClient.disconnect() // 연결 해제
+    }
+
     private val onLayoutChangeListener =
         View.OnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
             // 키보드 올라오면서 높이 변화
@@ -318,9 +339,4 @@ class ChatRoomFragment : Fragment() {
                 binding.rvMessages.scrollBy(0, oldBottom - bottom)
             }
         }
-
-    companion object {
-        const val PARTNER_ID = "partnerId"
-        const val PARTNER_NICKNAME = "partnerNickName"
-    }
 }
