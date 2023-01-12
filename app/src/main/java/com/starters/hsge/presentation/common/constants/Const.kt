@@ -19,3 +19,7 @@ const val NORMAL_REFRESH_TOKEN = "NormalRefreshToken"
 const val AUTHORIZATION = "Authorization"
 
 const val OLD_NICKNAME = "oldNickName"
+
+const val PARTNER_ID = "partnerId"
+const val PARTNER_NICKNAME = "partnerNickName"
+const val ROOM_ID = "roomId"
