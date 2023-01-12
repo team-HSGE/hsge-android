@@ -168,7 +168,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                                         MainActivity.DEFAULT_MESSAGE,
                                         MainActivity.DEFAULT_CHECKED,
                                         MainActivity.DEFAULT_ACTIVE,
-                                        MainActivity.DEFAULT_DATE
+                                        MainActivity.DEFAULT_FIRST_DATE,
+                                        MainActivity.DEFAULT_LAST_DATE
                                     )
                                 )
                             findNavController().navigate(action)
