@@ -135,6 +135,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             binding.cardStackView.layoutManager = manager
             binding.cardStackView.adapter = cardStackAdapter
 
+
+            val lastCard = dogCardResult.size - manager.topPosition
+            if (lastCard == 0){
+                binding.constEmptyView.visibility = View.VISIBLE
+            }
+
             Log.d("TAG", DogCardResponse.toString())
             Log.d("TAG", "성공")
             LoadingDialog.dismissDogLoadingDialog()
