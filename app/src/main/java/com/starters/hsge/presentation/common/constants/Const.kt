@@ -18,3 +18,5 @@ const val NORMAL_REFRESH_TOKEN = "NormalRefreshToken"
 const val AUTHORIZATION = "Authorization"
 
 const val OLD_NICKNAME = "oldNickName"
+
+const val ONBOARDING_STRING_OBJECT = "OnBoarding String Object"
