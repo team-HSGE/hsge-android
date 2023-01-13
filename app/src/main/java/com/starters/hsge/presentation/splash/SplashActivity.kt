@@ -31,6 +31,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     var accessToken: String = ""
     var refreshToken: String = ""
     var checkOnBoarding: Boolean = false
+    var checkOnBoardingOut: Boolean = false
 
     companion object {
         private const val DURATION : Long = 1000
@@ -107,6 +108,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         Log.d("sp", "access: ${accessToken}\nrefresh: ${refreshToken}")
 
         checkOnBoarding = prefs.getBoolean(STATUS_ONBOARDING, false)
+        checkOnBoardingOut = prefs.getBoolean(STATUS_ONBOARDING_OUT, false)
         Log.d("onBoarding", "onBoarding: ${checkOnBoarding}")
     }
 
@@ -131,7 +133,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
             // 앱 설치 시기 확인
             if (!prefs.contains(STATUS_ONBOARDING)) {
-                startLoginActivity() // 새로 깔음
+                // 새로 깔음
+                if (checkOnBoardingOut) {
+                    checkToken()
+                } else {
+                    startLoginActivity()
+                }
+
             } else {
                 checkToken() // 이미 깔려있음
             }
@@ -178,10 +186,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         CoroutineScope(Dispatchers.IO).launch {
             delay(DURATION)
             if (checkOnBoarding) {
-                // true일 경우 -> 메인 화면 이동
+                // true일 경우 (온보딩 볼 필요 없는 경우)
                 startActivity(Intent(applicationContext, MainActivity::class.java))
             } else {
-                // false일 경우 -> 온보딩 화면 이동
+                // false일 경우 (온보딩 화면 이동)
                 startActivity(Intent(applicationContext, OnBoardingActivity::class.java))
             }
             finish()

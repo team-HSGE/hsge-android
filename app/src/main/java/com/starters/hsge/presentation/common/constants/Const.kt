@@ -22,3 +22,4 @@ const val OLD_NICKNAME = "oldNickName"
 
 const val ONBOARDING_STRING_OBJECT = "OnBoarding String Object"
 const val STATUS_ONBOARDING = "onBoarding"
+const val STATUS_ONBOARDING_OUT = "onBoardingOut"

@@ -6,6 +6,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentOnboardingBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.STATUS_ONBOARDING_OUT
 
 class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.fragment_onboarding) {
 
@@ -20,6 +21,9 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
 
         // indicator 세팅
         TabLayoutMediator(binding.viewpagerIndicator, binding.vpContents) { tab, position -> }.attach()
+
+        // 온보딩 중간에 나간 경우 체킹
+        prefs.edit().putBoolean(STATUS_ONBOARDING_OUT, true).apply()
     }
 
     private fun getListOfPagerContents(): List<Array<String>> {

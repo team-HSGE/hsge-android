@@ -8,6 +8,7 @@ import com.starters.hsge.databinding.FragmentOnboardingcontentBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.constants.ONBOARDING_STRING_OBJECT
 import com.starters.hsge.presentation.common.constants.STATUS_ONBOARDING
+import com.starters.hsge.presentation.common.constants.STATUS_ONBOARDING_OUT
 import com.starters.hsge.presentation.main.MainActivity
 
 
@@ -27,6 +28,7 @@ class ViewPagerContentFragment : BaseFragment<FragmentOnboardingcontentBinding>(
 
         binding.onboardingStartBtn.setOnClickListener {
             prefs.edit().putBoolean(STATUS_ONBOARDING, true).apply()
+            prefs.edit().remove(STATUS_ONBOARDING_OUT).commit()
             moveToMain()
         }
     }
