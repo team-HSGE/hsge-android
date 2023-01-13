@@ -31,6 +31,7 @@ import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
 import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.util.HideKeyboard.hideKeyboard
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
@@ -373,6 +374,11 @@ class DogProfileEditFragment :
                 }
             })
             dialog.show(childFragmentManager, "CustomDialog")
+        }
+
+        // 레이아웃 영역 터치
+        binding.layoutContainer.setOnClickListener {
+            hideKeyboard()
         }
     }
 

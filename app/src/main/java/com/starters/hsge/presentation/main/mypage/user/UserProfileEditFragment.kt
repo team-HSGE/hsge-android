@@ -20,6 +20,7 @@ import com.starters.hsge.data.service.NicknameService
 import com.starters.hsge.databinding.FragmentUserProfileEditBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.constants.OLD_NICKNAME
+import com.starters.hsge.presentation.common.util.HideKeyboard.hideKeyboard
 import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -102,6 +103,10 @@ class UserProfileEditFragment :
                     LoadingDialog.dismissDogLoadingDialog()
                 }
             }
+        }
+        // 레이아웃 영억 클릭
+        binding.layoutContainer.setOnClickListener {
+            hideKeyboard()
         }
     }
 
