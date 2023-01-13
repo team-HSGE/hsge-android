@@ -62,31 +62,15 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
 
     override fun onDeleteUserSuccess(isSuccess: Boolean) {
         if (isSuccess) {
-            // access token & fcm token 날리기
-            val fcmToken = FcmPostRequest(prefs.getString("fcmToken", ""))
-            Log.d("확인", "$fcmToken")
-
-            WithdrawalService(this).tryDeleteFcmToken(fcmToken)
+            // 회원 탈퇴 하기 (access Token sp에서 삭제 & DB에서 회원정보 제거)
+            prefs.edit().clear().apply()
+            moveToLoginActivity()
+            showToast("회원탈퇴 되었습니다.")
             Log.d("회원탈퇴", "회원탈퇴 성공")
         }
     }
 
     override fun onDeleteUserFailure(message: String) {
         Log.d("User 삭제 오류", "오류: $message")
-    }
-
-    //TODO: 회원탈퇴 화면에서만 FCM토큰 삭제 API 없애기
-    override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
-        if (isSuccess) {
-            Log.d("FCM토큰 삭제", "성공!")
-            prefs.edit().clear().apply()
-
-            moveToLoginActivity()
-            showToast("회원탈퇴 되었습니다.")
-        }
-    }
-
-    override fun onDeleteFcmTokenFailure(message: String) {
-        Log.d("FCM토큰 삭제 오류", "오류: $message")
     }
 }
