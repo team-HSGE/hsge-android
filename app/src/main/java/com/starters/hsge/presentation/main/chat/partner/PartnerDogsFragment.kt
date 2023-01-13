@@ -8,6 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentChatPartnerDogsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
+import com.starters.hsge.presentation.common.constants.PARTNER_ID
+import com.starters.hsge.presentation.common.constants.PARTNER_NICKNAME
 import com.starters.hsge.presentation.common.util.CustomDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +23,7 @@ class PartnerDogsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         partnerDogsViewModel.partnerNickName =
-            requireArguments().getString("partnerNickName").toString()
+            requireArguments().getString(PARTNER_NICKNAME).toString()
 
         initRecyclerView()
         setUpToolbar()
@@ -38,7 +40,7 @@ class PartnerDogsFragment :
         val customDecoration = CustomDecoration(1f, 0f, Color.parseColor("#EFEFEF"))
         binding.rvChatPartnerDogsList.addItemDecoration(customDecoration)
 
-        partnerDogsViewModel.getPartnerDogs(requireArguments().getLong("partnerId"))
+        partnerDogsViewModel.getPartnerDogs(requireArguments().getLong(PARTNER_ID))
             .observe(viewLifecycleOwner) {
                 val adapter =
                     it?.let { it1 -> PartnerDogsAdapter(it1, partnerDogsViewModel.partnerNickName) }
