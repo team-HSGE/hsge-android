@@ -14,7 +14,7 @@ object DateFormat{
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return ""
+        return "2023.01.13 11:11:11"
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -27,6 +27,6 @@ object DateFormat{
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return ""
+        return "2023.01.13 11:11:11"
     }
 }
