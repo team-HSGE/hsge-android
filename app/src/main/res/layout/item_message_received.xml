@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -26,9 +27,13 @@
             bindMessage="@{messageInfo}"
             bindMessageViewModel="@{viewModel}"
             messageDivider="@{messageInfo.timeStamp}"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_opacity_g700_r20"
             android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="11:40" />
 
@@ -54,7 +59,9 @@
 
             <TextView
                 android:id="@+id/tv_time_stamp"
-                timeFormat="@{messageInfo.timeStamp}"
+                bindSingleMessage="@{messageInfo}"
+                bindSingleMessageViewModel="@{viewModel}"
+                singleMessageTimeFormat="@{messageInfo.timeStamp}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
