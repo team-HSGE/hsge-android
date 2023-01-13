@@ -116,7 +116,9 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (!flag) {
             dialog.dismiss()
         }
-
+        
+        binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
+        binding.kakaoMapView.setShowCurrentLocationMarker(false)
         mCurrentLat = 0.0
         mCurrentLng = 0.0
         stopTracking()
