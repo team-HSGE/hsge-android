@@ -48,11 +48,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:contentDescription="@string/explain_kakao_channel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
+            android:layout_marginHorizontal="20dp"
+            android:contentDescription="@string/explain_kakao_channel"
             android:src="@drawable/search_guide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

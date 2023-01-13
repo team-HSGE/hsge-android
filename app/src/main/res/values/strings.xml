@@ -63,6 +63,16 @@
     <string name="dialog_withdrawal_cancel_btn">취소</string>
     <string name="dialog_withdrawal_ok_btn">탈퇴</string>
 
+    <!-- onboarding string -->
+    <string name="onboarding_title_1">동네 강아지들에게\n좋아요를 보내보세요!</string>
+    <string name="onboarding_subtitle_1">카드를 왼쪽으로 스와이프 하면 싫어요,\n오른쪽으로 스와이프 하면 좋아요를 보내요.</string>
+    <string name="onboarding_title_2">내 강아지를 좋아요한 사람들과\n채팅을 시작해보세요!</string>
+    <string name="onboarding_subtitle_2">상대방의 프로필을 눌러\n어떤 강아지들을 가지고 있는지 확인해보세요.</string>
+    <string name="onboarding_title_3">내 주변 3km 이내의\n사람들과 손을 흔들어보세요!</string>
+    <string name="onboarding_subtitle_3">내 주변 탐색 버튼을 눌러\n채팅한 사람들과 위치를 공유해보세요.</string>
+    <string name="onboarding_title_4">이제 내 주변에 어떤\n강아지들이 있는지 확인해볼까요?</string>
+    <string name="onboarding_subtitle_4">환승견애를 통해 다양한 강아지들을 만나보세요!</string>
+
     <string name="mypage_settings_icon">설정 아이콘</string>
     <string name="mypage_user_profile">사용자 프로필</string>
     <string name="mypage_user_profile_edit">사용자 프로필 수정 선택</string>
@@ -121,11 +131,13 @@
     <string name="dog_dislike">관심 없어요</string>
     <string name="dog_like">관심 있어요</string>
     <string name="dog_location">근처의 강아지를 보여드려요</string>
-    <string name="no_card">카드가 없어요ㅠㅠ</string>
+    <string name="no_card">모든 카드를 넘겼어요</string>
+    <string name="no_card_refresh">4시간 후 카드가 갱신됩니다!</string>
     <string name="register_nick_name_label">사용할 닉네임을 알려주세요</string>
     <string name="register_nick_name_example">ex) 스벅마니아, 덴마크당나귀</string>
     <string name="register_user_image_explain">프로필 아이콘을 선택해주세요</string>
     <string name="register_btn_finish">완료</string>
+    <string name="edit_btn_finish">수정</string>
     <string name="item_card_like_overlay">관심 있어요 오버레이 리소스</string>
     <string name="item_card_dislike_overlay">관심 없어요 오버레이 리소스</string>
     <string name="mypage_user_distance_setting">반경 설정</string>

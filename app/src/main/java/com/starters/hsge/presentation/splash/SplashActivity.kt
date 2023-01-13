@@ -14,18 +14,15 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.starters.hsge.R
 import com.starters.hsge.data.interfaces.SplashInterface
 import com.starters.hsge.data.model.remote.request.CheckTokenRequest
-import com.starters.hsge.data.model.remote.response.CheckTokenErrorResponse
 import com.starters.hsge.data.model.remote.response.CheckTokenResponse
 import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
-import com.starters.hsge.presentation.common.constants.BEARER_REFRESH_TOKEN
-import com.starters.hsge.presentation.common.constants.NORMAL_ACCESS_TOKEN
-import com.starters.hsge.presentation.common.constants.NORMAL_REFRESH_TOKEN
+import com.starters.hsge.presentation.common.constants.*
 import com.starters.hsge.presentation.dialog.SplashDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
+import com.starters.hsge.presentation.onboarding.OnBoardingActivity
 import kotlinx.coroutines.*
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash), SplashInterface {
@@ -33,6 +30,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     var isReady = false
     var accessToken: String = ""
     var refreshToken: String = ""
+    var checkOnBoarding: Boolean = false
+    var checkOnBoardingOut: Boolean = false
 
     companion object {
         private const val DURATION : Long = 1000
@@ -107,6 +106,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         accessToken = prefs.getString(NORMAL_ACCESS_TOKEN, "")!!
         refreshToken = prefs.getString(NORMAL_REFRESH_TOKEN, "")!!
         Log.d("sp", "access: ${accessToken}\nrefresh: ${refreshToken}")
+
+        checkOnBoarding = prefs.getBoolean(STATUS_ONBOARDING, false)
+        checkOnBoardingOut = prefs.getBoolean(STATUS_ONBOARDING_OUT, false)
+        Log.d("onBoarding", "onBoarding: ${checkOnBoarding}")
     }
 
     // 네트워크 상태 체크 (T/F)
@@ -127,7 +130,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun checkNetwork() {
         if (isConnected()) {
             Log.d("네트워크", "성공!")
-            checkToken()
+
+            // 앱 설치 시기 확인
+            if (!prefs.contains(STATUS_ONBOARDING)) {
+                // 새로 깔음
+                if (checkOnBoardingOut) {
+                    checkToken()
+                } else {
+                    startLoginActivity()
+                }
+
+            } else {
+                checkToken() // 이미 깔려있음
+            }
+
         } else {
             Log.d("네트워크", "실패!")
             setNetworkDialog()
@@ -165,11 +181,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    // 메인 화면 이동
-    private fun startMainActivity() {
+    // 온보딩 확인
+    private fun checkMoveOnBoarding() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(DURATION)
-            startActivity(Intent(applicationContext, MainActivity::class.java))
+            if (checkOnBoarding) {
+                // true일 경우 (온보딩 볼 필요 없는 경우)
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+            } else {
+                // false일 경우 (온보딩 화면 이동)
+                startActivity(Intent(applicationContext, OnBoardingActivity::class.java))
+            }
             finish()
         }
     }
@@ -185,7 +207,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                     "\naccess토큰: ${checkTokenResponse?.accessToken}" +
                     "\nrefresh토큰: ${checkTokenResponse?.refreshToken}")
 
-            startMainActivity()
+            // 온보딩 체크
+            checkMoveOnBoarding()
 
         } else  {
             val msg = error
