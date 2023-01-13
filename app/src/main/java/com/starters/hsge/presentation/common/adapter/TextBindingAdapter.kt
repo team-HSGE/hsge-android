@@ -3,14 +3,9 @@ package com.starters.hsge.presentation.common.adapter
 import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.starters.hsge.presentation.common.util.DateFormat.changeDayFormat
 import java.text.SimpleDateFormat
 import java.util.*
-
-@BindingAdapter("timeFormat")
-fun timeFormat(textView: TextView, date: String) {
-    val format = date.split(" ")[1].substring(0, 5)
-    textView.text = format
-}
 
 @BindingAdapter("neuterFormat")
 fun neuterFormat(textView: TextView, isNeuter: Boolean) {
@@ -55,14 +50,20 @@ fun TextView.townFormat(town: String?) {
     }
 }
 
+@BindingAdapter("singleMessageTimeFormat")
+fun TextView.singleMessageTimeFormat(date: String) {
+    val format = date.split(" ")[1].substring(0, 5)
+    this.text = format
+}
+
 @SuppressLint("SimpleDateFormat")
 @BindingAdapter("lastDateFormat")
 fun TextView.lastDateFormat(lastTime: String) {
     val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
     val now = dateFormat.format(Date(System.currentTimeMillis()))
 
-    val nowDate = dateFormat.parse(now)
-    val lastMessageDate = dateFormat.parse(lastTime)
+    val nowDate = dateFormat.parse(changeDayFormat(now))
+    val lastMessageDate = dateFormat.parse(changeDayFormat(lastTime))
 
     val diff = (nowDate.time - lastMessageDate.time) / 1000
 
@@ -78,14 +79,13 @@ fun TextView.lastDateFormat(lastTime: String) {
     val diffYears = diff / (60 * 60 * 24 * 30 * 12)
 
     when {
-        diffMonth > 0 -> this.text = fullDate
+        diffDay == 0L -> this.text = time
         diffDay > 0 ->
             if (diffDay < 2L) {
                 this.text = "어제"
             } else {
-                this.text = date
+                this.text = fullDate
             }
-        diffSec > 0 -> this.text = time
     }
 }
 
