@@ -214,7 +214,7 @@ class ChatRoomFragment : Fragment() {
                 chatRoomViewModel.messages = it.messageList
                 chatRoomViewModel.partnerId = it.userInfo.otherUserId
                 chatRoomViewModel.myId = it.userInfo.userId
-                adapter = MessageListAdapter(it.userInfo.userId)
+                adapter = MessageListAdapter(it.userInfo.userId, chatRoomViewModel)
                 adapter.registerAdapterDataObserver(listAdapterObserver)
                 binding.rvMessages.adapter = adapter
                 adapter.submitList(it.messageList)

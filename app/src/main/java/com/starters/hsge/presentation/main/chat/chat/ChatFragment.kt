@@ -98,19 +98,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                             chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
                                 goneBtmNav()
                             })
-
                             binding.chatRvLikedPeople.layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                             binding.chatRvLikedPeople.adapter = chatListAdapter
                             Timber.d("likeList $likedPeopleList")
 
                             // active_채팅
+                            chatList.sortBy { it.lastDate } //채팅 리스트 정렬
                             chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
                                 goneBtmNav()
                             })
-
                             binding.chatRvChatList.layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
                             binding.chatRvChatList.adapter = chatListAdapter
                             Timber.d("chatList $chatList")
                         }
