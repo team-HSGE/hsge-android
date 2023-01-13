@@ -2,7 +2,6 @@ package com.starters.hsge.data.service
 
 import com.starters.hsge.data.api.LoginApi
 import com.starters.hsge.data.interfaces.WithdrawalInterface
-import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,20 +19,6 @@ class WithdrawalService(val withdrawalInterface: WithdrawalInterface) {
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 withdrawalInterface.onDeleteUserFailure(t.message ?: "통신 오류")
-            }
-        })
-    }
-
-    fun tryDeleteFcmToken(token: FcmPostRequest){
-        val fcmDeleteApi = RetrofitClient.sRetrofit.create(LoginApi::class.java)
-        fcmDeleteApi.deleteFcmToken(token).enqueue(object :
-            Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                withdrawalInterface.onDeleteFcmTokenSuccess(response.isSuccessful)
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                withdrawalInterface.onDeleteFcmTokenFailure(t.message ?: "통신 오류")
             }
         })
     }

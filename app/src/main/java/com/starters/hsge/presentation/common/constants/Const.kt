@@ -23,3 +23,7 @@ const val OLD_NICKNAME = "oldNickName"
 const val PARTNER_ID = "partnerId"
 const val PARTNER_NICKNAME = "partnerNickName"
 const val ROOM_ID = "roomId"
+
+const val ONBOARDING_STRING_OBJECT = "OnBoarding String Object"
+const val STATUS_ONBOARDING = "onBoarding"
+const val STATUS_ONBOARDING_OUT = "onBoardingOut"
