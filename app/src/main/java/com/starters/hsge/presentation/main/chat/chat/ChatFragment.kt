@@ -77,6 +77,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                                 }
                             } else {
                                 with(binding) {
+                                    // 화면 밖으로 나갔다가 돌아왔을 때 invisible 처리가 안되는 문제
                                     ivChatEmpty.visibility = View.INVISIBLE
                                     tvChatEmptyTitle.visibility = View.INVISIBLE
                                     tvChatEmptySubtitle.visibility = View.INVISIBLE
@@ -97,19 +98,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                             chatListAdapter = ChatListAdapter(likedPeopleList, itemClickListener = {
                                 goneBtmNav()
                             })
-
                             binding.chatRvLikedPeople.layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                             binding.chatRvLikedPeople.adapter = chatListAdapter
                             Timber.d("likeList $likedPeopleList")
 
                             // active_채팅
+                            chatList.sortBy { it.lastDate } //채팅 리스트 정렬
                             chatListAdapter = ChatListAdapter(chatList, itemClickListener = {
                                 goneBtmNav()
                             })
-
                             binding.chatRvChatList.layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
                             binding.chatRvChatList.adapter = chatListAdapter
                             Timber.d("chatList $chatList")
                         }

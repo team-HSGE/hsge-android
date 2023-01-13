@@ -6,8 +6,12 @@
     <data>
 
         <variable
-            name="messageList"
+            name="messageInfo"
             type="com.starters.hsge.data.model.remote.response.Message" />
+
+        <variable
+            name="viewModel"
+            type="com.starters.hsge.presentation.main.chat.chatroom.ChatRoomViewModel" />
 
     </data>
 
@@ -16,15 +20,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_time"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
+            bindMessage="@{messageInfo}"
+            bindMessageViewModel="@{viewModel}"
+            messageDivider="@{messageInfo.timeStamp}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_opacity_g700_r20"
             android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
             android:textSize="12sp"
-            android:visibility="gone"
             tools:text="11:40" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +53,7 @@
                 android:maxWidth="240dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="10dp"
-                android:text="@{messageList.message}"
+                android:text="@{messageInfo.message}"
                 android:textColor="@color/G900"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +63,9 @@
 
             <TextView
                 android:id="@+id/tv_time_stamp"
-                timeFormat="@{messageList.timeStamp}"
+                bindSingleMessage="@{messageInfo}"
+                bindSingleMessageViewModel="@{viewModel}"
+                singleMessageTimeFormat="@{messageInfo.timeStamp}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
