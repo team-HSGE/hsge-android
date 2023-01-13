@@ -16,10 +16,7 @@ import com.starters.hsge.data.interfaces.LoginInterface
 import com.starters.hsge.data.service.LoginService
 import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.presentation.common.base.BaseActivity
-import com.starters.hsge.presentation.common.constants.BEARER_ACCESS_TOKEN
-import com.starters.hsge.presentation.common.constants.BEARER_REFRESH_TOKEN
-import com.starters.hsge.presentation.common.constants.NORMAL_ACCESS_TOKEN
-import com.starters.hsge.presentation.common.constants.NORMAL_REFRESH_TOKEN
+import com.starters.hsge.presentation.common.constants.*
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -161,6 +158,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 // FCM토큰 서버에 보내기
                 val fcmToken = FcmPostRequest(fcmToken)
                 LoginService(this).tryPostFcmToken(fcmToken)
+
+                // 온보딩
+                prefs.edit().putBoolean(STATUS_ONBOARDING, true).apply()
 
                 // 메인 화면 이동
                 val intent = Intent(applicationContext, MainActivity::class.java)

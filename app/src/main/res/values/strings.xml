@@ -63,6 +63,16 @@
     <string name="dialog_withdrawal_cancel_btn">취소</string>
     <string name="dialog_withdrawal_ok_btn">탈퇴</string>
 
+    <!-- onboarding string -->
+    <string name="onboarding_title_1">동네 강아지들에게\n좋아요를 보내보세요!</string>
+    <string name="onboarding_subtitle_1">카드를 왼쪽으로 스와이프 하면 싫어요,\n오른쪽으로 스와이프 하면 좋아요를 보내요.</string>
+    <string name="onboarding_title_2">내 강아지를 좋아요한 사람들과\n채팅을 시작해보세요!</string>
+    <string name="onboarding_subtitle_2">상대방의 프로필을 눌러\n어떤 강아지들을 가지고 있는지 확인해보세요.</string>
+    <string name="onboarding_title_3">내 주변 3km 이내의\n사람들과 손을 흔들어보세요!</string>
+    <string name="onboarding_subtitle_3">내 주변 탐색 버튼을 눌러\n채팅한 사람들과 위치를 공유해보세요.</string>
+    <string name="onboarding_title_4">이제 내 주변에 어떤\n강아지들이 있는지 확인해볼까요?</string>
+    <string name="onboarding_subtitle_4">환승견애를 통해 다양한 강아지들을 만나보세요!</string>
+
     <string name="mypage_settings_icon">설정 아이콘</string>
     <string name="mypage_user_profile">사용자 프로필</string>
     <string name="mypage_user_profile_edit">사용자 프로필 수정 선택</string>

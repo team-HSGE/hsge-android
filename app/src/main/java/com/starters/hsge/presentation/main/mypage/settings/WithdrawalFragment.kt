@@ -75,6 +75,7 @@ class WithdrawalFragment: BaseFragment<FragmentWithdrawalBinding>(R.layout.fragm
         Log.d("User 삭제 오류", "오류: $message")
     }
 
+    //TODO: 회원탈퇴 화면에서만 FCM토큰 삭제 API 없애기
     override fun onDeleteFcmTokenSuccess(isSuccess: Boolean) {
         if (isSuccess) {
             Log.d("FCM토큰 삭제", "성공!")
