@@ -22,17 +22,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.starters.hsge.R
+import com.starters.hsge.common.constants.TagViewType
 import com.starters.hsge.data.model.remote.request.AddDogRequest
 import com.starters.hsge.databinding.FragmentAddDogProfileBinding
+import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
+import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.LoadingDialog
-import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
+import com.starters.hsge.presentation.dialog.ConfirmDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
-import com.starters.hsge.common.constants.TagViewType
-import com.starters.hsge.domain.usecase.GetDislikeTagsUseCase
-import com.starters.hsge.domain.usecase.GetLikeTagsUseCase
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -348,14 +348,14 @@ class AddDogProfileFragment :
     }
 
     private fun showCancelDialog() {
-        val dialog = BaseDialogFragment("추가를 취소하시겠습니까?")
-        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+        val dialog = ConfirmDialogFragment("추가를 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
             override fun onCancelBtnClicked() {
             }
             override fun onOkBtnClicked() {
                 findNavController().navigateUp()
             }
         })
-        dialog.show(childFragmentManager, "CustomDialog")
+        dialog.show(childFragmentManager, "ConfirmDialog")
     }
 }

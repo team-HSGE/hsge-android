@@ -19,7 +19,7 @@ import com.starters.hsge.data.service.SplashService
 import com.starters.hsge.databinding.ActivitySplashBinding
 import com.starters.hsge.presentation.common.base.BaseActivity
 import com.starters.hsge.presentation.common.constants.*
-import com.starters.hsge.presentation.dialog.SplashDialogFragment
+import com.starters.hsge.presentation.dialog.NetworkDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.onboarding.OnBoardingActivity
@@ -152,8 +152,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     // 네트워크 dialog
     private fun setNetworkDialog() {
-        val dialog = SplashDialogFragment()
-        dialog.setButtonClickListener(object: SplashDialogFragment.OnButtonClickListener {
+        val dialog = NetworkDialogFragment()
+        dialog.setButtonClickListener(object: NetworkDialogFragment.OnButtonClickListener {
             override fun onOkBtnClicked() {
                 checkNetwork()
             }
