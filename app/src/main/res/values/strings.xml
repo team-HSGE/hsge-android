@@ -58,7 +58,7 @@
     <string name="dialog_splash_subtitle">네트워크 확인 후 다시 시도해주세요</string>
     <string name="dialog_splash_ok_btn">확인</string>
     <string name="dialog_withdrawal_title">정말 탈퇴하시겠습니까?</string>
-    <string name="dialog_withdrawal_subtitle">다시 한 번 생각해주세요</string>
+    <string name="dialog_withdrawal_subtitle">다시 한 번 생각해주세요 😥</string>
     <string name="dialog_withdrawal_subtitle_emoji">우는 이모티콘</string>
     <string name="dialog_withdrawal_cancel_btn">취소</string>
     <string name="dialog_withdrawal_ok_btn">탈퇴</string>

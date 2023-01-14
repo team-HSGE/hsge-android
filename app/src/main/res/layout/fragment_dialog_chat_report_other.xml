@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_dialog_white_r16"
-        android:padding="16dp"
-        tools:context=".presentation.dialog.EditNameDialogFragment">
+        android:gravity="center"
+        android:minWidth="320dp"
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/tv_edit_dog_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_dog_name_edit_title"
-            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:text="@string/chat_report_dialog_reason_title"
+            android:textColor="@color/G900"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_dog_name"
@@ -36,18 +33,18 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             app:counterEnabled="true"
-            app:counterMaxLength="8"
+            app:counterMaxLength="25"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_edit_dog_name_label">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_dog_name_dialog"
+                android:id="@+id/edt_other_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/register_dog_name_hint"
-                android:maxLength="8"
+                android:hint="@string/chat_report_dialog_reason_hint"
+                android:maxLength="25"
                 android:maxLines="1"
                 android:textSize="14sp" />
 
@@ -57,7 +54,7 @@
             android:id="@+id/dialog_btn_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,11 +75,7 @@
                 android:text="@string/dialog_logout_cancel_btn"
                 android:textColor="@color/G400"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.47" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_dialog_ok_btn"
@@ -98,15 +91,8 @@
                 android:text="@string/dialog_logout_ok_btn"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_dialog_cancel_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.47" />
+                android:textStyle="bold" />
 
         </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

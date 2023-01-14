@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.starters.hsge.R
-import com.starters.hsge.databinding.FragmentDialogFindNoticeBinding
+import com.starters.hsge.databinding.FragmentDialogNetworkBinding
 
-class FindNoticeDialogFragment : DialogFragment() {
+class NetworkDialogFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentDialogFindNoticeBinding
+    private lateinit var binding: FragmentDialogNetworkBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,14 +23,14 @@ class FindNoticeDialogFragment : DialogFragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_dialog_find_notice,
+            R.layout.fragment_dialog_network,
             container,
             false
         )
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        dialog?.setCanceledOnTouchOutside(true)
+        dialog?.setCanceledOnTouchOutside(false)
 
         initDialog()
 
@@ -38,7 +38,7 @@ class FindNoticeDialogFragment : DialogFragment() {
     }
 
     fun initDialog() {
-        binding.ivCloseBtn.setOnClickListener {
+        binding.tvDialogOkBtn.setOnClickListener {
             buttonClickListener.onOkBtnClicked()
             dismiss()
         }
