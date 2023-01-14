@@ -34,6 +34,7 @@ import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.main.location.EditLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class EditLocationFragment :
@@ -151,8 +152,9 @@ class EditLocationFragment :
     // 권한 체크
     private fun checkPermissionForLocation() {
         val isFirstCheck = prefs.getBoolean("isFistLocationPermissionCheck", true)
+        Timber.d("여기 뭐냐 $isFirstCheck") // 그냥 false임
         when {
-            ContextCompat.checkSelfPermission(
+            ContextCompat.checkSelfPermission( // 허용
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
@@ -160,11 +162,13 @@ class EditLocationFragment :
                 LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
-            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> { // 그냥 거부 (한 번 거부)
+                Timber.d("너 여기냐 ")
                 showFirstPermissionDialog()
             }
             else -> {
-                if (isFirstCheck) {
+                if (isFirstCheck) { // 여기 아예 안 타는 것 같음
+                    Timber.d("아니면 여기냐")
                     prefs.edit().putBoolean("isFistLocationPermissionCheck", false).apply()
                     locationPermissionRequest.launch(
                         arrayOf(
@@ -172,7 +176,9 @@ class EditLocationFragment :
                             Manifest.permission.ACCESS_FINE_LOCATION
                         )
                     )
-                } else {
+                } else { // 다시 묻지 않음 (두 번 거부)
+                    Timber.d("여기 뭐냐 $isFirstCheck")
+                    Timber.d("다시 안 물어가 여기고")
                     showSecondPermissionDialog()
                 }
             }
