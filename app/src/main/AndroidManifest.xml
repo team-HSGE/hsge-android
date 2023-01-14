@@ -26,7 +26,7 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="e9ee5f6eb7b2679f8f67b4938252e566"/>
+            android:value="${kakao_native_app_key}"/>
 
         <service
             android:name=".presentation.main.home.push.FirebaseService"
@@ -67,7 +67,7 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakaoe9ee5f6eb7b2679f8f67b4938252e566" />
+                    android:scheme="kakao${kakao_native_app_key}" />
             </intent-filter>
         </activity>
 

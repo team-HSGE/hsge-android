@@ -9,6 +9,10 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakao_native_app_key = properties.getProperty('kakao_native_app_key')
+
 android {
     namespace 'com.starters.hsge'
     compileSdk 33
@@ -20,6 +24,7 @@ android {
         versionCode 1
         versionName "1.1"
 
+        manifestPlaceholders = [kakao_native_app_key: kakao_native_app_key]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
