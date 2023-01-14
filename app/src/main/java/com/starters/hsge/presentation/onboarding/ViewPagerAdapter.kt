@@ -2,11 +2,12 @@ package com.starters.hsge.presentation.onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.starters.hsge.presentation.common.constants.ONBOARDING_STRING_OBJECT
 
-class ViewPagerAdapter(fragment: Fragment, val listOfPagerContents: List<Array<String>>, val mPageNumbers :Int)
-    : FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(fragmentActivity: FragmentActivity, val listOfPagerContents: List<Array<String>>, val mPageNumbers :Int)
+    : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = mPageNumbers
 
