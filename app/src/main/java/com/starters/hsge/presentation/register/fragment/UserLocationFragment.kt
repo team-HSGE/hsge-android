@@ -2,14 +2,12 @@ package com.starters.hsge.presentation.register.fragment
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -22,12 +20,12 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.android.gms.tasks.Task
 import com.starters.hsge.R
 import com.starters.hsge.databinding.FragmentUserLocationBinding
 import com.starters.hsge.domain.model.RegisterInfo
@@ -70,7 +68,20 @@ class UserLocationFragment :
 
     private fun initPermissionLauncher() {
         locationPermissionRequest =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+                var valueList = arrayListOf<Boolean>()
+                for (entry in it.entries) {
+                    valueList.add( entry.value)
+                }
+                when {
+                    !valueList.contains(false) -> { // 권한 허용 시
+                        startLocationUpdates()
+                    }
+                    else -> { // 권한 거부
+                        showToast("위치 권한 거부 시 위치 설정 기능을 이용할 수 없습니다.")
+                    }
+                }
+            }
     }
 
     private fun changeDoneButton() {
@@ -81,11 +92,7 @@ class UserLocationFragment :
         // 사용자 위치 정보 받기
         binding.btnSearch.setOnClickListener {
             // GPS check & checkPermission
-            if (isEnableLocationSystem(requireContext())) {
-                checkPermissionForLocation()
-            } else {
-                showToast("위치를 켜주세요")
-            }
+            setAutoLocation()
         }
 
         // 회원가입 완료 버튼
@@ -150,19 +157,28 @@ class UserLocationFragment :
         }
     }
 
-    // GPS on/off 확인
-    private fun isEnableLocationSystem(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val locationManager =
-                context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-            locationManager!!.isLocationEnabled
-        } else {
-            val mode = Settings.Secure.getInt(
-                context.contentResolver,
-                Settings.Secure.LOCATION_MODE,
-                Settings.Secure.LOCATION_MODE_OFF
-            )
-            mode != Settings.Secure.LOCATION_MODE_OFF
+    // GPS 꺼져있을 경우
+    private fun setAutoLocation() {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500).apply {
+            setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+            setWaitForAccurateLocation(true)
+        }.build()
+
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        val client: SettingsClient = LocationServices.getSettingsClient(requireContext())
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException) {
+                Log.d("locationRequest", "OnFailure")
+                try {
+                    exception.startResolutionForResult(requireActivity(), 100)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    Log.d("locationRequest", sendEx.message.toString())
+                }
+            }
+        }.addOnSuccessListener {
+            checkPermissionForLocation()
         }
     }
 
@@ -176,7 +192,6 @@ class UserLocationFragment :
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // TODO 색 바꾸기
                 startLocationUpdates()
-                LoadingDialog.showLocationLoadingDialog(requireContext())
             }
 
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
@@ -228,6 +243,8 @@ class UserLocationFragment :
 
     // 사용자 위도, 경도 받아오기 -> LocationManager 정확도 이슈
     private fun startLocationUpdates() {
+        LoadingDialog.showLocationLoadingDialog(requireContext())
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         if (ContextCompat.checkSelfPermission(
