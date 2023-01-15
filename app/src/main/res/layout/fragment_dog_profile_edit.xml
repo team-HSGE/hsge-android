@@ -47,6 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tool_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"

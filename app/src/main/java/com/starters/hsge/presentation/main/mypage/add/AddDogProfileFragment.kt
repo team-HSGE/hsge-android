@@ -33,6 +33,7 @@ import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ConfirmDialogFragment
 import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
+import com.starters.hsge.presentation.common.util.HideKeyboard.hideKeyboard
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -298,6 +299,11 @@ class AddDogProfileFragment :
                     }
                 }
             }
+        }
+
+        // 레이아웃 영역 터치
+        binding.layoutContainer.setOnClickListener {
+            hideKeyboard()
         }
     }
 
