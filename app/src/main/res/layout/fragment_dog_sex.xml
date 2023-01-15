@@ -100,8 +100,6 @@
             android:layout_height="wrap_content"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
             app:layout_constraintBottom_toBottomOf="@+id/tv_neuter_check_label"
             app:layout_constraintStart_toEndOf="@+id/tv_neuter_check_label"
             app:layout_constraintTop_toTopOf="@+id/tv_neuter_check_label" />

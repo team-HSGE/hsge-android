@@ -19,7 +19,7 @@ class App : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         Timber.plant(Timber.DebugTree())
-        KakaoSdk.init(this, "e9ee5f6eb7b2679f8f67b4938252e566")
+        KakaoSdk.init(this, BuildConfig.APP_KAKAO_NATIVE_APP_KEY)
         prefs = applicationContext.getSharedPreferences("HSGE", MODE_PRIVATE)
     }
 }

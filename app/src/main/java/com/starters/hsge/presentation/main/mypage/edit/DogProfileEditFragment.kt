@@ -33,10 +33,7 @@ import com.starters.hsge.domain.util.UriUtil
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.HideKeyboard.hideKeyboard
 import com.starters.hsge.presentation.common.util.LoadingDialog
-import com.starters.hsge.presentation.dialog.BaseDialogFragment
-import com.starters.hsge.presentation.dialog.BottomSheetDialog
-import com.starters.hsge.presentation.dialog.EditNameDialogFragment
-import com.starters.hsge.presentation.dialog.TagBottomSheetDialog
+import com.starters.hsge.presentation.dialog.*
 import com.starters.hsge.presentation.main.MainActivity
 import com.starters.hsge.presentation.register.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -352,8 +349,8 @@ class DogProfileEditFragment :
 
         // 삭제하기
         binding.tvDeleteBtn.setOnClickListener {
-            val dialog = BaseDialogFragment("프로필을 삭제하시겠습니까?")
-            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            val dialog = ConfirmDialogFragment("프로필을 삭제하시겠습니까?")
+            dialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
@@ -425,8 +422,8 @@ class DogProfileEditFragment :
     }
 
     private fun showCancelDialog() {
-        val dialog = BaseDialogFragment("수정을 취소하시겠습니까?")
-        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+        val dialog = ConfirmDialogFragment("수정을 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
             override fun onCancelBtnClicked() {
             }
 

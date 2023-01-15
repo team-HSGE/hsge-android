@@ -54,11 +54,10 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
         // 채팅 나가기
         binding.constChatExitExit.setOnClickListener {
-            val exitDialog = BaseDialogFragment("채팅방을 나가시겠습니까?")
+            val exitDialog = ConfirmDialogFragment("채팅방을 나가시겠습니까?")
 
-            exitDialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            exitDialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
-
                 }
                 override fun onOkBtnClicked() {
                     ChatExitService(this@ChatExitBottomSheetDialog).tryPostChatExit(roomId, ChatExitRequest("DEFAULT", partnerId))
@@ -70,9 +69,9 @@ class ChatExitBottomSheetDialog(private val roomId: Long, private val partnerId:
 
         // 매칭 취소
         binding.constChatExitUnmatch.setOnClickListener {
-            val unMatchDialog = BaseDialogFragment("매칭을 취소하시겠습니까?")
+            val unMatchDialog = ConfirmDialogFragment("매칭을 취소하시겠습니까?")
 
-            unMatchDialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            unMatchDialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
 
                 }

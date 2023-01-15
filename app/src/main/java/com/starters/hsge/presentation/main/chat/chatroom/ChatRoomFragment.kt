@@ -40,7 +40,8 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 
-val WEBSOCKET_URL = "wss://dev.hsge.site/ws/websocket"
+val WEBSOCKET_URL = "wss://prod.hsge.site/ws/websocket"
+//val WEBSOCKET_URL = "wss://dev2.hsge.site/ws/websocket" // 테스트 서버
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {

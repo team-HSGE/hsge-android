@@ -30,6 +30,7 @@ class ViewPagerContentFragment : BaseFragment<FragmentOnboardingcontentBinding>(
             prefs.edit().putBoolean(STATUS_ONBOARDING, true).apply()
             prefs.edit().remove(STATUS_ONBOARDING_OUT).commit()
             moveToMain()
+            showToast("환승견애에 오신 것을 환영합니다!")
         }
     }
 
