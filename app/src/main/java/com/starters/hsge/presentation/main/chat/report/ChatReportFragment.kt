@@ -16,9 +16,9 @@ import com.starters.hsge.data.service.ReportService
 import com.starters.hsge.databinding.FragmentChatReportBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
 import com.starters.hsge.presentation.common.util.LoadingDialog
-import com.starters.hsge.presentation.dialog.BaseDialogFragment
 import com.starters.hsge.presentation.dialog.BottomSheetDialog
 import com.starters.hsge.presentation.dialog.ChatReportOtherDialogFragment
+import com.starters.hsge.presentation.dialog.ConfirmDialogFragment
 import com.starters.hsge.presentation.main.MainActivity
 
 class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.fragment_chat_report), ReportInterface, ChatExitInterface {
@@ -109,8 +109,8 @@ class ChatReportFragment : BaseFragment<FragmentChatReportBinding>(R.layout.frag
     }
 
     private fun showCancelDialog() {
-        val dialog = BaseDialogFragment("신고를 취소하시겠습니까?")
-        dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+        val dialog = ConfirmDialogFragment("신고를 취소하시겠습니까?")
+        dialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
             override fun onCancelBtnClicked() {
             }
             override fun onOkBtnClicked() {

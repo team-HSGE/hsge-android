@@ -19,7 +19,7 @@ import com.starters.hsge.data.model.remote.request.FcmPostRequest
 import com.starters.hsge.data.service.SettingsService
 import com.starters.hsge.databinding.FragmentSettingsBinding
 import com.starters.hsge.presentation.common.base.BaseFragment
-import com.starters.hsge.presentation.dialog.BaseDialogFragment
+import com.starters.hsge.presentation.dialog.ConfirmDialogFragment
 import com.starters.hsge.presentation.login.LoginActivity
 import com.starters.hsge.presentation.main.MainActivity
 import timber.log.Timber
@@ -88,9 +88,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         }
 
         binding.settingLogoutSection.setOnClickListener {
-            val dialog = BaseDialogFragment("로그아웃 하시겠습니까?")
+            val dialog = ConfirmDialogFragment("로그아웃 하시겠습니까?")
 
-            dialog.setButtonClickListener(object : BaseDialogFragment.OnButtonClickListener {
+            dialog.setButtonClickListener(object : ConfirmDialogFragment.OnButtonClickListener {
                 override fun onCancelBtnClicked() {
                     // 취소 버튼 클릭했을 때 처리
                 }
