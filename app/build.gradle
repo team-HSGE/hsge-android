@@ -25,6 +25,7 @@ android {
         versionName "1.2.1"
 
         manifestPlaceholders = [kakao_native_app_key: kakao_native_app_key]
+        buildConfigField "String", "APP_KAKAO_NATIVE_APP_KEY", properties['APP_KAKAO_NATIVE_APP_KEY']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
