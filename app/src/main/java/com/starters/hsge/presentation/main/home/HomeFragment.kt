@@ -87,7 +87,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         Log.d("isLike?", isLike.toString())
         Log.d("isLike?", card.petId.toString())
         IsLikeService(this).tryPostIsLike(card.petId, IsLikeRequest(isLike))
-        LoadingDialog.showDogLoadingDialog(requireContext())
 
         val lastCard = dogCardList.size - manager.topPosition
         if (lastCard == 0){
@@ -205,17 +204,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onPostIsLikeSuccess(isSuccess: Boolean, code: Int) {
         if (isSuccess) {
             Log.d("IsLike", "성공")
-            LoadingDialog.dismissDogLoadingDialog()
         } else {
             Log.d("IsLike 오류", "Error code : ${code}")
-            LoadingDialog.dismissDogLoadingDialog()
             showToast("잠시 후 다시 시도해주세요")
         }
     }
 
     override fun onPostIsLikeFailure(message: String) {
         Log.d("IsLike 오류", "오류: $message")
-        LoadingDialog.dismissDogLoadingDialog()
         showToast("잠시 후 다시 시도해주세요")
     }
 
