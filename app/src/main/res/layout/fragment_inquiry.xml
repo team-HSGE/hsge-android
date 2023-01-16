@@ -42,17 +42,18 @@
             android:layout_marginTop="80dp"
             android:text="@string/inquiry_explain"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/iv_inquiry_kakao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
-            android:layout_marginHorizontal="20dp"
             android:contentDescription="@string/explain_kakao_channel"
             android:src="@drawable/search_guide"
             app:layout_constraintEnd_toEndOf="parent"
