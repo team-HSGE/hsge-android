@@ -26,13 +26,15 @@ fun TextView.firstDateFormat(date: String) {
     this.text = newFormat
 }
 
+@SuppressLint("SetTextI18n")
 @BindingAdapter("dogBreedFormat")
 fun TextView.dogBreedFormat(breed: String) {
-    var newFormatBreed = breed
-    if (breed.length > 5) {
-        newFormatBreed = breed.replace(" ", "\n")
+    if (breed == "나만의 유일한 믹스") {
+        this.text = "나만의\n유일한 믹스"
+    } else if (breed.length > 5) {
+        val newFormatBreed = breed.replace(" ", "\n")
+        this.text = newFormatBreed
     }
-    this.text = newFormatBreed
 }
 
 @BindingAdapter("townFormat")
