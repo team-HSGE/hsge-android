@@ -51,15 +51,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                 chatViewModel.chatListInfo.collect { state ->
                     when(state) {
                         is ChatState.Loading -> {
-                            LoadingDialog.showDogLoadingDialog(requireContext())
                         }
                         is ChatState.Failure -> {
-                            LoadingDialog.dismissDogLoadingDialog()
                             showToast("잠시 후 다시 시도해주세요")
                             Timber.d("!!실패")
                         }
                         is ChatState.Success -> {
-                            LoadingDialog.dismissDogLoadingDialog()
                             Timber.d("!!성공")
                             for (element in state.data) {
                                 if (element.active) { // active
