@@ -1,13 +1,17 @@
 # 내 강아지 취향저격 "환승견애"
-**사용자 위치 기반 반려견 매칭 서비스**
+**사용자 위치 기반으로 하는 동네 반려견 매칭 서비스입니다**
 
 👉 동네 반려견 친구 추천 서비스 제공
 
 👉 좋아요 기반 채팅 서비스 제공
 
-👉 손흔들기 기능 제공을 통해 적극적인 커뮤니케이션 유도
+👉 손흔들기 기능을 통해 적극적인 커뮤니케이션 유도
 
 ## 1. UI
+![readme_1](https://user-images.githubusercontent.com/110798031/212831735-629b7d94-8a6c-4e56-9c67-db0a8d16cb55.png)
+![readme_2](https://user-images.githubusercontent.com/110798031/212831264-cbff707b-9712-46b6-b286-3c412ff0d453.png)
+![readme_3](https://user-images.githubusercontent.com/110798031/212831277-1e53d667-374e-49d4-a6b8-1f608e9e3957.png)
+
 
 ## 2. People
 |<img width=150 src="https://user-images.githubusercontent.com/85485290/191734505-e5be8b0d-86e7-48f1-a673-716ff00272a0.png" />|<img width=150 src="https://user-images.githubusercontent.com/110798031/212794861-ee4da79b-8989-4bbe-8b6e-8c661e73fcd8.png" />|<img width=150 src="https://user-images.githubusercontent.com/110798031/212795353-baef1a29-a72f-4f7d-9d9d-15030d98b80d.png" />|
