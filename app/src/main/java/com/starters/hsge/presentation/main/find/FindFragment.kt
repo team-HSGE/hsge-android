@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +27,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.gms.tasks.Task
 import com.starters.hsge.App.Companion.prefs
 import com.starters.hsge.R
@@ -41,14 +45,14 @@ import com.starters.hsge.presentation.common.util.LoadingDialog
 import com.starters.hsge.presentation.dialog.FindNoticeDialogFragment
 import net.daum.mf.map.api.*
 import net.daum.mf.map.api.MapPoint.GeoCoordinate
-import net.daum.mf.map.api.MapView.CurrentLocationEventListener
-import net.daum.mf.map.api.MapView.setMapTilePersistentCacheEnabled
+import net.daum.mf.map.api.MapView.*
 import net.daum.mf.map.n.api.internal.NativeMapLocationManager.*
 
 class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEventListener, MapView.MapViewEventListener ,ShakeHandInterface {
     lateinit var binding: FragmentFindBinding
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
+    private var fusedLocationClient: FusedLocationProviderClient? = null
     private val trackingHandler by lazy { TrackingHandler() }
 
     private val dialog = FindNoticeDialogFragment()
@@ -72,7 +76,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPermissionLauncher()
-        setMapTilePersistentCacheEnabled(true)
     }
 
     override fun onCreateView(
@@ -87,13 +90,15 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMapTilePersistentCacheEnabled(true)
         binding.kakaoMapView.setCurrentLocationRadius(0)
         binding.kakaoMapView.setMapViewEventListener(this) // 맵뷰 이벤트 리스너 등록
         binding.kakaoMapView.setCurrentLocationEventListener(this) // 현재 위치 잡는 리스너 등록
         binding.kakaoMapView.setPOIItemEventListener(this)  // 마커 클릭 이벤트 리스너 등록
         binding.kakaoMapView.setCalloutBalloonAdapter(CustomBalloonAdapter(layoutInflater))  // 커스텀 말풍선 등록
 
-        startLocationUpdates()
+        binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+
         setTrackingBtn()
         catchCurrentLocation()
         setNoticeDialog()
@@ -108,6 +113,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
             showProgress(true)
         }
+
+        Log.d("되는거냐", "${mCurrentLat}, ${mCurrentLng}")
     }
 
     override fun onPause() {
@@ -116,21 +123,15 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (!flag) {
             dialog.dismiss()
         }
-        
-        binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
-        binding.kakaoMapView.setShowCurrentLocationMarker(false)
-        mCurrentLat = 0.0
-        mCurrentLng = 0.0
+
+        showProgress(false)
+
         stopTracking()
         endInfinite()
 
         // 내 위치 정보 삭제
         val nickname = UsersLocationDeleteRequest(myNickName!!)
         ShakeHandService(this).tryDeleteUsersLocation(nickname)
-
-        if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
-            showProgress(false)
-        }
     }
 
     private fun initPermissionLauncher() {
@@ -231,11 +232,33 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     // 사용자 위치 받기
     private fun startLocationUpdates() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-        setCurrentLocation()
+
+        fusedLocationClient!!.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+            override fun isCancellationRequested() = false
+        }).addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                mCurrentLat = location.latitude
+                mCurrentLng = location.longitude
+                Log.d("내 위치1", "${mCurrentLat}, ${mCurrentLng}")
+
+                if (mCurrentLat != 0.0 && mCurrentLng != 0.0) {
+                    showProgress(false)
+                }
+
+                mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
+                binding.kakaoMapView.setMapCenterPoint(mp, true)
+
+                setShowCurrentLocationMarker(true)
+                setCurrentLocation()
+            }
+        }
     }
 
     // FAB (현재 위치로 이동)
@@ -268,7 +291,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
     // 초기 현재위치 트래킹 + 커스텀 마커 + 줌 레벨 설정 (지도 중심 이동)
     private fun setCurrentLocation() {
-        binding.kakaoMapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+        binding.kakaoMapView.setCustomCurrentLocationMarkerImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20, 20))
         binding.kakaoMapView.setCustomCurrentLocationMarkerTrackingImage(R.drawable.ic_my_location, MapPOIItem.ImageOffset(20, 20))
         binding.kakaoMapView.setZoomLevel(3, true)
     }
@@ -280,6 +303,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 if (checkLocationService()) {
                     // 내 위치 보내기
                     val location = CurrentLocationPostRequest(lng = mCurrentLng.toString(), lat = mCurrentLat.toString())
+                    Log.d("위치 뭐냐", "${mCurrentLat}, ${mCurrentLng}")
                     ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                     // 트래킹 시작
                     startTracking()
@@ -349,8 +373,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
             if(msg.what == 0){
                 val location = CurrentLocationPostRequest(lng = mCurrentLng.toString(), lat = mCurrentLat.toString())
                 ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
-                binding.kakaoMapView.removeAllPOIItems()
-                ShakeHandService(this@FindFragment).tryGetHandShake()
             }
         }
     }
@@ -399,10 +421,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
         binding.kakaoMapView.setMapCenterPoint(mp, true)
         Log.d("내 위치", "${mCurrentLat}, ${mCurrentLng}")
-
-        if (mCurrentLat != 0.0 && mCurrentLng != 0.0) {
-            showProgress(false)
-        }
     }
     override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {}
     override fun onCurrentLocationUpdateFailed(p0: MapView?) {}
@@ -426,6 +444,9 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (isSuccess) {
             myNickName = currentUserLocation.name
             Log.d("PostCurrentLocation", "${myNickName}")
+
+            binding.kakaoMapView.removeAllPOIItems()
+            ShakeHandService(this@FindFragment).tryGetHandShake()
         }
     }
 
