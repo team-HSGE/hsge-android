@@ -113,8 +113,6 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (mCurrentLat == 0.0 && mCurrentLng == 0.0) {
             showProgress(true)
         }
-
-        Log.d("되는거냐", "${mCurrentLat}, ${mCurrentLng}")
     }
 
     override fun onPause() {
@@ -254,6 +252,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
 
                 mp = MapPoint.mapPointWithGeoCoord(mCurrentLat, mCurrentLng)
                 binding.kakaoMapView.setMapCenterPoint(mp, true)
+                binding.kakaoMapView.moveCamera(CameraUpdateFactory.newMapPoint(mp))
 
                 setShowCurrentLocationMarker(true)
                 setCurrentLocation()
@@ -303,7 +302,7 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
                 if (checkLocationService()) {
                     // 내 위치 보내기
                     val location = CurrentLocationPostRequest(lng = mCurrentLng.toString(), lat = mCurrentLat.toString())
-                    Log.d("위치 뭐냐", "${mCurrentLat}, ${mCurrentLng}")
+                    Log.d("위치", "${mCurrentLat}, ${mCurrentLng}")
                     ShakeHandService(this@FindFragment).tryPostCurrentLocation(location)
                     // 트래킹 시작
                     startTracking()
@@ -488,6 +487,8 @@ class FindFragment : Fragment(), CurrentLocationEventListener, MapView.POIItemEv
         if (isSuccess){
             Log.d("PostShakeHand", "성공")
             requireContext().showToast("${waveUserName}님에게 손을 흔들었어요!")
+
+
 
         } else {
             Log.d("PostShakeHand 오류", "Error code : ${code}")
